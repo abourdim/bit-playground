@@ -1709,3 +1709,108 @@ button {
     color: #30001d;
     box-shadow: 0 0 12px #ff00aa, 0 0 22px #ff00aa80;
 }
+
+/* ============================================================
+   BEGINNER MODE - Kid-friendly simplifications
+   ============================================================ */
+
+/* Hide expert-only elements in beginner mode */
+.app.beginner-mode .expert-only {
+    display: none !important;
+}
+
+/* Show beginner-show elements only in beginner mode */
+.beginner-show {
+    display: none;
+}
+.app.beginner-mode .beginner-show {
+    display: block;
+}
+.app.beginner-mode .button-row.compact.beginner-show {
+    display: flex;
+}
+
+/* Activity feed styles (simplified log for kids) */
+.activity-card {
+    display: none;
+}
+.app.beginner-mode .activity-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.activity-feed {
+    min-height: 150px;
+    max-height: 250px;
+    overflow-y: auto;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.activity-item {
+    padding: 8px 12px;
+    margin-bottom: 6px;
+    background: rgba(34, 197, 94, 0.1);
+    border-radius: 8px;
+    border-left: 3px solid var(--accent);
+    animation: slideIn 0.2s ease-out;
+}
+
+.activity-item.sent {
+    background: rgba(59, 130, 246, 0.1);
+    border-left-color: #3b82f6;
+}
+
+.activity-item.received {
+    background: rgba(34, 197, 94, 0.1);
+    border-left-color: #22c55e;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Hide log card in beginner mode */
+.app.beginner-mode .log-card {
+    display: none;
+}
+
+/* Larger touch targets for kids */
+.app.beginner-mode .chip-btn {
+    min-height: 44px;
+    font-size: 1rem;
+}
+
+.app.beginner-mode .primary {
+    min-height: 44px;
+}
+
+/* Make sensor cards more prominent for kids */
+.app.beginner-mode .sensor-card.big {
+    padding: 16px;
+}
+
+.app.beginner-mode .sensor-value {
+    font-size: 2.5rem;
+}
+
+/* Larger sliders for easier touch */
+.app.beginner-mode input[type="range"] {
+    height: 8px;
+}
+
+/* Friendly mode pill styling */
+.app.beginner-mode #beginnerModeBtn {
+    background: rgba(34, 197, 94, 0.2);
+    border-color: var(--accent);
+}
+

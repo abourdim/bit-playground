@@ -33,10 +33,10 @@
                         <div>
                             <div class="card-title">
                                 <span class="icon">📡</span>
-                                Micro:bit Live Link
+                                Connect
                             </div>
-                            <div class="card-subtitle">
-                                Bluetooth Low Energy link between this page and your micro:bit
+                            <div class="card-subtitle expert-only">
+                                Bluetooth connection to your micro:bit
                             </div>
                         </div>
                         <div class="badge beginner-only">Beginner Mode</div>
@@ -48,14 +48,14 @@
                                 <div class="status-row">
                                     <div id="connectionStatus" class="status-pill">
                                         <span class="status-dot"></span>
-                                        <span>Disconnected</span>
+                                        <span>Ready to connect</span>
                                     </div>
                                 </div>
 
                                 <div class="button-row">
                                     <button id="connectBtn" class="primary" aria-label="Connect to micro:bit">
                                         <span class="btn-icon">🔗</span>
-                                        Connect to micro:bit
+                                        Connect
                                     </button>
                                     <button id="disconnectBtn" class="secondary" disabled aria-label="Disconnect micro:bit">
                                         <span class="btn-icon">✕</span>
@@ -66,9 +66,9 @@
                                 <div class="hint">
                                     <div class="hint-title">How to connect</div>
                                     <ol>
-                                        <li>Flash the companion micro:bit program.</li>
-                                        <li>Plug in your micro:bit via USB or power it with batteries.</li>
-                                        <li>Click <strong>Connect to micro:bit</strong> and choose your device.</li>
+                                        <li>Turn on your micro:bit</li>
+                                        <li>Click <strong>Connect</strong></li>
+                                        <li>Pick your micro:bit from the list</li>
                                     </ol>
                                 </div>
                             </div>
@@ -86,13 +86,13 @@
                                     </button>
                                 </div>
 
-                                <div class="connection-section-title">micro:bit Device</div>
-                                <div class="device-row">
-                                    <span class="device-label">Device</span>
-                                    <span id="deviceName" class="device-value">No device selected</span>
+                                <div class="connection-section-title expert-only">Device</div>
+                                <div class="device-row expert-only">
+                                    <span class="device-label">Name</span>
+                                    <span id="deviceName" class="device-value">None</span>
                                 </div>
 
-                                <!-- Optional serial / UUIDs (hidden) -->
+                                <!-- Hidden technical info -->
                                 <div id="serialNumber" style="display:none;"></div>
                                 <code id="serviceUuidDisplay" style="display:none;"></code>
                                 <code id="rxCharUuidDisplay" style="display:none;"></code>
@@ -100,22 +100,34 @@
                             </div>
                         </div>
 
-                        <div class="connection-footer">
+                        <div class="connection-footer expert-only">
                             <div class="badge soft">
                                 <span class="dot"></span>
-                                <span>Waiting for micro:bit messages…</span>
-                            </div>
-                            <div class="footer-text">
-                                Make sure your micro:bit program is advertising the correct custom BLE service.
+                                <span>Waiting for messages…</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- RIGHT: Message log -->
+            <!-- RIGHT: Message log / Activity -->
             <div class="col-right">
-                <div class="card log-card">
+                <!-- Simple Activity for Beginners -->
+                <div class="card activity-card beginner-only">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">
+                                <span class="icon">⚡</span>
+                                Activity
+                            </div>
+                        </div>
+                        <button id="clearActivityBtn" class="secondary small">Clear</button>
+                    </div>
+                    <div id="activity" class="activity-feed" aria-live="polite"></div>
+                </div>
+
+                <!-- Technical Log for Experts -->
+                <div class="card log-card expert-only">
                     <div class="card-header">
                         <div>
                             <div class="card-title">
@@ -123,7 +135,7 @@
                                 Message Log
                             </div>
                             <div class="card-subtitle">
-                                Raw messages between this page and your micro:bit
+                                Raw UART messages
                             </div>
                         </div>
                         <div class="log-controls">
@@ -139,9 +151,8 @@
 
                     <div class="log-footer">
                         <div class="badge">
-                            Watching for <strong>micro:bit</strong> messages
+                            micro:bit ⇄ Playground
                         </div>
-                        <div>micro:bit ⇄ Playground</div>
                     </div>
                 </div>
             </div>
@@ -166,43 +177,40 @@
                             class="mode-btn tab-btn"
                             data-page="senses"
                             style="flex:1;">
-                            <span class="mode-icon">📡</span>
-                            Senses
+                            <span class="mode-icon">👀</span>
+                            Sensors
                         </button>
                         <button
                             id="servosTabBtn"
                             class="mode-btn tab-btn"
                             data-page="servos"
                             style="flex:1;">
-                            <span class="mode-icon">🛠️</span>
-                            Servos
+                            <span class="mode-icon">⚙️</span>
+                            Motors
                         </button>
-						
-						 <!-- ✅ NEW GAMEPAD TAB -->
-						<button
-							id="gamepadTabBtn"
-							class="mode-btn tab-btn"
-							data-page="gamepad"
-							style="flex:1;">
-							<span class="mode-icon">🎮</span>
-							GamePad
-						</button>
-						<button
-							id="benchTabBtn"
-							class="mode-btn tab-btn"
-							data-page="bench"
-							style="flex:1;">
-							<span class="mode-icon">🪑</span>
-							Bench
-						</button>
-
+                        <button
+                            id="gamepadTabBtn"
+                            class="mode-btn tab-btn"
+                            data-page="gamepad"
+                            style="flex:1;">
+                            <span class="mode-icon">🎮</span>
+                            GamePad
+                        </button>
+                        <button
+                            id="benchTabBtn"
+                            class="mode-btn tab-btn expert-only"
+                            data-page="bench"
+                            style="flex:1;">
+                            <span class="mode-icon">🔧</span>
+                            Bench
+                        </button>
                         <button
                             id="othersTabBtn"
                             class="mode-btn tab-btn"
                             data-page="others"
                             style="flex:1;">
                             <span class="mode-icon">✨</span>
-                            Others
+                            More
                         </button>
                     </div>
                 </div>
@@ -217,8 +225,8 @@
                                         <span class="icon">🎮</span>
                                         Controls
                                     </div>
-                                    <div class="card-subtitle">
-                                        Send commands to your micro:bit: messages, LEDs, and more.
+                                    <div class="card-subtitle expert-only">
+                                        Send commands to your micro:bit
                                     </div>
                                 </div>
                             </div>
@@ -229,20 +237,16 @@
                                     <div class="section-header">
                                         <div class="section-title">
                                             <span class="section-icon">💬</span>
-                                            Send a message
-                                        </div>
-                                        <div class="section-subtitle">
-                                            Type a short text message to appear on the micro:bit screen.
+                                            Show a message
                                         </div>
                                     </div>
                                     <div class="form-row">
-                                        <input id="textInput" type="text" placeholder="Hello micro:bit!" aria-label="Message to micro:bit">
+                                        <input id="textInput" type="text" placeholder="Hello!" aria-label="Message to micro:bit">
                                         <button id="sendTextBtn" class="primary" aria-label="Send text">
                                             <span class="btn-icon">📨</span>
                                             Send
                                         </button>
                                     </div>
-                                    <div class="hint">Short messages work best.</div>
                                 </div>
 
                                 <!-- LED matrix -->
@@ -251,10 +255,7 @@
                                         <div>
                                             <div class="card-title">
                                                 <span class="icon">🎨</span>
-                                                LED Drawing Board
-                                            </div>
-                                            <div class="card-subtitle">
-                                                Draw and send patterns to the micro:bit
+                                                Draw on LEDs
                                             </div>
                                         </div>
                                     </div>
@@ -277,7 +278,7 @@
     <div class="button-row">
         <button id="sendLedPatternBtn" class="small primary" aria-label="Send LED pattern">
             <span class="btn-icon">📤</span>
-            Send pattern
+            Send
         </button>
         <button id="clearMatrixBtn" class="small secondary" aria-label="Clear LED matrix">
             <span class="btn-icon">🧽</span>
@@ -285,11 +286,10 @@
         </button>
     </div>
 
-    <!-- New grouped layout -->
+    <!-- Quick shapes -->
     <div class="matrix-groups">
-        <!-- Preset shapes -->
         <div class="matrix-group">
-            <div class="matrix-group-label">Presets</div>
+            <div class="matrix-group-label">Quick shapes</div>
             <div class="button-row compact">
                 <button class="chip-btn small" data-preset="heart">❤️ Heart</button>
                 <button class="chip-btn small" data-preset="smile">😊 Smile</button>
@@ -297,13 +297,14 @@
             </div>
         </div>
 
-        <!-- CMD shortcuts -->
+        <!-- Show icons -->
         <div class="matrix-group">
-            <div class="matrix-group-label">micro:bit CMD</div>
+            <div class="matrix-group-label">Show icons</div>
             <div class="button-row compact">
-                <button class="chip-btn small" data-cmd="HEART">Heart icon</button>
-                <button class="chip-btn small" data-cmd="SMILE">Smile icon</button>
-                <button class="chip-btn small" data-cmd="CLEAR">Clear screen</button>
+                <button class="chip-btn small" data-cmd="HEART">❤️</button>
+                <button class="chip-btn small" data-cmd="SMILE">😊</button>
+                <button class="chip-btn small" data-cmd="SAD">😢</button>
+                <button class="chip-btn small" data-cmd="CLEAR">✖️</button>
             </div>
         </div>
     </div>
@@ -316,26 +317,34 @@
     <div class="section-header">
         <div class="section-title">
             <span class="section-icon">🎵</span>
-            Buzzer
-        </div>
-        <div class="section-subtitle">
-            Play tones using a buzzer on P0 (or built-in on micro:bit V2).
+            Make sounds
         </div>
     </div>
 
-    <div class="form-row" style="align-items:center;">
-        <label style="font-size:0.75rem; width:90px;">Frequency</label>
-        <input id="buzzFreq" type="range" min="100" max="2000" value="440" step="10" style="flex:1;">
-        <span id="buzzFreqValue" style="font-size:0.75rem; margin-left:8px;">440 Hz</span>
+    <!-- Kid-friendly preset buttons -->
+    <div class="button-row compact beginner-show">
+        <button class="chip-btn" id="buzzLow">🔈 Low beep</button>
+        <button class="chip-btn" id="buzzMid">🔉 Beep</button>
+        <button class="chip-btn" id="buzzHigh">🔊 High beep</button>
+        <button class="chip-btn" id="buzzMelody">🎶 Melody</button>
     </div>
 
-    <div class="form-row" style="align-items:center; margin-top:6px;">
-        <label style="font-size:0.75rem; width:90px;">Duration</label>
-        <input id="buzzDur" type="number" min="50" max="2000" value="200" style="width:80px;">
-        <span style="font-size:0.75rem; margin-left:6px;">ms</span>
+    <!-- Expert controls -->
+    <div class="expert-only">
+        <div class="form-row" style="align-items:center; margin-top:8px;">
+            <label style="font-size:0.75rem; width:70px;">Frequency</label>
+            <input id="buzzFreq" type="range" min="100" max="2000" value="440" step="10" style="flex:1;">
+            <span id="buzzFreqValue" style="font-size:0.75rem; margin-left:8px;">440 Hz</span>
+        </div>
+
+        <div class="form-row" style="align-items:center; margin-top:6px;">
+            <label style="font-size:0.75rem; width:70px;">Duration</label>
+            <input id="buzzDur" type="number" min="50" max="2000" value="200" style="width:80px;">
+            <span style="font-size:0.75rem; margin-left:6px;">ms</span>
+        </div>
     </div>
 
-    <div class="button-row">
+    <div class="button-row" style="margin-top:8px;">
         <button id="buzzPlay" class="primary">▶ Play</button>
         <button id="buzzStop" class="secondary">⏹ Stop</button>
     </div>
@@ -371,11 +380,11 @@
                             <div class="card-header">
                                 <div>
                                     <div class="card-title">
-                                        <span class="icon">📡</span>
-                                        Senses
+                                        <span class="icon">👀</span>
+                                        Sensors
                                     </div>
                                     <div class="card-subtitle">
-                                        Watch the micro:bit's sensors change in real time.
+                                        See what your micro:bit senses!
                                     </div>
                                 </div>
                             </div>
@@ -384,13 +393,13 @@
                                 <!-- Temperature -->
                                 <div class="sensor-block">
                                     <div class="sensor-card big">
-                                        <div class="sensor-label">Temperature</div>
+                                        <div class="sensor-label">🌡️ Temperature</div>
                                         <div class="sensor-value">
                                             <span id="tempValue">–</span><span class="sensor-unit">°C</span>
                                         </div>
                                         <div class="sensor-hint">Is it warm or cold?</div>
                                     </div>
-                                    <div class="chart-container small">
+                                    <div class="chart-container small expert-only">
                                         <canvas id="tempChart"></canvas>
                                     </div>
                                 </div>
@@ -398,13 +407,13 @@
                                 <!-- Light -->
                                 <div class="sensor-block">
                                     <div class="sensor-card big">
-                                        <div class="sensor-label">Light Level</div>
+                                        <div class="sensor-label">💡 Light</div>
                                         <div class="sensor-value">
                                             <span id="lightValue">–</span>
                                         </div>
                                         <div class="sensor-hint">Bright or dark?</div>
                                     </div>
-                                    <div class="chart-container small">
+                                    <div class="chart-container small expert-only">
                                         <canvas id="lightChart"></canvas>
                                     </div>
                                 </div>
@@ -412,33 +421,33 @@
                                 <!-- Sound -->
                                 <div class="sensor-block">
                                     <div class="sensor-card big">
-                                        <div class="sensor-label">Sound Level</div>
+                                        <div class="sensor-label">🔊 Sound</div>
                                         <div class="sensor-value">
                                             <span id="soundValue">–</span>
                                         </div>
-                                        <div class="sensor-hint">Clap, talk, play music…</div>
+                                        <div class="sensor-hint">Clap or talk!</div>
                                     </div>
-                                    <div class="chart-container small">
+                                    <div class="chart-container small expert-only">
                                         <canvas id="soundChart"></canvas>
                                     </div>
                                 </div>
 
-                                <!-- Motion -->
+                                <!-- Motion / Tilt (simplified for kids) -->
                                 <div class="sensor-block">
                                     <div class="sensor-card big">
-                                        <div class="sensor-label">Motion</div>
+                                        <div class="sensor-label">📱 Tilt & Shake</div>
                                         <div class="sensor-value">
                                             <span id="motionValue">–</span>
                                         </div>
-                                        <div class="sensor-hint">Shake or tilt the micro:bit.</div>
+                                        <div class="sensor-hint">Move your micro:bit!</div>
                                     </div>
-                                    <div class="chart-container small">
+                                    <div class="chart-container small expert-only">
                                         <canvas id="motionChart"></canvas>
                                     </div>
                                 </div>
 
-                                <!-- Accel X -->
-                                <div class="sensor-block">
+                                <!-- Accel X (expert only) -->
+                                <div class="sensor-block expert-only">
                                     <div class="sensor-card">
                                         <div class="sensor-label">Acceleration X</div>
                                         <div class="sensor-value">
@@ -450,8 +459,8 @@
                                     </div>
                                 </div>
 
-                                <!-- Accel Y -->
-                                <div class="sensor-block">
+                                <!-- Accel Y (expert only) -->
+                                <div class="sensor-block expert-only">
                                     <div class="sensor-card">
                                         <div class="sensor-label">Acceleration Y</div>
                                         <div class="sensor-value">
@@ -463,8 +472,8 @@
                                     </div>
                                 </div>
 
-                                <!-- Accel Z -->
-                                <div class="sensor-block">
+                                <!-- Accel Z (expert only) -->
+                                <div class="sensor-block expert-only">
                                     <div class="sensor-card">
                                         <div class="sensor-label">Acceleration Z</div>
                                         <div class="sensor-value">
@@ -476,16 +485,17 @@
                                     </div>
                                 </div>
 
-                                <!-- Compass (no chart yet) -->
+                                <!-- Compass -->
                                 <div class="sensor-block">
                                     <div class="sensor-card">
-                                        <div class="sensor-label">Compass Heading</div>
+                                        <div class="sensor-label">🧭 Compass</div>
                                         <div class="sensor-value">
                                             <span id="compassHeadingValue">–</span><span class="sensor-unit">°</span>
                                         </div>
+                                        <div class="sensor-hint beginner-show">Which way is North?</div>
                                     </div>
-                                    <div class="chart-container small chart-placeholder">
-                                        <span class="chart-placeholder-text">No chart yet</span>
+                                    <div class="chart-container small chart-placeholder expert-only">
+                                        <span class="chart-placeholder-text">No chart</span>
                                     </div>
                                 </div>
 
@@ -600,20 +610,20 @@
                             <div class="card-header">
                                 <div>
                                     <div class="card-title">
-                                        <span class="icon">🧭</span>
-                                        Servo Control
+                                        <span class="icon">⚙️</span>
+                                        Motors
                                     </div>
                                     <div class="card-subtitle">
-                                        Control two servos on P1 and P2
+                                        Move servos left and right!
                                     </div>
                                 </div>
                             </div>
 
                             <div class="controls-grid">
                               <div class="control-section">
-                                <div class="section-title">Servo 1 (P1)</div>
-								
-								<div class="servo-gauge">
+                                <div class="section-title">Motor 1 <span class="expert-only">(P1)</span></div>
+                                
+                                <div class="servo-gauge">
     <svg width="120" height="60" viewBox="0 0 120 60">
         <path d="M10 60 A50 50 0 0 1 110 60" stroke="#38bdf8" stroke-width="6" fill="none"/>
         <line id="servo1Needle" x1="60" y1="60" x2="60" y2="20" stroke="#f97316" stroke-width="4"
@@ -624,18 +634,18 @@
 
 
                                 <div class="form-row">
-                                  <input id="servo1Angle" type="range" min="0" max="180" value="90" aria-label="Servo 1 angle">
-                                  <input id="servo1Number" type="number" min="0" max="180" value="90" style="width:72px;" aria-label="Servo 1 numeric angle">
+                                  <input id="servo1Angle" type="range" min="0" max="180" value="90" aria-label="Motor 1 angle">
+                                  <input id="servo1Number" type="number" min="0" max="180" value="90" style="width:72px;" aria-label="Motor 1 numeric angle" class="expert-only">
                                 </div>
                                 <div class="button-row">
-                                  <button id="servo1Send" class="primary" aria-label="Send servo 1">Send</button>
-                                  <button id="servo1Off" class="secondary" aria-label="Turn servo 1 off">Off</button>
+                                  <button id="servo1Send" class="primary" aria-label="Move motor 1">Move</button>
+                                  <button id="servo1Off" class="secondary" aria-label="Stop motor 1">Stop</button>
                                 </div>
                               </div>
 
                               <div class="control-section">
-                                <div class="section-title">Servo 2 (P2)</div>
-								<div class="servo-gauge">
+                                <div class="section-title">Motor 2 <span class="expert-only">(P2)</span></div>
+                                <div class="servo-gauge">
     <svg width="120" height="60" viewBox="0 0 120 60">
         <path d="M10 60 A50 50 0 0 1 110 60" stroke="#34d399" stroke-width="6" fill="none"/>
         <line id="servo2Needle" x1="60" y1="60" x2="60" y2="20" stroke="#f97316" stroke-width="4"
@@ -646,12 +656,12 @@
 
 
                                 <div class="form-row">
-                                  <input id="servo2Angle" type="range" min="0" max="180" value="90" aria-label="Servo 2 angle">
-                                  <input id="servo2Number" type="number" min="0" max="180" value="90" style="width:72px;" aria-label="Servo 2 numeric angle">
+                                  <input id="servo2Angle" type="range" min="0" max="180" value="90" aria-label="Motor 2 angle">
+                                  <input id="servo2Number" type="number" min="0" max="180" value="90" style="width:72px;" aria-label="Motor 2 numeric angle" class="expert-only">
                                 </div>
                                 <div class="button-row">
-                                  <button id="servo2Send" class="primary" aria-label="Send servo 2">Send</button>
-                                  <button id="servo2Off" class="secondary" aria-label="Turn servo 2 off">Off</button>
+                                  <button id="servo2Send" class="primary" aria-label="Move motor 2">Move</button>
+                                  <button id="servo2Off" class="secondary" aria-label="Stop motor 2">Stop</button>
                                 </div>
                               </div>
                             </div>
@@ -667,7 +677,10 @@
                                         GamePad
                                     </div>
                                     <div class="card-subtitle">
-                                        Send simple commands using 5 buttons.
+                                        Control your robot or game!
+                                    </div>
+                                </div>
+                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -737,8 +750,8 @@
             </div>
         </div>
     </div>
-	
-	<div class="control-section">
+    
+    <div class="control-section">
   <div class="section-header">
     <div class="section-title">
       <span class="section-icon">📥</span>
@@ -764,26 +777,23 @@
         <div class="card-header">
             <div>
                 <div class="card-title">
-                    <span class="icon">🧩</span>
-                    Others
+                    <span class="icon">✨</span>
+                    More
                 </div>
                 <div class="card-subtitle">
-                    Toolbox of extra controls, simulators and utilities.
+                    Extra fun stuff!
                 </div>
             </div>
         </div>
 
         <div class="tool-groups">
 
-            <!-- BASIC CONTROLS -->
+            <!-- BASIC CONTROLS (Kid-friendly) -->
             <details class="tool-group" open>
                 <summary class="section-header">
                     <div class="section-title">
                         <span class="section-icon">🎛️</span>
-                        Basic Controls
-                    </div>
-                    <div class="section-subtitle">
-                        Simple inputs for quick tests.
+                        Fun Controls
                     </div>
                 </summary>
 
@@ -793,7 +803,7 @@
                         <div class="section-header">
                             <div class="section-title"><span class="section-icon">🔘</span>Button</div>
                         </div>
-                        <button id="otherButton" class="primary" style="width:100%;">Press</button>
+                        <button id="otherButton" class="primary" style="width:100%;">Press me!</button>
                     </div>
 
                     <!-- Switch -->
@@ -820,8 +830,44 @@
                         </div>
                     </div>
 
-                    <!-- Joystick -->
+                    <!-- Keypad (moved up for kids) -->
                     <div class="control-section">
+                        <div class="section-header">
+                            <div class="section-title"><span class="section-icon">🔢</span>Keypad</div>
+                        </div>
+                        <div id="otherKeypad"
+                             style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;">
+                            <button class="chip-btn other-keypad-btn" data-key="1">1</button>
+                            <button class="chip-btn other-keypad-btn" data-key="2">2</button>
+                            <button class="chip-btn other-keypad-btn" data-key="3">3</button>
+                            <button class="chip-btn other-keypad-btn" data-key="4">4</button>
+                            <button class="chip-btn other-keypad-btn" data-key="5">5</button>
+                            <button class="chip-btn other-keypad-btn" data-key="6">6</button>
+                            <button class="chip-btn other-keypad-btn" data-key="7">7</button>
+                            <button class="chip-btn other-keypad-btn" data-key="8">8</button>
+                            <button class="chip-btn other-keypad-btn" data-key="9">9</button>
+                        </div>
+                        <div style="margin-top:6px;font-size:0.8rem;">
+                            You pressed: <span id="otherKeypadLast">–</span>
+                        </div>
+                    </div>
+
+                    <!-- Text string (simplified) -->
+                    <div class="control-section expert-only">
+                        <div class="section-header">
+                            <div class="section-title"><span class="section-icon">📝</span>Text</div>
+                        </div>
+                        <div class="form-row">
+                            <input id="otherTextInput" type="text" placeholder="Enter text">
+                            <button id="otherTextSendBtn" class="primary">Send</button>
+                        </div>
+                        <div style="margin-top:6px; font-size:0.8rem;">
+                            Last: <span id="otherTextLast">(none)</span>
+                        </div>
+                    </div>
+
+                    <!-- Joystick (expert) -->
+                    <div class="control-section expert-only">
                         <div class="section-header">
                             <div class="section-title"><span class="section-icon">🕹️</span>Joystick</div>
                         </div>
@@ -836,32 +882,12 @@
                         </div>
                     </div>
 
-                    <!-- Text string -->
-                    <div class="control-section">
-                        <div class="section-header">
-                            <div class="section-title"><span class="section-icon">📝</span>Text</div>
-                        </div>
-                        <div class="form-row">
-                            <input id="otherTextInput" type="text" placeholder="Enter text">
-                            <button id="otherTextSendBtn" class="primary">Send</button>
-                        </div>
-                        <div style="margin-top:6px; font-size:0.8rem;">
-                            Last sent: <span id="otherTextLast">(none)</span>
-                        </div>
-                    </div>
-
-                    <!-- Quick notes -->
-                    <div class="control-section">
-                        <div class="section-header">
-                            <div class="section-title"><span class="section-icon">🗒️</span>Notes</div>
-                        </div>
-                        <textarea id="otherNotes" rows="3" placeholder="Write notes here…" style="width:100%;"></textarea>
-                    </div>
+                    <!-- Notes (removed - not useful) -->
                 </div>
             </details>
 
-            <!-- INDICATORS & OUTPUTS -->
-            <details class="tool-group">
+            <!-- INDICATORS & OUTPUTS (Expert) -->
+            <details class="tool-group expert-only">
                 <summary class="section-header">
                     <div class="section-title">
                         <span class="section-icon">💡</span>
@@ -939,8 +965,8 @@
                 </div>
             </details>
 
-            <!-- AUDIO, TIME & RANDOM -->
-            <details class="tool-group">
+            <!-- AUDIO, TIME & RANDOM (Expert) -->
+            <details class="tool-group expert-only">
                 <summary class="section-header">
                     <div class="section-title">
                         <span class="section-icon">⏱️</span>
@@ -1014,8 +1040,8 @@
                 </div>
             </details>
 
-            <!-- ADVANCED CONTROLS & PRESETS -->
-            <details class="tool-group">
+            <!-- ADVANCED CONTROLS & PRESETS (Expert) -->
+            <details class="tool-group expert-only">
                 <summary class="section-header">
                     <div class="section-title">
                         <span class="section-icon">🧠</span>
@@ -1124,8 +1150,8 @@
                 </div>
             </details>
 
-            <!-- SIMULATORS & HARDWARE-LIKE TOOLS -->
-            <details class="tool-group">
+            <!-- SIMULATORS & HARDWARE-LIKE TOOLS (Expert) -->
+            <details class="tool-group expert-only">
                 <summary class="section-header">
                     <div class="section-title">
                         <span class="section-icon">🧪</span>

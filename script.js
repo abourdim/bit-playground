@@ -135,10 +135,17 @@ function setConnectionStatus(connected) {
     const labelSpan = connectionStatusEl.querySelector('span:nth-child(2)');
     if (connected) {
         connectionStatusEl.classList.add('connected');
-        if (labelSpan) labelSpan.textContent = 'Connected';
+        if (labelSpan) labelSpan.textContent = 'Connected!';
+        // Add activity for kids
+        if (typeof addActivity === 'function') {
+            addActivity('🎉 Connected to micro:bit!', 'received');
+        }
     } else {
         connectionStatusEl.classList.remove('connected');
-        if (labelSpan) labelSpan.textContent = 'Disconnected';
+        if (labelSpan) labelSpan.textContent = 'Ready to connect';
+        if (typeof addActivity === 'function') {
+            addActivity('📴 Disconnected', 'info');
+        }
     }
 }
 
@@ -414,6 +421,9 @@ function handleUartLine(line) {
         if (!Number.isNaN(v)) {
             setButtonPill(btnAStateEl, btnADotEl, btnATextEl, v === 1);
             pushPoint(btnAChart, v);
+            if (v === 1 && typeof addActivity === 'function') {
+                addActivity('🔴 Button A pressed!', 'received');
+            }
         }
         return;
     }
@@ -423,6 +433,9 @@ function handleUartLine(line) {
         if (!Number.isNaN(v)) {
             setButtonPill(btnBStateEl, btnBDotEl, btnBTextEl, v === 1);
             pushPoint(btnBChart, v);
+            if (v === 1 && typeof addActivity === 'function') {
+                addActivity('🔵 Button B pressed!', 'received');
+            }
         }
         return;
     }
@@ -432,6 +445,9 @@ function handleUartLine(line) {
         if (!Number.isNaN(v)) {
             setButtonPill(touchP0StateEl, touchP0DotEl, touchP0TextEl, v === 1);
             pushPoint(touchP0Chart, v);
+            if (v === 1 && typeof addActivity === 'function') {
+                addActivity('👆 Touch P0!', 'received');
+            }
         }
         return;
     }
@@ -459,6 +475,9 @@ function handleUartLine(line) {
         if (!Number.isNaN(v)) {
             setButtonPill(logoStateEl, logoDotEl, logoTextEl, v === 1);
             pushPoint(logoChart, v);
+            if (v === 1 && typeof addActivity === 'function') {
+                addActivity('✨ Logo touched!', 'received');
+            }
         }
         return;
     }
@@ -668,21 +687,45 @@ window.addEventListener('DOMContentLoaded', () => {
     if (sendLedPatternBtn) {
         sendLedPatternBtn.addEventListener('click', () => {
             const hex = ledStateToHex();
-            sendLine('LM:' + hex);   // matches micro:bit LM handler
+            sendLine('LM:' + hex);
+            if (typeof addActivity === 'function') {
+                addActivity('🎨 Sent LED pattern!', 'sent');
+            }
         });
     }
     presetButtons.forEach(btn => {
         const preset = btn.dataset.preset;
         if (!preset) return;
-        btn.addEventListener('click', () => applyPreset(preset));
+        btn.addEventListener('click', () => {
+            applyPreset(preset);
+            if (typeof addActivity === 'function') {
+                const msg = preset === 'heart' ? '❤️' : preset === 'smile' ? '😊' : '✔️';
+                addActivity(msg + ' Drawing ' + preset, 'info');
+            }
+        });
     });
 
-    // CMD buttons (HEART/SMILE/CLEAR)
+    // CMD buttons (HEART/SMILE/CLEAR etc)
     cmdButtons.forEach(btn => {
         const cmd = btn.dataset.cmd;
         btn.addEventListener('click', () => {
             if (!cmd) return;
-            sendLine('CMD:' + cmd);  // CMD:HEART etc
+            sendLine('CMD:' + cmd);
+            // Kid-friendly activity messages
+            const activityMsg = {
+                'HEART': '❤️ Showing heart!',
+                'SMILE': '😊 Showing smile!',
+                'SAD': '😢 Showing sad face!',
+                'CLEAR': '✨ Screen cleared!',
+                'FIRE': '🔥 Boom!',
+                'UP': '⬆️ Up!',
+                'DOWN': '⬇️ Down!',
+                'LEFT': '⬅️ Left!',
+                'RIGHT': '➡️ Right!'
+            }[cmd] || ('📤 Sent: ' + cmd);
+            if (typeof addActivity === 'function') {
+                addActivity(activityMsg, 'sent');
+            }
         });
     });
 // =======================
@@ -693,26 +736,84 @@ const buzzFreq = document.getElementById('buzzFreq');
 const buzzFreqValue = document.getElementById('buzzFreqValue');
 const buzzDur = document.getElementById('buzzDur');
 
-buzzFreq.addEventListener('input', () => {
-    buzzFreqValue.textContent = buzzFreq.value + " Hz";
-});
+if (buzzFreq && buzzFreqValue) {
+    buzzFreq.addEventListener('input', () => {
+        buzzFreqValue.textContent = buzzFreq.value + " Hz";
+    });
+}
 
-document.getElementById('buzzPlay').addEventListener('click', () => {
-    const f = parseInt(buzzFreq.value);
-    const d = parseInt(buzzDur.value);
+document.getElementById('buzzPlay')?.addEventListener('click', () => {
+    const f = parseInt(buzzFreq?.value || 440);
+    const d = parseInt(buzzDur?.value || 200);
     sendLine("BUZZ:" + f + "," + d);
+    addActivity("🔊 Playing sound", "sent");
 });
 
-document.getElementById('buzzStop').addEventListener('click', () => {
+document.getElementById('buzzStop')?.addEventListener('click', () => {
     sendLine("BUZZ:OFF");
+    addActivity("🔇 Sound stopped", "sent");
 });
+
+// Kid-friendly buzzer presets
+document.getElementById('buzzLow')?.addEventListener('click', () => {
+    sendLine("BUZZ:200,300");
+    addActivity("🔈 Low beep!", "sent");
+});
+
+document.getElementById('buzzMid')?.addEventListener('click', () => {
+    sendLine("BUZZ:440,200");
+    addActivity("🔉 Beep!", "sent");
+});
+
+document.getElementById('buzzHigh')?.addEventListener('click', () => {
+    sendLine("BUZZ:880,150");
+    addActivity("🔊 High beep!", "sent");
+});
+
+document.getElementById('buzzMelody')?.addEventListener('click', () => {
+    // Play a simple melody sequence
+    sendLine("BUZZ:262,200"); // C
+    setTimeout(() => sendLine("BUZZ:330,200"), 250); // E
+    setTimeout(() => sendLine("BUZZ:392,200"), 500); // G
+    setTimeout(() => sendLine("BUZZ:523,400"), 750); // High C
+    addActivity("🎶 Playing melody!", "sent");
+});
+
+// =======================
+// ACTIVITY FEED (Kid-friendly log)
+// =======================
+
+const activityFeed = document.getElementById('activity');
+const clearActivityBtn = document.getElementById('clearActivityBtn');
+
+function addActivity(message, type = 'info') {
+    if (!activityFeed) return;
+    const item = document.createElement('div');
+    item.className = 'activity-item ' + type;
+    item.textContent = message;
+    activityFeed.appendChild(item);
+    activityFeed.scrollTop = activityFeed.scrollHeight;
+    
+    // Keep only last 20 items
+    while (activityFeed.children.length > 20) {
+        activityFeed.removeChild(activityFeed.firstChild);
+    }
+}
+
+clearActivityBtn?.addEventListener('click', () => {
+    if (activityFeed) activityFeed.innerHTML = '';
+});
+
+// Hook into existing handlers to add activity messages
+const originalSendLine = sendLine;
+// Note: We add activity messages directly in handlers instead of overriding sendLine
 
 
 // --- BENCH TAB HANDLER ---
 const benchSendBtn = document.getElementById("benchSendBtn");
 const benchInput   = document.getElementById("benchInput");
 
-benchSendBtn.addEventListener("click", () => {
+benchSendBtn?.addEventListener("click", () => {
   const line = benchInput.value.trim();
   if (!line) {
     addLogLine("Bench: no command entered", "info");
@@ -744,6 +845,9 @@ benchSendBtn.addEventListener("click", () => {
             const msg = textInput.value.trim();
             if (!msg) return;
             sendLine('TEXT:' + msg);
+            if (typeof addActivity === 'function') {
+                addActivity('💬 Showing: "' + msg + '"', 'sent');
+            }
         });
     }
 
@@ -814,17 +918,21 @@ benchSendBtn.addEventListener("click", () => {
   s1Send && s1Send.addEventListener('click', () => {
     const v = Math.min(180, Math.max(0, parseInt(s1Num.value || 0, 10)));
     if (typeof writeUART === 'function') writeUART('SERVO1:' + v);
+    if (typeof addActivity === 'function') addActivity('⚙️ Motor 1 → ' + v + '°', 'sent');
   });
   s1Off && s1Off.addEventListener('click', () => {
     if (typeof writeUART === 'function') writeUART('SERVO1:OFF');
+    if (typeof addActivity === 'function') addActivity('⏹️ Motor 1 stopped', 'sent');
   });
 
   s2Send && s2Send.addEventListener('click', () => {
     const v = Math.min(180, Math.max(0, parseInt(s2Num.value || 0, 10)));
     if (typeof writeUART === 'function') writeUART('SERVO2:' + v);
+    if (typeof addActivity === 'function') addActivity('⚙️ Motor 2 → ' + v + '°', 'sent');
   });
   s2Off && s2Off.addEventListener('click', () => {
     if (typeof writeUART === 'function') writeUART('SERVO2:OFF');
+    if (typeof addActivity === 'function') addActivity('⏹️ Motor 2 stopped', 'sent');
   });
 
   // disable servo controls if writeUART or DOM not ready
