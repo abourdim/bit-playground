@@ -93,13 +93,14 @@ bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () 
     // ======== TAB change from browser =========
     // Expect messages like: TAB:Controls, TAB:Senses, TAB:Servos, TAB:Others
     if (line.substr(0, 4) == "TAB:") {
-        tab = line.substr(4)
+        tab = line.substr(4).toLowerCase()
+        currentTab = tab  // Store for conditional pin polling
         // Acknowledge back to browser
         bluetooth.uartWriteLine("TAB:ACK:" + tab)
         // Simple visual feedback on micro:bit:
         // show first letter of the tab (C / S / S / O)
         if (tab.length > 0) {
-            basic.showString(tab.charAt(0))
+            basic.showString(tab.charAt(0).toUpperCase())
         }
         return
     }
@@ -173,14 +174,168 @@ bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () 
         playExplosion()
         return
     }
-    // ======== BUZZER CONTROL ========
+    // ======== GAMEPAD D-PAD ========
+    if (line == "CMD:UP") {
+        basic.showArrow(ArrowNames.North)
+        bluetooth.uartWriteLine("CMD:ACK:UP")
+        return
+    }
+    if (line == "CMD:DOWN") {
+        basic.showArrow(ArrowNames.South)
+        bluetooth.uartWriteLine("CMD:ACK:DOWN")
+        return
+    }
+    if (line == "CMD:LEFT") {
+        basic.showArrow(ArrowNames.West)
+        bluetooth.uartWriteLine("CMD:ACK:LEFT")
+        return
+    }
+    if (line == "CMD:RIGHT") {
+        basic.showArrow(ArrowNames.East)
+        bluetooth.uartWriteLine("CMD:ACK:RIGHT")
+        return
+    }
+    // ======== BENCH (echo + diagnostics) ========
+    if (line.substr(0, 6) == "BENCH:") {
+        const cmd = line.substr(6).trim()
+        // Echo back for testing
+        bluetooth.uartWriteLine("BENCH:ECHO:" + cmd)
+        // Simple built-in commands
+        if (cmd == "PING") {
+            bluetooth.uartWriteLine("BENCH:PONG")
+        } else if (cmd == "STATUS") {
+            bluetooth.uartWriteLine("BENCH:TAB:" + currentTab)
+            bluetooth.uartWriteLine("BENCH:S1:" + servo1Current)
+            bluetooth.uartWriteLine("BENCH:S2:" + servo2Current)
+        } else if (cmd == "RESET") {
+            control.reset()
+        }
+        return
+    }
+    // ======== JSON (echo for debug) ========
+    if (line.substr(0, 5) == "JSON:") {
+        const payload = line.substr(5)
+        bluetooth.uartWriteLine("JSON:ACK:" + payload.length + " chars")
+        return
+    }
+    // ======== OTHERS TAB WIDGETS ========
+    if (line.substr(0, 6) == "OTHER:") {
+        const rest = line.substr(6)
+        // Button press
+        if (rest == "BTN:PRESS") {
+            basic.showIcon(IconNames.SmallDiamond)
+            basic.pause(100)
+            basic.clearScreen()
+            bluetooth.uartWriteLine("OTHER:ACK:BTN")
+            return
+        }
+        // Switch
+        if (rest.substr(0, 7) == "SWITCH:") {
+            const state = rest.substr(7)
+            if (state == "ON") {
+                basic.showIcon(IconNames.Yes)
+            } else {
+                basic.showIcon(IconNames.No)
+            }
+            bluetooth.uartWriteLine("OTHER:ACK:SWITCH:" + state)
+            return
+        }
+        // Slider
+        if (rest.substr(0, 7) == "SLIDER:") {
+            const val = parseInt(rest.substr(7))
+            // Show as bar graph on LED
+            led.plotBarGraph(val, 100)
+            bluetooth.uartWriteLine("OTHER:ACK:SLIDER:" + val)
+            return
+        }
+        // Joystick
+        if (rest.substr(0, 4) == "JOY:") {
+            const dir = rest.substr(4)
+            if (dir == "UP") basic.showArrow(ArrowNames.North)
+            else if (dir == "DOWN") basic.showArrow(ArrowNames.South)
+            else if (dir == "LEFT") basic.showArrow(ArrowNames.West)
+            else if (dir == "RIGHT") basic.showArrow(ArrowNames.East)
+            bluetooth.uartWriteLine("OTHER:ACK:JOY:" + dir)
+            return
+        }
+        // Text
+        if (rest.substr(0, 5) == "TEXT:") {
+            const txt = rest.substr(5)
+            basic.showString(txt)
+            bluetooth.uartWriteLine("OTHER:ACK:TEXT")
+            return
+        }
+        // LED indicator
+        if (rest.substr(0, 4) == "LED:") {
+            const state = rest.substr(4)
+            if (state == "ON") {
+                led.plot(2, 2)
+            } else {
+                led.unplot(2, 2)
+            }
+            bluetooth.uartWriteLine("OTHER:ACK:LED:" + state)
+            return
+        }
+        // Keypad
+        if (rest.substr(0, 4) == "KEY:") {
+            const key = rest.substr(4)
+            basic.showString(key)
+            bluetooth.uartWriteLine("OTHER:ACK:KEY:" + key)
+            return
+        }
+        // Pin control
+        if (rest.substr(0, 4) == "PIN:") {
+            const parts2 = rest.substr(4).split(":")
+            if (parts2.length == 2) {
+                const pinName = parts2[0]  // D0, D1, D2, D8, D12, D16
+                const pinVal = parseInt(parts2[1])
+                // Map to actual pins
+                if (pinName == "D0") pins.digitalWritePin(DigitalPin.P0, pinVal)
+                else if (pinName == "D1") pins.digitalWritePin(DigitalPin.P1, pinVal)
+                else if (pinName == "D2") pins.digitalWritePin(DigitalPin.P2, pinVal)
+                else if (pinName == "D8") pins.digitalWritePin(DigitalPin.P8, pinVal)
+                else if (pinName == "D12") pins.digitalWritePin(DigitalPin.P12, pinVal)
+                else if (pinName == "D16") pins.digitalWritePin(DigitalPin.P16, pinVal)
+                bluetooth.uartWriteLine("OTHER:ACK:PIN:" + pinName + ":" + pinVal)
+            }
+            return
+        }
+        // PWM
+        if (rest.substr(0, 7) == "PWM:P0:") {
+            const pwmVal = parseInt(rest.substr(7))
+            pins.analogWritePin(AnalogPin.P0, pwmVal)
+            bluetooth.uartWriteLine("OTHER:ACK:PWM:P0:" + pwmVal)
+            return
+        }
+        // Servo from Others tab
+        if (rest.substr(0, 6) == "SERVO:") {
+            const parts3 = rest.substr(6).split(",")
+            if (parts3.length == 2) {
+                const sAngle = parseInt(parts3[0])
+                // speed is ignored for now, just move servo 1
+                pins.servoWritePin(AnalogPin.P1, sAngle)
+                servo1Current = sAngle
+                bluetooth.uartWriteLine("OTHER:ACK:SERVO:" + sAngle)
+            }
+            return
+        }
+        // Strip LED (placeholder - would need neopixel extension)
+        if (rest.substr(0, 6) == "STRIP:") {
+            bluetooth.uartWriteLine("OTHER:ACK:STRIP")
+            return
+        }
+        // Default ACK
+        bluetooth.uartWriteLine("OTHER:ACK:" + rest)
+        return
+    }
+    // ======== BUZZER CONTROL (non-blocking) ========
     if (line.substr(0, 5) == "BUZZ:") {
         const rest = line.substr(5);
 
         // OFF
         if (rest == "OFF") {
             music.stopAllSounds();
-            pins.analogWritePin(AnalogPin.P0, 0); // also silence external buzzer
+            pins.analogWritePin(AnalogPin.P0, 0);
             bluetooth.uartWriteLine("BUZZ:ACK:OFF");
             return;
         }
@@ -191,15 +346,25 @@ bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () 
             const freq = parseInt(parts[0]);
             const dur = parseInt(parts[1]);
 
-            // V2 speaker
-            music.playTone(freq, dur);
+            // Safety: prevent division by zero and invalid values
+            if (freq < 20 || freq > 20000 || dur < 1 || dur > 5000) {
+                bluetooth.uartWriteLine("BUZZ:NACK:INVALID");
+                return;
+            }
 
-            // V1 with buzzer on P0 (square wave)
-            pins.analogSetPeriod(AnalogPin.P0, 1000000 / freq);
-            pins.analogWritePin(AnalogPin.P0, 512);
+            // Non-blocking: run in background to avoid BLE timeout
+            control.inBackground(function () {
+                // V2 built-in speaker (non-blocking with Background)
+                music.playTone(freq, dur);
+            });
 
-            basic.pause(dur);
-            pins.analogWritePin(AnalogPin.P0, 0);
+            // External buzzer on P0 (also in background)
+            control.inBackground(function () {
+                pins.analogSetPeriod(AnalogPin.P0, 1000000 / freq);
+                pins.analogWritePin(AnalogPin.P0, 512);
+                basic.pause(dur);
+                pins.analogWritePin(AnalogPin.P0, 0);
+            });
 
             bluetooth.uartWriteLine("BUZZ:ACK:" + rest);
         }
@@ -330,6 +495,7 @@ let servo2Target = 0
 let servo1Target = 0
 let servo2Moving = false
 let servo1Moving = false
+let currentTab = "controls"  // Track active tab for pin management
 bluetooth.startUartService()
 basic.showString("BT")
 basic.pause(200)
@@ -431,14 +597,19 @@ loops.everyInterval(100, function () {
     bluetooth.uartWriteLine("SOUND:" + s)
     // bluetooth.uartWriteLine("BENCH:" + s)
 })
-// Touch sensor (V2) - P0, P1, P2
+// Touch sensor (V2) - P0, P1, P2 (skip P1/P2 on servos tab to avoid pin conflict)
 loops.everyInterval(100, function () {
     if (!(btConnected)) {
         return
     }
     const touchP0 = input.pinIsPressed(TouchPin.P0) ? 1 : 0
-    const touchP1 = input.pinIsPressed(TouchPin.P1) ? 1 : 0
-    const touchP2 = input.pinIsPressed(TouchPin.P2) ? 1 : 0
+    // Only poll P1/P2 if NOT on servos tab (prevents pin reconfiguration)
+    let touchP1 = 0
+    let touchP2 = 0
+    if (currentTab != "servos") {
+        touchP1 = input.pinIsPressed(TouchPin.P1) ? 1 : 0
+        touchP2 = input.pinIsPressed(TouchPin.P2) ? 1 : 0
+    }
     if (lastTouchP0_Sense == touchP0 && lastTouchP1_Sense == touchP1 && lastTouchP2_Sense == touchP2) {
         return
     }
@@ -455,8 +626,13 @@ loops.everyInterval(100, function () {
     const bNow = input.buttonIsPressed(Button.B) ? 1 : 0
     const logoNow = input.logoIsPressed() ? 1 : 0
     const touchP0Now = input.pinIsPressed(TouchPin.P0) ? 1 : 0
-    const touchP1Now = input.pinIsPressed(TouchPin.P1) ? 1 : 0
-    const touchP2Now = input.pinIsPressed(TouchPin.P2) ? 1 : 0
+    // Only poll P1/P2 if NOT on servos tab
+    let touchP1Now = 0
+    let touchP2Now = 0
+    if (currentTab != "servos") {
+        touchP1Now = input.pinIsPressed(TouchPin.P1) ? 1 : 0
+        touchP2Now = input.pinIsPressed(TouchPin.P2) ? 1 : 0
+    }
     if (aNow != lastBtnA) {
         bluetooth.uartWriteLine("BTN:A:" + aNow)
         lastBtnA = aNow
@@ -473,13 +649,16 @@ loops.everyInterval(100, function () {
         bluetooth.uartWriteLine("BTN:P0:" + touchP0Now)
         lastTouchP0 = touchP0Now
     }
-    if (touchP1Now != lastTouchP1) {
-        bluetooth.uartWriteLine("BTN:P1:" + touchP1Now)
-        lastTouchP1 = touchP1Now
-    }
-    if (touchP2Now != lastTouchP2) {
-        bluetooth.uartWriteLine("BTN:P2:" + touchP2Now)
-        lastTouchP2 = touchP2Now
+    // Only report P1/P2 changes if not on servos tab
+    if (currentTab != "servos") {
+        if (touchP1Now != lastTouchP1) {
+            bluetooth.uartWriteLine("BTN:P1:" + touchP1Now)
+            lastTouchP1 = touchP1Now
+        }
+        if (touchP2Now != lastTouchP2) {
+            bluetooth.uartWriteLine("BTN:P2:" + touchP2Now)
+            lastTouchP2 = touchP2Now
+        }
     }
 })
 // Temperature (°C)
@@ -493,6 +672,19 @@ loops.everyInterval(100, function () {
     }
     lastTemp = t
     bluetooth.uartWriteLine("TEMP:" + t)
+})
+// Compass heading (degrees)
+let lastCompass = -1
+loops.everyInterval(200, function () {
+    if (!(btConnected)) {
+        return
+    }
+    const heading = input.compassHeading()
+    if (lastCompass == heading) {
+        return
+    }
+    lastCompass = heading
+    bluetooth.uartWriteLine("COMPASS:" + heading)
 })
 
 function playExplosion() {
