@@ -1803,14 +1803,893 @@ button {
     font-size: 2.5rem;
 }
 
-/* Larger sliders for easier touch */
-.app.beginner-mode input[type="range"] {
-    height: 8px;
+
+/* ============================================================
+   🎨 FUN & PLAYFUL STYLES - Making widgets exciting! 🎮
+   ============================================================ */
+
+/* === 🌈 RAINBOW SLIDERS === */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 14px;
+    border-radius: 20px;
+    background: linear-gradient(90deg, 
+        #ff6b6b 0%, 
+        #ffd93d 25%, 
+        #6bcb77 50%, 
+        #4d96ff 75%, 
+        #9b5de5 100%);
+    outline: none;
+    cursor: pointer;
+    box-shadow: 
+        0 4px 15px rgba(0,0,0,0.3),
+        inset 0 2px 4px rgba(255,255,255,0.2),
+        inset 0 -2px 4px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Friendly mode pill styling */
-.app.beginner-mode #beginnerModeBtn {
+input[type="range"]:hover {
+    transform: scaleY(1.2);
+    box-shadow: 
+        0 6px 20px rgba(0,0,0,0.4),
+        0 0 20px rgba(107, 203, 119, 0.3);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #fff 0%, #f0f0f0 100%);
+    cursor: grab;
+    border: 4px solid #fff;
+    box-shadow: 
+        0 4px 15px rgba(0,0,0,0.4),
+        0 0 0 4px rgba(255,255,255,0.3),
+        inset 0 2px 5px rgba(255,255,255,1);
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    cursor: grabbing;
+    box-shadow: 
+        0 6px 25px rgba(0,0,0,0.5),
+        0 0 0 6px rgba(34, 197, 94, 0.4),
+        0 0 30px rgba(34, 197, 94, 0.3);
+}
+
+input[type="range"]::-webkit-slider-thumb:active {
+    transform: scale(1.1);
+    background: linear-gradient(145deg, #22c55e, #16a34a);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #fff, #f0f0f0);
+    cursor: grab;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+/* Servo sliders - cool blue wave */
+#servo1Angle, #servo2Angle {
+    background: linear-gradient(90deg, 
+        #667eea 0%, 
+        #64b5f6 25%,
+        #4dd0e1 50%, 
+        #64b5f6 75%,
+        #667eea 100%);
+    animation: wave-shift 3s ease-in-out infinite;
+}
+
+@keyframes wave-shift {
+    0%, 100% { filter: hue-rotate(0deg); }
+    50% { filter: hue-rotate(20deg); }
+}
+
+/* Buzzer slider - sound waves */
+#buzzFreq {
+    background: linear-gradient(90deg, 
+        #5c6bc0 0%, 
+        #7e57c2 25%, 
+        #ab47bc 50%, 
+        #ec407a 75%, 
+        #ef5350 100%);
+}
+
+/* Other slider - party colors */
+#otherSlider {
+    background: linear-gradient(90deg, 
+        #ff6b6b 0%, 
+        #feca57 20%, 
+        #48dbfb 40%, 
+        #ff9ff3 60%, 
+        #54a0ff 80%, 
+        #5f27cd 100%);
+    animation: rainbow-slide 4s linear infinite;
+}
+
+@keyframes rainbow-slide {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+/* === ⚙️ PLAYFUL SERVO GAUGES === */
+.servo-gauge {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    background: linear-gradient(180deg, 
+        rgba(0,0,0,0.4) 0%, 
+        rgba(0,0,0,0.1) 100%);
+    border-radius: 20px;
+    margin-bottom: 15px;
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 
+        0 8px 32px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.servo-gauge svg {
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4));
+}
+
+.servo-gauge svg line {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    filter: drop-shadow(0 0 8px rgba(255,255,255,0.5));
+}
+
+.gauge-value {
+    font-size: 1.6rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff 0%, #a0a0a0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-top: 10px;
+    letter-spacing: 1px;
+}
+
+/* === 📊 COLORFUL SENSOR CARDS === */
+.sensor-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sensor-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.sensor-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #9b5de5);
+    border-radius: 16px 16px 0 0;
+}
+
+.sensor-card.big {
+    background: linear-gradient(145deg, 
+        rgba(30, 41, 59, 0.9) 0%, 
+        rgba(15, 23, 42, 0.9) 100%);
+    border: 2px solid rgba(255,255,255,0.1);
+}
+
+.sensor-value {
+    font-size: 2.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    transition: transform 0.2s ease;
+}
+
+.sensor-card:hover .sensor-value {
+    transform: scale(1.05);
+}
+
+.sensor-label {
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.sensor-hint {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    margin-top: 8px;
+}
+
+/* === 🔘 BOUNCY BUTTONS === */
+.chip-btn, .primary, .secondary {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.chip-btn::after, .primary::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s;
+}
+
+.chip-btn:active::after, .primary:active::after {
+    width: 200px;
+    height: 200px;
+}
+
+.chip-btn:hover, .primary:hover, .secondary:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+.chip-btn:active, .primary:active, .secondary:active {
+    transform: translateY(1px) scale(0.98);
+}
+
+.primary {
+    background: linear-gradient(145deg, #22c55e, #16a34a);
+    border: none;
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+}
+
+.primary:hover {
+    background: linear-gradient(145deg, #4ade80, #22c55e);
+    box-shadow: 0 8px 25px rgba(34, 197, 94, 0.5);
+}
+
+.secondary {
+    background: linear-gradient(145deg, #475569, #334155);
+    border: 2px solid rgba(255,255,255,0.1);
+}
+
+.secondary:hover {
+    background: linear-gradient(145deg, #64748b, #475569);
+}
+
+/* === 🎮 GAMEPAD D-PAD === */
+.dpad-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 20px;
+    background: linear-gradient(145deg, #1e293b, #0f172a);
+    border-radius: 20px;
+    border: 3px solid rgba(255,255,255,0.1);
+    box-shadow: 
+        0 10px 40px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.dpad-btn {
+    width: 70px !important;
+    height: 70px !important;
+    font-size: 2rem !important;
+    border-radius: 18px !important;
+    background: linear-gradient(145deg, #3b82f6, #1d4ed8) !important;
+    border: 3px solid rgba(255,255,255,0.2) !important;
+    box-shadow: 
+        0 6px 20px rgba(59, 130, 246, 0.4),
+        inset 0 2px 4px rgba(255,255,255,0.2) !important;
+    transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.dpad-btn:hover {
+    background: linear-gradient(145deg, #60a5fa, #3b82f6) !important;
+    transform: scale(1.15) !important;
+    box-shadow: 
+        0 8px 30px rgba(59, 130, 246, 0.6),
+        0 0 40px rgba(59, 130, 246, 0.4) !important;
+}
+
+.dpad-btn:active {
+    transform: scale(0.95) !important;
+    box-shadow: 
+        0 2px 10px rgba(59, 130, 246, 0.4),
+        inset 0 4px 8px rgba(0,0,0,0.3) !important;
+}
+
+.dpad-center {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(145deg, #374151, #1f2937);
+    border-radius: 50%;
+    border: 3px solid rgba(255,255,255,0.1);
+    box-shadow: inset 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.fire-btn {
+    width: 120px !important;
+    height: 60px !important;
+    margin-top: 15px !important;
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+    background: linear-gradient(145deg, #ef4444, #b91c1c) !important;
+    border-radius: 30px !important;
+    animation: fire-pulse 1.5s infinite !important;
+}
+
+.fire-btn:hover {
+    background: linear-gradient(145deg, #f87171, #ef4444) !important;
+    box-shadow: 
+        0 8px 30px rgba(239, 68, 68, 0.6),
+        0 0 50px rgba(239, 68, 68, 0.4) !important;
+    animation: none !important;
+    transform: scale(1.1) !important;
+}
+
+@keyframes fire-pulse {
+    0%, 100% { 
+        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+    }
+    50% { 
+        box-shadow: 0 4px 25px rgba(239, 68, 68, 0.7),
+                    0 0 40px rgba(239, 68, 68, 0.3);
+    }
+}
+
+/* === 🎵 FUN BUZZER BUTTONS === */
+#buzzLow, #buzzMid, #buzzHigh, #buzzMelody {
+    min-width: 100px;
+    padding: 12px 16px;
+    font-weight: 600;
+    border-radius: 12px;
+    border: none;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#buzzLow {
+    background: linear-gradient(145deg, #86efac, #4ade80) !important;
+    color: #14532d !important;
+    box-shadow: 0 4px 15px rgba(74, 222, 128, 0.4);
+}
+
+#buzzLow:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(74, 222, 128, 0.6);
+}
+
+#buzzMid {
+    background: linear-gradient(145deg, #fde047, #facc15) !important;
+    color: #713f12 !important;
+    box-shadow: 0 4px 15px rgba(250, 204, 21, 0.4);
+}
+
+#buzzMid:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(250, 204, 21, 0.6);
+}
+
+#buzzHigh {
+    background: linear-gradient(145deg, #fca5a5, #f87171) !important;
+    color: #7f1d1d !important;
+    box-shadow: 0 4px 15px rgba(248, 113, 113, 0.4);
+}
+
+#buzzHigh:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(248, 113, 113, 0.6);
+}
+
+#buzzMelody {
+    background: linear-gradient(145deg, #c4b5fd, #a78bfa) !important;
+    color: #4c1d95 !important;
+    box-shadow: 0 4px 15px rgba(167, 139, 250, 0.4);
+    animation: melody-glow 2s ease-in-out infinite;
+}
+
+#buzzMelody:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(167, 139, 250, 0.6);
+    animation: none;
+}
+
+@keyframes melody-glow {
+    0%, 100% { filter: hue-rotate(0deg) brightness(1); }
+    50% { filter: hue-rotate(30deg) brightness(1.1); }
+}
+
+/* === 🔢 COLORFUL KEYPAD === */
+.other-keypad-btn {
+    width: 60px !important;
+    height: 60px !important;
+    font-size: 1.5rem !important;
+    font-weight: 800 !important;
+    border-radius: 15px !important;
+    border: none !important;
+    transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.other-keypad-btn:hover {
+    transform: scale(1.2) rotate(5deg) !important;
+}
+
+.other-keypad-btn:active {
+    transform: scale(0.9) !important;
+}
+
+/* Keypad rainbow colors */
+.other-keypad-btn[data-key="1"] {
+    background: linear-gradient(145deg, #ff6b6b, #ee5a5a) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 15px rgba(238, 90, 90, 0.4);
+}
+.other-keypad-btn[data-key="2"] {
+    background: linear-gradient(145deg, #ffd93d, #f9c74f) !important;
+    color: #5c4d00 !important;
+    box-shadow: 0 4px 15px rgba(249, 199, 79, 0.4);
+}
+.other-keypad-btn[data-key="3"] {
+    background: linear-gradient(145deg, #6bcb77, #4ade80) !important;
+    color: #14532d !important;
+    box-shadow: 0 4px 15px rgba(74, 222, 128, 0.4);
+}
+.other-keypad-btn[data-key="4"] {
+    background: linear-gradient(145deg, #4d96ff, #3b82f6) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+}
+.other-keypad-btn[data-key="5"] {
+    background: linear-gradient(145deg, #9b5de5, #8b5cf6) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+}
+.other-keypad-btn[data-key="6"] {
+    background: linear-gradient(145deg, #f472b6, #ec4899) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+}
+.other-keypad-btn[data-key="7"] {
+    background: linear-gradient(145deg, #22d3ee, #06b6d4) !important;
+    color: #083344 !important;
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);
+}
+.other-keypad-btn[data-key="8"] {
+    background: linear-gradient(145deg, #fb923c, #f97316) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+}
+.other-keypad-btn[data-key="9"] {
+    background: linear-gradient(145deg, #a3e635, #84cc16) !important;
+    color: #365314 !important;
+    box-shadow: 0 4px 15px rgba(132, 204, 22, 0.4);
+}
+
+/* === ⏻ FUN SWITCH TOGGLE === */
+#otherSwitch {
+    width: 60px;
+    height: 32px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: linear-gradient(145deg, #374151, #1f2937);
+    border-radius: 16px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 
+        inset 0 4px 10px rgba(0,0,0,0.4),
+        0 2px 5px rgba(0,0,0,0.2);
+}
+
+#otherSwitch::before {
+    content: '❌';
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    top: 3px;
+    left: 3px;
+    background: linear-gradient(145deg, #fff, #e5e7eb);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+#otherSwitch:checked {
+    background: linear-gradient(145deg, #22c55e, #16a34a);
+    box-shadow: 
+        inset 0 4px 10px rgba(0,0,0,0.2),
+        0 0 20px rgba(34, 197, 94, 0.4);
+}
+
+#otherSwitch:checked::before {
+    content: '✅';
+    transform: translateX(28px);
+    background: linear-gradient(145deg, #fff, #dcfce7);
+}
+
+/* === 🔘 FUN OTHER BUTTON === */
+#otherButton {
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 16px 24px;
+    background: linear-gradient(145deg, #ec4899, #db2777);
+    border: none;
+    border-radius: 16px;
+    box-shadow: 
+        0 6px 20px rgba(219, 39, 119, 0.4),
+        inset 0 2px 4px rgba(255,255,255,0.2);
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#otherButton:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 
+        0 10px 30px rgba(219, 39, 119, 0.5),
+        0 0 40px rgba(236, 72, 153, 0.3);
+}
+
+#otherButton:active {
+    transform: translateY(2px) scale(0.98);
+}
+
+/* === 📡 CONNECTION STATUS GLOW === */
+#connectionStatus {
+    transition: all 0.3s ease;
+}
+
+#connectionStatus.connected {
+    animation: connected-pulse 2s ease-in-out infinite;
     background: rgba(34, 197, 94, 0.2);
-    border-color: var(--accent);
 }
 
+@keyframes connected-pulse {
+    0%, 100% { 
+        box-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
+    }
+    50% { 
+        box-shadow: 0 0 25px rgba(34, 197, 94, 0.6),
+                    0 0 40px rgba(34, 197, 94, 0.2);
+    }
+}
+
+/* === ⚡ ACTIVITY FEED === */
+.activity-feed {
+    background: linear-gradient(180deg, 
+        rgba(0,0,0,0.4) 0%, 
+        rgba(0,0,0,0.2) 100%);
+    border: 2px solid rgba(255,255,255,0.1);
+}
+
+.activity-item {
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    animation: activity-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes activity-pop {
+    from {
+        opacity: 0;
+        transform: translateX(-20px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+.activity-item.sent {
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.2) 0%, 
+        rgba(59, 130, 246, 0.05) 100%);
+    border-left: 4px solid #3b82f6;
+}
+
+.activity-item.received {
+    background: linear-gradient(135deg, 
+        rgba(34, 197, 94, 0.2) 0%, 
+        rgba(34, 197, 94, 0.05) 100%);
+    border-left: 4px solid #22c55e;
+}
+
+/* === 🎨 LED MATRIX FUN === */
+.led-cell {
+    transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border-radius: 4px;
+}
+
+.led-cell:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+}
+
+.led-cell.on {
+    background: #ff6b6b !important;
+    box-shadow: 
+        0 0 10px #ff6b6b,
+        0 0 20px rgba(255, 107, 107, 0.5),
+        0 0 30px rgba(255, 107, 107, 0.3);
+    animation: led-glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes led-glow {
+    from { 
+        box-shadow: 0 0 10px #ff6b6b, 0 0 20px rgba(255, 107, 107, 0.5);
+    }
+    to { 
+        box-shadow: 0 0 15px #ff6b6b, 0 0 30px rgba(255, 107, 107, 0.7);
+    }
+}
+
+/* === 🃏 CARD HOVERS === */
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    box-shadow: 
+        0 20px 60px rgba(0,0,0,0.4),
+        0 0 0 1px rgba(255,255,255,0.1);
+}
+
+/* === 📝 FUN INPUTS === */
+input[type="text"], input[type="number"], textarea {
+    background: linear-gradient(145deg, #1e293b, #0f172a);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 12px 16px;
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
+    outline: none;
+    border-color: #22c55e;
+    box-shadow: 
+        0 0 0 4px rgba(34, 197, 94, 0.2),
+        0 0 20px rgba(34, 197, 94, 0.1);
+}
+
+input[type="text"]::placeholder {
+    color: #64748b;
+}
+
+/* === 🎯 TAB BUTTONS FUN === */
+.tab-btn {
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.tab-btn:hover {
+    transform: translateY(-2px);
+}
+
+.tab-btn.active {
+    background: linear-gradient(145deg, #22c55e, #16a34a);
+    box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4);
+}
+
+/* === 🌟 SECTION TITLES === */
+.section-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+}
+
+.section-icon {
+    margin-right: 8px;
+}
+
+/* === 🎪 MICROBIT OUTLINE FUN === */
+.microbit-outline {
+    transition: transform 0.3s ease;
+}
+
+.microbit-outline:hover {
+    transform: scale(1.02);
+}
+
+/* === ✨ GENERAL GLOW EFFECTS === */
+.mode-icon {
+    font-size: 1.3rem;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+/* Icons in card headers */
+.card-title .icon {
+    font-size: 1.4rem;
+    margin-right: 8px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+/* === 🎯 GAUGE EMOJI === */
+.gauge-emoji {
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    font-size: 1.5rem;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.servo-gauge:hover .gauge-emoji {
+    transform: scale(1.3) rotate(15deg);
+    opacity: 1;
+}
+
+/* === 🎨 MORE FUN HOVER EFFECTS === */
+.control-section {
+    transition: all 0.2s ease;
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.control-section:hover {
+    background: rgba(255,255,255,0.03);
+    transform: translateY(-2px);
+}
+
+/* === 🌈 BUTTON ROW STYLING === */
+.button-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.button-row .primary, .button-row .secondary {
+    flex: 1;
+    padding: 12px 20px;
+    font-weight: 600;
+    border-radius: 12px;
+}
+
+/* === 🎪 MICROBIT BODY FUN === */
+.microbit-outline {
+    background: linear-gradient(145deg, #1e293b, #0f172a);
+    border: 3px solid rgba(255,255,255,0.1);
+    box-shadow: 
+        0 10px 40px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+}
+
+.microbit-outline:hover {
+    transform: scale(1.02);
+    box-shadow: 
+        0 15px 50px rgba(0,0,0,0.5),
+        0 0 30px rgba(34, 197, 94, 0.2);
+}
+
+/* === 💡 LED CELL SUPER FUN === */
+.led-cell {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.1);
+    cursor: pointer;
+    transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 2px solid transparent;
+}
+
+.led-cell:hover {
+    transform: scale(1.15);
+    background: rgba(255,107,107,0.3);
+    border-color: rgba(255,107,107,0.5);
+}
+
+.led-cell.on {
+    background: linear-gradient(145deg, #ff6b6b, #ff4757) !important;
+    box-shadow: 
+        0 0 15px #ff6b6b,
+        0 0 30px rgba(255,107,107,0.6),
+        inset 0 2px 4px rgba(255,255,255,0.3) !important;
+    animation: led-pulse 1s ease-in-out infinite alternate;
+    border-color: #ff6b6b;
+}
+
+@keyframes led-pulse {
+    from { 
+        box-shadow: 0 0 15px #ff6b6b, 0 0 30px rgba(255,107,107,0.6);
+        transform: scale(1);
+    }
+    to { 
+        box-shadow: 0 0 20px #ff6b6b, 0 0 40px rgba(255,107,107,0.8);
+        transform: scale(1.05);
+    }
+}
+
+/* === 📱 FORM INPUTS PLAYFUL === */
+.form-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.form-row input[type="text"],
+.form-row input[type="number"] {
+    flex: 1;
+}
+
+/* === 🎭 HINTS AND SUBTITLES === */
+.hint, .card-subtitle, .section-subtitle {
+    color: #94a3b8;
+    font-size: 0.85rem;
+}
+
+.drawing-mode-hint {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #6bcb77;
+    font-weight: 500;
+}
+
+/* === 🏷️ BADGES FUN === */
+.badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: linear-gradient(145deg, rgba(34,197,94,0.2), rgba(34,197,94,0.1));
+    border: 1px solid rgba(34,197,94,0.3);
+    color: #4ade80;
+}
+
+/* === 🎨 QUICK SHAPES BUTTONS === */
+.chip-btn[data-preset] {
+    background: linear-gradient(145deg, #334155, #1e293b) !important;
+    border: 2px solid rgba(255,255,255,0.1) !important;
+}
+
+.chip-btn[data-preset]:hover {
+    background: linear-gradient(145deg, #475569, #334155) !important;
+    border-color: rgba(34,197,94,0.4) !important;
+}
+
+/* === ✨ ICON COMMAND BUTTONS === */
+.chip-btn[data-cmd] {
+    font-size: 1.3rem !important;
+    min-width: 50px;
+    min-height: 50px;
+}
+
+.chip-btn[data-cmd="HEART"]:hover {
+    background: linear-gradient(145deg, #f87171, #ef4444) !important;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+}
+
+.chip-btn[data-cmd="SMILE"]:hover {
+    background: linear-gradient(145deg, #fbbf24, #f59e0b) !important;
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+}
+
+.chip-btn[data-cmd="SAD"]:hover {
+    background: linear-gradient(145deg, #60a5fa, #3b82f6) !important;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+}
+
+.chip-btn[data-cmd="CLEAR"]:hover {
+    background: linear-gradient(145deg, #a1a1aa, #71717a) !important;
+}

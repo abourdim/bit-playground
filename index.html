@@ -13,9 +13,9 @@
     <!-- Header -->
 <div class="header">
     <div class="title-block">
-        <img src="logo.svg" alt="Workshop-Diy Logo" class="site-logo animated-logo">
-        <h1>Workshop-Diy.org</h1>
-        <div class="subtitle">Explore • Create • Innovate</div>
+        <img src="logo.svg" alt="micro:bit Playground Logo" class="site-logo animated-logo">
+        <h1>micro:bit Playground</h1>
+        <div class="subtitle">Play • Learn • Create</div>
     </div>
     <div class="chip" role="status" aria-live="polite" aria-atomic="true">
         <div class="chip-dot"></div>
@@ -621,15 +621,44 @@
 
                             <div class="controls-grid">
                               <div class="control-section">
-                                <div class="section-title">Motor 1 <span class="expert-only">(P1)</span></div>
+                                <div class="section-title">🔵 Motor 1 <span class="expert-only">(P1)</span></div>
                                 
-                                <div class="servo-gauge">
-    <svg width="120" height="60" viewBox="0 0 120 60">
-        <path d="M10 60 A50 50 0 0 1 110 60" stroke="#38bdf8" stroke-width="6" fill="none"/>
-        <line id="servo1Needle" x1="60" y1="60" x2="60" y2="20" stroke="#f97316" stroke-width="4"
-              stroke-linecap="round" transform="rotate(0 60 60)"/>
+                                <div class="servo-gauge" id="gauge1Container">
+    <svg width="160" height="100" viewBox="0 0 160 100">
+        <defs>
+            <linearGradient id="gauge1Grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#ff6b6b"/>
+                <stop offset="25%" style="stop-color:#ffd93d"/>
+                <stop offset="50%" style="stop-color:#6bcb77"/>
+                <stop offset="75%" style="stop-color:#4d96ff"/>
+                <stop offset="100%" style="stop-color:#9b5de5"/>
+            </linearGradient>
+            <filter id="glow1" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="3" result="blur"/>
+                <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+        </defs>
+        <!-- Background arc -->
+        <path d="M20 80 A60 60 0 0 1 140 80" stroke="rgba(255,255,255,0.1)" stroke-width="12" fill="none" stroke-linecap="round"/>
+        <!-- Colorful arc -->
+        <path d="M20 80 A60 60 0 0 1 140 80" stroke="url(#gauge1Grad)" stroke-width="10" fill="none" stroke-linecap="round" filter="url(#glow1)"/>
+        <!-- Tick marks -->
+        <text x="15" y="85" fill="#888" font-size="10">0°</text>
+        <text x="72" y="22" fill="#888" font-size="10">90°</text>
+        <text x="135" y="85" fill="#888" font-size="10">180°</text>
+        <!-- Needle -->
+        <line id="servo1Needle" x1="80" y1="80" x2="80" y2="30" stroke="#fff" stroke-width="5"
+              stroke-linecap="round" transform="rotate(-90 80 80)" filter="url(#glow1)"/>
+        <!-- Center hub -->
+        <circle cx="80" cy="80" r="12" fill="url(#gauge1Grad)"/>
+        <circle cx="80" cy="80" r="7" fill="#1e293b"/>
+        <circle cx="80" cy="80" r="4" fill="#f97316"/>
     </svg>
     <div class="gauge-value" id="servo1GaugeValue">90°</div>
+    <div class="gauge-emoji">🎯</div>
 </div>
 
 
@@ -644,14 +673,43 @@
                               </div>
 
                               <div class="control-section">
-                                <div class="section-title">Motor 2 <span class="expert-only">(P2)</span></div>
-                                <div class="servo-gauge">
-    <svg width="120" height="60" viewBox="0 0 120 60">
-        <path d="M10 60 A50 50 0 0 1 110 60" stroke="#34d399" stroke-width="6" fill="none"/>
-        <line id="servo2Needle" x1="60" y1="60" x2="60" y2="20" stroke="#f97316" stroke-width="4"
-              stroke-linecap="round" transform="rotate(0 60 60)"/>
+                                <div class="section-title">🟢 Motor 2 <span class="expert-only">(P2)</span></div>
+                                <div class="servo-gauge" id="gauge2Container">
+    <svg width="160" height="100" viewBox="0 0 160 100">
+        <defs>
+            <linearGradient id="gauge2Grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#c084fc"/>
+                <stop offset="25%" style="stop-color:#818cf8"/>
+                <stop offset="50%" style="stop-color:#38bdf8"/>
+                <stop offset="75%" style="stop-color:#34d399"/>
+                <stop offset="100%" style="stop-color:#a3e635"/>
+            </linearGradient>
+            <filter id="glow2" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="3" result="blur"/>
+                <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+        </defs>
+        <!-- Background arc -->
+        <path d="M20 80 A60 60 0 0 1 140 80" stroke="rgba(255,255,255,0.1)" stroke-width="12" fill="none" stroke-linecap="round"/>
+        <!-- Colorful arc -->
+        <path d="M20 80 A60 60 0 0 1 140 80" stroke="url(#gauge2Grad)" stroke-width="10" fill="none" stroke-linecap="round" filter="url(#glow2)"/>
+        <!-- Tick marks -->
+        <text x="15" y="85" fill="#888" font-size="10">0°</text>
+        <text x="72" y="22" fill="#888" font-size="10">90°</text>
+        <text x="135" y="85" fill="#888" font-size="10">180°</text>
+        <!-- Needle -->
+        <line id="servo2Needle" x1="80" y1="80" x2="80" y2="30" stroke="#fff" stroke-width="5"
+              stroke-linecap="round" transform="rotate(-90 80 80)" filter="url(#glow2)"/>
+        <!-- Center hub -->
+        <circle cx="80" cy="80" r="12" fill="url(#gauge2Grad)"/>
+        <circle cx="80" cy="80" r="7" fill="#1e293b"/>
+        <circle cx="80" cy="80" r="4" fill="#22c55e"/>
     </svg>
     <div class="gauge-value" id="servo2GaugeValue">90°</div>
+    <div class="gauge-emoji">🎯</div>
 </div>
 
 
@@ -681,13 +739,10 @@
                                     </div>
                                 </div>
                             </div>
-                                    </div>
-                                </div>
-                            </div>
 
                             <div class="controls-grid">
 <div class="control-section">
-    <div class="section-title">GamePad D-Pad</div>
+    <div class="section-title">🕹️ D-Pad Controller</div>
 
     <div class="dpad-wrapper">
 
@@ -865,24 +920,6 @@
                             Last: <span id="otherTextLast">(none)</span>
                         </div>
                     </div>
-
-                    <!-- Joystick (expert) -->
-                    <div class="control-section expert-only">
-                        <div class="section-header">
-                            <div class="section-title"><span class="section-icon">🕹️</span>Joystick</div>
-                        </div>
-                        <div class="dpad-wrapper other-joystick">
-                            <button class="primary other-joy-btn" data-other-dir="UP">⬆</button>
-                            <div class="dpad-middle-row">
-                                <button class="primary other-joy-btn" data-other-dir="LEFT">⬅</button>
-                                <div class="dpad-center"></div>
-                                <button class="primary other-joy-btn" data-other-dir="RIGHT">➡</button>
-                            </div>
-                            <button class="primary other-joy-btn" data-other-dir="DOWN">⬇</button>
-                        </div>
-                    </div>
-
-                    <!-- Notes (removed - not useful) -->
                 </div>
             </details>
 

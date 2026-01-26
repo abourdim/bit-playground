@@ -964,8 +964,10 @@ benchSendBtn?.addEventListener("click", () => {
 function updateServoGauge(needleId, value, valueId) {
     const angle = -90 + (value * 180 / 180); // map 0–180 to -90 to +90
     const needle = document.getElementById(needleId);
-    needle.setAttribute("transform", `rotate(${angle} 60 60)`);
+    needle.setAttribute("transform", `rotate(${angle} 80 80)`);
 
+    // Update value with emoji flair
+    const emoji = value < 45 ? '⬅️' : value > 135 ? '➡️' : '⬆️';
     document.getElementById(valueId).textContent = value + "°";
 }
 
