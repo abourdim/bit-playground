@@ -444,17 +444,24 @@ body {
 button {
     border: none;
     border-radius: 999px;
-    padding: 7px 12px;
+    padding: 8px 14px;
     font-size: 0.78rem;
+    font-weight: 600;
     font-family: inherit;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(15, 23, 42, 0.9);
+    background: var(--pill-bg);
     color: var(--text-secondary);
-    border: 1px solid rgba(148,163,184,0.5);
-    transition: all 0.15s ease;
+    border: 1.5px solid var(--pill-border);
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+    /* Subtle 3D highlight */
+    box-shadow:
+        0 1px 0 0 rgba(255,255,255,0.06) inset,
+        0 3px 8px rgba(0,0,0,0.15);
 }
 
 button.primary {
@@ -462,8 +469,15 @@ button.primary {
     color: var(--btn-primary-text);
     border-color: var(--btn-primary-border);
     box-shadow:
-        0 12px 30px var(--accent-soft),
-        0 0 0 1px var(--card-bg);
+        0 1px 0 0 rgba(255,255,255,0.15) inset,
+        0 6px 20px var(--accent-soft),
+        0 0 0 1px var(--accent-strong);
+    animation: btn-glow 2.5s ease-in-out infinite;
+}
+
+@keyframes btn-glow {
+    0%, 100% { box-shadow: 0 1px 0 0 rgba(255,255,255,0.15) inset, 0 6px 20px var(--accent-soft), 0 0 0 1px var(--accent-strong); }
+    50% { box-shadow: 0 1px 0 0 rgba(255,255,255,0.15) inset, 0 8px 28px var(--accent-strong), 0 0 0 2px var(--accent); }
 }
 
 button.secondary {
@@ -481,17 +495,48 @@ button .btn-icon {
     font-size: 1rem;
 }
 
+/* Hover: bounce up + glow */
 button:hover:not(:disabled) {
-    transform: translateY(-1px);
+    transform: translateY(-3px) scale(1.04);
     box-shadow:
-        0 12px 28px rgba(15,23,42,0.95),
-        0 0 0 1px rgba(59,130,246,0.5);
+        0 1px 0 0 rgba(255,255,255,0.08) inset,
+        0 10px 25px rgba(0,0,0,0.25),
+        0 0 0 1px var(--accent-soft);
+    filter: brightness(1.08);
+}
+
+/* Click: press down */
+button:active:not(:disabled) {
+    transform: translateY(0px) scale(0.97);
+    box-shadow:
+        0 1px 0 0 rgba(255,255,255,0.04) inset,
+        0 2px 6px rgba(0,0,0,0.2);
+    transition-duration: 0.08s;
+}
+
+/* Ripple effect */
+button::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at var(--ripple-x, 50%) var(--ripple-y, 50%), var(--accent) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+button:active::after {
+    opacity: 0.15;
+    transition-duration: 0.05s;
 }
 
 button:disabled {
     opacity: 0.4;
     cursor: default;
     box-shadow: none;
+    transform: none;
+    filter: none;
 }
 
 /* Hint text */
@@ -1023,31 +1068,49 @@ textarea:focus-visible {
     animation: twinkle 2.8s ease-in-out infinite;
 }
 
-/* Primary action button: soft pulse to invite clicks */
-button.primary {
-    animation: pulse-soft 2.8s ease-out infinite;
-}
 
-/* All buttons a bit more playful on hover (but still clean) */
-button:hover:not(:disabled) {
-    transform: translateY(-1px) scale(1.03);
-    filter: brightness(1.05);
-}
 
-button:active:not(:disabled) {
-    transform: translateY(0) scale(0.99);
-}
-
-/* Mode tabs: clearer “selected” feeling */
+/* Mode tabs: game-style active state */
 .mode-btn {
     font-size: 0.8rem;
+    position: relative;
 }
 
+/* Active tab: glowing underline + lift */
 .mode-btn.active {
-    transform: translateY(-1px) scale(1.03);
+    transform: translateY(-2px) scale(1.05);
     box-shadow:
-        0 0 0 1px rgba(34,197,94,0.7),
-        0 0 18px rgba(34,197,94,0.7);
+        0 0 0 1px var(--accent-strong),
+        0 0 18px var(--accent-soft);
+}
+
+/* Glowing underline on active tab */
+.mode-btn.active::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 20%;
+    right: 20%;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent-strong), 0 0 20px var(--accent-soft);
+    animation: tab-underline-glow 1.8s ease-in-out infinite;
+}
+
+@keyframes tab-underline-glow {
+    0%, 100% { opacity: 1; box-shadow: 0 0 10px var(--accent-strong), 0 0 20px var(--accent-soft); }
+    50% { opacity: 0.7; box-shadow: 0 0 6px var(--accent-soft); }
+}
+
+/* Inactive tabs: subtle transparency, pop on hover */
+.mode-btn:not(.active) {
+    opacity: 0.75;
+}
+
+.mode-btn:not(.active):hover {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.03);
 }
 
 /* Cards: slightly brighter and more “card game” feel */
@@ -3187,6 +3250,78 @@ input[type="text"]::placeholder {
     color: var(--accent);
 }
 
+/* Graph action buttons — colored per function */
+#graphSimBtn {
+    border-color: rgba(34, 197, 94, 0.5);
+    color: #4ade80;
+}
+#graphSimBtn:hover {
+    background: rgba(34, 197, 94, 0.15);
+    border-color: #4ade80;
+}
+#graphSimBtn.active {
+    background: rgba(34, 197, 94, 0.2);
+    border-color: #22c55e;
+    color: #22c55e;
+    animation: sim-pulse 1.5s ease-in-out infinite;
+}
+@keyframes sim-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
+    50% { box-shadow: 0 0 12px 2px rgba(34,197,94,0.3); }
+}
+
+#graphPauseBtn {
+    border-color: rgba(245, 158, 11, 0.5);
+    color: #fbbf24;
+}
+#graphPauseBtn:hover {
+    background: rgba(245, 158, 11, 0.15);
+    border-color: #fbbf24;
+}
+#graphPauseBtn.active {
+    background: rgba(245, 158, 11, 0.2);
+    border-color: #f59e0b;
+    color: #f59e0b;
+    animation: pause-glow 1.2s ease-in-out infinite;
+}
+@keyframes pause-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(245,158,11,0.3); }
+    50% { box-shadow: 0 0 10px 2px rgba(245,158,11,0.25); }
+}
+
+#graphClearBtn {
+    border-color: rgba(239, 68, 68, 0.5);
+    color: #f87171;
+}
+#graphClearBtn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: #f87171;
+}
+
+#graphExportPng {
+    border-color: rgba(59, 130, 246, 0.5);
+    color: #60a5fa;
+}
+#graphExportPng:hover {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: #60a5fa;
+}
+
+#graphExportCsv {
+    border-color: rgba(59, 130, 246, 0.5);
+    color: #60a5fa;
+}
+#graphExportCsv:hover {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: #60a5fa;
+}
+
+/* Clear button flash on click */
+#graphClearBtn:active {
+    background: rgba(239, 68, 68, 0.3) !important;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+}
+
 .graph-point-count {
     margin-left: auto;
     font-size: 0.7rem;
@@ -3208,4 +3343,28 @@ input[type="text"]::placeholder {
         min-height: 200px;
         height: 280px;
     }
+}
+
+/* Light theme: graph action buttons keep their colors */
+[data-theme="arctic"] #graphSimBtn,
+[data-theme="blaze"] #graphSimBtn {
+    color: #16a34a !important;
+    border-color: rgba(22, 163, 74, 0.5);
+}
+[data-theme="arctic"] #graphPauseBtn,
+[data-theme="blaze"] #graphPauseBtn {
+    color: #d97706 !important;
+    border-color: rgba(217, 119, 6, 0.5);
+}
+[data-theme="arctic"] #graphClearBtn,
+[data-theme="blaze"] #graphClearBtn {
+    color: #dc2626 !important;
+    border-color: rgba(220, 38, 38, 0.5);
+}
+[data-theme="arctic"] #graphExportPng,
+[data-theme="arctic"] #graphExportCsv,
+[data-theme="blaze"] #graphExportPng,
+[data-theme="blaze"] #graphExportCsv {
+    color: #2563eb !important;
+    border-color: rgba(37, 99, 235, 0.5);
 }
