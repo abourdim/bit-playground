@@ -167,6 +167,7 @@ function handleUartLine(line) {
                 if (lightValueEl) lightValueEl.textContent = display;
                 pushPoint(lightChart, display);
                 if (typeof graphPushData === 'function') graphPushData('light', display, 'Light');
+                if (typeof board3dUpdate === 'function') board3dUpdate('light', display);
             }
             return;
         }
@@ -179,6 +180,7 @@ function handleUartLine(line) {
                 if (soundValueEl) soundValueEl.textContent = display;
                 pushPoint(soundChart, display);
                 if (typeof graphPushData === 'function') graphPushData('sound', display, 'Sound');
+                if (typeof board3dUpdate === 'function') board3dUpdate('sound', display);
             }
             return;
         }

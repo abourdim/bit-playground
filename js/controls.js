@@ -2,8 +2,9 @@
 // controls.js — LED matrix, buzzer, text, bench, tabs, init
 // ============================================================
 
-// LED state
-let ledState  = Array.from({ length: 5 }, () => Array(5).fill(false));
+// LED state (exposed on window for 3D board sync)
+window.ledState = Array.from({ length: 5 }, () => Array(5).fill(false));
+let ledState = window.ledState;
 let isDrawing = false;
 let drawMode  = true;
 
@@ -70,8 +71,9 @@ function buildLedGrid() {
 
 function setLed(row, col, on) {
     ledState[row][col] = on;
+    window.ledState[row][col] = on;
     const idx  = row * 5 + col;
-    const cell = ledMatrixEl.children[idx];
+    const cell = ledMatrixEl?.children[idx];
     if (!cell) return;
     if (on) cell.classList.add('on');
     else    cell.classList.remove('on');
@@ -243,11 +245,33 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     // CMD buttons (HEART/SMILE/CLEAR etc)
+    // Known LED patterns so 3D board mirrors presets instantly
+    const cmdLedPatterns = {
+        HEART:  [[0,1,0,1,0],[1,1,1,1,1],[1,1,1,1,1],[0,1,1,1,0],[0,0,1,0,0]],
+        SMILE:  [[0,0,0,0,0],[0,1,0,1,0],[0,0,0,0,0],[1,0,0,0,1],[0,1,1,1,0]],
+        SAD:    [[0,0,0,0,0],[0,1,0,1,0],[0,0,0,0,0],[0,1,1,1,0],[1,0,0,0,1]],
+        CLEAR:  [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
+    };
+
     cmdButtons.forEach(btn => {
         const cmd = btn.dataset.cmd;
         btn.addEventListener('click', () => {
             if (!cmd) return;
             sendLine('CMD:' + cmd);
+
+            // Update ledState so 3D board mirrors the preset
+            const pattern = cmdLedPatterns[cmd];
+            if (pattern && window.ledState) {
+                for (let r = 0; r < 5; r++) {
+                    for (let c = 0; c < 5; c++) {
+                        const on = !!pattern[r][c];
+                        window.ledState[r][c] = on;
+                        // Also update the visual grid
+                        setLed(r, c, on);
+                    }
+                }
+            }
+
             const activityMsg = {
                 'HEART': '❤️ Showing heart!',
                 'SMILE': '😊 Showing smile!',

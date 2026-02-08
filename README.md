@@ -28,8 +28,7 @@ Built for learning, teaching, hacking, and having fun — from beginners 🐣 to
 | ⌨️ Keyboard Shortcuts | Space, 1-8, P, F, K, Esc |
 | 🔔 Toast Notifications | Pop-up alerts for connect/disconnect/errors |
 | 🎯 Onboarding | First-visit welcome overlay |
-| 🎲 3D Board | Interactive Three.js micro:bit with live sensor-driven tilt, LEDs, buttons |
-| 🎨 8 Board Styles | Classic, Realistic, Cartoon, X-Ray, Blueprint, Neon, Crystal, Retro |
+| 🎲 3D Board | 5 interactive Three.js models: micro:bit, Buggy, Arm, Balance, Weather |
 | 📱 PWA | Installable, offline-capable progressive web app |
 | 📱 Mobile Responsive | Scrollable tabs, stacked layout on small screens |
 | 👶/🧙 Dual Mode | Beginner (safe, clean) and Expert (raw JSON, bench) |
@@ -55,10 +54,16 @@ Built for learning, teaching, hacking, and having fun — from beginners 🐣 to
     ├── ble.js         📡 Bluetooth connect/disconnect/reconnect, UART chunking
     ├── sensors.js     📊 UART parsing, sensor display, calibration, graph + 3D hooks
     ├── controls.js    🎛️ LED matrix, buzzer, tabs, bench, theme, init
-    ├── servos.js      ⚙️ Servo sliders, gauges, trim, angle sending
+    ├── servos.js      ⚙️ Servo sliders, gauges, trim, 3D hooks
     ├── graph.js       📈 Chart.js graph, fullscreen, recording, annotations
-    ├── board3d.js     🎲 Three.js 3D micro:bit model with live data
-    └── others.js      ✨ Extra controls (LED, pin, PWM, joystick, servo2)
+    ├── board3d.js     🎲 3D engine: scene, camera, orbit, model switcher
+    ├── others.js      ✨ Extra controls (LED, pin, PWM, joystick, servo2)
+    └── models/
+        ├── microbit.js 🎲 micro:bit V2 board
+        ├── buggy.js    🚗 Robot Buggy
+        ├── arm.js      🦾 Robot Arm
+        ├── balance.js  🎯 Balance Game
+        └── weather.js  🌦️ Weather Station
 ```
 
 ---
@@ -146,49 +151,34 @@ All values update every 100–200ms.
 - Checkbox state persists across sessions via localStorage
 
 ### 🎲 3D Board (Tab 6)
-Interactive Three.js model of the BBC micro:bit V2. Drag to rotate, scroll to zoom, touch pinch supported.
+Interactive Three.js models with live sensor data. Drag to rotate, scroll to zoom, touch pinch.
 
-**8 Visual Styles** (dropdown selector, saved to localStorage):
+**5 Models** (dropdown selector, saved to localStorage):
 
-| Style | PCB | LEDs | Background | Feel |
-|-------|-----|------|-----------|------|
-| 🌑 **Classic** | Dark navy | Red | Transparent | Default |
-| 🟢 **Realistic** | Green PCB | Red-orange | Transparent | Maker |
-| 🧸 **Cartoon** | Purple, matte | Pink-red | White | Kids |
-| 💀 **X-Ray** | Transparent blue | Green glow | Dark blue | Sci-fi |
-| 📐 **Blueprint** | Wireframe blue | Blue glow | Dark navy | Technical |
-| 🔥 **Neon** | Black | Magenta, intense | Near-black | Cyberpunk |
-| 💎 **Crystal** | Glass transparent | White/ice | Transparent | Elegant |
-| 🪵 **Retro** | Wood brown | Amber/orange | Dark brown | Steampunk |
+| Model | What Animates | Data Used |
+|-------|--------------|-----------|
+| 🎲 **micro:bit V2** | LEDs, tilt, buttons, pins, logo, temp tint | All sensors |
+| 🚗 **Robot Buggy** | Wheels spin, front steering, headlights, LED screen | Servo1, Accel, LEDs, Light, BtnA |
+| 🦾 **Robot Arm** | Base rotates (Servo1), arm lifts (Servo2), gripper (BtnA/B) | Servo1, Servo2, BtnA, BtnB |
+| 🎯 **Balance Game** | Ball rolls on tilting platform, targets to catch | Accel X/Y (physics sim) |
+| 🌦️ **Weather Station** | Thermometer, sun/cloud/rain, wind vane, sound bars | Temp, Light, Sound, Compass |
 
-**3D Components:**
-- **PCB board** — rounded rectangle with beveled edges
-- **5×5 LED matrix** — cubes with glow planes
-- **Button A & B** — cylindrical, with silk screen labels
-- **USB port** — top edge
-- **Battery connector** — back side
-- **Pin 0, 1, 2, 3V, GND** — gold torus rings with holes
-- **Logo touch** — gold cylinder
-- **Processor chip** — center IC
-- **Sensor chip** — small IC package
-- **Speaker grille** — 5 slots on back (V2)
-- **Antenna area** — subtle dark rectangle
+**Architecture** (modular, 6 files):
+- `board3d.js` (229 lines) — engine: scene, camera, orbit, model registry, animation loop
+- `models/microbit.js` (208 lines) — V2 board with all components
+- `models/buggy.js` (191 lines) — 4-wheel car with steering group
+- `models/arm.js` (168 lines) — 2-joint arm with gripper
+- `models/balance.js` (217 lines) — physics ball on platform
+- `models/weather.js` (297 lines) — station with rain particles
 
-**Live Data Sync (via BLE):**
-- 💡 **LEDs**: Firmware sends `LEDS:` telemetry (actual LED state via `led.point()`), 3D mirrors scrolling text, icons, animations — not just browser drawing board
-- 📱 **Tilt**: Board rotates smoothly matching accelerometer X/Y
-- 🔘 **Buttons A/B**: Depress + green glow when physically pressed
-- ✋ **Touch P0/P1/P2**: Pin rings pulse gold with sine animation
-- ✨ **Logo**: Glows on touch
-- 🌡️ **Temperature**: PCB color shifts subtly with heat (style-aware)
-- 🎮 **Preset icons**: CMD:HEART/SMILE/SAD/CLEAR update 3D LEDs instantly
+Models register on `window.board3dModels` and expose `create()`, `update()`, `destroy()`.
 
 **Controls:**
-- 🎨 **Style selector** — dropdown to switch between 8 visual styles
-- 🔄 **Reset View** — snap back to default angle
+- 🎲 **Model selector** — dropdown to switch models instantly
+- 🔄 **Reset View** — snap to model's default camera angle
 - 🔁 **Auto Rotate** — continuous orbit
 - 📡 **Live Sync** — toggle sensor-driven animations on/off
-- Info pills show live accelerometer + temperature values
+- Info pills: live accelerometer + temperature
 
 ### 🔧 Bench (Tab 7, Expert only)
 - Send raw commands: `BENCH:PING`, `BENCH:STATUS`, `BENCH:RESET`
@@ -436,7 +426,8 @@ Colors rotate through a palette of 10 colorblind-friendly colors.
 5. `servos.js` — Servo sliders, gauges, trim, connection-aware enable/disable
 6. `others.js` — Others tab controls (individual LED, pin, PWM, joystick)
 7. `graph.js` — Chart.js setup, datasets, recording, fullscreen, annotations, export
-8. `board3d.js` — Three.js scene, 3D micro:bit model, live sensor hooks, orbit controls
+8. `models/*.js` — 5 model files register on `window.board3dModels`
+9. `board3d.js` — 3D engine, loads saved model, starts animation loop
 
 ---
 
@@ -466,7 +457,7 @@ User-initiated disconnect does **not** trigger auto-reconnect.
 | `mb_calibration` | JSON with accel offset, sound/light baselines, compass status |
 | `mb_servo1_trim` | Servo 1 trim offset (-15 to +15) |
 | `mb_servo2_trim` | Servo 2 trim offset (-15 to +15) |
-| `mb_board3d_style` | 3D board visual style (classic/realistic/cartoon/xray/blueprint/neon/crystal/retro) |
+| `mb_board3d_model` | 3D model name (microbit/buggy/arm/balance/weather) |
 
 ---
 

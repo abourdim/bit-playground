@@ -95,10 +95,12 @@
     const raw = Math.min(180, Math.max(0, parseInt(s1Num.value || 0, 10)));
     const v = applyTrim(raw, servo1Trim);
     if (typeof writeUART === 'function') writeUART('SERVO1:' + v);
+    if (typeof board3dUpdate === 'function') board3dUpdate('servo1', v);
     if (typeof addActivity === 'function') addActivity('⚙️ Motor 1 → ' + raw + '°' + (servo1Trim ? ' (trim ' + (servo1Trim>0?'+':'') + servo1Trim + '° = ' + v + '°)' : ''), 'sent');
   });
   s1Off && s1Off.addEventListener('click', () => {
     if (typeof writeUART === 'function') writeUART('SERVO1:OFF');
+    if (typeof board3dUpdate === 'function') board3dUpdate('servo1', 90);
     if (typeof addActivity === 'function') addActivity('⏹️ Motor 1 stopped', 'sent');
   });
 
@@ -106,10 +108,12 @@
     const raw = Math.min(180, Math.max(0, parseInt(s2Num.value || 0, 10)));
     const v = applyTrim(raw, servo2Trim);
     if (typeof writeUART === 'function') writeUART('SERVO2:' + v);
+    if (typeof board3dUpdate === 'function') board3dUpdate('servo2', v);
     if (typeof addActivity === 'function') addActivity('⚙️ Motor 2 → ' + raw + '°' + (servo2Trim ? ' (trim ' + (servo2Trim>0?'+':'') + servo2Trim + '° = ' + v + '°)' : ''), 'sent');
   });
   s2Off && s2Off.addEventListener('click', () => {
     if (typeof writeUART === 'function') writeUART('SERVO2:OFF');
+    if (typeof board3dUpdate === 'function') board3dUpdate('servo2', 90);
     if (typeof addActivity === 'function') addActivity('⏹️ Motor 2 stopped', 'sent');
   });
 

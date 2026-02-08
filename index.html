@@ -21,6 +21,11 @@
     <script src="js/servos.js" defer></script>
     <script src="js/others.js" defer></script>
     <script src="js/graph.js" defer></script>
+    <script src="js/models/microbit.js" defer></script>
+    <script src="js/models/buggy.js" defer></script>
+    <script src="js/models/arm.js" defer></script>
+    <script src="js/models/balance.js" defer></script>
+    <script src="js/models/weather.js" defer></script>
     <script src="js/board3d.js" defer></script>
 </head>
 <body>
@@ -1015,15 +1020,12 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
         </div>
 
         <div class="board3d-controls">
-            <select id="board3dStyle" class="board3d-select" aria-label="3D model style">
-                <option value="classic">🌑 Classic</option>
-                <option value="realistic">🟢 Realistic</option>
-                <option value="cartoon">🧸 Cartoon</option>
-                <option value="xray">💀 X-Ray</option>
-                <option value="blueprint">📐 Blueprint</option>
-                <option value="neon">🔥 Neon</option>
-                <option value="crystal">💎 Crystal</option>
-                <option value="retro">🪵 Retro</option>
+            <select id="board3dModel" class="board3d-select" aria-label="3D model">
+                <option value="microbit">🎲 micro:bit V2</option>
+                <option value="buggy">🚗 Robot Buggy</option>
+                <option value="arm">🦾 Robot Arm</option>
+                <option value="balance">🎯 Balance Game</option>
+                <option value="weather">🌦️ Weather Station</option>
             </select>
             <button id="board3dResetView" class="secondary small">🔄 Reset View</button>
             <button id="board3dAutoRotate" class="secondary small">🔁 Auto Rotate</button>
