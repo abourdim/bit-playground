@@ -121,6 +121,7 @@ function handleUartLine(line) {
             if (!Number.isNaN(v)) {
                 if (tempValueEl) tempValueEl.textContent = v;
                 pushPoint(tempChart, v);
+                if (typeof graphPushData === 'function') graphPushData('temp', v, 'Temp');
             }
             return;
         }
@@ -130,6 +131,7 @@ function handleUartLine(line) {
             if (!Number.isNaN(v)) {
                 if (lightValueEl) lightValueEl.textContent = v;
                 pushPoint(lightChart, v);
+                if (typeof graphPushData === 'function') graphPushData('light', v, 'Light');
             }
             return;
         }
@@ -139,6 +141,7 @@ function handleUartLine(line) {
             if (!Number.isNaN(v)) {
                 if (soundValueEl) soundValueEl.textContent = v;
                 pushPoint(soundChart, v);
+                if (typeof graphPushData === 'function') graphPushData('sound', v, 'Sound');
             }
             return;
         }
@@ -160,6 +163,11 @@ function handleUartLine(line) {
                     pushPoint(accelYChart, ay);
                     pushPoint(accelZChart, az);
                     pushPoint(motionChart, mag);
+                    if (typeof graphPushData === 'function') {
+                        graphPushData('accelX', ax, 'Accel X');
+                        graphPushData('accelY', ay, 'Accel Y');
+                        graphPushData('accelZ', az, 'Accel Z');
+                    }
                 }
             }
             return;
@@ -194,6 +202,7 @@ function handleUartLine(line) {
             if (!Number.isNaN(v)) {
                 setButtonPill(touchP0StateEl, touchP0DotEl, touchP0TextEl, v === 1);
                 pushPoint(touchP0Chart, v);
+                if (typeof graphPushData === 'function') graphPushData('touchP0', v, 'Touch P0');
                 if (v === 1 && typeof addActivity === 'function') {
                     addActivity('👆 Touch P0!', 'received');
                 }
@@ -206,6 +215,7 @@ function handleUartLine(line) {
             if (!Number.isNaN(v)) {
                 setButtonPill(touchP1StateEl, touchP1DotEl, touchP1TextEl, v === 1);
                 pushPoint(touchP1Chart, v);
+                if (typeof graphPushData === 'function') graphPushData('touchP1', v, 'Touch P1');
             }
             return;
         }
@@ -215,6 +225,7 @@ function handleUartLine(line) {
             if (!Number.isNaN(v)) {
                 setButtonPill(touchP2StateEl, touchP2DotEl, touchP2TextEl, v === 1);
                 pushPoint(touchP2Chart, v);
+                if (typeof graphPushData === 'function') graphPushData('touchP2', v, 'Touch P2');
             }
             return;
         }
@@ -233,8 +244,9 @@ function handleUartLine(line) {
 
         if (t.startsWith('COMPASS:')) {
             const v = parseInt(t.slice(8), 10);
-            if (!Number.isNaN(v) && compassHeadingValueEl) {
-                compassHeadingValueEl.textContent = v;
+            if (!Number.isNaN(v)) {
+                if (compassHeadingValueEl) compassHeadingValueEl.textContent = v;
+                if (typeof graphPushData === 'function') graphPushData('compass', v, 'Compass');
             }
             return;
         }
@@ -255,6 +267,19 @@ function handleUartLine(line) {
         if (t.startsWith('SERVO2_POS:')) {
             const v = parseInt(t.slice(11), 10);
             if (!Number.isNaN(v) && typeof updateServoGauge === 'function') updateServoGauge('servo2Needle', v, 'servo2GaugeValue');
+            return;
+        }
+
+        // Custom graph data: GRAPH:Label:Value
+        if (t.startsWith('GRAPH:')) {
+            const parts = t.slice(6).split(':');
+            if (parts.length === 2) {
+                const label = parts[0].trim();
+                const v = parseFloat(parts[1]);
+                if (label && !Number.isNaN(v) && typeof graphPushData === 'function') {
+                    graphPushData('custom_' + label, v, label);
+                }
+            }
             return;
         }
 

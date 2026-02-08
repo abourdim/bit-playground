@@ -15,6 +15,7 @@
     <script src="js/controls.js" defer></script>
     <script src="js/servos.js" defer></script>
     <script src="js/others.js" defer></script>
+    <script src="js/graph.js" defer></script>
 </head>
 <body>
 <div class="app beginner-mode">
@@ -209,6 +210,14 @@
                             style="flex:1;">
                             <span class="mode-icon">🎮</span>
                             GamePad
+                        </button>
+                        <button
+                            id="graphTabBtn"
+                            class="mode-btn tab-btn"
+                            data-page="graph"
+                            style="flex:1;">
+                            <span class="mode-icon">📈</span>
+                            Graph
                         </button>
                         <button
                             id="benchTabBtn"
@@ -785,6 +794,103 @@
                             </div>
                         </div>
                     </div>
+<!-- GRAPH PAGE -->
+<div class="tab-page" data-page="graph">
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <div class="card-title">
+                    <span class="icon">📈</span>
+                    Live Graph
+                </div>
+                <div class="card-subtitle">
+                    Plot sensor data and custom values in real time.
+                </div>
+            </div>
+        </div>
+
+        <!-- Graph Type Selector -->
+        <div class="graph-controls">
+            <div class="graph-row">
+                <label class="graph-label">Type</label>
+                <div class="graph-type-group">
+                    <button class="graph-type-btn active" data-type="line" title="Line">📈 Line</button>
+                    <button class="graph-type-btn" data-type="bar" title="Bar">📊 Bar</button>
+                    <button class="graph-type-btn" data-type="scatter" title="Scatter">🔘 Scatter</button>
+                    <button class="graph-type-btn" data-type="area" title="Area">📐 Area</button>
+                    <button class="graph-type-btn" data-type="realtime" title="Realtime">⚡ Realtime</button>
+                </div>
+            </div>
+
+            <!-- Sensor Toggles -->
+            <div class="graph-row">
+                <label class="graph-label">Sensors</label>
+                <div class="graph-sensor-toggles">
+                    <label class="graph-toggle"><input type="checkbox" data-sensor="accelX"> Accel X</label>
+                    <label class="graph-toggle"><input type="checkbox" data-sensor="accelY"> Accel Y</label>
+                    <label class="graph-toggle"><input type="checkbox" data-sensor="accelZ"> Accel Z</label>
+                    <label class="graph-toggle"><input type="checkbox" data-sensor="compass"> Compass</label>
+                    <label class="graph-toggle"><input type="checkbox" data-sensor="sound"> Sound</label>
+                    <label class="graph-toggle"><input type="checkbox" data-sensor="light"> Light</label>
+                    <label class="graph-toggle"><input type="checkbox" data-sensor="temp"> Temp</label>
+                    <label class="graph-toggle"><input type="checkbox" data-sensor="touchP0"> Touch P0</label>
+                    <label class="graph-toggle"><input type="checkbox" data-sensor="touchP1"> Touch P1</label>
+                    <label class="graph-toggle"><input type="checkbox" data-sensor="touchP2"> Touch P2</label>
+                </div>
+            </div>
+
+            <!-- Options Row -->
+            <div class="graph-row">
+                <label class="graph-label">Options</label>
+                <div class="graph-options">
+                    <div class="graph-option">
+                        <label>Window</label>
+                        <select id="graphWindow">
+                            <option value="50">50 pts</option>
+                            <option value="100" selected>100 pts</option>
+                            <option value="200">200 pts</option>
+                            <option value="500">500 pts</option>
+                        </select>
+                    </div>
+                    <div class="graph-option">
+                        <label>Y-Axis</label>
+                        <select id="graphYAxis">
+                            <option value="auto" selected>Auto</option>
+                            <option value="0-255">0 – 255</option>
+                            <option value="0-1023">0 – 1023</option>
+                            <option value="-1024-1024">±1024</option>
+                            <option value="0-360">0 – 360</option>
+                        </select>
+                    </div>
+                    <div class="graph-option">
+                        <label>Lines</label>
+                        <select id="graphLineWidth">
+                            <option value="1">Thin</option>
+                            <option value="2" selected>Normal</option>
+                            <option value="3">Thick</option>
+                        </select>
+                    </div>
+                    <label class="graph-toggle"><input type="checkbox" id="graphGrid" checked> Grid</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart Canvas -->
+        <div class="graph-chart-wrap" id="graphChartWrap">
+            <canvas id="graphCanvas"></canvas>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="graph-actions">
+            <button id="graphSimBtn" class="secondary">🎲 Simulate</button>
+            <button id="graphPauseBtn" class="secondary">⏸ Pause</button>
+            <button id="graphClearBtn" class="secondary">🗑 Clear</button>
+            <button id="graphExportPng" class="secondary">📷 PNG</button>
+            <button id="graphExportCsv" class="secondary">📄 CSV</button>
+            <span class="graph-point-count" id="graphPointCount">0 pts</span>
+        </div>
+    </div>
+</div>
 <!-- BENCH PAGE -->
 <div class="tab-page" data-page="bench">
     <div class="card">
