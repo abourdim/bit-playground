@@ -25,9 +25,10 @@ Built for learning, teaching, hacking, and having fun — from beginners 🐣 to
 | 📝 Annotations | Add timestamped notes directly on the graph |
 | 🎨 4 Themes | Stealth (dark), Neon (cyberpunk), Arctic (light), Blaze (warm light) |
 | 📖 Code Snippets | MakeCode examples built into the Graph tab |
-| ⌨️ Keyboard Shortcuts | Space, 1-7, P, F, K, Esc |
+| ⌨️ Keyboard Shortcuts | Space, 1-8, P, F, K, Esc |
 | 🔔 Toast Notifications | Pop-up alerts for connect/disconnect/errors |
 | 🎯 Onboarding | First-visit welcome overlay |
+| 🎲 3D Board | Interactive Three.js micro:bit with live sensor-driven tilt, LEDs, buttons |
 | 📱 PWA | Installable, offline-capable progressive web app |
 | 📱 Mobile Responsive | Scrollable tabs, stacked layout on small screens |
 | 👶/🧙 Dual Mode | Beginner (safe, clean) and Expert (raw JSON, bench) |
@@ -38,8 +39,8 @@ Built for learning, teaching, hacking, and having fun — from beginners 🐣 to
 
 ```
 📦 micro:bit Playground
-├── index.html         🧱 Main app (all 7 tabs, overlays, onboarding)
-├── styles.css         🎨 3700+ lines of themed styles & animations
+├── index.html         🧱 Main app (all 8 tabs, overlays, onboarding)
+├── styles.css         🎨 3900+ lines of themed styles & animations
 ├── manifest.json      📱 PWA manifest for install-to-homescreen
 ├── sw.js              📦 Service worker for offline caching
 ├── logo.svg           🖼️ Animated project logo
@@ -51,10 +52,11 @@ Built for learning, teaching, hacking, and having fun — from beginners 🐣 to
 └── js/
     ├── core.js        🏗️ Event bus, DOM helpers, logging, toasts, keyboard shortcuts
     ├── ble.js         📡 Bluetooth connect/disconnect/reconnect, UART chunking
-    ├── sensors.js     📊 UART parsing, sensor display, graph hooks
+    ├── sensors.js     📊 UART parsing, sensor display, calibration, graph + 3D hooks
     ├── controls.js    🎛️ LED matrix, buzzer, tabs, bench, theme, init
-    ├── servos.js      ⚙️ Servo sliders, gauges, angle sending
+    ├── servos.js      ⚙️ Servo sliders, gauges, trim, angle sending
     ├── graph.js       📈 Chart.js graph, fullscreen, recording, annotations
+    ├── board3d.js     🎲 Three.js 3D micro:bit model with live data
     └── others.js      ✨ Extra controls (LED, pin, PWM, joystick, servo2)
 ```
 
@@ -142,7 +144,37 @@ All values update every 100–200ms.
 - **Code Snippets**: Collapsible MakeCode examples
 - Checkbox state persists across sessions via localStorage
 
-### 🔧 Bench (Tab 6, Expert only)
+### 🎲 3D Board (Tab 6)
+Interactive Three.js model of the BBC micro:bit V2. Drag to rotate, scroll to zoom.
+
+**3D Components:**
+- **PCB board** — dark rounded rectangle with beveled edges
+- **5×5 LED matrix** — red cubes with glow planes, mirrors the drawing board
+- **Button A & B** — cylindrical, depress and glow green when pressed via BLE
+- **USB port** — silver box, top edge
+- **Battery connector** — white box, back side
+- **Pin 0, 1, 2, 3V, GND** — gold torus rings with holes, pins pulse gold on touch
+- **Logo touch** — gold cylinder, glows on logo touch
+- **Processor chip** — black IC, center
+- **Sensor chip** — small IC package
+- **Speaker grille** — 5 slots on the back (V2)
+- **Antenna area** — subtle dark rectangle
+
+**Live Data (when connected via BLE):**
+- 📱 **Tilt**: Board rotates smoothly matching accelerometer X/Y
+- 💡 **LEDs**: Mirror the LED matrix state (drawing + presets like HEART/SMILE/SAD)
+- 🔘 **Buttons A/B**: Depress + green glow when physically pressed
+- ✋ **Touch P0/P1/P2**: Pin rings pulse gold with sine animation
+- ✨ **Logo**: Glows on touch
+- 🌡️ **Temperature**: PCB color shifts blue (cold) → red (hot)
+
+**Controls:**
+- 🔄 **Reset View** — snap back to default angle
+- 🔁 **Auto Rotate** — continuous orbit
+- 📡 **Live Sync** — toggle sensor-driven animations on/off
+- Info pills show live accelerometer + temperature values
+
+### 🔧 Bench (Tab 7, Expert only)
 - Send raw commands: `BENCH:PING`, `BENCH:STATUS`, `BENCH:RESET`
 - View raw firmware responses
 - Prototyping and debugging workspace
@@ -184,7 +216,7 @@ All calibrations are **user-triggered only** (nothing happens at startup). Setti
 - **Reset**: Click "Reset" to zero trim
 - **Storage**: Saved per servo in `localStorage`
 
-### ✨ More (Tab 7)
+### ✨ More (Tab 8)
 Extra controls for advanced use:
 - Individual LED on/off control
 - Digital/analog pin read & write
@@ -285,7 +317,7 @@ Theme selection saved to `localStorage`.
 | Key | Action |
 |-----|--------|
 | `Space` | Connect / Disconnect |
-| `1`–`7` | Switch tabs (Controls, Sensors, Motors, GamePad, Graph, Bench, More) |
+| `1`–`8` | Switch tabs (Controls, Sensors, Motors, GamePad, Graph, 3D, Bench, More) |
 | `P` | Pause / Resume graph |
 | `F` | Fullscreen graph |
 | `K` | Toggle shortcuts help overlay |
@@ -374,17 +406,19 @@ Colors rotate through a palette of 10 colorblind-friendly colors.
 │  Buzzer  ◄──────  BUZZ:440,200 ─  controls.js       │
 │  Graph   ──────── GRAPH:X:42 ──►  graph.js  (chart) │
 │  Simulate ◄─────  SIMULATE:ON ──  graph.js          │
+│  3D View ◄────── sensors.js ────  board3d.js (Three) │
 └──────────────┘                   └──────────────────┘
 ```
 
 **Script load order** (all deferred):
 1. `core.js` — DOM refs, event bus, toasts, keyboard shortcuts, logging
 2. `ble.js` — BLE connect/disconnect/reconnect, UART chunking (20-byte MTU)
-3. `sensors.js` — Parse incoming telemetry, update sensor UI, push data to graph
+3. `sensors.js` — Parse incoming telemetry, update sensor UI, push data to graph + 3D
 4. `controls.js` — LED matrix, buzzer, tabs, bench, theme picker, DOMContentLoaded init
-5. `servos.js` — Servo sliders, gauges, connection-aware enable/disable
+5. `servos.js` — Servo sliders, gauges, trim, connection-aware enable/disable
 6. `others.js` — Others tab controls (individual LED, pin, PWM, joystick)
 7. `graph.js` — Chart.js setup, datasets, recording, fullscreen, annotations, export
+8. `board3d.js` — Three.js scene, 3D micro:bit model, live sensor hooks, orbit controls
 
 ---
 

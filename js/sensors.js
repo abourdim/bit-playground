@@ -154,6 +154,7 @@ function handleUartLine(line) {
                 if (tempValueEl) tempValueEl.textContent = v;
                 pushPoint(tempChart, v);
                 if (typeof graphPushData === 'function') graphPushData('temp', v, 'Temp');
+                if (typeof board3dUpdate === 'function') board3dUpdate('temp', v);
             }
             return;
         }
@@ -208,6 +209,7 @@ function handleUartLine(line) {
                         graphPushData('accelY', cy, 'Accel Y');
                         graphPushData('accelZ', cz, 'Accel Z');
                     }
+                    if (typeof board3dUpdate === 'function') board3dUpdate('accel', { x: cx, y: cy, z: cz });
                 }
             }
             return;
@@ -218,6 +220,7 @@ function handleUartLine(line) {
             if (!Number.isNaN(v)) {
                 setButtonPill(btnAStateEl, btnADotEl, btnATextEl, v === 1);
                 pushPoint(btnAChart, v);
+                if (typeof board3dUpdate === 'function') board3dUpdate('btnA', v === 1);
                 if (v === 1 && typeof addActivity === 'function') {
                     addActivity('🔴 Button A pressed!', 'received');
                 }
@@ -230,6 +233,7 @@ function handleUartLine(line) {
             if (!Number.isNaN(v)) {
                 setButtonPill(btnBStateEl, btnBDotEl, btnBTextEl, v === 1);
                 pushPoint(btnBChart, v);
+                if (typeof board3dUpdate === 'function') board3dUpdate('btnB', v === 1);
                 if (v === 1 && typeof addActivity === 'function') {
                     addActivity('🔵 Button B pressed!', 'received');
                 }
@@ -243,6 +247,7 @@ function handleUartLine(line) {
                 setButtonPill(touchP0StateEl, touchP0DotEl, touchP0TextEl, v === 1);
                 pushPoint(touchP0Chart, v);
                 if (typeof graphPushData === 'function') graphPushData('touchP0', v, 'Touch P0');
+                if (typeof board3dUpdate === 'function') board3dUpdate('touchP0', v === 1);
                 if (v === 1 && typeof addActivity === 'function') {
                     addActivity('👆 Touch P0!', 'received');
                 }
@@ -256,6 +261,7 @@ function handleUartLine(line) {
                 setButtonPill(touchP1StateEl, touchP1DotEl, touchP1TextEl, v === 1);
                 pushPoint(touchP1Chart, v);
                 if (typeof graphPushData === 'function') graphPushData('touchP1', v, 'Touch P1');
+                if (typeof board3dUpdate === 'function') board3dUpdate('touchP1', v === 1);
             }
             return;
         }
@@ -266,6 +272,7 @@ function handleUartLine(line) {
                 setButtonPill(touchP2StateEl, touchP2DotEl, touchP2TextEl, v === 1);
                 pushPoint(touchP2Chart, v);
                 if (typeof graphPushData === 'function') graphPushData('touchP2', v, 'Touch P2');
+                if (typeof board3dUpdate === 'function') board3dUpdate('touchP2', v === 1);
             }
             return;
         }
@@ -275,6 +282,7 @@ function handleUartLine(line) {
             if (!Number.isNaN(v)) {
                 setButtonPill(logoStateEl, logoDotEl, logoTextEl, v === 1);
                 pushPoint(logoChart, v);
+                if (typeof board3dUpdate === 'function') board3dUpdate('logo', v === 1);
                 if (v === 1 && typeof addActivity === 'function') {
                     addActivity('✨ Logo touched!', 'received');
                 }
@@ -287,6 +295,7 @@ function handleUartLine(line) {
             if (!Number.isNaN(v)) {
                 if (compassHeadingValueEl) compassHeadingValueEl.textContent = v;
                 if (typeof graphPushData === 'function') graphPushData('compass', v, 'Compass');
+                if (typeof board3dUpdate === 'function') board3dUpdate('compass', v);
             }
             return;
         }

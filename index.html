@@ -12,6 +12,7 @@
     <!-- Chart.js: for full offline support, download and serve locally -->
     <!-- e.g. <script src="chart.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <!-- Modular scripts (load order matters) -->
     <script src="js/core.js" defer></script>
     <script src="js/ble.js" defer></script>
@@ -20,6 +21,7 @@
     <script src="js/servos.js" defer></script>
     <script src="js/others.js" defer></script>
     <script src="js/graph.js" defer></script>
+    <script src="js/board3d.js" defer></script>
 </head>
 <body>
 <div class="app beginner-mode">
@@ -222,6 +224,14 @@
                             style="flex:1;">
                             <span class="mode-icon">📈</span>
                             Graph
+                        </button>
+                        <button
+                            id="board3dTabBtn"
+                            class="mode-btn tab-btn"
+                            data-page="board3d"
+                            style="flex:1;">
+                            <span class="mode-icon">🎲</span>
+                            3D
                         </button>
                         <button
                             id="benchTabBtn"
@@ -988,6 +998,44 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
         </details>
     </div>
 </div>
+
+<!-- 3D BOARD PAGE -->
+<div class="tab-page" data-page="board3d">
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <div class="card-title">
+                    <span class="icon">🎲</span>
+                    3D micro:bit
+                </div>
+                <div class="card-subtitle">
+                    Interactive 3D board — mirrors live sensor data
+                </div>
+            </div>
+        </div>
+
+        <div class="board3d-controls">
+            <button id="board3dResetView" class="secondary small">🔄 Reset View</button>
+            <button id="board3dAutoRotate" class="secondary small">🔁 Auto Rotate</button>
+            <button id="board3dLiveSync" class="secondary small active">📡 Live Sync</button>
+            <div class="board3d-info">
+                <span id="board3dAccelInfo" class="board3d-pill">Accel: –</span>
+                <span id="board3dTempInfo" class="board3d-pill">Temp: –</span>
+            </div>
+        </div>
+
+        <div class="board3d-container" id="board3dContainer">
+            <canvas id="board3dCanvas"></canvas>
+        </div>
+
+        <div class="board3d-legend">
+            <span>🖱️ Drag to rotate</span>
+            <span>🔍 Scroll to zoom</span>
+            <span>📡 Live: LEDs, tilt, buttons, touch</span>
+        </div>
+    </div>
+</div>
+
 <!-- BENCH PAGE -->
 <div class="tab-page" data-page="bench">
     <div class="card">
@@ -1608,7 +1656,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
         <div class="overlay-title">⌨️ Keyboard Shortcuts</div>
         <div class="shortcut-grid">
             <div class="shortcut-row"><kbd>Space</kbd> <span>Connect / Disconnect</span></div>
-            <div class="shortcut-row"><kbd>1</kbd>–<kbd>7</kbd> <span>Switch tabs</span></div>
+            <div class="shortcut-row"><kbd>1</kbd>–<kbd>8</kbd> <span>Switch tabs</span></div>
             <div class="shortcut-row"><kbd>P</kbd> <span>Pause / Resume graph</span></div>
             <div class="shortcut-row"><kbd>F</kbd> <span>Fullscreen graph</span></div>
             <div class="shortcut-row"><kbd>K</kbd> <span>Toggle this help</span></div>

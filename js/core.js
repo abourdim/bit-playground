@@ -123,8 +123,8 @@ document.addEventListener('keydown', (e) => {
         return;
     }
 
-    // 1-7 = switch tabs
-    const tabKeys = ['Digit1','Digit2','Digit3','Digit4','Digit5','Digit6','Digit7'];
+    // 1-8 = switch tabs
+    const tabKeys = ['Digit1','Digit2','Digit3','Digit4','Digit5','Digit6','Digit7','Digit8'];
     const tabIdx = tabKeys.indexOf(e.code);
     if (tabIdx >= 0) {
         const visibleTabs = Array.from(tabButtons).filter(b => {
