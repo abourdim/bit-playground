@@ -403,19 +403,31 @@ Colors rotate through a palette of 10 colorblind-friendly colors.
 ## 🏗️ Architecture
 
 ```
-┌──────────────┐     BLE UART      ┌──────────────────┐
-│  micro:bit   │ ◄──────────────► │   Browser App     │
-│ (makecode.ts)│   20-byte chunks  │                   │
-│  V6.0        │                   │  core.js    (bus)  │
-│  Sensors ──────── TEMP:23 ──────►  sensors.js (parse)│
-│  LEDs    ◄──────  LM:1F0E... ───  controls.js (UI)  │
-│  LEDs    ──────── LEDS:10,31.. ►  board3d.js  (3D)  │
-│  Servos  ◄──────  SERVO1:90 ────  servos.js  (PWM)  │
-│  Buzzer  ◄──────  BUZZ:440,200 ─  controls.js       │
-│  Graph   ──────── GRAPH:X:42 ──►  graph.js  (chart) │
-│  Simulate ◄─────  SIMULATE:ON ──  graph.js          │
-│  Calibrate ◄────  CAL:COMPASS ──  sensors.js        │
-└──────────────┘                   └──────────────────┘
+┌──────────────┐     BLE UART      ┌────────────────────────┐
+│  micro:bit   │ ◄──────────────► │   Browser App            │
+│ (makecode.ts)│   20-byte chunks  │                          │
+│  V6.0        │                   │  core.js    (bus, toasts)│
+│              │                   │  ble.js     (connect)    │
+│  Sensors ──────── TEMP:23 ──────►  sensors.js (parse)      │
+│  LEDs    ◄──────  LM:1F0E... ───  controls.js (UI)        │
+│  LEDs    ──────── LEDS:10,31.. ►  sensors.js → board3d    │
+│  Servos  ◄──────  SERVO1:90 ────  servos.js  → board3d    │
+│  Buzzer  ◄──────  BUZZ:440,200 ─  controls.js             │
+│  Graph   ──────── GRAPH:X:42 ──►  graph.js   (chart)      │
+│  Simulate ◄─────  SIMULATE:ON ──  graph.js                │
+│  Calibrate ◄────  CAL:COMPASS ──  sensors.js              │
+└──────────────┘                   └────────────────────────┘
+                                          │
+                                   board3d.js (3D engine)
+                                   ┌──────┴──────┐
+                                   │ model registry│
+                                   ├──────────────┤
+                                   │ microbit.js  │ ← LEDs, tilt, buttons, pins
+                                   │ buggy.js     │ ← servo1, accel, light
+                                   │ arm.js       │ ← servo1, servo2, btnA/B
+                                   │ balance.js   │ ← accel X/Y (physics)
+                                   │ weather.js   │ ← temp, light, sound, compass
+                                   └──────────────┘
 ```
 
 **Script load order** (all deferred):
@@ -469,7 +481,7 @@ User-initiated disconnect does **not** trigger auto-reconnect.
 | CSS3 | Custom properties, keyframe animations, 4-theme system, responsive media queries |
 | JavaScript ES6+ | Vanilla, modular files, no build step needed |
 | Chart.js | Real-time charting (loaded via CDN, cacheable offline) |
-| Three.js r128 | 3D micro:bit board rendering (loaded via CDN) |
+| Three.js r128 | 3D model rendering: 5 interactive models (loaded via CDN) |
 | Web Bluetooth API | BLE UART communication |
 | Service Worker | Offline PWA caching |
 | MakeCode TypeScript | micro:bit V2 firmware |
@@ -515,14 +527,16 @@ All buttons feature fun, interactive styling:
 
 ## 💡 Project Ideas
 
-- 🤖 **Robot controller** — GamePad + Servos to drive a bot
-- 🌡️ **Weather station** — graph temperature and light over time
-- 🎵 **Sound meter** — monitor noise levels with graph annotations
-- 📐 **Motion tracker** — record accelerometer sessions and export CSV
-- 🎯 **Reaction game** — buttons + buzzer + LED matrix
-- 🏫 **Classroom dashboard** — students connect and compare sensor data
-- 🧪 **Science lab** — export CSV data for spreadsheet analysis
-- 📊 **Data journalism** — record sessions, annotate, export PNG charts
+- 🚗 **Robot buggy** — GamePad + Servos to drive a bot, watch it move in the 3D Buggy model
+- 🦾 **Robot arm** — Control 2 servos and see the 3D Arm respond in real time
+- 🌡️ **Weather station** — Graph temperature and light, watch the 3D Weather Station animate
+- 🎯 **Balance game** — Tilt the micro:bit and roll the ball to targets in 3D
+- 🎵 **Sound meter** — Monitor noise levels with graph annotations
+- 📐 **Motion tracker** — Record accelerometer sessions and export CSV
+- 🎯 **Reaction game** — Buttons + buzzer + LED matrix
+- 🏫 **Classroom dashboard** — Students connect and compare sensor data
+- 🧪 **Science lab** — Export CSV data for spreadsheet analysis
+- 📊 **Data journalism** — Record sessions, annotate, export PNG charts
 
 ---
 
