@@ -22,11 +22,7 @@ input.onPinPressed(TouchPin.P0, function () {
         bluetooth.uartWriteLine("EVENT:TOUCH_P0_PRESSED")
     }
 })
-input.onPinReleased(TouchPin.P2, function () {
-    if (btConnected) {
-        bluetooth.uartWriteLine("EVENT:TOUCH_P2_RELEASED")
-    }
-})
+// P2 touch events removed: conflicts with servo2 on P2 (same as P1 above)
 input.onPinReleased(TouchPin.P0, function () {
     if (btConnected) {
         bluetooth.uartWriteLine("EVENT:TOUCH_P0_RELEASED")
@@ -47,22 +43,18 @@ input.onButtonPressed(Button.A, function () {
         bluetooth.uartWriteLine("EVENT:BUTTON_A_PRESSED")
     }
 })
-input.onPinPressed(TouchPin.P2, function () {
-    if (btConnected) {
-        bluetooth.uartWriteLine("EVENT:TOUCH_P2_PRESSED")
-    }
-})
+// (P2 pressed event removed — see P2 released comment above)
 function handleLedMatrixHex(hex2: string) {
     if (hex2.length != 10) {
         bluetooth.uartWriteLine("LOG:LM_BAD_LENGTH:" + hex2.length)
         return
     }
     for (let row = 0; row <= 4; row++) {
-        pair = hex2.substr(row * 2, 2)
-        value = hexPairToByte(pair)
+        let pair = hex2.substr(row * 2, 2)
+        let value = hexPairToByte(pair)
         for (let col = 0; col <= 4; col++) {
             const mask = 1 << col
-            on = (value & mask) != 0
+            let on = (value & mask) != 0
             if (on) {
                 led.plot(col, row)
             } else {
@@ -74,26 +66,26 @@ function handleLedMatrixHex(hex2: string) {
 }
 // ---------- UART RX: commands from browser ----------
 bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () {
-    line = bluetooth.uartReadUntil(serial.delimiters(Delimiters.NewLine))
+    let line = bluetooth.uartReadUntil(serial.delimiters(Delimiters.NewLine))
     line = line.trim()
     // Echo back for debugging
     bluetooth.uartWriteLine("ECHO:" + line)
     if (line.substr(0, 5) == "TEXT:") {
-        msg = line.substr(5)
+        let msg = line.substr(5)
         if (msg.length > 0) {
             basic.showString(msg)
         }
         return
     }
     if (line.substr(0, 3) == "LM:") {
-        hex2 = line.substr(3)
+        let hex2 = line.substr(3)
         handleLedMatrixHex(hex2)
         return
     }
     // ======== TAB change from browser =========
     // Expect messages like: TAB:Controls, TAB:Senses, TAB:Servos, TAB:Others
     if (line.substr(0, 4) == "TAB:") {
-        tab = line.substr(4).toLowerCase()
+        let tab = line.substr(4).toLowerCase()
         currentTab = tab  // Store for conditional pin polling
         // Acknowledge back to browser
         bluetooth.uartWriteLine("TAB:ACK:" + tab)
@@ -110,6 +102,7 @@ bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () 
         pins.analogWritePin(AnalogPin.P1, 0)
         servo1Target = 0
         servo1Current = 0
+        servo1Active = false
         bluetooth.uartWriteLine("SERVO1:OFF:ACK")
         return
     }
@@ -117,19 +110,18 @@ bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () 
         pins.analogWritePin(AnalogPin.P2, 0)
         servo2Target = 0
         servo2Current = 0
+        servo2Active = false
         bluetooth.uartWriteLine("SERVO2:OFF:ACK")
         return
     }
     // Replace existing SERVO1: handling block with this
     if (line.substr(0, 7) == "SERVO1:") {
-        raw = line.substr(7)
-        b = parseFloat(raw)
+        let raw = line.substr(7)
+        let b = parseFloat(raw)
         if (!(isNaN(b))) {
-            angle = clampAngle(b)
-            // immediate write so telemetry reflects change and servo moves right away
-            pins.servoWritePin(AnalogPin.P1, angle)
-            servo1Current = angle
-            // start smooth move toward target (keeps previous behavior)
+            let angle = clampAngle(b)
+            servo1Active = true
+            // Let requestServoMove handle the pin write to avoid race condition
             requestServoMove(1, angle)
             bluetooth.uartWriteLine("SERVO1:ACK:" + angle)
             bluetooth.uartWriteLine("DBG:SERVO1_RECV:" + raw)
@@ -140,12 +132,11 @@ bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () 
     }
     // Replace existing SERVO2: handling block with this
     if (line.substr(0, 7) == "SERVO2:") {
-        raw2 = line.substr(7)
-        c = parseFloat(raw2)
+        let raw2 = line.substr(7)
+        let c = parseFloat(raw2)
         if (!(isNaN(c))) {
-            angle2 = clampAngle(c)
-            pins.servoWritePin(AnalogPin.P2, angle2)
-            servo2Current = angle2
+            let angle2 = clampAngle(c)
+            servo2Active = true
             requestServoMove(2, angle2)
             bluetooth.uartWriteLine("SERVO2:ACK:" + angle2)
             bluetooth.uartWriteLine("DBG:SERVO2_RECV:" + raw2)
@@ -283,12 +274,21 @@ bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () 
             bluetooth.uartWriteLine("OTHER:ACK:KEY:" + key)
             return
         }
-        // Pin control
+        // Pin control (guard P1/P2 against active servos)
         if (rest.substr(0, 4) == "PIN:") {
             const parts2 = rest.substr(4).split(":")
             if (parts2.length == 2) {
                 const pinName = parts2[0]  // D0, D1, D2, D8, D12, D16
                 const pinVal = parseInt(parts2[1])
+                // Block D1 if servo1 active, D2 if servo2 active
+                if (pinName == "D1" && servo1Active) {
+                    bluetooth.uartWriteLine("OTHER:NACK:PIN:D1:SERVO_ACTIVE")
+                    return
+                }
+                if (pinName == "D2" && servo2Active) {
+                    bluetooth.uartWriteLine("OTHER:NACK:PIN:D2:SERVO_ACTIVE")
+                    return
+                }
                 // Map to actual pins
                 if (pinName == "D0") pins.digitalWritePin(DigitalPin.P0, pinVal)
                 else if (pinName == "D1") pins.digitalWritePin(DigitalPin.P1, pinVal)
@@ -307,14 +307,14 @@ bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () 
             bluetooth.uartWriteLine("OTHER:ACK:PWM:P0:" + pwmVal)
             return
         }
-        // Servo from Others tab
+        // Servo from Others tab — use same safe path as Servos tab
         if (rest.substr(0, 6) == "SERVO:") {
             const parts3 = rest.substr(6).split(",")
             if (parts3.length == 2) {
-                const sAngle = parseInt(parts3[0])
+                const sAngle = clampAngle(parseInt(parts3[0]))
                 // speed is ignored for now, just move servo 1
-                pins.servoWritePin(AnalogPin.P1, sAngle)
-                servo1Current = sAngle
+                servo1Active = true
+                requestServoMove(1, sAngle)
                 bluetooth.uartWriteLine("OTHER:ACK:SERVO:" + sAngle)
             }
             return
@@ -336,6 +336,7 @@ bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () 
         if (rest == "OFF") {
             music.stopAllSounds();
             pins.analogWritePin(AnalogPin.P0, 0);
+            buzzerActive = false;
             bluetooth.uartWriteLine("BUZZ:ACK:OFF");
             return;
         }
@@ -352,6 +353,8 @@ bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () 
                 return;
             }
 
+            buzzerActive = true;
+
             // Non-blocking: run in background to avoid BLE timeout
             control.inBackground(function () {
                 // V2 built-in speaker (non-blocking with Background)
@@ -364,6 +367,7 @@ bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () 
                 pins.analogWritePin(AnalogPin.P0, 512);
                 basic.pause(dur);
                 pins.analogWritePin(AnalogPin.P0, 0);
+                buzzerActive = false;
             });
 
             bluetooth.uartWriteLine("BUZZ:ACK:" + rest);
@@ -394,61 +398,66 @@ input.onButtonPressed(Button.B, function () {
 // ---------- Helpers for LM:hhhhhhhhhh ----------
 function hexCharToNibble(ch: string) {
     const up = ch.toUpperCase()
-    digits = "0123456789ABCDEF"
-    idx = digits.indexOf(up)
+    let digits = "0123456789ABCDEF"
+    let idx = digits.indexOf(up)
     if (idx < 0) {
         return 0
     }
     return idx
 }
-input.onPinPressed(TouchPin.P1, function () {
-    if (btConnected) {
-        bluetooth.uartWriteLine("EVENT:TOUCH_P1_PRESSED")
-    }
-})
+// P1 touch events removed: input.onPinPressed(TouchPin.P1) configures P1 for
+// capacitive touch sensing at the DAL level, which conflicts with servo PWM on P1.
+// The polling loop (BTN:P1:) already handles touch data with servo1Active guard.
 function hexPairToByte(s: string) {
     if (s.length < 2) {
         return 0
     }
-    hi = hexCharToNibble(s.charAt(0))
-    lo = hexCharToNibble(s.charAt(1))
+    let hi = hexCharToNibble(s.charAt(0))
+    let lo = hexCharToNibble(s.charAt(1))
     return hi * 16 + lo
 }
-input.onPinReleased(TouchPin.P1, function () {
-    if (btConnected) {
-        bluetooth.uartWriteLine("EVENT:TOUCH_P1_RELEASED")
-    }
-})
+// Cancel flags: set true to stop a running background move
+let servo1Cancel = false
+let servo2Cancel = false
+
 function requestServoMove(servoIndex: number, angle: number) {
-    a = clampAngle(angle)
+    let a = clampAngle(angle)
     if (servoIndex == 1) {
         servo1Target = a
-        if (!(servo1Moving)) {
-            servo1Moving = true
-            control.inBackground(function () {
-                while (servo1Current !== servo1Target) {
-                    if (servo1Target > servo1Current) servo1Current++
-                    else if (servo1Target < servo1Current) servo1Current--
-                    pins.servoWritePin(AnalogPin.P1, servo1Current)
-                    basic.pause(18)
-                }
-                servo1Moving = false
-            })
+        // Cancel any running move before starting a new one
+        if (servo1Moving) {
+            servo1Cancel = true
+            // Wait briefly for the old thread to exit
+            basic.pause(30)
         }
+        servo1Cancel = false
+        servo1Moving = true
+        control.inBackground(function () {
+            while (servo1Current !== servo1Target && !servo1Cancel) {
+                if (servo1Target > servo1Current) servo1Current++
+                else if (servo1Target < servo1Current) servo1Current--
+                pins.servoWritePin(AnalogPin.P1, servo1Current)
+                basic.pause(18)
+            }
+            servo1Moving = false
+        })
     } else {
         servo2Target = a
-        if (!(servo2Moving)) {
-            servo2Moving = true
-            control.inBackground(function () {
-                while (servo2Current !== servo2Target) {
-                    if (servo2Target > servo2Current) servo2Current++
-                    else if (servo2Target < servo2Current) servo2Current--
-                    pins.servoWritePin(AnalogPin.P2, servo2Current)
-                    basic.pause(18)
-                }
-                servo2Moving = false
-            })
+        if (servo2Moving) {
+            servo2Cancel = true
+            basic.pause(30)
         }
+        servo2Cancel = false
+        servo2Moving = true
+        control.inBackground(function () {
+            while (servo2Current !== servo2Target && !servo2Cancel) {
+                if (servo2Target > servo2Current) servo2Current++
+                else if (servo2Target < servo2Current) servo2Current--
+                pins.servoWritePin(AnalogPin.P2, servo2Current)
+                basic.pause(18)
+            }
+            servo2Moving = false
+        })
     }
 }
 input.onLogoEvent(TouchButtonEvent.Pressed, function () {
@@ -461,33 +470,7 @@ input.onLogoEvent(TouchButtonEvent.Released, function () {
         bluetooth.uartWriteLine("EVENT:LOGO_RELEASED")
     }
 })
-let t = 0
-let s = 0
-let l = 0
-let diff_z = 0
-let diff_y = 0
-let diff_x = 0
-let z = 0
-let y = 0
-let x = 0
-let a = 0
-let lo = 0
-let hi = 0
-let idx = 0
-let digits = ""
-let angle2 = 0
-let c = 0
-let raw2 = ""
-let angle = 0
-let b = 0
-let raw = ""
-let tab = ""
-let hex2 = ""
-let msg = ""
-let line = ""
-let on = false
-let value = 0
-let pair = ""
+// ---------- State variables (must be global) ----------
 let btConnected = false
 let servo2Current = 0
 let servo1Current = 0
@@ -496,6 +479,10 @@ let servo1Target = 0
 let servo2Moving = false
 let servo1Moving = false
 let currentTab = "controls"  // Track active tab for pin management
+// Track whether each servo has been activated (survives tab changes)
+let servo1Active = false
+let servo2Active = false
+let buzzerActive = false  // guards P0 from touch polling during buzz
 bluetooth.startUartService()
 basic.showString("BT")
 basic.pause(200)
@@ -509,9 +496,6 @@ servo2Current = 90
 let lastTemp = -1
 let lastLight = -1
 let lastSoundLevel = -1
-let lastTouchP0_Sense = -1
-let lastTouchP1_Sense = -1
-let lastTouchP2_Sense = -1
 let lastAccX = -1
 let lastAccY = -1
 let lastAccZ = -1
@@ -542,12 +526,15 @@ loops.everyInterval(300, function () {
     if (!(btConnected)) {
         return
     }
-    x = input.acceleration(Dimension.X)
-    y = input.acceleration(Dimension.Y)
-    z = input.acceleration(Dimension.Z)
+    let x = input.acceleration(Dimension.X)
+    let y = input.acceleration(Dimension.Y)
+    let z = input.acceleration(Dimension.Z)
     if (lastAccX == x && lastAccY == y && lastAccZ == z) {
         return
     }
+    let diff_x = 0
+    let diff_y = 0
+    let diff_z = 0
     if (lastAccX > x) {
         diff_x = lastAccX - x
     } else {
@@ -576,7 +563,7 @@ loops.everyInterval(100, function () {
     if (!(btConnected)) {
         return
     }
-    l = input.lightLevel()
+    let l = input.lightLevel()
     if (lastLight == l) {
         return
     }
@@ -589,7 +576,7 @@ loops.everyInterval(100, function () {
         return
     }
     // On V2 we have soundLevel(), on V1 this stays 0
-    s = input.soundLevel()
+    let s = input.soundLevel()
     if (lastSoundLevel == s) {
         return
     }
@@ -597,27 +584,7 @@ loops.everyInterval(100, function () {
     bluetooth.uartWriteLine("SOUND:" + s)
     // bluetooth.uartWriteLine("BENCH:" + s)
 })
-// Touch sensor (V2) - P0, P1, P2 (skip P1/P2 on servos tab to avoid pin conflict)
-loops.everyInterval(100, function () {
-    if (!(btConnected)) {
-        return
-    }
-    const touchP0 = input.pinIsPressed(TouchPin.P0) ? 1 : 0
-    // Only poll P1/P2 if NOT on servos tab (prevents pin reconfiguration)
-    let touchP1 = 0
-    let touchP2 = 0
-    if (currentTab != "servos") {
-        touchP1 = input.pinIsPressed(TouchPin.P1) ? 1 : 0
-        touchP2 = input.pinIsPressed(TouchPin.P2) ? 1 : 0
-    }
-    if (lastTouchP0_Sense == touchP0 && lastTouchP1_Sense == touchP1 && lastTouchP2_Sense == touchP2) {
-        return
-    }
-    lastTouchP0_Sense = touchP0
-    lastTouchP1_Sense = touchP1
-    lastTouchP2_Sense = touchP2
-    bluetooth.uartWriteLine("TOUCH:" + touchP0 + "," + touchP1 + "," + touchP2)
-})
+// Button/touch/logo polling (individual BTN:P0/P1/P2: messages for browser)
 loops.everyInterval(100, function () {
     if (!(btConnected)) {
         return
@@ -625,12 +592,18 @@ loops.everyInterval(100, function () {
     const aNow = input.buttonIsPressed(Button.A) ? 1 : 0
     const bNow = input.buttonIsPressed(Button.B) ? 1 : 0
     const logoNow = input.logoIsPressed() ? 1 : 0
-    const touchP0Now = input.pinIsPressed(TouchPin.P0) ? 1 : 0
-    // Only poll P1/P2 if NOT on servos tab
+    // Skip P0 touch read during buzzer (P0 is analog output for external buzzer)
+    let touchP0Now = 0
+    if (!buzzerActive) {
+        touchP0Now = input.pinIsPressed(TouchPin.P0) ? 1 : 0
+    }
+    // Only poll P1/P2 if that servo is NOT active
     let touchP1Now = 0
     let touchP2Now = 0
-    if (currentTab != "servos") {
+    if (!servo1Active) {
         touchP1Now = input.pinIsPressed(TouchPin.P1) ? 1 : 0
+    }
+    if (!servo2Active) {
         touchP2Now = input.pinIsPressed(TouchPin.P2) ? 1 : 0
     }
     if (aNow != lastBtnA) {
@@ -645,16 +618,18 @@ loops.everyInterval(100, function () {
         bluetooth.uartWriteLine("BTN:LOGO:" + logoNow)
         lastLogo = logoNow
     }
-    if (touchP0Now != lastTouchP0) {
+    if (!buzzerActive && touchP0Now != lastTouchP0) {
         bluetooth.uartWriteLine("BTN:P0:" + touchP0Now)
         lastTouchP0 = touchP0Now
     }
-    // Only report P1/P2 changes if not on servos tab
-    if (currentTab != "servos") {
+    // Only report P1/P2 changes if that servo is not active
+    if (!servo1Active) {
         if (touchP1Now != lastTouchP1) {
             bluetooth.uartWriteLine("BTN:P1:" + touchP1Now)
             lastTouchP1 = touchP1Now
         }
+    }
+    if (!servo2Active) {
         if (touchP2Now != lastTouchP2) {
             bluetooth.uartWriteLine("BTN:P2:" + touchP2Now)
             lastTouchP2 = touchP2Now
@@ -666,7 +641,7 @@ loops.everyInterval(100, function () {
     if (!(btConnected)) {
         return
     }
-    t = input.temperature()
+    let t = input.temperature()
     if (lastTemp == t) {
         return
     }

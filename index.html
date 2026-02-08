@@ -5,8 +5,16 @@
     <title>micro:bit Playground</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <!-- Chart.js: for full offline support, download and serve locally -->
+    <!-- e.g. <script src="chart.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="script.js" defer></script>
+    <!-- Modular scripts (load order matters) -->
+    <script src="js/core.js" defer></script>
+    <script src="js/ble.js" defer></script>
+    <script src="js/sensors.js" defer></script>
+    <script src="js/controls.js" defer></script>
+    <script src="js/servos.js" defer></script>
+    <script src="js/others.js" defer></script>
 </head>
 <body>
 <div class="app beginner-mode">
@@ -16,6 +24,12 @@
         <img src="logo.svg" alt="micro:bit Playground Logo" class="site-logo animated-logo">
         <h1>micro:bit Playground</h1>
         <div class="subtitle">Play • Learn • Create</div>
+    </div>
+    <div class="theme-picker" aria-label="Theme selector">
+        <button class="theme-btn active" data-theme="stealth" title="Stealth">🌙</button>
+        <button class="theme-btn" data-theme="neon" title="Neon">⚡</button>
+        <button class="theme-btn" data-theme="arctic" title="Arctic">☁️</button>
+        <button class="theme-btn" data-theme="blaze" title="Blaze">🔥</button>
     </div>
     <div class="chip" role="status" aria-live="polite" aria-atomic="true">
         <div class="chip-dot"></div>
@@ -269,7 +283,7 @@
                                                     <div class="microbit-ear"></div>
                                                 </div>
                                             </div>
-                                            <div id="ledMatrix" class="led-matrix" aria-label="LED drawing board"></div>
+                                            <div id="ledMatrix" class="led-matrix" role="grid" aria-label="5 by 5 LED drawing board"></div>
                                             <div class="drawing-mode-hint">Click and drag to draw!</div>
                                         </div>
 
@@ -747,24 +761,24 @@
     <div class="dpad-wrapper">
 
         <!-- Up -->
-        <button class="primary cmd-btn dpad-btn dpad-up" data-cmd="UP">⬆</button>
+        <button class="primary cmd-btn dpad-btn dpad-up" data-cmd="UP" aria-label="Move up">⬆</button>
 
         <div class="dpad-middle-row">
             <!-- Left -->
-            <button class="primary cmd-btn dpad-btn dpad-left" data-cmd="LEFT">⬅</button>
+            <button class="primary cmd-btn dpad-btn dpad-left" data-cmd="LEFT" aria-label="Move left">⬅</button>
 
             <!-- Center "stick" circle -->
             <div class="dpad-center"></div>
 
             <!-- Right -->
-            <button class="primary cmd-btn dpad-btn dpad-right" data-cmd="RIGHT">➡</button>
+            <button class="primary cmd-btn dpad-btn dpad-right" data-cmd="RIGHT" aria-label="Move right">➡</button>
         </div>
 
         <!-- Down -->
-        <button class="primary cmd-btn dpad-btn dpad-down" data-cmd="DOWN">⬇</button>
+        <button class="primary cmd-btn dpad-btn dpad-down" data-cmd="DOWN" aria-label="Move down">⬇</button>
 
         <!-- Fire button -->
-        <button class="primary cmd-btn fire-btn" data-cmd="FIRE">🔥 Fire</button>
+        <button class="primary cmd-btn fire-btn" data-cmd="FIRE" aria-label="Fire">🔥 Fire</button>
     </div>
 </div>
 
@@ -1310,6 +1324,7 @@
                             <span id="otherServoSpeedValue" style="margin-left:6px;font-size:0.75rem;">5</span>
                         </div>
                         <button id="otherServoRunBtn" class="primary" style="width:100%;margin-top:8px;">Move Servo</button>
+                        <button id="otherServoOffBtn" class="secondary" style="width:100%;margin-top:4px;">Stop Servo</button>
                     </div>
 
                     <!-- RGB strip -->
