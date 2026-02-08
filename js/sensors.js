@@ -319,6 +319,23 @@ function handleUartLine(line) {
             return;
         }
 
+        // LED state telemetry from micro:bit: LEDS:r0,r1,r2,r3,r4
+        if (t.startsWith('LEDS:')) {
+            const parts = t.slice(5).split(',');
+            if (parts.length === 5) {
+                const ledGrid = [];
+                for (let r = 0; r < 5; r++) {
+                    const bits = parseInt(parts[r], 10);
+                    ledGrid[r] = [];
+                    for (let c = 0; c < 5; c++) {
+                        ledGrid[r][c] = !!(bits & (1 << (4 - c)));
+                    }
+                }
+                if (typeof board3dUpdate === 'function') board3dUpdate('leds', ledGrid);
+            }
+            return;
+        }
+
         // Custom graph data: GRAPH:Label:Value
         if (t.startsWith('GRAPH:')) {
             const parts = t.slice(6).split(':');

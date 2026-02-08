@@ -3949,3 +3949,36 @@ kbd {
         height: 280px;
     }
 }
+
+/* ==================== 3D STYLE SELECTOR ==================== */
+
+.board3d-select {
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--card-border, #334155);
+    background: var(--pill-bg, rgba(51,65,85,0.4));
+    color: var(--text, #f9fafb);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+}
+
+.board3d-select:focus {
+    border-color: var(--accent, #22c55e);
+}
+
+.board3d-select option {
+    background: var(--bg, #0f172a);
+    color: var(--text, #f9fafb);
+}
+
+[data-theme="arctic"] .board3d-select,
+[data-theme="blaze"] .board3d-select {
+    background: rgba(241, 245, 249, 0.8);
+}
+
+[data-theme="arctic"] .board3d-select option,
+[data-theme="blaze"] .board3d-select option {
+    background: #f1f5f9;
+}

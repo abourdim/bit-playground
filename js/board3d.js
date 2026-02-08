@@ -388,6 +388,7 @@
 
     let liveSync = true;
     let liveLedState = Array.from({ length: 5 }, () => Array(5).fill(false));
+    let ledFromFirmware = false; // true = firmware sends LEDS:, skip polling
     let liveAccel = { x: 0, y: 0, z: 0 };
     let liveTemp = 22;
     let liveBtnA = false;
@@ -406,6 +407,10 @@
         switch (type) {
             case 'led':
                 liveLedState = data; // 5x5 array
+                break;
+            case 'leds':
+                liveLedState = data; // 5x5 array from firmware LEDS: telemetry
+                ledFromFirmware = true;
                 break;
             case 'accel':
                 liveAccel = data; // { x, y, z }
@@ -456,12 +461,13 @@
                 const glow = ledGlows[r][c];
 
                 if (on) {
-                    led.material.color.setHex(0xff2200);
-                    led.material.emissive.setHex(0xff2200);
-                    led.material.emissiveIntensity = 0.8;
-                    glow.material.opacity = 0.4;
+                    led.material.color.setHex(ledOnColor);
+                    led.material.emissive.setHex(ledOnEmissive);
+                    led.material.emissiveIntensity = ledOnIntensity;
+                    glow.material.opacity = glowOpacity;
                 } else {
-                    led.material.color.setHex(0x330000);
+                    const offColor = styles[currentStyle]?.ledOff?.color || 0x330000;
+                    led.material.color.setHex(offColor);
                     led.material.emissive.setHex(0x000000);
                     led.material.emissiveIntensity = 0;
                     glow.material.opacity = 0;
@@ -504,10 +510,14 @@
         logo.material.emissiveIntensity = liveLogo ? 0.8 : 0;
 
         // --- Temperature color tint (PCB) ---
-        const t = Math.max(0, Math.min(50, liveTemp));
-        const tempHue = 0.6 - (t / 50) * 0.6; // blue(0.6) → red(0)
-        const tempColor = new THREE.Color().setHSL(tempHue, 0.3, 0.12);
-        pcbMat.color.copy(tempColor);
+        if (currentStyle !== 'xray' && currentStyle !== 'crystal' && currentStyle !== 'blueprint') {
+            const t = Math.max(0, Math.min(50, liveTemp));
+            const base = new THREE.Color(basePcbColor);
+            const hsl = {};
+            base.getHSL(hsl);
+            const tempShift = (t / 50) * 0.15; // subtle warm shift
+            pcbMat.color.setHSL(hsl.h - tempShift, hsl.s + tempShift * 0.5, hsl.l);
+        }
 
         // --- Info display ---
         const accelInfo = document.getElementById('board3dAccelInfo');
@@ -572,16 +582,223 @@
         this.textContent = liveSync ? '📡 Live Sync' : '📡 Sync Off';
     });
 
-    // ==================== HOOK INTO SENSORS.JS ====================
+    // ==================== 8 VISUAL STYLES ====================
 
-    // LED matrix: intercept sendLine for LM: commands to mirror on 3D
-    const origSendLine = window.sendLine;
-    if (typeof sendLine === 'function') {
-        // We can't easily wrap sendLine, so we'll hook into ledState from controls.js
+    let currentStyle = 'classic';
+    let ledOnColor = 0xff2200;
+    let ledOnEmissive = 0xff2200;
+
+    const styles = {
+
+        classic: {
+            name: 'Classic',
+            pcb: { color: 0x1a1a2e, roughness: 0.7, metalness: 0.1, opacity: 1, transparent: false, wireframe: false },
+            gold: { color: 0xd4a017, roughness: 0.3, metalness: 0.8 },
+            chip: { color: 0x111111, roughness: 0.5, metalness: 0.3 },
+            btn: { color: 0x222222, roughness: 0.6, metalness: 0.2 },
+            ledOff: { color: 0x330000 },
+            ledOn: { color: 0xff2200, emissive: 0xff2200, intensity: 0.8 },
+            usb: { color: 0x888888, roughness: 0.4, metalness: 0.7 },
+            silk: { color: 0xeeeeee },
+            bg: null, // transparent
+            glowOpacity: 0.4
+        },
+
+        realistic: {
+            name: 'Realistic',
+            pcb: { color: 0x1b5e20, roughness: 0.8, metalness: 0.05, opacity: 1, transparent: false, wireframe: false },
+            gold: { color: 0xb8860b, roughness: 0.25, metalness: 0.9 },
+            chip: { color: 0x0a0a0a, roughness: 0.4, metalness: 0.4 },
+            btn: { color: 0x1a1a1a, roughness: 0.5, metalness: 0.3 },
+            ledOff: { color: 0x3d0000 },
+            ledOn: { color: 0xff3311, emissive: 0xff3311, intensity: 0.7 },
+            usb: { color: 0x999999, roughness: 0.3, metalness: 0.8 },
+            silk: { color: 0xffffff },
+            bg: null,
+            glowOpacity: 0.35
+        },
+
+        cartoon: {
+            name: 'Cartoon',
+            pcb: { color: 0x6c5ce7, roughness: 0.9, metalness: 0, opacity: 1, transparent: false, wireframe: false },
+            gold: { color: 0xfdcb6e, roughness: 0.5, metalness: 0.3 },
+            chip: { color: 0x2d3436, roughness: 0.8, metalness: 0 },
+            btn: { color: 0xff6b6b, roughness: 0.8, metalness: 0 },
+            ledOff: { color: 0xffcccc },
+            ledOn: { color: 0xff4757, emissive: 0xff4757, intensity: 1.0 },
+            usb: { color: 0xdfe6e9, roughness: 0.7, metalness: 0.1 },
+            silk: { color: 0xffffff },
+            bg: 0xf8f9fa,
+            glowOpacity: 0.5
+        },
+
+        xray: {
+            name: 'X-Ray',
+            pcb: { color: 0x0a2f5c, roughness: 0.3, metalness: 0.1, opacity: 0.25, transparent: true, wireframe: false },
+            gold: { color: 0x00ff88, roughness: 0.2, metalness: 0.5 },
+            chip: { color: 0x00ffcc, roughness: 0.3, metalness: 0.2 },
+            btn: { color: 0x005577, roughness: 0.4, metalness: 0.1 },
+            ledOff: { color: 0x003322 },
+            ledOn: { color: 0x00ff44, emissive: 0x00ff44, intensity: 1.2 },
+            usb: { color: 0x00aaff, roughness: 0.3, metalness: 0.3 },
+            silk: { color: 0x00ffaa },
+            bg: 0x020810,
+            glowOpacity: 0.6
+        },
+
+        blueprint: {
+            name: 'Blueprint',
+            pcb: { color: 0x1a3a5c, roughness: 0.9, metalness: 0, opacity: 0.8, transparent: true, wireframe: true },
+            gold: { color: 0x88bbff, roughness: 0.5, metalness: 0.2 },
+            chip: { color: 0x4488cc, roughness: 0.7, metalness: 0.1 },
+            btn: { color: 0x3366aa, roughness: 0.7, metalness: 0.1 },
+            ledOff: { color: 0x223355 },
+            ledOn: { color: 0x55aaff, emissive: 0x55aaff, intensity: 0.9 },
+            usb: { color: 0x6699cc, roughness: 0.6, metalness: 0.2 },
+            silk: { color: 0xaaddff },
+            bg: 0x0d1b2a,
+            glowOpacity: 0.45
+        },
+
+        neon: {
+            name: 'Neon',
+            pcb: { color: 0x0a0a0a, roughness: 0.6, metalness: 0.2, opacity: 1, transparent: false, wireframe: false },
+            gold: { color: 0xff00ff, roughness: 0.2, metalness: 0.6 },
+            chip: { color: 0x1a0033, roughness: 0.4, metalness: 0.3 },
+            btn: { color: 0x330066, roughness: 0.5, metalness: 0.2 },
+            ledOff: { color: 0x1a0033 },
+            ledOn: { color: 0xff00cc, emissive: 0xff00cc, intensity: 1.5 },
+            usb: { color: 0x00ffff, roughness: 0.2, metalness: 0.5 },
+            silk: { color: 0x00ff88 },
+            bg: 0x050008,
+            glowOpacity: 0.7
+        },
+
+        crystal: {
+            name: 'Crystal',
+            pcb: { color: 0xaaccee, roughness: 0.05, metalness: 0.1, opacity: 0.3, transparent: true, wireframe: false },
+            gold: { color: 0xffd700, roughness: 0.1, metalness: 0.9 },
+            chip: { color: 0x445566, roughness: 0.1, metalness: 0.5 },
+            btn: { color: 0x88aacc, roughness: 0.1, metalness: 0.3 },
+            ledOff: { color: 0x334455 },
+            ledOn: { color: 0xffffff, emissive: 0xaaddff, intensity: 1.0 },
+            usb: { color: 0xccddee, roughness: 0.05, metalness: 0.6 },
+            silk: { color: 0xffffff },
+            bg: null,
+            glowOpacity: 0.5
+        },
+
+        retro: {
+            name: 'Retro',
+            pcb: { color: 0x8b6914, roughness: 0.9, metalness: 0, opacity: 1, transparent: false, wireframe: false },
+            gold: { color: 0xcd853f, roughness: 0.4, metalness: 0.7 },
+            chip: { color: 0x3e2723, roughness: 0.7, metalness: 0.1 },
+            btn: { color: 0x5d4037, roughness: 0.7, metalness: 0.2 },
+            ledOff: { color: 0x4a2000 },
+            ledOn: { color: 0xff8800, emissive: 0xff6600, intensity: 0.9 },
+            usb: { color: 0xb8860b, roughness: 0.4, metalness: 0.6 },
+            silk: { color: 0xfaebd7 },
+            bg: 0x1a120a,
+            glowOpacity: 0.4
+        }
+    };
+
+    function applyStyle(name) {
+        const s = styles[name];
+        if (!s) return;
+        currentStyle = name;
+
+        // PCB
+        pcbMat.color.setHex(s.pcb.color);
+        pcbMat.roughness = s.pcb.roughness;
+        pcbMat.metalness = s.pcb.metalness;
+        pcbMat.transparent = s.pcb.transparent;
+        pcbMat.opacity = s.pcb.opacity;
+        pcbMat.wireframe = s.pcb.wireframe;
+        pcbMat.needsUpdate = true;
+
+        // Store base PCB color for temp tinting
+        basePcbColor = s.pcb.color;
+
+        // Gold
+        goldMat.color.setHex(s.gold.color);
+        goldMat.roughness = s.gold.roughness;
+        goldMat.metalness = s.gold.metalness;
+
+        // Chips
+        chipMat.color.setHex(s.chip.color);
+        chipMat.roughness = s.chip.roughness;
+        chipMat.metalness = s.chip.metalness;
+
+        // Buttons
+        btnBlackMat.color.setHex(s.btn.color);
+        btnBlackMat.roughness = s.btn.roughness;
+        btnBlackMat.metalness = s.btn.metalness;
+
+        // LEDs
+        ledOnColor = s.ledOn.color;
+        ledOnEmissive = s.ledOn.emissive;
+        ledOnIntensity = s.ledOn.intensity;
+        glowOpacity = s.glowOpacity;
+
+        for (let r = 0; r < 5; r++) {
+            for (let c = 0; c < 5; c++) {
+                leds[r][c].material.color.setHex(s.ledOff.color);
+                ledGlows[r][c].material.color.setHex(s.ledOn.color);
+            }
+        }
+
+        // USB
+        usbMat.color.setHex(s.usb.color);
+        usbMat.roughness = s.usb.roughness;
+        usbMat.metalness = s.usb.metalness;
+
+        // Silk
+        silkMat.color.setHex(s.silk.color);
+
+        // Background
+        if (s.bg !== null) {
+            scene.background = new THREE.Color(s.bg);
+        } else {
+            scene.background = null;
+        }
+
+        // Touch glow pins adapt to style
+        const pinColor = s.gold.color;
+        Object.values(pinGlowMats).forEach(m => {
+            m.color.setHex(pinColor);
+            m.emissive.setHex(pinColor);
+        });
+
+        // Save preference
+        try { localStorage.setItem('mb_board3d_style', name); } catch {}
     }
 
-    // Poll the LED matrix state from controls.js (ledState is global)
+    // Extra state for style system
+    let basePcbColor = 0x1a1a2e;
+    let ledOnIntensity = 0.8;
+    let glowOpacity = 0.4;
+
+    // Style selector
+    const styleSelect = document.getElementById('board3dStyle');
+    if (styleSelect) {
+        styleSelect.addEventListener('change', () => {
+            applyStyle(styleSelect.value);
+        });
+
+        // Restore saved style
+        try {
+            const saved = localStorage.getItem('mb_board3d_style');
+            if (saved && styles[saved]) {
+                styleSelect.value = saved;
+                applyStyle(saved);
+            }
+        } catch {}
+    }
+
+    // Poll the LED matrix state from controls.js (fallback if firmware doesn't send LEDS:)
     setInterval(() => {
+        if (ledFromFirmware) return; // firmware sends real state, skip polling
         if (typeof ledState !== 'undefined') {
             for (let r = 0; r < 5; r++) {
                 for (let c = 0; c < 5; c++) {
