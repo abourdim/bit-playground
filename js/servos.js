@@ -1,5 +1,5 @@
 // ============================================================
-// servos.js — Servo controls wiring + gauge updates
+// servos.js — Servo controls wiring, gauges, trim
 // ============================================================
 
 (function(){
@@ -12,6 +12,64 @@
   const s2Num   = document.getElementById('servo2Number');
   const s2Send  = document.getElementById('servo2Send');
   const s2Off   = document.getElementById('servo2Off');
+
+  // ==================== SERVO TRIM ====================
+  let servo1Trim = 0;
+  let servo2Trim = 0;
+
+  // Restore from localStorage
+  try {
+      servo1Trim = parseInt(localStorage.getItem('mb_servo1_trim'), 10) || 0;
+      servo2Trim = parseInt(localStorage.getItem('mb_servo2_trim'), 10) || 0;
+  } catch {}
+
+  function applyTrim(angle, trim) {
+      return Math.min(180, Math.max(0, angle + trim));
+  }
+
+  // Trim UI
+  const s1TrimSlider = document.getElementById('servo1Trim');
+  const s1TrimVal = document.getElementById('servo1TrimVal');
+  const s1TrimReset = document.getElementById('servo1TrimReset');
+  const s2TrimSlider = document.getElementById('servo2Trim');
+  const s2TrimVal = document.getElementById('servo2TrimVal');
+  const s2TrimReset = document.getElementById('servo2TrimReset');
+
+  if (s1TrimSlider) {
+      s1TrimSlider.value = servo1Trim;
+      if (s1TrimVal) s1TrimVal.textContent = (servo1Trim >= 0 ? '+' : '') + servo1Trim + '°';
+      s1TrimSlider.addEventListener('input', () => {
+          servo1Trim = parseInt(s1TrimSlider.value, 10);
+          if (s1TrimVal) s1TrimVal.textContent = (servo1Trim >= 0 ? '+' : '') + servo1Trim + '°';
+          try { localStorage.setItem('mb_servo1_trim', servo1Trim); } catch {}
+      });
+  }
+  if (s1TrimReset) {
+      s1TrimReset.addEventListener('click', () => {
+          servo1Trim = 0;
+          if (s1TrimSlider) s1TrimSlider.value = 0;
+          if (s1TrimVal) s1TrimVal.textContent = '0°';
+          try { localStorage.setItem('mb_servo1_trim', 0); } catch {}
+      });
+  }
+
+  if (s2TrimSlider) {
+      s2TrimSlider.value = servo2Trim;
+      if (s2TrimVal) s2TrimVal.textContent = (servo2Trim >= 0 ? '+' : '') + servo2Trim + '°';
+      s2TrimSlider.addEventListener('input', () => {
+          servo2Trim = parseInt(s2TrimSlider.value, 10);
+          if (s2TrimVal) s2TrimVal.textContent = (servo2Trim >= 0 ? '+' : '') + servo2Trim + '°';
+          try { localStorage.setItem('mb_servo2_trim', servo2Trim); } catch {}
+      });
+  }
+  if (s2TrimReset) {
+      s2TrimReset.addEventListener('click', () => {
+          servo2Trim = 0;
+          if (s2TrimSlider) s2TrimSlider.value = 0;
+          if (s2TrimVal) s2TrimVal.textContent = '0°';
+          try { localStorage.setItem('mb_servo2_trim', 0); } catch {}
+      });
+  }
 
   function syncRangeNumber(range, num) {
     if (!range || !num) return;
@@ -34,9 +92,10 @@
   if (s2Range) s2Range.setAttribute('aria-label', 'Servo 2 angle (0–180°)');
 
   s1Send && s1Send.addEventListener('click', () => {
-    const v = Math.min(180, Math.max(0, parseInt(s1Num.value || 0, 10)));
+    const raw = Math.min(180, Math.max(0, parseInt(s1Num.value || 0, 10)));
+    const v = applyTrim(raw, servo1Trim);
     if (typeof writeUART === 'function') writeUART('SERVO1:' + v);
-    if (typeof addActivity === 'function') addActivity('⚙️ Motor 1 → ' + v + '°', 'sent');
+    if (typeof addActivity === 'function') addActivity('⚙️ Motor 1 → ' + raw + '°' + (servo1Trim ? ' (trim ' + (servo1Trim>0?'+':'') + servo1Trim + '° = ' + v + '°)' : ''), 'sent');
   });
   s1Off && s1Off.addEventListener('click', () => {
     if (typeof writeUART === 'function') writeUART('SERVO1:OFF');
@@ -44,9 +103,10 @@
   });
 
   s2Send && s2Send.addEventListener('click', () => {
-    const v = Math.min(180, Math.max(0, parseInt(s2Num.value || 0, 10)));
+    const raw = Math.min(180, Math.max(0, parseInt(s2Num.value || 0, 10)));
+    const v = applyTrim(raw, servo2Trim);
     if (typeof writeUART === 'function') writeUART('SERVO2:' + v);
-    if (typeof addActivity === 'function') addActivity('⚙️ Motor 2 → ' + v + '°', 'sent');
+    if (typeof addActivity === 'function') addActivity('⚙️ Motor 2 → ' + raw + '°' + (servo2Trim ? ' (trim ' + (servo2Trim>0?'+':'') + servo2Trim + '° = ' + v + '°)' : ''), 'sent');
   });
   s2Off && s2Off.addEventListener('click', () => {
     if (typeof writeUART === 'function') writeUART('SERVO2:OFF');

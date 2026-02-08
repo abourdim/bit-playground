@@ -1,5 +1,5 @@
 // ============================================================
-// core.js — Event bus, DOM helpers, logging, connection status
+// core.js — Event bus, DOM helpers, logging, toasts, shortcuts
 // ============================================================
 
 // Simple event bus for connection state
@@ -67,7 +67,104 @@ let notifyChar = null;
 let writeChar  = null;
 let isConnected= false;
 
-// ------------ Logging ------------
+// ==================== TOAST NOTIFICATIONS ====================
+
+const toastContainer = (() => {
+    const el = document.createElement('div');
+    el.id = 'toastContainer';
+    el.className = 'toast-container';
+    document.body.appendChild(el);
+    return el;
+})();
+
+/**
+ * Show a toast notification
+ * @param {string} message  Text to show
+ * @param {string} type     'success' | 'error' | 'info' | 'warning'
+ * @param {number} duration ms before auto-dismiss (default 3000)
+ */
+function showToast(message, type = 'info', duration = 3000) {
+    const toast = document.createElement('div');
+    toast.className = 'toast toast-' + type;
+    const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+    toast.innerHTML = '<span class="toast-icon">' + (icons[type] || 'ℹ️') + '</span><span class="toast-msg">' + message + '</span>';
+    toastContainer.appendChild(toast);
+    // Trigger enter animation
+    requestAnimationFrame(() => toast.classList.add('toast-show'));
+    // Auto dismiss
+    setTimeout(() => {
+        toast.classList.remove('toast-show');
+        toast.classList.add('toast-hide');
+        setTimeout(() => toast.remove(), 400);
+    }, duration);
+}
+
+// ==================== KEYBOARD SHORTCUTS ====================
+
+const shortcutHelp = {
+    'Space': 'Connect / Disconnect',
+    '1–7': 'Switch tabs',
+    'P': 'Pause graph',
+    'F': 'Fullscreen graph',
+    'K': 'Toggle shortcuts help',
+    'Escape': 'Close overlays'
+};
+
+document.addEventListener('keydown', (e) => {
+    // Don't intercept when typing in inputs
+    const tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+
+    // Space = connect/disconnect
+    if (e.code === 'Space') {
+        e.preventDefault();
+        if (isConnected) { if (typeof disconnect === 'function') disconnect(); }
+        else { if (typeof connect === 'function') connect(); }
+        return;
+    }
+
+    // 1-7 = switch tabs
+    const tabKeys = ['Digit1','Digit2','Digit3','Digit4','Digit5','Digit6','Digit7'];
+    const tabIdx = tabKeys.indexOf(e.code);
+    if (tabIdx >= 0) {
+        const visibleTabs = Array.from(tabButtons).filter(b => {
+            return !b.classList.contains('expert-only') || !appRoot?.classList.contains('beginner-mode');
+        });
+        if (visibleTabs[tabIdx]) {
+            visibleTabs[tabIdx].click();
+            return;
+        }
+    }
+
+    // P = pause graph
+    if (e.code === 'KeyP') {
+        const pauseBtn = $('graphPauseBtn');
+        if (pauseBtn) pauseBtn.click();
+        return;
+    }
+
+    // F = fullscreen graph
+    if (e.code === 'KeyF') {
+        const fsBtn = $('graphFullscreenBtn');
+        if (fsBtn) fsBtn.click();
+        return;
+    }
+
+    // K = show shortcuts help
+    if (e.code === 'KeyK') {
+        const overlay = $('shortcutsOverlay');
+        if (overlay) overlay.classList.toggle('visible');
+        return;
+    }
+
+    // Escape = close overlays
+    if (e.code === 'Escape') {
+        document.querySelectorAll('.overlay.visible').forEach(o => o.classList.remove('visible'));
+        return;
+    }
+});
+
+// ==================== LOGGING ====================
 
 function addLogLine(text, kind = 'info') {
     if (!logEl) return;
@@ -101,13 +198,20 @@ function exportLog() {
     URL.revokeObjectURL(url);
 }
 
-// ------------ Connection status ------------
+// ==================== CONNECTION STATUS ====================
 
 function setConnectionStatus(connected) {
     isConnected = connected;
 
     if (connectBtn)    connectBtn.disabled    = connected;
     if (disconnectBtn) disconnectBtn.disabled = !connected;
+
+    // Toast notification
+    if (connected) {
+        showToast('Connected to micro:bit!', 'success');
+    } else {
+        showToast('Disconnected from micro:bit', 'error');
+    }
 
     // Notify all listeners (servos, etc.)
     emitConnectionChange(connected);
@@ -131,7 +235,7 @@ function writeUART(line) {
     sendLine(line);
 }
 
-// ------------ Activity Feed (Kid-friendly log) ------------
+// ==================== ACTIVITY FEED ====================
 
 const activityFeed = document.getElementById('activity');
 const clearActivityBtn = document.getElementById('clearActivityBtn');

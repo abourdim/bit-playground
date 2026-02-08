@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>micro:bit Playground</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#020617">
+    <meta name="description" content="BBC micro:bit BLE controller with sensors, servos, graph & simulation">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="styles.css">
     <!-- Chart.js: for full offline support, download and serve locally -->
     <!-- e.g. <script src="chart.min.js"></script> -->
@@ -624,6 +628,57 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- ⚙️ CALIBRATION SECTION -->
+                            <div class="calibration-section">
+                                <div class="section-title"><span class="section-icon">⚙️</span> Calibration</div>
+                                <div class="calibration-grid">
+
+                                    <!-- 🧭 Compass Calibration -->
+                                    <div class="cal-item">
+                                        <div class="cal-label">🧭 Compass</div>
+                                        <div class="cal-status" id="calCompassStatus">Not calibrated</div>
+                                        <button id="calCompassBtn" class="secondary small">Calibrate</button>
+                                        <div class="cal-hint">Tilt micro:bit to fill the LED screen</div>
+                                    </div>
+
+                                    <!-- ⚖️ Accelerometer Zero -->
+                                    <div class="cal-item">
+                                        <div class="cal-label">⚖️ Accel Zero</div>
+                                        <div class="cal-status" id="calAccelStatus">No offset</div>
+                                        <div class="cal-values" id="calAccelValues"></div>
+                                        <div class="cal-row">
+                                            <button id="calAccelSetBtn" class="secondary small">Set Level</button>
+                                            <button id="calAccelResetBtn" class="secondary small">Reset</button>
+                                        </div>
+                                        <div class="cal-hint">Place micro:bit flat, then click Set Level</div>
+                                    </div>
+
+                                    <!-- 🔊 Sound Baseline -->
+                                    <div class="cal-item">
+                                        <div class="cal-label">🔊 Sound Baseline</div>
+                                        <div class="cal-status" id="calSoundStatus">No baseline</div>
+                                        <div class="cal-row">
+                                            <button id="calSoundSetBtn" class="secondary small">Set Ambient</button>
+                                            <button id="calSoundResetBtn" class="secondary small">Reset</button>
+                                        </div>
+                                        <div class="cal-hint">Quiet room → click Set Ambient</div>
+                                    </div>
+
+                                    <!-- 💡 Light Baseline -->
+                                    <div class="cal-item">
+                                        <div class="cal-label">💡 Light Baseline</div>
+                                        <div class="cal-status" id="calLightStatus">No baseline</div>
+                                        <div class="cal-row">
+                                            <button id="calLightSetBtn" class="secondary small">Set Ambient</button>
+                                            <button id="calLightResetBtn" class="secondary small">Reset</button>
+                                        </div>
+                                        <div class="cal-hint">Normal lighting → click Set Ambient</div>
+                                    </div>
+
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
@@ -693,6 +748,11 @@
                                   <button id="servo1Send" class="primary" aria-label="Move motor 1">Move</button>
                                   <button id="servo1Off" class="secondary" aria-label="Stop motor 1">Stop</button>
                                 </div>
+                                <div class="servo-trim expert-only">
+                                    <label class="trim-label">🔧 Trim: <span id="servo1TrimVal">0°</span></label>
+                                    <input id="servo1Trim" type="range" min="-15" max="15" value="0" aria-label="Servo 1 trim offset">
+                                    <button id="servo1TrimReset" class="secondary small">Reset</button>
+                                </div>
                               </div>
 
                               <div class="control-section">
@@ -743,6 +803,11 @@
                                 <div class="button-row">
                                   <button id="servo2Send" class="primary" aria-label="Move motor 2">Move</button>
                                   <button id="servo2Off" class="secondary" aria-label="Stop motor 2">Stop</button>
+                                </div>
+                                <div class="servo-trim expert-only">
+                                    <label class="trim-label">🔧 Trim: <span id="servo2TrimVal">0°</span></label>
+                                    <input id="servo2Trim" type="range" min="-15" max="15" value="0" aria-label="Servo 2 trim offset">
+                                    <button id="servo2TrimReset" class="secondary small">Reset</button>
                                 </div>
                               </div>
                             </div>
@@ -885,10 +950,42 @@
             <button id="graphSimBtn" class="secondary">🎲 Simulate</button>
             <button id="graphPauseBtn" class="secondary">⏸ Pause</button>
             <button id="graphClearBtn" class="secondary">🗑 Clear</button>
+            <button id="graphFullscreenBtn" class="secondary">🔲 Fullscreen</button>
+            <button id="graphRecordBtn" class="secondary">⏺ Record</button>
+            <button id="graphRecordPlay" class="secondary">▶ Replay</button>
+            <button id="graphRecordExport" class="secondary">💾 Save Session</button>
+            <button id="graphAnnotateBtn" class="secondary">📝 Note</button>
             <button id="graphExportPng" class="secondary">📷 PNG</button>
             <button id="graphExportCsv" class="secondary">📄 CSV</button>
             <span class="graph-point-count" id="graphPointCount">0 pts</span>
         </div>
+
+        <!-- Code Snippets (collapsible) -->
+        <details class="code-snippets">
+            <summary>📖 MakeCode Examples</summary>
+            <div class="snippet">
+                <div class="snippet-title">Send custom data to graph</div>
+                <pre><code>basic.forever(function () {
+    let distance = pins.analogReadPin(AnalogPin.P1)
+    serial.writeLine("GRAPH:Distance:" + distance)
+    basic.pause(200)
+})</code></pre>
+            </div>
+            <div class="snippet">
+                <div class="snippet-title">Plot multiple values</div>
+                <pre><code>serial.writeLine("GRAPH:Speed:" + speed)
+serial.writeLine("GRAPH:Angle:" + angle)
+serial.writeLine("GRAPH:Force:" + force)</code></pre>
+            </div>
+            <div class="snippet">
+                <div class="snippet-title">Conditional alert</div>
+                <pre><code>if (input.soundLevel() > 150) {
+    serial.writeLine("GRAPH:Loud:1")
+} else {
+    serial.writeLine("GRAPH:Loud:0")
+}</code></pre>
+            </div>
+        </details>
     </div>
 </div>
 <!-- BENCH PAGE -->
@@ -1505,5 +1602,54 @@
 
     </div>
 </div>
+<!-- Keyboard Shortcuts Overlay (press K to toggle) -->
+<div id="shortcutsOverlay" class="overlay">
+    <div class="overlay-card">
+        <div class="overlay-title">⌨️ Keyboard Shortcuts</div>
+        <div class="shortcut-grid">
+            <div class="shortcut-row"><kbd>Space</kbd> <span>Connect / Disconnect</span></div>
+            <div class="shortcut-row"><kbd>1</kbd>–<kbd>7</kbd> <span>Switch tabs</span></div>
+            <div class="shortcut-row"><kbd>P</kbd> <span>Pause / Resume graph</span></div>
+            <div class="shortcut-row"><kbd>F</kbd> <span>Fullscreen graph</span></div>
+            <div class="shortcut-row"><kbd>K</kbd> <span>Toggle this help</span></div>
+            <div class="shortcut-row"><kbd>Esc</kbd> <span>Close overlays</span></div>
+        </div>
+        <button class="secondary" onclick="this.closest('.overlay').classList.remove('visible')">Close</button>
+    </div>
+</div>
+
+<!-- Onboarding Overlay (first visit) -->
+<div id="onboardingOverlay" class="overlay">
+    <div class="overlay-card onboarding-card">
+        <div class="overlay-title">🚀 Welcome to micro:bit Playground!</div>
+        <div class="onboarding-steps">
+            <div class="ob-step"><span class="ob-num">1</span> Turn on your micro:bit V2</div>
+            <div class="ob-step"><span class="ob-num">2</span> Click <strong>Connect</strong> and pick your device</div>
+            <div class="ob-step"><span class="ob-num">3</span> Explore tabs: Controls, Sensors, Motors, GamePad, Graph</div>
+            <div class="ob-step"><span class="ob-num">4</span> Press <kbd>K</kbd> anytime for keyboard shortcuts</div>
+        </div>
+        <button class="primary" id="onboardingDismiss">Let's Go! 🎮</button>
+    </div>
+</div>
+
+<script>
+// Onboarding: show only on first visit
+(function() {
+    try {
+        if (!localStorage.getItem('mb_onboarded')) {
+            document.getElementById('onboardingOverlay')?.classList.add('visible');
+            document.getElementById('onboardingDismiss')?.addEventListener('click', () => {
+                document.getElementById('onboardingOverlay')?.classList.remove('visible');
+                localStorage.setItem('mb_onboarded', '1');
+            });
+        }
+    } catch {}
+})();
+// Register service worker for PWA
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+</script>
+
 </body>
 </html>

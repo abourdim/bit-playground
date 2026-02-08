@@ -143,11 +143,12 @@
                 borderColor: d.color,
                 backgroundColor: isArea ? d.color + '30' : d.color,
                 borderWidth: lineWidth,
-                pointRadius: isScatter ? 3 : (currentType === 'realtime' ? 0 : 1),
-                pointHoverRadius: 4,
+                pointRadius: isScatter ? 3 : (currentType === 'realtime' ? 0 : 0),
+                pointHoverRadius: 5,
                 fill: isArea,
                 tension: currentType === 'realtime' ? 0 : 0.3,
-                showLine: !isScatter
+                showLine: !isScatter,
+                spanGaps: true
             }));
         chart.update('none');
     }
@@ -301,9 +302,20 @@
     if (clearBtn) {
         clearBtn.addEventListener('click', () => {
             timeLabels.length = 0;
-            Object.values(datasets).forEach(d => { d.data.length = 0; });
+            // Remove custom datasets entirely, deactivate sensor datasets
+            Object.keys(datasets).forEach(k => {
+                const chk = document.querySelector('.graph-toggle input[data-sensor="' + k + '"]');
+                if (chk) {
+                    // Sensor: keep dataset but clear data
+                    datasets[k].data.length = 0;
+                } else {
+                    // Custom (GRAPH:, simulate): remove entirely
+                    delete datasets[k];
+                }
+            });
             pointCount = 0;
             startTime = Date.now();
+            customColorIdx = 0;
             if (pointCountEl) pointCountEl.textContent = '0 pts';
             syncChartDatasets();
         });
@@ -360,6 +372,187 @@
         });
     }
 
+    // --- Fullscreen graph ---
+    const fsBtn = document.getElementById('graphFullscreenBtn');
+    let isFullscreen = false;
+    if (fsBtn) {
+        fsBtn.addEventListener('click', toggleFullscreen);
+
+        function toggleFullscreen() {
+            isFullscreen = !isFullscreen;
+            // Target the whole graph card, not just canvas
+            const graphCard = chartWrap?.closest('.card');
+            if (graphCard) {
+                graphCard.classList.toggle('graph-fullscreen', isFullscreen);
+            }
+            fsBtn.textContent = isFullscreen ? '⬜ Exit' : '🔲 Fullscreen';
+            fsBtn.classList.toggle('active', isFullscreen);
+
+            // Force chart to fill available space
+            if (chartWrap) {
+                if (isFullscreen) {
+                    chartWrap.style.height = 'calc(100vh - 220px)';
+                    chartWrap.style.resize = 'none';
+                } else {
+                    chartWrap.style.height = '350px';
+                    chartWrap.style.resize = 'vertical';
+                }
+            }
+            setTimeout(() => { if (chart) chart.resize(); }, 150);
+        }
+
+        // Escape to exit fullscreen
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Escape' && isFullscreen) {
+                toggleFullscreen();
+            }
+        });
+    }
+
+    // --- Session Recording ---
+    const recBtn = document.getElementById('graphRecordBtn');
+    let isRecording = false;
+    let recordedData = []; // { time, key, value }
+
+    if (recBtn) {
+        recBtn.addEventListener('click', () => {
+            isRecording = !isRecording;
+            if (isRecording) {
+                recordedData = [];
+                recBtn.textContent = '⏹ Stop Rec';
+                recBtn.classList.add('active');
+                if (typeof showToast === 'function') showToast('Recording started', 'info');
+            } else {
+                recBtn.textContent = '⏺ Record';
+                recBtn.classList.remove('active');
+                if (typeof showToast === 'function') showToast('Recording stopped (' + recordedData.length + ' points)', 'success');
+            }
+        });
+    }
+
+    // Hook recording into data push
+    const origPushData = window.graphPushData;
+    window.graphPushData = function(key, value, label) {
+        if (isRecording) {
+            recordedData.push({ time: Date.now(), key, value, label: label || key });
+        }
+        origPushData(key, value, label);
+    };
+
+    // Export recording as JSON
+    const recExportBtn = document.getElementById('graphRecordExport');
+    if (recExportBtn) {
+        recExportBtn.addEventListener('click', () => {
+            if (recordedData.length === 0) {
+                if (typeof showToast === 'function') showToast('No recorded data', 'warning');
+                return;
+            }
+            const blob = new Blob([JSON.stringify(recordedData, null, 2)], { type: 'application/json' });
+            const link = document.createElement('a');
+            link.download = 'microbit-session.json';
+            link.href = URL.createObjectURL(blob);
+            link.click();
+            URL.revokeObjectURL(link.href);
+        });
+    }
+
+    // Replay recording
+    const recPlayBtn = document.getElementById('graphRecordPlay');
+    if (recPlayBtn) {
+        recPlayBtn.addEventListener('click', () => {
+            if (recordedData.length === 0) {
+                if (typeof showToast === 'function') showToast('No recorded data to replay', 'warning');
+                return;
+            }
+            if (typeof showToast === 'function') showToast('Replaying ' + recordedData.length + ' points...', 'info');
+            // Clear current
+            timeLabels.length = 0;
+            Object.values(datasets).forEach(d => { d.data.length = 0; });
+            pointCount = 0;
+            startTime = recordedData[0].time;
+            syncChartDatasets();
+
+            const base = recordedData[0].time;
+            recordedData.forEach((pt, i) => {
+                setTimeout(() => {
+                    origPushData(pt.key, pt.value, pt.label);
+                }, pt.time - base);
+            });
+        });
+    }
+
+    // --- Annotations (data journal) ---
+    const annotateBtn = document.getElementById('graphAnnotateBtn');
+    const annotations = []; // { time, text }
+
+    if (annotateBtn) {
+        annotateBtn.addEventListener('click', () => {
+            const text = prompt('Add note at current time:');
+            if (!text) return;
+            const now = ((Date.now() - startTime) / 1000).toFixed(1);
+            annotations.push({ time: now, text });
+            // Add annotation line to chart
+            if (chart) {
+                if (!chart.options.plugins.annotation) {
+                    chart.options.plugins.annotation = { annotations: {} };
+                }
+                const id = 'note_' + annotations.length;
+                chart.options.plugins.annotation.annotations[id] = {
+                    type: 'line',
+                    xMin: now,
+                    xMax: now,
+                    borderColor: 'var(--accent, #22c55e)',
+                    borderWidth: 1,
+                    borderDash: [4, 4],
+                    label: {
+                        display: true,
+                        content: text,
+                        position: 'start',
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        color: '#fff',
+                        font: { size: 10 }
+                    }
+                };
+                chart.update('none');
+            }
+            if (typeof showToast === 'function') showToast('Note added: ' + text, 'info');
+        });
+    }
+
+    // --- Checkbox persistence (localStorage) ---
+    function saveCheckboxState() {
+        const state = {};
+        document.querySelectorAll('.graph-toggle input[data-sensor]').forEach(chk => {
+            state[chk.dataset.sensor] = chk.checked;
+        });
+        try { localStorage.setItem('mb_graph_sensors', JSON.stringify(state)); } catch {}
+    }
+
+    function restoreCheckboxState() {
+        try {
+            const saved = localStorage.getItem('mb_graph_sensors');
+            if (!saved) return;
+            const state = JSON.parse(saved);
+            document.querySelectorAll('.graph-toggle input[data-sensor]').forEach(chk => {
+                const key = chk.dataset.sensor;
+                if (key in state) {
+                    chk.checked = state[key];
+                    if (state[key]) {
+                        const label = chk.parentElement.textContent.trim();
+                        ensureDataset(key, label, SENSOR_COLORS[key]);
+                        datasets[key].active = true;
+                    }
+                }
+            });
+            syncChartDatasets();
+        } catch {}
+    }
+
+    // Save on every toggle change
+    document.querySelectorAll('.graph-toggle input[data-sensor]').forEach(chk => {
+        chk.addEventListener('change', saveCheckboxState);
+    });
+
     // --- Resize handle ---
     if (chartWrap) {
         chartWrap.style.resize = 'vertical';
@@ -388,5 +581,6 @@
 
     // --- Init ---
     createMainChart();
+    restoreCheckboxState();
 
 })();

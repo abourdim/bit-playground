@@ -1,6 +1,38 @@
 // ============================================================
-// sensors.js — Charts, UART parsing, button pill visuals
+// sensors.js — Charts, UART parsing, calibration, button pills
 // ============================================================
+
+// ==================== CALIBRATION STATE ====================
+
+const calibration = {
+    accelOffset: { x: 0, y: 0, z: 0 },
+    soundBaseline: 0,
+    lightBaseline: 0,
+    compassCalibrated: false
+};
+
+// Restore from localStorage
+(function restoreCalibration() {
+    try {
+        const saved = localStorage.getItem('mb_calibration');
+        if (saved) {
+            const c = JSON.parse(saved);
+            if (c.accelOffset) calibration.accelOffset = c.accelOffset;
+            if (typeof c.soundBaseline === 'number') calibration.soundBaseline = c.soundBaseline;
+            if (typeof c.lightBaseline === 'number') calibration.lightBaseline = c.lightBaseline;
+            if (c.compassCalibrated) calibration.compassCalibrated = c.compassCalibrated;
+        }
+    } catch {}
+})();
+
+function saveCalibration() {
+    try { localStorage.setItem('mb_calibration', JSON.stringify(calibration)); } catch {}
+}
+
+// Latest raw values for "Set Level" / "Set Ambient"
+let lastRawAccel = { x: 0, y: 0, z: 0 };
+let lastRawSound = 0;
+let lastRawLight = 0;
 
 // Sensor state elements (additional)
 const btnAStateEl    = $('btnAState');
@@ -129,9 +161,11 @@ function handleUartLine(line) {
         if (t.startsWith('LIGHT:')) {
             const v = parseInt(t.slice(6), 10);
             if (!Number.isNaN(v)) {
-                if (lightValueEl) lightValueEl.textContent = v;
-                pushPoint(lightChart, v);
-                if (typeof graphPushData === 'function') graphPushData('light', v, 'Light');
+                lastRawLight = v;
+                const display = v - calibration.lightBaseline;
+                if (lightValueEl) lightValueEl.textContent = display;
+                pushPoint(lightChart, display);
+                if (typeof graphPushData === 'function') graphPushData('light', display, 'Light');
             }
             return;
         }
@@ -139,9 +173,11 @@ function handleUartLine(line) {
         if (t.startsWith('SOUND:')) {
             const v = parseInt(t.slice(6), 10);
             if (!Number.isNaN(v)) {
-                if (soundValueEl) soundValueEl.textContent = v;
-                pushPoint(soundChart, v);
-                if (typeof graphPushData === 'function') graphPushData('sound', v, 'Sound');
+                lastRawSound = v;
+                const display = v - calibration.soundBaseline;
+                if (soundValueEl) soundValueEl.textContent = display;
+                pushPoint(soundChart, display);
+                if (typeof graphPushData === 'function') graphPushData('sound', display, 'Sound');
             }
             return;
         }
@@ -153,20 +189,24 @@ function handleUartLine(line) {
                 const ay = parseInt(parts[1], 10);
                 const az = parseInt(parts[2], 10);
                 if (![ax,ay,az].some(Number.isNaN)) {
-                    const mag = Math.round(Math.sqrt(ax*ax + ay*ay + az*az));
-                    if (accelXValueEl) accelXValueEl.textContent = ax;
-                    if (accelYValueEl) accelYValueEl.textContent = ay;
-                    if (accelZValueEl) accelZValueEl.textContent = az;
+                    lastRawAccel = { x: ax, y: ay, z: az };
+                    const cx = ax - calibration.accelOffset.x;
+                    const cy = ay - calibration.accelOffset.y;
+                    const cz = az - calibration.accelOffset.z;
+                    const mag = Math.round(Math.sqrt(cx*cx + cy*cy + cz*cz));
+                    if (accelXValueEl) accelXValueEl.textContent = cx;
+                    if (accelYValueEl) accelYValueEl.textContent = cy;
+                    if (accelZValueEl) accelZValueEl.textContent = cz;
                     if (motionValueEl) motionValueEl.textContent = mag;
 
-                    pushPoint(accelXChart, ax);
-                    pushPoint(accelYChart, ay);
-                    pushPoint(accelZChart, az);
+                    pushPoint(accelXChart, cx);
+                    pushPoint(accelYChart, cy);
+                    pushPoint(accelZChart, cz);
                     pushPoint(motionChart, mag);
                     if (typeof graphPushData === 'function') {
-                        graphPushData('accelX', ax, 'Accel X');
-                        graphPushData('accelY', ay, 'Accel Y');
-                        graphPushData('accelZ', az, 'Accel Z');
+                        graphPushData('accelX', cx, 'Accel X');
+                        graphPushData('accelY', cy, 'Accel Y');
+                        graphPushData('accelZ', cz, 'Accel Z');
                     }
                 }
             }
@@ -293,9 +333,113 @@ function handleUartLine(line) {
         if (t.startsWith('EVENT:LOGO_PRESSED'))      { addLogLine('Logo pressed', 'success');      return; }
         if (t.startsWith('EVENT:LOGO_RELEASED'))     { addLogLine('Logo released', 'info');        return; }
 
+        // Calibration response
+        if (t === 'CAL:COMPASS:DONE') {
+            calibration.compassCalibrated = true;
+            saveCalibration();
+            updateCalUI();
+            if (typeof showToast === 'function') showToast('Compass calibrated! ✅', 'success');
+            addLogLine('Compass calibration complete', 'success');
+            return;
+        }
+
         // other lines (INFO, ECHO, LOG, EVENT...) just appear in the log
     } catch (err) {
         console.error('Error parsing UART line:', line, err);
         addLogLine('Parse error: ' + err.message, 'error');
     }
 }
+
+// ==================== CALIBRATION UI ====================
+
+function updateCalUI() {
+    const compassStatus = document.getElementById('calCompassStatus');
+    const accelStatus = document.getElementById('calAccelStatus');
+    const accelValues = document.getElementById('calAccelValues');
+    const soundStatus = document.getElementById('calSoundStatus');
+    const lightStatus = document.getElementById('calLightStatus');
+
+    if (compassStatus) {
+        compassStatus.textContent = calibration.compassCalibrated ? 'Calibrated ✅' : 'Not calibrated';
+        compassStatus.classList.toggle('cal-ok', calibration.compassCalibrated);
+    }
+
+    const hasAccel = calibration.accelOffset.x !== 0 || calibration.accelOffset.y !== 0 || calibration.accelOffset.z !== 0;
+    if (accelStatus) {
+        accelStatus.textContent = hasAccel ? 'Offset set ✅' : 'No offset';
+        accelStatus.classList.toggle('cal-ok', hasAccel);
+    }
+    if (accelValues && hasAccel) {
+        accelValues.textContent = `X:${calibration.accelOffset.x} Y:${calibration.accelOffset.y} Z:${calibration.accelOffset.z}`;
+    } else if (accelValues) {
+        accelValues.textContent = '';
+    }
+
+    if (soundStatus) {
+        const has = calibration.soundBaseline !== 0;
+        soundStatus.textContent = has ? `Baseline: ${calibration.soundBaseline} ✅` : 'No baseline';
+        soundStatus.classList.toggle('cal-ok', has);
+    }
+
+    if (lightStatus) {
+        const has = calibration.lightBaseline !== 0;
+        lightStatus.textContent = has ? `Baseline: ${calibration.lightBaseline} ✅` : 'No baseline';
+        lightStatus.classList.toggle('cal-ok', has);
+    }
+}
+
+// Wire calibration buttons
+document.addEventListener('DOMContentLoaded', () => {
+    // Compass
+    document.getElementById('calCompassBtn')?.addEventListener('click', () => {
+        if (typeof sendLine === 'function') {
+            sendLine('CAL:COMPASS');
+            if (typeof showToast === 'function') showToast('Tilt micro:bit to calibrate compass...', 'info', 5000);
+        }
+    });
+
+    // Accel Zero
+    document.getElementById('calAccelSetBtn')?.addEventListener('click', () => {
+        calibration.accelOffset = { ...lastRawAccel };
+        saveCalibration();
+        updateCalUI();
+        if (typeof showToast === 'function') showToast('Accelerometer zeroed ✅', 'success');
+    });
+    document.getElementById('calAccelResetBtn')?.addEventListener('click', () => {
+        calibration.accelOffset = { x: 0, y: 0, z: 0 };
+        saveCalibration();
+        updateCalUI();
+        if (typeof showToast === 'function') showToast('Accel offset cleared', 'info');
+    });
+
+    // Sound Baseline
+    document.getElementById('calSoundSetBtn')?.addEventListener('click', () => {
+        calibration.soundBaseline = lastRawSound;
+        saveCalibration();
+        updateCalUI();
+        if (typeof showToast === 'function') showToast('Sound baseline set: ' + lastRawSound, 'success');
+    });
+    document.getElementById('calSoundResetBtn')?.addEventListener('click', () => {
+        calibration.soundBaseline = 0;
+        saveCalibration();
+        updateCalUI();
+        if (typeof showToast === 'function') showToast('Sound baseline cleared', 'info');
+    });
+
+    // Light Baseline
+    document.getElementById('calLightSetBtn')?.addEventListener('click', () => {
+        calibration.lightBaseline = lastRawLight;
+        saveCalibration();
+        updateCalUI();
+        if (typeof showToast === 'function') showToast('Light baseline set: ' + lastRawLight, 'success');
+    });
+    document.getElementById('calLightResetBtn')?.addEventListener('click', () => {
+        calibration.lightBaseline = 0;
+        saveCalibration();
+        updateCalUI();
+        if (typeof showToast === 'function') showToast('Light baseline cleared', 'info');
+    });
+
+    // Init UI from saved state
+    updateCalUI();
+});

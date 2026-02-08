@@ -39,17 +39,12 @@ function sendLine(line) {
     }
 }
 
-// Attach listeners to all tab buttons — only notify micro:bit for tabs that affect firmware behavior
-let lastSentTab = 'controls';
+// Attach listeners to all tab buttons — notify micro:bit on every change
+// (firmware uses currentTab for LED feedback, BENCH:STATUS, and pin management)
 document.querySelectorAll(".tab-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     const page = btn.getAttribute("data-page");
-    // Only send TAB change when entering or leaving "servos" tab
-    // (micro:bit uses this to avoid pin conflicts with touch polling)
-    if (page === 'servos' || lastSentTab === 'servos') {
-      sendLine(`TAB:${page}`);
-    }
-    lastSentTab = page;
+    sendLine(`TAB:${page}`);
   });
 });
 
@@ -87,6 +82,9 @@ async function attemptReconnect() {
 
     reconnectAttempts++;
     addLogLine('Attempting reconnect (' + reconnectAttempts + '/' + MAX_RECONNECT_ATTEMPTS + ')...', 'info');
+    if (typeof showToast === 'function') {
+        showToast('Reconnecting... (' + reconnectAttempts + '/' + MAX_RECONNECT_ATTEMPTS + ')', 'warning');
+    }
     if (typeof addActivity === 'function') {
         addActivity('🔄 Reconnecting... (' + reconnectAttempts + '/' + MAX_RECONNECT_ATTEMPTS + ')', 'info');
     }
