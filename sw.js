@@ -1,5 +1,5 @@
 // sw.js — Service Worker for micro:bit Playground PWA
-const CACHE_NAME = 'microbit-playground-v4';
+const CACHE_NAME = 'microbit-playground-v5';
 const ASSETS = [
     'index.html',
     'styles.css',
@@ -17,7 +17,10 @@ const ASSETS = [
     'js/models/balance.js',
     'js/models/weather.js',
     'logo.svg',
-    'manifest.json'
+    'manifest.json',
+    'https://cdn.jsdelivr.net/npm/chart.js',
+    'https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation',
+    'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'
 ];
 
 self.addEventListener('install', (e) => {

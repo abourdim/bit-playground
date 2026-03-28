@@ -12,6 +12,7 @@
     <!-- Chart.js: for full offline support, download and serve locally -->
     <!-- e.g. <script src="chart.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <!-- Modular scripts (load order matters) -->
     <script src="js/core.js" defer></script>
@@ -1181,6 +1182,24 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                         </div>
                         <div style="margin-top:6px;font-size:0.8rem;">
                             You pressed: <span id="otherKeypadLast">–</span>
+                        </div>
+                    </div>
+
+                    <!-- Joystick -->
+                    <div class="control-section">
+                        <div class="section-header">
+                            <div class="section-title"><span class="section-icon">🕹️</span>Joystick</div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:repeat(3,40px);grid-template-rows:repeat(3,40px);gap:4px;justify-content:center;">
+                            <div></div>
+                            <button class="chip-btn other-joy-btn" data-other-dir="UP">&#9650;</button>
+                            <div></div>
+                            <button class="chip-btn other-joy-btn" data-other-dir="LEFT">&#9668;</button>
+                            <button class="chip-btn other-joy-btn" data-other-dir="CENTER" style="font-size:0.6rem;">&#9679;</button>
+                            <button class="chip-btn other-joy-btn" data-other-dir="RIGHT">&#9658;</button>
+                            <div></div>
+                            <button class="chip-btn other-joy-btn" data-other-dir="DOWN">&#9660;</button>
+                            <div></div>
                         </div>
                     </div>
 

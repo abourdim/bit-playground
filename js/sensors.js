@@ -361,6 +361,14 @@ function handleUartLine(line) {
         if (t.startsWith('EVENT:LOGO_PRESSED'))      { addLogLine('Logo pressed', 'success');      return; }
         if (t.startsWith('EVENT:LOGO_RELEASED'))     { addLogLine('Logo released', 'info');        return; }
 
+        // OTHER:ACK responses → Others tab response area + debug console
+        if (t.startsWith('OTHER:ACK:')) {
+            const resp = t.slice(10).trim();
+            if (typeof otherShowResponse === 'function') otherShowResponse(resp);
+            if (typeof otherConsoleLog === 'function') otherConsoleLog('ACK: ' + resp);
+            return;
+        }
+
         // Calibration response
         if (t === 'CAL:COMPASS:DONE') {
             calibration.compassCalibrated = true;
