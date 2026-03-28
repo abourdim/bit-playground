@@ -102,7 +102,9 @@ code { background: var(--code-bg); padding: 2px 6px; border-radius: 4px; font-si
     color: var(--muted);
 }
 .lang-btn.active { background: var(--accent); color: white; }
-.fr { display: none; }
+.fr { display: none !important; }
+html[lang="fr"] .fr { display: inline !important; }
+html[lang="fr"] .en { display: none !important; }
 .header-bar {
     display: flex;
     align-items: center;
@@ -457,10 +459,8 @@ kbd { background: var(--code-bg); border: 1px solid var(--card-border); border-r
 
 <script>
 function setLang(lang) {
-    document.querySelectorAll('.en').forEach(el => el.style.display = lang === 'en' ? '' : 'none');
-    document.querySelectorAll('.fr').forEach(el => el.style.display = lang === 'fr' ? '' : 'none');
-    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.textContent.trim() === lang.toUpperCase()));
     document.documentElement.lang = lang;
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.textContent.trim() === lang.toUpperCase()));
     try { localStorage.setItem('guide_lang', lang); } catch {}
 }
 // Restore saved language
