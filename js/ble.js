@@ -148,7 +148,7 @@ async function connect() {
         addLogLine('Requesting micro:bit device...', 'info');
 
         btDevice = await navigator.bluetooth.requestDevice({
-            filters: [{ namePrefix: 'BBC micro:bit' }],
+            filters: [{ namePrefix: 'BBC micro:bit' }, { namePrefix: 'uBit' }],
             optionalServices: [UART_SERVICE_UUID]
         });
 
