@@ -1702,9 +1702,885 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
             <a href="https://makecode.microbit.org/" target="_blank" rel="noopener" class="secondary" style="display:inline-flex; align-items:center; text-decoration:none; padding:8px 16px; border-radius:8px;">Open MakeCode</a>
             <button id="firmwareCloseBtn" class="secondary">Close</button>
         </div>
-        <div id="firmwareCodeWrap" style="max-height:60vh; overflow:auto; border-radius:8px; border:1px solid var(--card-border, #333);">
-            <pre id="firmwareCode" style="margin:0; padding:12px; font-size:0.7rem; line-height:1.4; white-space:pre; tab-size:4; font-family:var(--font-mono, monospace); background:rgba(0,0,0,0.3);"></pre>
+        <div id="firmwareCodeWrap" style="max-height:60vh; overflow:auto; border-radius:8px; border:1px solid var(--card-border, #333); -webkit-overflow-scrolling:touch;">
+            <pre id="firmwareCode" style="margin:0; padding:12px; font-size:0.7rem; line-height:1.4; white-space:pre; tab-size:4; font-family:var(--font-mono, monospace); background:rgba(0,0,0,0.3); overflow-x:auto;"></pre>
         </div>
+        <script id="firmwareSource" type="text/plain">/**
+ * =========================================================
+ *  micro:bit Playground - BLE Firmware (V6.0)
+ * =========================================================
+ *
+ * UART over Bluetooth LE - full telemetry, control &amp; 3D sync
+ *
+ * TELEMETRY (micro:bit -&gt; browser):
+ *   TEMP:&lt;C&gt;                           every 100ms (on change)
+ *   LIGHT:&lt;0-255&gt;                      every 100ms (on change)
+ *   SOUND:&lt;0-255&gt;                      every 100ms (on change)
+ *   ACC:&lt;x&gt;,&lt;y&gt;,&lt;z&gt;                    every 100ms (on change)
+ *   COMPASS:&lt;0-360&gt;                    every 200ms (on change)
+ *   BTN:A:&lt;0|1&gt;  BTN:B:&lt;0|1&gt;          every 100ms (on change)
+ *   BTN:P0/P1/P2:&lt;0|1&gt;                every 100ms (on change)
+ *   BTN:LOGO:&lt;0|1&gt;                    every 100ms (on change)
+ *   LEDS:&lt;r0&gt;,&lt;r1&gt;,&lt;r2&gt;,&lt;r3&gt;,&lt;r4&gt;     every 250ms (on change)
+ *       each row 0-31 (5 bits), syncs with 3D board model
+ *   SERVO1_POS:&lt;angle&gt;                 every 500ms
+ *   SERVO2_POS:&lt;angle&gt;                 every 500ms
+ *   GRAPH:&lt;label&gt;:&lt;value&gt;              simulate mode only
+ *   SIMULATE:ACK:ON/OFF                simulate acknowledgement
+ *   CAL:COMPASS:DONE                   after calibration complete
+ *   INFO:CONNECTED / INFO:DISCONNECTED BLE state changes
+ *   INFO:SERIAL:&lt;id&gt;                   device serial number
+ *
+ * COMMANDS (browser -&gt; micro:bit):
+ *   TEXT:&lt;string&gt;           Show scrolling text on LED
+ *   LM:&lt;hex10&gt;             Set 5x5 LED matrix (hex encoded)
+ *   CMD:HEART/SMILE/SAD/CLEAR/FIRE/UP/DOWN/LEFT/RIGHT
+ *   SERVO1:&lt;angle&gt;         SERVO2:&lt;angle&gt;       (0-180)
+ *   SERVO1:OFF             SERVO2:OFF
+ *   BUZZ:&lt;freq&gt;,&lt;ms&gt;       BUZZ:OFF
+ *   OTHER:LED/&lt;row&gt;,&lt;col&gt;,&lt;0|1&gt;
+ *   OTHER:PIN/&lt;D|A&gt;&lt;n&gt;:&lt;val&gt;
+ *   OTHER:PWM/&lt;pin&gt;:&lt;duty&gt;,&lt;period&gt;
+ *   OTHER:SERVO/&lt;angle&gt;,&lt;speed&gt;
+ *   BENCH:&lt;cmd&gt;            (PING, STATUS, RESET)
+ *   JSON:{...}             Parse JSON commands
+ *   SIMULATE:ON/OFF        Start/stop graph demo data
+ *   CAL:COMPASS            Trigger compass calibration game
+ *   TAB:&lt;name&gt;             Notify firmware of active browser tab
+ *   HELLO                  Sent on connect to confirm link
+ *
+ * PIN CONFLICT GUARDS:
+ *   servo1Active  -&gt; blocks touch P1 polling
+ *   servo2Active  -&gt; blocks touch P2 polling
+ *   buzzerActive  -&gt; blocks touch P0 polling
+ *
+ * 3D BOARD SYNC:
+ *   LEDS: telemetry mirrors actual LED display on 3D model
+ *   ACC:  tilts 3D board matching physical orientation
+ *   BTN:  buttons depress + glow on 3D model
+ *   Touch pins glow on 3D model
+ *   TEMP: tints 3D PCB color (blue to red)
+ * =========================================================
+ */
+// Touch pin events using input.onPinPressed
+input.onPinPressed(TouchPin.P0, function () {
+    if (btConnected) {
+        bluetooth.uartWriteLine(&quot;EVENT:TOUCH_P0_PRESSED&quot;)
+    }
+})
+// P2 touch events removed: conflicts with servo2 on P2 (same as P1 above)
+input.onPinReleased(TouchPin.P0, function () {
+    if (btConnected) {
+        bluetooth.uartWriteLine(&quot;EVENT:TOUCH_P0_RELEASED&quot;)
+    }
+})
+bluetooth.onBluetoothConnected(function () {
+    btConnected = true
+    basic.showIcon(IconNames.Yes)
+    bluetooth.uartWriteLine(&quot;INFO:CONNECTED&quot;)
+})
+bluetooth.onBluetoothDisconnected(function () {
+    btConnected = false
+    basic.showIcon(IconNames.No)
+    bluetooth.uartWriteLine(&quot;INFO:DISCONNECTED&quot;)
+})
+input.onButtonPressed(Button.A, function () {
+    if (btConnected) {
+        bluetooth.uartWriteLine(&quot;EVENT:BUTTON_A_PRESSED&quot;)
+    }
+})
+// (P2 pressed event removed — see P2 released comment above)
+function handleLedMatrixHex(hex2: string) {
+    if (hex2.length != 10) {
+        bluetooth.uartWriteLine(&quot;LOG:LM_BAD_LENGTH:&quot; + hex2.length)
+        return
+    }
+    for (let row = 0; row &lt;= 4; row++) {
+        let pair = hex2.substr(row * 2, 2)
+        let value = hexPairToByte(pair)
+        for (let col = 0; col &lt;= 4; col++) {
+            const mask = 1 &lt;&lt; col
+            let on = (value &amp; mask) != 0
+            if (on) {
+                led.plot(col, row)
+            } else {
+                led.unplot(col, row)
+            }
+        }
+    }
+    bluetooth.uartWriteLine(&quot;LOG:LM_OK:&quot; + hex2)
+}
+// ---------- UART RX: commands from browser ----------
+bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () {
+    let line = bluetooth.uartReadUntil(serial.delimiters(Delimiters.NewLine))
+    line = line.trim()
+    // Echo back for debugging
+    bluetooth.uartWriteLine(&quot;ECHO:&quot; + line)
+    if (line.substr(0, 5) == &quot;TEXT:&quot;) {
+        let msg = line.substr(5)
+        if (msg.length &gt; 0) {
+            basic.showString(msg)
+        }
+        return
+    }
+    if (line.substr(0, 3) == &quot;LM:&quot;) {
+        let hex2 = line.substr(3)
+        handleLedMatrixHex(hex2)
+        return
+    }
+    // ======== TAB change from browser =========
+    // Expect messages like: TAB:Controls, TAB:Senses, TAB:Servos, TAB:Others
+    if (line.substr(0, 4) == &quot;TAB:&quot;) {
+        let tab = line.substr(4).toLowerCase()
+        currentTab = tab  // Store for conditional pin polling
+        // Acknowledge back to browser
+        bluetooth.uartWriteLine(&quot;TAB:ACK:&quot; + tab)
+        // Simple visual feedback on micro:bit:
+        // show first letter of the tab (C / S / S / O)
+        if (tab.length &gt; 0) {
+            basic.showString(tab.charAt(0).toUpperCase())
+        }
+        return
+    }
+    // ======== SERVOS =========
+    // Accept commands: SERVO1:&lt;angle&gt;, SERVO2:&lt;angle&gt;, SERVO1:OFF, SERVO2:OFF
+    if (line == &quot;SERVO1:OFF&quot;) {
+        pins.analogWritePin(AnalogPin.P1, 0)
+        servo1Target = 0
+        servo1Current = 0
+        servo1Active = false
+        bluetooth.uartWriteLine(&quot;SERVO1:OFF:ACK&quot;)
+        return
+    }
+    if (line == &quot;SERVO2:OFF&quot;) {
+        pins.analogWritePin(AnalogPin.P2, 0)
+        servo2Target = 0
+        servo2Current = 0
+        servo2Active = false
+        bluetooth.uartWriteLine(&quot;SERVO2:OFF:ACK&quot;)
+        return
+    }
+    // Replace existing SERVO1: handling block with this
+    if (line.substr(0, 7) == &quot;SERVO1:&quot;) {
+        let raw = line.substr(7)
+        let b = parseFloat(raw)
+        if (!(isNaN(b))) {
+            let angle = clampAngle(b)
+            servo1Active = true
+            // Let requestServoMove handle the pin write to avoid race condition
+            requestServoMove(1, angle)
+            bluetooth.uartWriteLine(&quot;SERVO1:ACK:&quot; + angle)
+            bluetooth.uartWriteLine(&quot;DBG:SERVO1_RECV:&quot; + raw)
+        } else {
+            bluetooth.uartWriteLine(&quot;SERVO1:NACK&quot;)
+        }
+        return
+    }
+    // Replace existing SERVO2: handling block with this
+    if (line.substr(0, 7) == &quot;SERVO2:&quot;) {
+        let raw2 = line.substr(7)
+        let c = parseFloat(raw2)
+        if (!(isNaN(c))) {
+            let angle2 = clampAngle(c)
+            servo2Active = true
+            requestServoMove(2, angle2)
+            bluetooth.uartWriteLine(&quot;SERVO2:ACK:&quot; + angle2)
+            bluetooth.uartWriteLine(&quot;DBG:SERVO2_RECV:&quot; + raw2)
+        } else {
+            bluetooth.uartWriteLine(&quot;SERVO2:NACK&quot;)
+        }
+        return
+    }
+    if (line == &quot;CMD:HEART&quot;) {
+        basic.showIcon(IconNames.Heart)
+        return
+    }
+    if (line == &quot;CMD:SMILE&quot;) {
+        basic.showIcon(IconNames.Happy)
+        return
+    }
+    if (line == &quot;CMD:SAD&quot;) {
+        basic.showIcon(IconNames.Sad)
+        return
+    }
+    if (line == &quot;CMD:CLEAR&quot;) {
+        basic.clearScreen()
+        return
+    }
+    if (line == &quot;CMD:FIRE&quot;) {
+        playExplosion()
+        return
+    }
+    // ======== GAMEPAD D-PAD ========
+    if (line == &quot;CMD:UP&quot;) {
+        basic.showArrow(ArrowNames.North)
+        bluetooth.uartWriteLine(&quot;CMD:ACK:UP&quot;)
+        return
+    }
+    if (line == &quot;CMD:DOWN&quot;) {
+        basic.showArrow(ArrowNames.South)
+        bluetooth.uartWriteLine(&quot;CMD:ACK:DOWN&quot;)
+        return
+    }
+    if (line == &quot;CMD:LEFT&quot;) {
+        basic.showArrow(ArrowNames.West)
+        bluetooth.uartWriteLine(&quot;CMD:ACK:LEFT&quot;)
+        return
+    }
+    if (line == &quot;CMD:RIGHT&quot;) {
+        basic.showArrow(ArrowNames.East)
+        bluetooth.uartWriteLine(&quot;CMD:ACK:RIGHT&quot;)
+        return
+    }
+    // ======== BENCH (echo + diagnostics) ========
+    if (line.substr(0, 6) == &quot;BENCH:&quot;) {
+        const cmd = line.substr(6).trim()
+        // Echo back for testing
+        bluetooth.uartWriteLine(&quot;BENCH:ECHO:&quot; + cmd)
+        // Simple built-in commands
+        if (cmd == &quot;PING&quot;) {
+            bluetooth.uartWriteLine(&quot;BENCH:PONG&quot;)
+        } else if (cmd == &quot;STATUS&quot;) {
+            bluetooth.uartWriteLine(&quot;BENCH:TAB:&quot; + currentTab)
+            bluetooth.uartWriteLine(&quot;BENCH:S1:&quot; + servo1Current)
+            bluetooth.uartWriteLine(&quot;BENCH:S2:&quot; + servo2Current)
+        } else if (cmd == &quot;RESET&quot;) {
+            control.reset()
+        }
+        return
+    }
+    // ======== JSON (echo for debug) ========
+    if (line.substr(0, 5) == &quot;JSON:&quot;) {
+        const payload = line.substr(5)
+        bluetooth.uartWriteLine(&quot;JSON:ACK:&quot; + payload.length + &quot; chars&quot;)
+        return
+    }
+    // ======== OTHERS TAB WIDGETS ========
+    if (line.substr(0, 6) == &quot;OTHER:&quot;) {
+        const rest = line.substr(6)
+        // Button press
+        if (rest == &quot;BTN:PRESS&quot;) {
+            basic.showIcon(IconNames.SmallDiamond)
+            basic.pause(100)
+            basic.clearScreen()
+            bluetooth.uartWriteLine(&quot;OTHER:ACK:BTN&quot;)
+            return
+        }
+        // Switch
+        if (rest.substr(0, 7) == &quot;SWITCH:&quot;) {
+            const state = rest.substr(7)
+            if (state == &quot;ON&quot;) {
+                basic.showIcon(IconNames.Yes)
+            } else {
+                basic.showIcon(IconNames.No)
+            }
+            bluetooth.uartWriteLine(&quot;OTHER:ACK:SWITCH:&quot; + state)
+            return
+        }
+        // Slider
+        if (rest.substr(0, 7) == &quot;SLIDER:&quot;) {
+            const val = parseInt(rest.substr(7))
+            // Show as bar graph on LED
+            led.plotBarGraph(val, 100)
+            bluetooth.uartWriteLine(&quot;OTHER:ACK:SLIDER:&quot; + val)
+            return
+        }
+        // Joystick
+        if (rest.substr(0, 4) == &quot;JOY:&quot;) {
+            const dir = rest.substr(4)
+            if (dir == &quot;UP&quot;) basic.showArrow(ArrowNames.North)
+            else if (dir == &quot;DOWN&quot;) basic.showArrow(ArrowNames.South)
+            else if (dir == &quot;LEFT&quot;) basic.showArrow(ArrowNames.West)
+            else if (dir == &quot;RIGHT&quot;) basic.showArrow(ArrowNames.East)
+            bluetooth.uartWriteLine(&quot;OTHER:ACK:JOY:&quot; + dir)
+            return
+        }
+        // Text
+        if (rest.substr(0, 5) == &quot;TEXT:&quot;) {
+            const txt = rest.substr(5)
+            basic.showString(txt)
+            bluetooth.uartWriteLine(&quot;OTHER:ACK:TEXT&quot;)
+            return
+        }
+        // LED indicator
+        if (rest.substr(0, 4) == &quot;LED:&quot;) {
+            const state = rest.substr(4)
+            if (state == &quot;ON&quot;) {
+                led.plot(2, 2)
+            } else {
+                led.unplot(2, 2)
+            }
+            bluetooth.uartWriteLine(&quot;OTHER:ACK:LED:&quot; + state)
+            return
+        }
+        // Keypad
+        if (rest.substr(0, 4) == &quot;KEY:&quot;) {
+            const key = rest.substr(4)
+            basic.showString(key)
+            bluetooth.uartWriteLine(&quot;OTHER:ACK:KEY:&quot; + key)
+            return
+        }
+        // Pin control (guard P1/P2 against active servos)
+        if (rest.substr(0, 4) == &quot;PIN:&quot;) {
+            const parts2 = rest.substr(4).split(&quot;:&quot;)
+            if (parts2.length == 2) {
+                const pinName = parts2[0]  // D0, D1, D2, D8, D12, D16
+                const pinVal = parseInt(parts2[1])
+                // Block D1 if servo1 active, D2 if servo2 active
+                if (pinName == &quot;D1&quot; &amp;&amp; servo1Active) {
+                    bluetooth.uartWriteLine(&quot;OTHER:NACK:PIN:D1:SERVO_ACTIVE&quot;)
+                    return
+                }
+                if (pinName == &quot;D2&quot; &amp;&amp; servo2Active) {
+                    bluetooth.uartWriteLine(&quot;OTHER:NACK:PIN:D2:SERVO_ACTIVE&quot;)
+                    return
+                }
+                // Map to actual pins
+                if (pinName == &quot;D0&quot;) pins.digitalWritePin(DigitalPin.P0, pinVal)
+                else if (pinName == &quot;D1&quot;) pins.digitalWritePin(DigitalPin.P1, pinVal)
+                else if (pinName == &quot;D2&quot;) pins.digitalWritePin(DigitalPin.P2, pinVal)
+                else if (pinName == &quot;D8&quot;) pins.digitalWritePin(DigitalPin.P8, pinVal)
+                else if (pinName == &quot;D12&quot;) pins.digitalWritePin(DigitalPin.P12, pinVal)
+                else if (pinName == &quot;D16&quot;) pins.digitalWritePin(DigitalPin.P16, pinVal)
+                bluetooth.uartWriteLine(&quot;OTHER:ACK:PIN:&quot; + pinName + &quot;:&quot; + pinVal)
+            }
+            return
+        }
+        // PWM
+        if (rest.substr(0, 7) == &quot;PWM:P0:&quot;) {
+            const pwmVal = parseInt(rest.substr(7))
+            pins.analogWritePin(AnalogPin.P0, pwmVal)
+            bluetooth.uartWriteLine(&quot;OTHER:ACK:PWM:P0:&quot; + pwmVal)
+            return
+        }
+        // Servo from Others tab — use same safe path as Servos tab
+        if (rest.substr(0, 6) == &quot;SERVO:&quot;) {
+            const parts3 = rest.substr(6).split(&quot;,&quot;)
+            if (parts3.length == 2) {
+                const sAngle = clampAngle(parseInt(parts3[0]))
+                // speed is ignored for now, just move servo 1
+                servo1Active = true
+                requestServoMove(1, sAngle)
+                bluetooth.uartWriteLine(&quot;OTHER:ACK:SERVO:&quot; + sAngle)
+            }
+            return
+        }
+        // Strip LED (placeholder - would need neopixel extension)
+        if (rest.substr(0, 6) == &quot;STRIP:&quot;) {
+            bluetooth.uartWriteLine(&quot;OTHER:ACK:STRIP&quot;)
+            return
+        }
+        // Mode selector — show mode initial on LED
+        if (rest.substr(0, 5) == &quot;MODE:&quot;) {
+            const mode = rest.substr(5)
+            basic.showString(mode.charAt(0))
+            bluetooth.uartWriteLine(&quot;OTHER:ACK:MODE:&quot; + mode)
+            return
+        }
+        // XY Pad — plot dot on LED matrix at mapped position
+        if (rest.substr(0, 3) == &quot;XY:&quot;) {
+            const xyParts = rest.substr(3).split(&quot;,&quot;)
+            if (xyParts.length == 2) {
+                const px = Math.round(parseFloat(xyParts[0]) * 4)
+                const py = Math.round(parseFloat(xyParts[1]) * 4)
+                basic.clearScreen()
+                led.plot(px, py)
+            }
+            bluetooth.uartWriteLine(&quot;OTHER:ACK:XY&quot;)
+            return
+        }
+        // Random number — show on LED
+        if (rest.substr(0, 7) == &quot;RANDOM:&quot;) {
+            const rVal = rest.substr(7)
+            basic.showNumber(parseInt(rVal))
+            bluetooth.uartWriteLine(&quot;OTHER:ACK:RANDOM:&quot; + rVal)
+            return
+        }
+        // Numeric input — show on LED
+        if (rest.substr(0, 7) == &quot;NUMBER:&quot;) {
+            const nVal = rest.substr(7)
+            basic.showNumber(parseInt(nVal))
+            bluetooth.uartWriteLine(&quot;OTHER:ACK:NUMBER:&quot; + nVal)
+            return
+        }
+        // Range min — plot as bar graph (0-100)
+        if (rest.substr(0, 10) == &quot;RANGE_MIN:&quot;) {
+            const rMin = parseInt(rest.substr(10))
+            led.plotBarGraph(rMin, 100)
+            bluetooth.uartWriteLine(&quot;OTHER:ACK:RANGE_MIN:&quot; + rMin)
+            return
+        }
+        // Range max — plot as bar graph (0-100)
+        if (rest.substr(0, 10) == &quot;RANGE_MAX:&quot;) {
+            const rMax = parseInt(rest.substr(10))
+            led.plotBarGraph(rMax, 100)
+            bluetooth.uartWriteLine(&quot;OTHER:ACK:RANGE_MAX:&quot; + rMax)
+            return
+        }
+        // Color — show color hex briefly on LED
+        if (rest.substr(0, 6) == &quot;COLOR:&quot;) {
+            const hex = rest.substr(6)
+            // Flash a small diamond to acknowledge color change
+            basic.showIcon(IconNames.SmallDiamond)
+            basic.pause(200)
+            basic.clearScreen()
+            bluetooth.uartWriteLine(&quot;OTHER:ACK:COLOR:&quot; + hex)
+            return
+        }
+        // Delayed action — beep + flash when triggered
+        if (rest == &quot;DELAYED_ACTION&quot;) {
+            basic.showIcon(IconNames.Target)
+            music.playTone(880, music.beat(BeatFraction.Quarter))
+            basic.pause(300)
+            basic.clearScreen()
+            bluetooth.uartWriteLine(&quot;OTHER:ACK:DELAYED_ACTION&quot;)
+            return
+        }
+        // Default ACK
+        bluetooth.uartWriteLine(&quot;OTHER:ACK:&quot; + rest)
+        return
+    }
+    // ======== BUZZER CONTROL (non-blocking) ========
+    if (line.substr(0, 5) == &quot;BUZZ:&quot;) {
+        const rest = line.substr(5);
+
+        // OFF
+        if (rest == &quot;OFF&quot;) {
+            music.stopAllSounds();
+            pins.analogWritePin(AnalogPin.P0, 0);
+            buzzerActive = false;
+            bluetooth.uartWriteLine(&quot;BUZZ:ACK:OFF&quot;);
+            return;
+        }
+
+        // Frequency + duration
+        const parts = rest.split(&quot;,&quot;);
+        if (parts.length == 2) {
+            const freq = parseInt(parts[0]);
+            const dur = parseInt(parts[1]);
+
+            // Safety: prevent division by zero and invalid values
+            if (freq &lt; 20 || freq &gt; 20000 || dur &lt; 1 || dur &gt; 5000) {
+                bluetooth.uartWriteLine(&quot;BUZZ:NACK:INVALID&quot;);
+                return;
+            }
+
+            buzzerActive = true;
+
+            // Non-blocking: run in background to avoid BLE timeout
+            control.inBackground(function () {
+                // V2 built-in speaker (non-blocking with Background)
+                music.playTone(freq, dur);
+            });
+
+            // External buzzer on P0 (also in background)
+            control.inBackground(function () {
+                pins.analogSetPeriod(AnalogPin.P0, 1000000 / freq);
+                pins.analogWritePin(AnalogPin.P0, 512);
+                basic.pause(dur);
+                pins.analogWritePin(AnalogPin.P0, 0);
+                buzzerActive = false;
+            });
+
+            bluetooth.uartWriteLine(&quot;BUZZ:ACK:&quot; + rest);
+        }
+        return;
+    }
+
+    // Calibration: CAL:COMPASS
+    if (line == &quot;CAL:COMPASS&quot;) {
+        input.calibrateCompass()
+        bluetooth.uartWriteLine(&quot;CAL:COMPASS:DONE&quot;)
+        return;
+    }
+
+    // Simulate graph data: SIMULATE:ON / SIMULATE:OFF
+    if (line == &quot;SIMULATE:ON&quot;) {
+        simulateActive = true;
+        bluetooth.uartWriteLine(&quot;SIMULATE:ACK:ON&quot;);
+        return;
+    }
+    if (line == &quot;SIMULATE:OFF&quot;) {
+        simulateActive = false;
+        bluetooth.uartWriteLine(&quot;SIMULATE:ACK:OFF&quot;);
+        return;
+    }
+
+})
+input.onButtonPressed(Button.AB, function () {
+    if (btConnected) {
+        bluetooth.uartWriteLine(&quot;EVENT:BUTTON_AB_PRESSED&quot;)
+    }
+})
+function clampAngle(a: number) {
+    if (a &lt; 0) {
+        return 0
+    }
+    if (a &gt; 180) {
+        return 180
+    }
+    return Math.floor(a)
+}
+input.onButtonPressed(Button.B, function () {
+    if (btConnected) {
+        bluetooth.uartWriteLine(&quot;EVENT:BUTTON_B_PRESSED&quot;)
+    }
+})
+// ---------- Helpers for LM:hhhhhhhhhh ----------
+function hexCharToNibble(ch: string) {
+    const up = ch.toUpperCase()
+    let digits = &quot;0123456789ABCDEF&quot;
+    let idx = digits.indexOf(up)
+    if (idx &lt; 0) {
+        return 0
+    }
+    return idx
+}
+// P1 touch events removed: input.onPinPressed(TouchPin.P1) configures P1 for
+// capacitive touch sensing at the DAL level, which conflicts with servo PWM on P1.
+// The polling loop (BTN:P1:) already handles touch data with servo1Active guard.
+function hexPairToByte(s: string) {
+    if (s.length &lt; 2) {
+        return 0
+    }
+    let hi = hexCharToNibble(s.charAt(0))
+    let lo = hexCharToNibble(s.charAt(1))
+    return hi * 16 + lo
+}
+// Cancel flags: set true to stop a running background move
+let servo1Cancel = false
+let servo2Cancel = false
+
+function requestServoMove(servoIndex: number, angle: number) {
+    let a = clampAngle(angle)
+    if (servoIndex == 1) {
+        servo1Target = a
+        // Cancel any running move before starting a new one
+        if (servo1Moving) {
+            servo1Cancel = true
+            // Wait briefly for the old thread to exit
+            basic.pause(30)
+        }
+        servo1Cancel = false
+        servo1Moving = true
+        control.inBackground(function () {
+            while (servo1Current !== servo1Target &amp;&amp; !servo1Cancel) {
+                if (servo1Target &gt; servo1Current) servo1Current++
+                else if (servo1Target &lt; servo1Current) servo1Current--
+                pins.servoWritePin(AnalogPin.P1, servo1Current)
+                basic.pause(18)
+            }
+            servo1Moving = false
+        })
+    } else {
+        servo2Target = a
+        if (servo2Moving) {
+            servo2Cancel = true
+            basic.pause(30)
+        }
+        servo2Cancel = false
+        servo2Moving = true
+        control.inBackground(function () {
+            while (servo2Current !== servo2Target &amp;&amp; !servo2Cancel) {
+                if (servo2Target &gt; servo2Current) servo2Current++
+                else if (servo2Target &lt; servo2Current) servo2Current--
+                pins.servoWritePin(AnalogPin.P2, servo2Current)
+                basic.pause(18)
+            }
+            servo2Moving = false
+        })
+    }
+}
+input.onLogoEvent(TouchButtonEvent.Pressed, function () {
+    if (btConnected) {
+        bluetooth.uartWriteLine(&quot;EVENT:LOGO_PRESSED&quot;)
+    }
+})
+input.onLogoEvent(TouchButtonEvent.Released, function () {
+    if (btConnected) {
+        bluetooth.uartWriteLine(&quot;EVENT:LOGO_RELEASED&quot;)
+    }
+})
+// ---------- State variables (must be global) ----------
+let btConnected = false
+let servo2Current = 0
+let servo1Current = 0
+let servo2Target = 0
+let servo1Target = 0
+let servo2Moving = false
+let servo1Moving = false
+let currentTab = &quot;controls&quot;  // Track active tab for pin management
+// Track whether each servo has been activated (survives tab changes)
+let servo1Active = false
+let servo2Active = false
+let buzzerActive = false  // guards P0 from touch polling during buzz
+let simulateActive = false
+let simTick = 0
+
+// Simulate graph data loop (sends GRAPH: messages when active)
+loops.everyInterval(200, function () {
+    if (!btConnected || !simulateActive) return;
+    const sine = Math.round(50 + 50 * Math.sin(simTick * 0.1));
+    const ramp = simTick % 100;
+    const random = Math.randomRange(0, 100);
+    bluetooth.uartWriteLine(&quot;GRAPH:Sine:&quot; + sine);
+    bluetooth.uartWriteLine(&quot;GRAPH:Random:&quot; + random);
+    bluetooth.uartWriteLine(&quot;GRAPH:Ramp:&quot; + ramp);
+    simTick++;
+})
+bluetooth.startUartService()
+basic.showString(&quot;BT&quot;)
+basic.pause(200)
+basic.clearScreen()
+// ---------- Servo state (minimal additions) ----------
+servo1Target = 90
+servo2Target = 90
+servo1Current = 90
+servo2Current = 90
+// ---------- Telemetry: sensors ----------
+let lastTemp = -1
+let lastLight = -1
+let lastSoundLevel = -1
+let lastAccX = -1
+let lastAccY = -1
+let lastAccZ = -1
+let LastServo1Current = -1
+let LastServo2Current = -1
+// ---------- Buttons &amp; events ----------
+let lastBtnA = -1
+let lastBtnB = -1
+let lastLogo = -1
+let lastTouchP0 = -1
+let lastTouchP1 = -1
+let lastTouchP2 = -1
+// report servo positions periodically (minimal telemetry)
+loops.everyInterval(500, function () {
+    if (!(btConnected)) {
+        return
+    }
+    if (LastServo1Current == servo1Current &amp;&amp; LastServo2Current == servo2Current) {
+        return
+    }
+    LastServo1Current = servo1Current
+    LastServo2Current = servo2Current
+    bluetooth.uartWriteLine(&quot;SERVO1_POS:&quot; + servo1Current)
+    bluetooth.uartWriteLine(&quot;SERVO2_POS:&quot; + servo2Current)
+})
+// Accelerometer (mg)
+loops.everyInterval(300, function () {
+    if (!(btConnected)) {
+        return
+    }
+    let x = input.acceleration(Dimension.X)
+    let y = input.acceleration(Dimension.Y)
+    let z = input.acceleration(Dimension.Z)
+    if (lastAccX == x &amp;&amp; lastAccY == y &amp;&amp; lastAccZ == z) {
+        return
+    }
+    let diff_x = 0
+    let diff_y = 0
+    let diff_z = 0
+    if (lastAccX &gt; x) {
+        diff_x = lastAccX - x
+    } else {
+        diff_x = x - lastAccX
+    }
+    if (lastAccY &gt; y) {
+        diff_y = lastAccY - y
+    } else {
+        diff_y = y - lastAccY
+    }
+    if (lastAccZ &gt; z) {
+        diff_z = lastAccZ - z
+    } else {
+        diff_z = z - lastAccZ
+    }
+    lastAccX = x
+    lastAccY = y
+    lastAccZ = z
+    if (diff_x &lt; 15 &amp;&amp; diff_y &lt; 15 &amp;&amp; diff_z &lt; 15) {
+        return;
+    }
+    bluetooth.uartWriteLine(&quot;ACC:&quot; + x + &quot;,&quot; + y + &quot;,&quot; + z)
+})
+// Light level
+loops.everyInterval(100, function () {
+    if (!(btConnected)) {
+        return
+    }
+    let l = input.lightLevel()
+    if (lastLight == l) {
+        return
+    }
+    lastLight = l
+    bluetooth.uartWriteLine(&quot;LIGHT:&quot; + l)
+})
+// Sound level (V2)
+loops.everyInterval(100, function () {
+    if (!(btConnected)) {
+        return
+    }
+    // On V2 we have soundLevel(), on V1 this stays 0
+    let s = input.soundLevel()
+    if (lastSoundLevel == s) {
+        return
+    }
+    lastSoundLevel = s
+    bluetooth.uartWriteLine(&quot;SOUND:&quot; + s)
+    // bluetooth.uartWriteLine(&quot;BENCH:&quot; + s)
+})
+// Button/touch/logo polling (individual BTN:P0/P1/P2: messages for browser)
+loops.everyInterval(100, function () {
+    if (!(btConnected)) {
+        return
+    }
+    const aNow = input.buttonIsPressed(Button.A) ? 1 : 0
+    const bNow = input.buttonIsPressed(Button.B) ? 1 : 0
+    const logoNow = input.logoIsPressed() ? 1 : 0
+    // Skip P0 touch read during buzzer (P0 is analog output for external buzzer)
+    let touchP0Now = 0
+    if (!buzzerActive) {
+        touchP0Now = input.pinIsPressed(TouchPin.P0) ? 1 : 0
+    }
+    // Only poll P1/P2 if that servo is NOT active
+    let touchP1Now = 0
+    let touchP2Now = 0
+    if (!servo1Active) {
+        touchP1Now = input.pinIsPressed(TouchPin.P1) ? 1 : 0
+    }
+    if (!servo2Active) {
+        touchP2Now = input.pinIsPressed(TouchPin.P2) ? 1 : 0
+    }
+    if (aNow != lastBtnA) {
+        bluetooth.uartWriteLine(&quot;BTN:A:&quot; + aNow)
+        lastBtnA = aNow
+    }
+    if (bNow != lastBtnB) {
+        bluetooth.uartWriteLine(&quot;BTN:B:&quot; + bNow)
+        lastBtnB = bNow
+    }
+    if (logoNow != lastLogo) {
+        bluetooth.uartWriteLine(&quot;BTN:LOGO:&quot; + logoNow)
+        lastLogo = logoNow
+    }
+    if (!buzzerActive &amp;&amp; touchP0Now != lastTouchP0) {
+        bluetooth.uartWriteLine(&quot;BTN:P0:&quot; + touchP0Now)
+        lastTouchP0 = touchP0Now
+    }
+    // Only report P1/P2 changes if that servo is not active
+    if (!servo1Active) {
+        if (touchP1Now != lastTouchP1) {
+            bluetooth.uartWriteLine(&quot;BTN:P1:&quot; + touchP1Now)
+            lastTouchP1 = touchP1Now
+        }
+    }
+    if (!servo2Active) {
+        if (touchP2Now != lastTouchP2) {
+            bluetooth.uartWriteLine(&quot;BTN:P2:&quot; + touchP2Now)
+            lastTouchP2 = touchP2Now
+        }
+    }
+})
+// Temperature (°C)
+loops.everyInterval(100, function () {
+    if (!(btConnected)) {
+        return
+    }
+    let t = input.temperature()
+    if (lastTemp == t) {
+        return
+    }
+    lastTemp = t
+    bluetooth.uartWriteLine(&quot;TEMP:&quot; + t)
+})
+// Compass heading (degrees)
+let lastCompass = -1
+loops.everyInterval(200, function () {
+    if (!(btConnected)) {
+        return
+    }
+    const heading = input.compassHeading()
+    if (lastCompass == heading) {
+        return
+    }
+    lastCompass = heading
+    bluetooth.uartWriteLine(&quot;COMPASS:&quot; + heading)
+})
+
+// LED state telemetry — reports actual 5x5 LED screen to browser
+let lastLedStr = &quot;&quot;
+loops.everyInterval(250, function () {
+    if (!(btConnected)) {
+        return
+    }
+    let vals: number[] = []
+    for (let row = 0; row &lt; 5; row++) {
+        let bits = 0
+        for (let col = 0; col &lt; 5; col++) {
+            if (led.point(col, row)) {
+                bits |= (1 &lt;&lt; (4 - col))
+            }
+        }
+        vals.push(bits)
+    }
+    let s = &quot;&quot; + vals[0] + &quot;,&quot; + vals[1] + &quot;,&quot; + vals[2] + &quot;,&quot; + vals[3] + &quot;,&quot; + vals[4]
+    if (s == lastLedStr) {
+        return
+    }
+    lastLedStr = s
+    bluetooth.uartWriteLine(&quot;LEDS:&quot; + s)
+})
+
+function playExplosion() {
+    // Clear screen first
+    basic.clearScreen()
+
+    // --- Stage 1: small center spark ---
+    led.plot(2, 2)
+    basic.pause(100)
+
+    // --- Stage 2: cross burst ---
+    basic.clearScreen()
+    const cross = [
+        [2, 1], [2, 2], [2, 3],
+        [1, 2], [3, 2]
+    ]
+    for (let p of cross) led.plot(p[0], p[1])
+    basic.pause(120)
+
+    // --- Stage 3: big flash ---
+    basic.clearScreen()
+    const flash = [
+        [0, 2], [4, 2],  // left/right
+        [2, 0], [2, 4],  // top/bottom
+        [1, 1], [3, 1], [1, 3], [3, 3], // corners of diamond
+        [2, 2]  // center
+    ]
+    for (let p of flash) led.plot(p[0], p[1])
+    basic.pause(150)
+
+    // --- Stage 4: outer ring ---
+    basic.clearScreen()
+    const ring = [
+        [0, 0], [4, 0],
+        [0, 4], [4, 4],
+        [1, 0], [3, 0],
+        [0, 1], [4, 1],
+        [0, 3], [4, 3],
+        [1, 4], [3, 4]
+    ]
+    for (let p of ring) led.plot(p[0], p[1])
+    basic.pause(140)
+
+    // --- Stage 5: fading spark ---
+    basic.clearScreen()
+    led.plot(2, 2)
+    basic.pause(90)
+
+    // --- End ---
+    basic.clearScreen()
+}
+</script>
     </div>
 </div>
 
@@ -1746,24 +2622,28 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
     const codeEl = document.getElementById('firmwareCode');
     const copyBtn = document.getElementById('firmwareCopyBtn');
     const closeBtn = document.getElementById('firmwareCloseBtn');
+    const sourceEl = document.getElementById('firmwareSource');
     let codeLoaded = false;
 
-    if (btn && overlay) {
-        btn.addEventListener('click', () => {
-            overlay.classList.add('visible');
-            if (!codeLoaded) {
-                fetch('makecode.ts')
-                    .then(r => r.text())
-                    .then(code => {
-                        codeEl.textContent = code;
-                        codeLoaded = true;
-                    })
-                    .catch(() => {
-                        codeEl.textContent = '// Could not load makecode.ts\n// Make sure this file is in the same folder as index.html';
-                    });
-            }
-        });
+    function loadCode() {
+        if (codeLoaded) return;
+        // Try embedded source first (works on file://)
+        if (sourceEl && sourceEl.textContent.trim().length > 10) {
+            codeEl.textContent = sourceEl.textContent;
+            codeLoaded = true;
+            return;
+        }
+        // Fallback: fetch (works on http://)
+        fetch('makecode.ts')
+            .then(r => r.text())
+            .then(code => { codeEl.textContent = code; codeLoaded = true; })
+            .catch(() => {
+                codeEl.textContent = '// Could not load firmware code.\n// Open this page via a local web server (e.g. python3 -m http.server)';
+            });
+    }
 
+    if (btn && overlay) {
+        btn.addEventListener('click', () => { overlay.classList.add('visible'); loadCode(); });
         closeBtn?.addEventListener('click', () => overlay.classList.remove('visible'));
 
         copyBtn?.addEventListener('click', () => {
@@ -1772,9 +2652,10 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                 copyBtn.textContent = 'Copied!';
                 setTimeout(() => { copyBtn.textContent = 'Copy Code'; }, 2000);
             }).catch(() => {
-                // Fallback for file:// protocol
                 const ta = document.createElement('textarea');
                 ta.value = code;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
                 document.body.appendChild(ta);
                 ta.select();
                 document.execCommand('copy');
