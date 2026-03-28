@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>micro:bit Playground — User Guide / Guide utilisateur</title>
+<title>micro:bit Playground — User Guide / Guide utilisateur / دليل المستخدم</title>
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <style>
 :root {
@@ -69,6 +69,7 @@ code { background: var(--code-bg); padding: 2px 6px; border-radius: 4px; font-si
     font-size: 0.9rem;
 }
 .teacher-note::before { content: "Note enseignant / Teacher note"; display: block; font-weight: bold; margin-bottom: 6px; color: #15803d; }
+html[lang="ar"] .teacher-note::before { content: "ملاحظة للمعلم"; }
 .warning {
     background: var(--warning-bg);
     border-left: 4px solid var(--warning-border);
@@ -105,6 +106,17 @@ code { background: var(--code-bg); padding: 2px 6px; border-radius: 4px; font-si
 .fr { display: none !important; }
 html[lang="fr"] .fr { display: inline !important; }
 html[lang="fr"] .en { display: none !important; }
+.ar { display: none !important; }
+html[lang="ar"] .ar { display: inline !important; }
+html[lang="ar"] .en { display: none !important; }
+html[lang="ar"] .fr { display: none !important; }
+html[lang="ar"] body { direction: rtl; text-align: right; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; }
+html[lang="ar"] .step-num { margin-right: 0; margin-left: 8px; }
+html[lang="ar"] ul, html[lang="ar"] ol { padding-left: 0; padding-right: 24px; }
+html[lang="ar"] .teacher-note { border-left: none; border-right: 4px solid var(--teacher-border); }
+html[lang="ar"] .warning { border-left: none; border-right: 4px solid var(--warning-border); }
+html[lang="ar"] .lang-toggle { right: auto; left: 16px; }
+html[lang="ar"] .shortcut-table td, html[lang="ar"] .shortcut-table th { text-align: right; }
 .header-bar {
     display: flex;
     align-items: center;
@@ -149,6 +161,7 @@ kbd { background: var(--code-bg); border: 1px solid var(--card-border); border-r
 <div class="lang-toggle">
     <button class="lang-btn active" onclick="setLang('en')">EN</button>
     <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    <button class="lang-btn" onclick="setLang('ar')">AR</button>
 </div>
 
 <div class="header-bar">
@@ -157,6 +170,7 @@ kbd { background: var(--code-bg); border: 1px solid var(--card-border); border-r
         <h1>
             <span class="en">micro:bit Playground — User Guide</span>
             <span class="fr">micro:bit Playground — Guide utilisateur</span>
+            <span class="ar">micro:bit Playground — دليل المستخدم</span>
         </h1>
         <div class="subtitle">v8.1</div>
     </div>
@@ -167,100 +181,109 @@ kbd { background: var(--code-bg); border: 1px solid var(--card-border); border-r
     <strong>
         <span class="en">Contents</span>
         <span class="fr">Sommaire</span>
+        <span class="ar">المحتويات</span>
     </strong>
     <ol>
-        <li><a href="#requirements"><span class="en">Requirements</span><span class="fr">Configuration requise</span></a></li>
-        <li><a href="#firmware"><span class="en">Flash the Firmware</span><span class="fr">Flasher le firmware</span></a></li>
-        <li><a href="#connect"><span class="en">Connect your micro:bit</span><span class="fr">Connecter votre micro:bit</span></a></li>
-        <li><a href="#tabs"><span class="en">Tabs Guide</span><span class="fr">Guide des onglets</span></a></li>
-        <li><a href="#themes"><span class="en">Themes</span><span class="fr">Themes</span></a></li>
-        <li><a href="#shortcuts"><span class="en">Keyboard Shortcuts</span><span class="fr">Raccourcis clavier</span></a></li>
-        <li><a href="#troubleshooting"><span class="en">Troubleshooting</span><span class="fr">Depannage</span></a></li>
-        <li><a href="#teacher"><span class="en">Teacher Notes</span><span class="fr">Notes pour les enseignants</span></a></li>
+        <li><a href="#requirements"><span class="en">Requirements</span><span class="fr">Configuration requise</span><span class="ar">المتطلبات</span></a></li>
+        <li><a href="#firmware"><span class="en">Flash the Firmware</span><span class="fr">Flasher le firmware</span><span class="ar">تثبيت البرنامج الثابت</span></a></li>
+        <li><a href="#connect"><span class="en">Connect your micro:bit</span><span class="fr">Connecter votre micro:bit</span><span class="ar">الاتصال بـ micro:bit</span></a></li>
+        <li><a href="#tabs"><span class="en">Tabs Guide</span><span class="fr">Guide des onglets</span><span class="ar">دليل الألسنة</span></a></li>
+        <li><a href="#themes"><span class="en">Themes</span><span class="fr">Themes</span><span class="ar">السمات</span></a></li>
+        <li><a href="#shortcuts"><span class="en">Keyboard Shortcuts</span><span class="fr">Raccourcis clavier</span><span class="ar">اختصارات لوحة المفاتيح</span></a></li>
+        <li><a href="#troubleshooting"><span class="en">Troubleshooting</span><span class="fr">Depannage</span><span class="ar">استكشاف الأخطاء</span></a></li>
+        <li><a href="#teacher"><span class="en">Teacher Notes</span><span class="fr">Notes pour les enseignants</span><span class="ar">ملاحظات المعلم</span></a></li>
     </ol>
 </div>
 
-<a href="index.html" class="btn-link"><span class="en">Open the App</span><span class="fr">Ouvrir l'application</span></a>
+<a href="index.html" class="btn-link"><span class="en">Open the App</span><span class="fr">Ouvrir l'application</span><span class="ar">افتح التطبيق</span></a>
 
 <!-- 1. REQUIREMENTS -->
 <h2 id="requirements">
     <span class="en">1. Requirements</span>
     <span class="fr">1. Configuration requise</span>
+    <span class="ar">1. المتطلبات</span>
 </h2>
 <div class="card">
     <ul>
-        <li><span class="en"><strong>BBC micro:bit V2</strong> (V1 lacks sound sensor)</span><span class="fr"><strong>BBC micro:bit V2</strong> (V1 n'a pas de capteur de son)</span></li>
-        <li><span class="en">USB cable or battery pack</span><span class="fr">Cable USB ou bloc de piles</span></li>
-        <li><span class="en"><strong>Chrome</strong> or <strong>Edge</strong> browser (Web Bluetooth required)</span><span class="fr">Navigateur <strong>Chrome</strong> ou <strong>Edge</strong> (Web Bluetooth requis)</span></li>
-        <li><span class="en">Bluetooth enabled on your computer</span><span class="fr">Bluetooth active sur votre ordinateur</span></li>
+        <li><span class="en"><strong>BBC micro:bit V2</strong> (V1 lacks sound sensor)</span><span class="fr"><strong>BBC micro:bit V2</strong> (V1 n'a pas de capteur de son)</span><span class="ar"><strong>BBC micro:bit V2</strong> (الإصدار الأول لا يحتوي على مستشعر الصوت)</span></li>
+        <li><span class="en">USB cable or battery pack</span><span class="fr">Cable USB ou bloc de piles</span><span class="ar">كابل USB أو حزمة بطاريات</span></li>
+        <li><span class="en"><strong>Chrome</strong> or <strong>Edge</strong> browser (Web Bluetooth required)</span><span class="fr">Navigateur <strong>Chrome</strong> ou <strong>Edge</strong> (Web Bluetooth requis)</span><span class="ar">متصفح <strong>Chrome</strong> أو <strong>Edge</strong> (يتطلب Web Bluetooth)</span></li>
+        <li><span class="en">Bluetooth enabled on your computer</span><span class="fr">Bluetooth active sur votre ordinateur</span><span class="ar">تفعيل البلوتوث على جهاز الكمبيوتر</span></li>
     </ul>
 </div>
 <div class="warning">
     <span class="en"><strong>Important:</strong> Firefox and Safari do NOT support Web Bluetooth. Use Chrome or Edge.</span>
     <span class="fr"><strong>Important :</strong> Firefox et Safari ne supportent PAS le Web Bluetooth. Utilisez Chrome ou Edge.</span>
+    <span class="ar"><strong>مهم:</strong> فايرفوكس وسفاري لا يدعمان Web Bluetooth. استخدم Chrome أو Edge.</span>
 </div>
 
 <!-- 2. FLASH FIRMWARE -->
 <h2 id="firmware">
     <span class="en">2. Flash the Firmware</span>
     <span class="fr">2. Flasher le firmware</span>
+    <span class="ar">2. تثبيت البرنامج الثابت</span>
 </h2>
 <p>
     <span class="en">The micro:bit needs special firmware to communicate with the app via Bluetooth.</span>
     <span class="fr">Le micro:bit a besoin d'un firmware special pour communiquer avec l'application via Bluetooth.</span>
+    <span class="ar">يحتاج micro:bit إلى برنامج ثابت خاص للتواصل مع التطبيق عبر البلوتوث.</span>
 </p>
 
 <div class="card">
-    <h3><span class="en">Method A: From the App (easiest)</span><span class="fr">Methode A : Depuis l'application (le plus simple)</span></h3>
-    <div class="step"><span class="step-num">1</span><span class="step-text"><span class="en">Open the app and click <strong>micro:bit Firmware</strong> button</span><span class="fr">Ouvrez l'application et cliquez sur le bouton <strong>micro:bit Firmware</strong></span></span></div>
-    <div class="step"><span class="step-num">2</span><span class="step-text"><span class="en">Click <strong>Copy Code</strong></span><span class="fr">Cliquez sur <strong>Copy Code</strong></span></span></div>
-    <div class="step"><span class="step-num">3</span><span class="step-text"><span class="en">Click <strong>Open MakeCode</strong> — it opens makecode.microbit.org</span><span class="fr">Cliquez sur <strong>Open MakeCode</strong> — cela ouvre makecode.microbit.org</span></span></div>
-    <div class="step"><span class="step-num">4</span><span class="step-text"><span class="en">In MakeCode, create a <strong>New Project</strong></span><span class="fr">Dans MakeCode, creez un <strong>Nouveau Projet</strong></span></span></div>
-    <div class="step"><span class="step-num">5</span><span class="step-text"><span class="en">Click <strong>Extensions</strong> (bottom of sidebar), search <strong>bluetooth</strong>, add it. Accept removing radio.</span><span class="fr">Cliquez sur <strong>Extensions</strong> (bas de la barre laterale), cherchez <strong>bluetooth</strong>, ajoutez-le. Acceptez de retirer la radio.</span></span></div>
-    <div class="step"><span class="step-num">6</span><span class="step-text"><span class="en">Switch to <strong>JavaScript</strong> mode (top toggle)</span><span class="fr">Passez en mode <strong>JavaScript</strong> (bouton en haut)</span></span></div>
-    <div class="step"><span class="step-num">7</span><span class="step-text"><span class="en">Click on <strong>main.ts</strong> in the Explorer panel (bottom-left), select all (<kbd>Ctrl+A</kbd>), paste (<kbd>Ctrl+V</kbd>)</span><span class="fr">Cliquez sur <strong>main.ts</strong> dans l'explorateur (en bas a gauche), selectionnez tout (<kbd>Ctrl+A</kbd>), collez (<kbd>Ctrl+V</kbd>)</span></span></div>
-    <div class="step"><span class="step-num">8</span><span class="step-text"><span class="en">Check: bottom bar should show <strong>0 errors</strong></span><span class="fr">Verifiez : la barre du bas doit afficher <strong>0 erreurs</strong></span></span></div>
-    <div class="step"><span class="step-num">9</span><span class="step-text"><span class="en">Click <strong>Download</strong> — a <code>.hex</code> file downloads</span><span class="fr">Cliquez sur <strong>Telecharger</strong> — un fichier <code>.hex</code> se telecharge</span></span></div>
-    <div class="step"><span class="step-num">10</span><span class="step-text"><span class="en">Connect micro:bit via USB. Drag the <code>.hex</code> file onto the <strong>MICROBIT</strong> drive in your file manager</span><span class="fr">Connectez le micro:bit en USB. Glissez le fichier <code>.hex</code> sur le lecteur <strong>MICROBIT</strong> dans votre gestionnaire de fichiers</span></span></div>
-    <div class="step"><span class="step-num">11</span><span class="step-text"><span class="en">Wait for the micro:bit to reboot. It should show an <strong>X</strong> icon = ready!</span><span class="fr">Attendez le redemarrage du micro:bit. Il doit afficher une icone <strong>X</strong> = pret !</span></span></div>
+    <h3><span class="en">Method A: From the App (easiest)</span><span class="fr">Methode A : Depuis l'application (le plus simple)</span><span class="ar">الطريقة أ: من التطبيق (الأسهل)</span></h3>
+    <div class="step"><span class="step-num">1</span><span class="step-text"><span class="en">Open the app and click <strong>micro:bit Firmware</strong> button</span><span class="fr">Ouvrez l'application et cliquez sur le bouton <strong>micro:bit Firmware</strong></span><span class="ar">افتح التطبيق وانقر على زر <strong>micro:bit Firmware</strong></span></span></div>
+    <div class="step"><span class="step-num">2</span><span class="step-text"><span class="en">Click <strong>Copy Code</strong></span><span class="fr">Cliquez sur <strong>Copy Code</strong></span><span class="ar">انقر على <strong>Copy Code</strong></span></span></div>
+    <div class="step"><span class="step-num">3</span><span class="step-text"><span class="en">Click <strong>Open MakeCode</strong> — it opens makecode.microbit.org</span><span class="fr">Cliquez sur <strong>Open MakeCode</strong> — cela ouvre makecode.microbit.org</span><span class="ar">انقر على <strong>Open MakeCode</strong> — سيفتح makecode.microbit.org</span></span></div>
+    <div class="step"><span class="step-num">4</span><span class="step-text"><span class="en">In MakeCode, create a <strong>New Project</strong></span><span class="fr">Dans MakeCode, creez un <strong>Nouveau Projet</strong></span><span class="ar">في MakeCode، أنشئ <strong>مشروعًا جديدًا</strong></span></span></div>
+    <div class="step"><span class="step-num">5</span><span class="step-text"><span class="en">Click <strong>Extensions</strong> (bottom of sidebar), search <strong>bluetooth</strong>, add it. Accept removing radio.</span><span class="fr">Cliquez sur <strong>Extensions</strong> (bas de la barre laterale), cherchez <strong>bluetooth</strong>, ajoutez-le. Acceptez de retirer la radio.</span><span class="ar">انقر على <strong>Extensions</strong> (أسفل الشريط الجانبي)، ابحث عن <strong>bluetooth</strong>، أضفه. اقبل إزالة الراديو.</span></span></div>
+    <div class="step"><span class="step-num">6</span><span class="step-text"><span class="en">Switch to <strong>JavaScript</strong> mode (top toggle)</span><span class="fr">Passez en mode <strong>JavaScript</strong> (bouton en haut)</span><span class="ar">انتقل إلى وضع <strong>JavaScript</strong> (الزر في الأعلى)</span></span></div>
+    <div class="step"><span class="step-num">7</span><span class="step-text"><span class="en">Click on <strong>main.ts</strong> in the Explorer panel (bottom-left), select all (<kbd>Ctrl+A</kbd>), paste (<kbd>Ctrl+V</kbd>)</span><span class="fr">Cliquez sur <strong>main.ts</strong> dans l'explorateur (en bas a gauche), selectionnez tout (<kbd>Ctrl+A</kbd>), collez (<kbd>Ctrl+V</kbd>)</span><span class="ar">انقر على <strong>main.ts</strong> في لوحة المستكشف (أسفل اليسار)، حدد الكل (<kbd>Ctrl+A</kbd>)، الصق (<kbd>Ctrl+V</kbd>)</span></span></div>
+    <div class="step"><span class="step-num">8</span><span class="step-text"><span class="en">Check: bottom bar should show <strong>0 errors</strong></span><span class="fr">Verifiez : la barre du bas doit afficher <strong>0 erreurs</strong></span><span class="ar">تحقق: يجب أن يظهر الشريط السفلي <strong>0 أخطاء</strong></span></span></div>
+    <div class="step"><span class="step-num">9</span><span class="step-text"><span class="en">Click <strong>Download</strong> — a <code>.hex</code> file downloads</span><span class="fr">Cliquez sur <strong>Telecharger</strong> — un fichier <code>.hex</code> se telecharge</span><span class="ar">انقر على <strong>تحميل</strong> — سيتم تنزيل ملف <code>.hex</code></span></span></div>
+    <div class="step"><span class="step-num">10</span><span class="step-text"><span class="en">Connect micro:bit via USB. Drag the <code>.hex</code> file onto the <strong>MICROBIT</strong> drive in your file manager</span><span class="fr">Connectez le micro:bit en USB. Glissez le fichier <code>.hex</code> sur le lecteur <strong>MICROBIT</strong> dans votre gestionnaire de fichiers</span><span class="ar">وصّل micro:bit عبر USB. اسحب ملف <code>.hex</code> إلى محرك <strong>MICROBIT</strong> في مدير الملفات</span></span></div>
+    <div class="step"><span class="step-num">11</span><span class="step-text"><span class="en">Wait for the micro:bit to reboot. It should show an <strong>X</strong> icon = ready!</span><span class="fr">Attendez le redemarrage du micro:bit. Il doit afficher une icone <strong>X</strong> = pret !</span><span class="ar">انتظر إعادة تشغيل micro:bit. يجب أن يعرض أيقونة <strong>X</strong> = جاهز!</span></span></div>
 </div>
 
 <div class="warning">
     <span class="en"><strong>Critical:</strong> You MUST add the Bluetooth extension (step 5) before pasting the code, otherwise MakeCode will show hundreds of errors.</span>
     <span class="fr"><strong>Critique :</strong> Vous DEVEZ ajouter l'extension Bluetooth (etape 5) avant de coller le code, sinon MakeCode affichera des centaines d'erreurs.</span>
+    <span class="ar"><strong>مهم جداً:</strong> يجب إضافة إضافة Bluetooth (الخطوة 5) قبل لصق الكود، وإلا سيظهر MakeCode مئات الأخطاء.</span>
 </div>
 
 <div class="teacher-note">
     <span class="en">Flash the firmware on all micro:bits before the workshop. Once flashed, students only need to open the app and click Connect.</span>
     <span class="fr">Flashez le firmware sur tous les micro:bits avant l'atelier. Une fois flashe, les eleves n'ont qu'a ouvrir l'application et cliquer sur Connecter.</span>
+    <span class="ar">قم بتثبيت البرنامج الثابت على جميع أجهزة micro:bit قبل الورشة. بمجرد التثبيت، يحتاج الطلاب فقط لفتح التطبيق والنقر على اتصال.</span>
 </div>
 
 <!-- 3. CONNECT -->
 <h2 id="connect">
     <span class="en">3. Connect your micro:bit</span>
     <span class="fr">3. Connecter votre micro:bit</span>
+    <span class="ar">3. الاتصال بـ micro:bit</span>
 </h2>
 <div class="card">
-    <div class="step"><span class="step-num">1</span><span class="step-text"><span class="en">Make sure the micro:bit is powered on and showing the <strong>X</strong> icon</span><span class="fr">Assurez-vous que le micro:bit est allume et affiche l'icone <strong>X</strong></span></span></div>
-    <div class="step"><span class="step-num">2</span><span class="step-text"><span class="en">Open the app in Chrome or Edge</span><span class="fr">Ouvrez l'application dans Chrome ou Edge</span></span></div>
-    <div class="step"><span class="step-num">3</span><span class="step-text"><span class="en">Click the green <strong>Connect</strong> button</span><span class="fr">Cliquez sur le bouton vert <strong>Connect</strong></span></span></div>
-    <div class="step"><span class="step-num">4</span><span class="step-text"><span class="en">Select your micro:bit from the Bluetooth popup (look for <strong>BBC micro:bit</strong> or <strong>uBit</strong>)</span><span class="fr">Selectionnez votre micro:bit dans la fenetre Bluetooth (cherchez <strong>BBC micro:bit</strong> ou <strong>uBit</strong>)</span></span></div>
-    <div class="step"><span class="step-num">5</span><span class="step-text"><span class="en">Click <strong>Pair</strong>. The micro:bit shows a checkmark = connected!</span><span class="fr">Cliquez sur <strong>Associer</strong>. Le micro:bit affiche un V = connecte !</span></span></div>
+    <div class="step"><span class="step-num">1</span><span class="step-text"><span class="en">Make sure the micro:bit is powered on and showing the <strong>X</strong> icon</span><span class="fr">Assurez-vous que le micro:bit est allume et affiche l'icone <strong>X</strong></span><span class="ar">تأكد أن micro:bit قيد التشغيل ويعرض أيقونة <strong>X</strong></span></span></div>
+    <div class="step"><span class="step-num">2</span><span class="step-text"><span class="en">Open the app in Chrome or Edge</span><span class="fr">Ouvrez l'application dans Chrome ou Edge</span><span class="ar">افتح التطبيق في Chrome أو Edge</span></span></div>
+    <div class="step"><span class="step-num">3</span><span class="step-text"><span class="en">Click the green <strong>Connect</strong> button</span><span class="fr">Cliquez sur le bouton vert <strong>Connect</strong></span><span class="ar">انقر على زر <strong>Connect</strong> الأخضر</span></span></div>
+    <div class="step"><span class="step-num">4</span><span class="step-text"><span class="en">Select your micro:bit from the Bluetooth popup (look for <strong>BBC micro:bit</strong> or <strong>uBit</strong>)</span><span class="fr">Selectionnez votre micro:bit dans la fenetre Bluetooth (cherchez <strong>BBC micro:bit</strong> ou <strong>uBit</strong>)</span><span class="ar">اختر micro:bit من نافذة البلوتوث (ابحث عن <strong>BBC micro:bit</strong> أو <strong>uBit</strong>)</span></span></div>
+    <div class="step"><span class="step-num">5</span><span class="step-text"><span class="en">Click <strong>Pair</strong>. The micro:bit shows a checkmark = connected!</span><span class="fr">Cliquez sur <strong>Associer</strong>. Le micro:bit affiche un V = connecte !</span><span class="ar">انقر على <strong>إقران</strong>. يعرض micro:bit علامة صح = متصل!</span></span></div>
 </div>
 
 <!-- 4. TABS GUIDE -->
 <h2 id="tabs">
     <span class="en">4. Tabs Guide</span>
     <span class="fr">4. Guide des onglets</span>
+    <span class="ar">4. دليل الألسنة</span>
 </h2>
 
 <!-- Controls -->
 <div class="card">
     <h3><span class="tab-icon">🎛️</span> Controls</h3>
     <ul>
-        <li><span class="en"><strong>Show a Message</strong> — Type text and click Send to scroll it on the micro:bit LED display</span><span class="fr"><strong>Show a Message</strong> — Tapez du texte et cliquez sur Send pour le faire defiler sur l'ecran LED du micro:bit</span></li>
-        <li><span class="en"><strong>Draw on LEDs</strong> — Click and drag on the 5x5 grid to draw patterns. Click Send to display them. Use Quick Shapes (Heart, Smile, Tick) for preset patterns</span><span class="fr"><strong>Draw on LEDs</strong> — Cliquez et glissez sur la grille 5x5 pour dessiner. Cliquez sur Send pour afficher. Utilisez les Quick Shapes (Heart, Smile, Tick) pour des motifs predefined</span></li>
-        <li><span class="en"><strong>Make Sounds</strong> — Play preset buzzer tones (Low, Beep, High, Melody)</span><span class="fr"><strong>Make Sounds</strong> — Jouez des sons predefined (Low, Beep, High, Melody)</span></li>
+        <li><span class="en"><strong>Show a Message</strong> — Type text and click Send to scroll it on the micro:bit LED display</span><span class="fr"><strong>Show a Message</strong> — Tapez du texte et cliquez sur Send pour le faire defiler sur l'ecran LED du micro:bit</span><span class="ar"><strong>إرسال رسالة</strong> — اكتب نصًا وانقر إرسال لعرضه على شاشة LED</span></li>
+        <li><span class="en"><strong>Draw on LEDs</strong> — Click and drag on the 5x5 grid to draw patterns. Click Send to display them. Use Quick Shapes (Heart, Smile, Tick) for preset patterns</span><span class="fr"><strong>Draw on LEDs</strong> — Cliquez et glissez sur la grille 5x5 pour dessiner. Cliquez sur Send pour afficher. Utilisez les Quick Shapes (Heart, Smile, Tick) pour des motifs predefined</span><span class="ar"><strong>الرسم على LEDs</strong> — انقر واسحب على الشبكة 5×5</span></li>
+        <li><span class="en"><strong>Make Sounds</strong> — Play preset buzzer tones (Low, Beep, High, Melody)</span><span class="fr"><strong>Make Sounds</strong> — Jouez des sons predefined (Low, Beep, High, Melody)</span><span class="ar"><strong>إصدار أصوات</strong> — تشغيل نغمات الجرس</span></li>
     </ul>
 </div>
 
@@ -268,13 +291,14 @@ kbd { background: var(--code-bg); border: 1px solid var(--card-border); border-r
 <div class="card">
     <h3><span class="tab-icon">👀</span> Sensors</h3>
     <ul>
-        <li><span class="en"><strong>Real-time data</strong> from: temperature, light, sound, accelerometer (X/Y/Z), compass, buttons A/B, touch pins P0/P1/P2, logo touch</span><span class="fr"><strong>Donnees en temps reel</strong> : temperature, lumiere, son, accelerometre (X/Y/Z), boussole, boutons A/B, broches tactiles P0/P1/P2, touche logo</span></li>
-        <li><span class="en">Each sensor has a <strong>mini sparkline chart</strong> showing recent values</span><span class="fr">Chaque capteur a un <strong>mini graphique</strong> montrant les valeurs recentes</span></li>
-        <li><span class="en"><strong>Calibration</strong> section: calibrate compass (tilt game), set accelerometer zero, adjust sound/light baselines</span><span class="fr"><strong>Calibration</strong> : calibrer la boussole (jeu d'inclinaison), mettre l'accelerometre a zero, ajuster les references son/lumiere</span></li>
+        <li><span class="en"><strong>Real-time data</strong> from: temperature, light, sound, accelerometer (X/Y/Z), compass, buttons A/B, touch pins P0/P1/P2, logo touch</span><span class="fr"><strong>Donnees en temps reel</strong> : temperature, lumiere, son, accelerometre (X/Y/Z), boussole, boutons A/B, broches tactiles P0/P1/P2, touche logo</span><span class="ar"><strong>بيانات في الوقت الحقيقي:</strong> درجة الحرارة، الضوء، الصوت، مقياس التسارع، البوصلة، الأزرار، المسامير اللمسية</span></li>
+        <li><span class="en">Each sensor has a <strong>mini sparkline chart</strong> showing recent values</span><span class="fr">Chaque capteur a un <strong>mini graphique</strong> montrant les valeurs recentes</span><span class="ar">كل مستشعر له <strong>رسم بياني مصغر</strong></span></li>
+        <li><span class="en"><strong>Calibration</strong> section: calibrate compass (tilt game), set accelerometer zero, adjust sound/light baselines</span><span class="fr"><strong>Calibration</strong> : calibrer la boussole (jeu d'inclinaison), mettre l'accelerometre a zero, ajuster les references son/lumiere</span><span class="ar">قسم <strong>المعايرة</strong></span></li>
     </ul>
     <div class="warning">
         <span class="en">Compass data only appears after you click <strong>Calibrate</strong> in the Calibration section. This avoids the auto-calibration prompt on boot.</span>
         <span class="fr">Les donnees de la boussole n'apparaissent qu'apres avoir clique sur <strong>Calibrate</strong> dans la section Calibration. Cela evite l'invite de calibration automatique au demarrage.</span>
+        <span class="ar">بيانات البوصلة تظهر فقط بعد النقر على <strong>Calibrate</strong> في قسم المعايرة.</span>
     </div>
 </div>
 
@@ -282,9 +306,9 @@ kbd { background: var(--code-bg); border: 1px solid var(--card-border); border-r
 <div class="card">
     <h3><span class="tab-icon">⚙️</span> Motors</h3>
     <ul>
-        <li><span class="en"><strong>Servo 1</strong> (pin P1) and <strong>Servo 2</strong> (pin P2) — control angle 0-180 degrees with sliders</span><span class="fr"><strong>Servo 1</strong> (broche P1) et <strong>Servo 2</strong> (broche P2) — controlez l'angle de 0 a 180 degres avec les curseurs</span></li>
-        <li><span class="en">Visual <strong>gauge</strong> shows the current angle</span><span class="fr">La <strong>jauge</strong> visuelle montre l'angle actuel</span></li>
-        <li><span class="en"><strong>OFF button</strong> releases the servo (frees the pin for touch sensing)</span><span class="fr">Le bouton <strong>OFF</strong> relache le servo (libere la broche pour la detection tactile)</span></li>
+        <li><span class="en"><strong>Servo 1</strong> (pin P1) and <strong>Servo 2</strong> (pin P2) — control angle 0-180 degrees with sliders</span><span class="fr"><strong>Servo 1</strong> (broche P1) et <strong>Servo 2</strong> (broche P2) — controlez l'angle de 0 a 180 degres avec les curseurs</span><span class="ar"><strong>سيرفو 1</strong> (المسمار P1) و<strong>سيرفو 2</strong> (المسمار P2) — التحكم بالزاوية من 0 إلى 180 درجة</span></li>
+        <li><span class="en">Visual <strong>gauge</strong> shows the current angle</span><span class="fr">La <strong>jauge</strong> visuelle montre l'angle actuel</span><span class="ar"><strong>مقياس بصري</strong> يعرض الزاوية الحالية</span></li>
+        <li><span class="en"><strong>OFF button</strong> releases the servo (frees the pin for touch sensing)</span><span class="fr">Le bouton <strong>OFF</strong> relache le servo (libere la broche pour la detection tactile)</span><span class="ar">زر <strong>OFF</strong> لتحرير السيرفو</span></li>
     </ul>
 </div>
 
@@ -292,9 +316,9 @@ kbd { background: var(--code-bg); border: 1px solid var(--card-border); border-r
 <div class="card">
     <h3><span class="tab-icon">🎮</span> GamePad</h3>
     <ul>
-        <li><span class="en"><strong>D-pad</strong> (Up/Down/Left/Right) + <strong>Fire</strong> button</span><span class="fr"><strong>D-pad</strong> (Haut/Bas/Gauche/Droite) + bouton <strong>Fire</strong></span></li>
-        <li><span class="en">Perfect for driving robots or playing games on the micro:bit</span><span class="fr">Ideal pour piloter des robots ou jouer a des jeux sur le micro:bit</span></li>
-        <li><span class="en">Each button sends a command and shows an arrow on the micro:bit LED</span><span class="fr">Chaque bouton envoie une commande et affiche une fleche sur l'ecran LED du micro:bit</span></li>
+        <li><span class="en"><strong>D-pad</strong> (Up/Down/Left/Right) + <strong>Fire</strong> button</span><span class="fr"><strong>D-pad</strong> (Haut/Bas/Gauche/Droite) + bouton <strong>Fire</strong></span><span class="ar"><strong>لوحة الاتجاهات</strong> (أعلى/أسفل/يسار/يمين) + زر <strong>Fire</strong></span></li>
+        <li><span class="en">Perfect for driving robots or playing games on the micro:bit</span><span class="fr">Ideal pour piloter des robots ou jouer a des jeux sur le micro:bit</span><span class="ar">مثالي لقيادة الروبوتات أو لعب الألعاب</span></li>
+        <li><span class="en">Each button sends a command and shows an arrow on the micro:bit LED</span><span class="fr">Chaque bouton envoie une commande et affiche une fleche sur l'ecran LED du micro:bit</span><span class="ar">كل زر يرسل أمرًا ويعرض سهمًا على LED</span></li>
     </ul>
 </div>
 
@@ -302,16 +326,17 @@ kbd { background: var(--code-bg); border: 1px solid var(--card-border); border-r
 <div class="card">
     <h3><span class="tab-icon">📈</span> Graph</h3>
     <ul>
-        <li><span class="en"><strong>5 graph types</strong>: Line, Bar, Scatter, Area, Realtime</span><span class="fr"><strong>5 types de graphiques</strong> : Ligne, Barres, Nuage, Aire, Temps reel</span></li>
-        <li><span class="en"><strong>Sensor checkboxes</strong> — select which data to plot (Accel X/Y/Z, Compass, Sound, Light, Temp, Touch)</span><span class="fr"><strong>Cases capteurs</strong> — selectionnez les donnees a tracer (Accel X/Y/Z, Boussole, Son, Lumiere, Temp, Tactile)</span></li>
-        <li><span class="en"><strong>Simulate</strong> — generates demo data (Sine, Random, Ramp) without a micro:bit</span><span class="fr"><strong>Simulate</strong> — genere des donnees de demo (Sinus, Aleatoire, Rampe) sans micro:bit</span></li>
-        <li><span class="en"><strong>Record / Replay / Save</strong> — capture sessions and export as JSON</span><span class="fr"><strong>Record / Replay / Save</strong> — capturez des sessions et exportez en JSON</span></li>
-        <li><span class="en"><strong>Annotate</strong> — add timestamped notes on the chart</span><span class="fr"><strong>Annotate</strong> — ajoutez des notes horodatees sur le graphique</span></li>
-        <li><span class="en"><strong>Export</strong> — PNG image or CSV spreadsheet data</span><span class="fr"><strong>Export</strong> — image PNG ou donnees CSV pour tableur</span></li>
+        <li><span class="en"><strong>5 graph types</strong>: Line, Bar, Scatter, Area, Realtime</span><span class="fr"><strong>5 types de graphiques</strong> : Ligne, Barres, Nuage, Aire, Temps reel</span><span class="ar"><strong>5 أنواع رسوم بيانية</strong></span></li>
+        <li><span class="en"><strong>Sensor checkboxes</strong> — select which data to plot (Accel X/Y/Z, Compass, Sound, Light, Temp, Touch)</span><span class="fr"><strong>Cases capteurs</strong> — selectionnez les donnees a tracer (Accel X/Y/Z, Boussole, Son, Lumiere, Temp, Tactile)</span><span class="ar"><strong>خانات اختيار المستشعرات</strong></span></li>
+        <li><span class="en"><strong>Simulate</strong> — generates demo data (Sine, Random, Ramp) without a micro:bit</span><span class="fr"><strong>Simulate</strong> — genere des donnees de demo (Sinus, Aleatoire, Rampe) sans micro:bit</span><span class="ar"><strong>محاكاة</strong> بدون micro:bit</span></li>
+        <li><span class="en"><strong>Record / Replay / Save</strong> — capture sessions and export as JSON</span><span class="fr"><strong>Record / Replay / Save</strong> — capturez des sessions et exportez en JSON</span><span class="ar"><strong>تسجيل / إعادة / حفظ</strong></span></li>
+        <li><span class="en"><strong>Annotate</strong> — add timestamped notes on the chart</span><span class="fr"><strong>Annotate</strong> — ajoutez des notes horodatees sur le graphique</span><span class="ar"><strong>تعليقات توضيحية</strong></span></li>
+        <li><span class="en"><strong>Export</strong> — PNG image or CSV spreadsheet data</span><span class="fr"><strong>Export</strong> — image PNG ou donnees CSV pour tableur</span><span class="ar"><strong>تصدير</strong> PNG أو CSV</span></li>
     </ul>
     <div class="teacher-note">
         <span class="en">Use the Simulate button for demos without hardware. Students can export CSV data for analysis in a spreadsheet.</span>
         <span class="fr">Utilisez le bouton Simulate pour les demos sans materiel. Les eleves peuvent exporter les donnees CSV pour les analyser dans un tableur.</span>
+        <span class="ar">استخدم زر المحاكاة للعروض بدون أجهزة. يمكن للطلاب تصدير بيانات CSV للتحليل في جدول بيانات.</span>
     </div>
 </div>
 
@@ -319,10 +344,10 @@ kbd { background: var(--code-bg); border: 1px solid var(--card-border); border-r
 <div class="card">
     <h3><span class="tab-icon">🎲</span> 3D Board</h3>
     <ul>
-        <li><span class="en"><strong>5 interactive 3D models</strong>: micro:bit V2, Robot Buggy, Robot Arm, Balance Game, Weather Station</span><span class="fr"><strong>5 modeles 3D interactifs</strong> : micro:bit V2, Robot Buggy, Bras Robot, Jeu d'Equilibre, Station Meteo</span></li>
-        <li><span class="en">Models animate with <strong>live sensor data</strong> — tilt the micro:bit to see the 3D model move</span><span class="fr">Les modeles s'animent avec les <strong>donnees des capteurs en direct</strong> — inclinez le micro:bit pour voir le modele 3D bouger</span></li>
-        <li><span class="en"><strong>Drag</strong> to rotate, <strong>scroll</strong> to zoom</span><span class="fr"><strong>Glissez</strong> pour tourner, <strong>scrollez</strong> pour zoomer</span></li>
-        <li><span class="en">Use the dropdown to switch between models</span><span class="fr">Utilisez le menu deroulant pour changer de modele</span></li>
+        <li><span class="en"><strong>5 interactive 3D models</strong>: micro:bit V2, Robot Buggy, Robot Arm, Balance Game, Weather Station</span><span class="fr"><strong>5 modeles 3D interactifs</strong> : micro:bit V2, Robot Buggy, Bras Robot, Jeu d'Equilibre, Station Meteo</span><span class="ar"><strong>5 نماذج ثلاثية الأبعاد تفاعلية</strong></span></li>
+        <li><span class="en">Models animate with <strong>live sensor data</strong> — tilt the micro:bit to see the 3D model move</span><span class="fr">Les modeles s'animent avec les <strong>donnees des capteurs en direct</strong> — inclinez le micro:bit pour voir le modele 3D bouger</span><span class="ar">النماذج تتحرك مع <strong>بيانات المستشعرات الحية</strong></span></li>
+        <li><span class="en"><strong>Drag</strong> to rotate, <strong>scroll</strong> to zoom</span><span class="fr"><strong>Glissez</strong> pour tourner, <strong>scrollez</strong> pour zoomer</span><span class="ar"><strong>اسحب</strong> للتدوير، <strong>مرر</strong> للتكبير</span></li>
+        <li><span class="en">Use the dropdown to switch between models</span><span class="fr">Utilisez le menu deroulant pour changer de modele</span><span class="ar">استخدم القائمة المنسدلة لتبديل النماذج</span></li>
     </ul>
 </div>
 
@@ -330,20 +355,20 @@ kbd { background: var(--code-bg); border: 1px solid var(--card-border); border-r
 <div class="card">
     <h3><span class="tab-icon">🔧</span> Bench <span style="color:var(--muted); font-size:0.8em;">(Expert only)</span></h3>
     <ul>
-        <li><span class="en">Send raw commands: <code>BENCH:PING</code>, <code>BENCH:STATUS</code>, <code>BENCH:RESET</code></span><span class="fr">Envoyez des commandes brutes : <code>BENCH:PING</code>, <code>BENCH:STATUS</code>, <code>BENCH:RESET</code></span></li>
-        <li><span class="en">View raw firmware responses — useful for debugging</span><span class="fr">Affichez les reponses brutes du firmware — utile pour le debogage</span></li>
+        <li><span class="en">Send raw commands: <code>BENCH:PING</code>, <code>BENCH:STATUS</code>, <code>BENCH:RESET</code></span><span class="fr">Envoyez des commandes brutes : <code>BENCH:PING</code>, <code>BENCH:STATUS</code>, <code>BENCH:RESET</code></span><span class="ar">إرسال أوامر خام: <code>BENCH:PING</code>، <code>BENCH:STATUS</code>، <code>BENCH:RESET</code></span></li>
+        <li><span class="en">View raw firmware responses — useful for debugging</span><span class="fr">Affichez les reponses brutes du firmware — utile pour le debogage</span><span class="ar">عرض استجابات البرنامج الثابت — مفيد لتصحيح الأخطاء</span></li>
     </ul>
 </div>
 
 <!-- More -->
 <div class="card">
     <h3><span class="tab-icon">✨</span> More</h3>
-    <p><span class="en">Extra widgets organized in collapsible sections:</span><span class="fr">Widgets supplementaires organises en sections repliables :</span></p>
+    <p><span class="en">Extra widgets organized in collapsible sections:</span><span class="fr">Widgets supplementaires organises en sections repliables :</span><span class="ar">أدوات إضافية في أقسام قابلة للطي:</span></p>
     <ul>
-        <li><span class="en"><strong>Fun Controls</strong> — Button, Switch, Slider, Keypad (1-9), Joystick (D-pad)</span><span class="fr"><strong>Fun Controls</strong> — Bouton, Interrupteur, Curseur, Clavier (1-9), Joystick (D-pad)</span></li>
-        <li><span class="en"><strong>Indicators</strong> (Expert) — LED, Level bar, Live Graph, Debug Console, Data Capture with CSV export</span><span class="fr"><strong>Indicateurs</strong> (Expert) — LED, Barre de niveau, Graphique, Console debug, Capture de donnees avec export CSV</span></li>
-        <li><span class="en"><strong>Audio/Time</strong> (Expert) — Buzzer, Timer/Stopwatch, Delay Action, Random generator</span><span class="fr"><strong>Audio/Temps</strong> (Expert) — Buzzer, Chronometre, Action differee, Generateur aleatoire</span></li>
-        <li><span class="en"><strong>Advanced</strong> (Expert) — Mode selector, Color picker, Presets (save/load), XY Pad, Pin control, Servo, RGB Strip</span><span class="fr"><strong>Avance</strong> (Expert) — Selecteur de mode, Selecteur de couleur, Presets (save/load), Pad XY, Controle des broches, Servo, Ruban RGB</span></li>
+        <li><span class="en"><strong>Fun Controls</strong> — Button, Switch, Slider, Keypad (1-9), Joystick (D-pad)</span><span class="fr"><strong>Fun Controls</strong> — Bouton, Interrupteur, Curseur, Clavier (1-9), Joystick (D-pad)</span><span class="ar"><strong>عناصر التحكم الممتعة</strong></span></li>
+        <li><span class="en"><strong>Indicators</strong> (Expert) — LED, Level bar, Live Graph, Debug Console, Data Capture with CSV export</span><span class="fr"><strong>Indicateurs</strong> (Expert) — LED, Barre de niveau, Graphique, Console debug, Capture de donnees avec export CSV</span><span class="ar"><strong>المؤشرات</strong> (متقدم)</span></li>
+        <li><span class="en"><strong>Audio/Time</strong> (Expert) — Buzzer, Timer/Stopwatch, Delay Action, Random generator</span><span class="fr"><strong>Audio/Temps</strong> (Expert) — Buzzer, Chronometre, Action differee, Generateur aleatoire</span><span class="ar"><strong>الصوت/الوقت</strong> (متقدم)</span></li>
+        <li><span class="en"><strong>Advanced</strong> (Expert) — Mode selector, Color picker, Presets (save/load), XY Pad, Pin control, Servo, RGB Strip</span><span class="fr"><strong>Avance</strong> (Expert) — Selecteur de mode, Selecteur de couleur, Presets (save/load), Pad XY, Controle des broches, Servo, Ruban RGB</span><span class="ar"><strong>متقدم</strong></span></li>
     </ul>
 </div>
 
@@ -351,14 +376,15 @@ kbd { background: var(--code-bg); border: 1px solid var(--card-border); border-r
 <h2 id="themes">
     <span class="en">5. Themes</span>
     <span class="fr">5. Themes</span>
+    <span class="ar">5. السمات</span>
 </h2>
 <div class="card">
-    <p><span class="en">Click the theme buttons in the top-right corner of the app:</span><span class="fr">Cliquez sur les boutons de theme dans le coin superieur droit :</span></p>
+    <p><span class="en">Click the theme buttons in the top-right corner of the app:</span><span class="fr">Cliquez sur les boutons de theme dans le coin superieur droit :</span><span class="ar">انقر على أزرار السمات في الزاوية العلوية اليمنى</span></p>
     <ul>
-        <li>🌙 <strong>Stealth</strong> — <span class="en">Dark, minimal (default)</span><span class="fr">Sombre, minimaliste (par defaut)</span></li>
-        <li>⚡ <strong>Neon</strong> — <span class="en">Cyberpunk, glowing</span><span class="fr">Cyberpunk, lumineux</span></li>
-        <li>☁️ <strong>Arctic</strong> — <span class="en">Light, clean</span><span class="fr">Clair, epure</span></li>
-        <li>🔥 <strong>Blaze</strong> — <span class="en">Warm light</span><span class="fr">Lumiere chaude</span></li>
+        <li>🌙 <strong>Stealth</strong> — <span class="en">Dark, minimal (default)</span><span class="fr">Sombre, minimaliste (par defaut)</span><span class="ar">داكن، بسيط (افتراضي)</span></li>
+        <li>⚡ <strong>Neon</strong> — <span class="en">Cyberpunk, glowing</span><span class="fr">Cyberpunk, lumineux</span><span class="ar">سايبربانك، متوهج</span></li>
+        <li>☁️ <strong>Arctic</strong> — <span class="en">Light, clean</span><span class="fr">Clair, epure</span><span class="ar">فاتح، نظيف</span></li>
+        <li>🔥 <strong>Blaze</strong> — <span class="en">Warm light</span><span class="fr">Lumiere chaude</span><span class="ar">ضوء دافئ</span></li>
     </ul>
 </div>
 
@@ -366,47 +392,49 @@ kbd { background: var(--code-bg); border: 1px solid var(--card-border); border-r
 <h2 id="shortcuts">
     <span class="en">6. Keyboard Shortcuts</span>
     <span class="fr">6. Raccourcis clavier</span>
+    <span class="ar">6. اختصارات لوحة المفاتيح</span>
 </h2>
 <table class="shortcut-table">
-    <tr><th><span class="en">Key</span><span class="fr">Touche</span></th><th>Action</th></tr>
-    <tr><td><kbd>Space</kbd></td><td><span class="en">Connect / Disconnect</span><span class="fr">Connecter / Deconnecter</span></td></tr>
-    <tr><td><kbd>1</kbd> - <kbd>8</kbd></td><td><span class="en">Switch tabs</span><span class="fr">Changer d'onglet</span></td></tr>
-    <tr><td><kbd>P</kbd></td><td><span class="en">Pause / Resume graph</span><span class="fr">Pause / Reprendre le graphique</span></td></tr>
-    <tr><td><kbd>F</kbd></td><td><span class="en">Fullscreen graph</span><span class="fr">Graphique plein ecran</span></td></tr>
-    <tr><td><kbd>K</kbd></td><td><span class="en">Show shortcuts help</span><span class="fr">Afficher l'aide des raccourcis</span></td></tr>
-    <tr><td><kbd>Esc</kbd></td><td><span class="en">Close overlays</span><span class="fr">Fermer les fenetres</span></td></tr>
+    <tr><th><span class="en">Key</span><span class="fr">Touche</span><span class="ar">مفتاح</span></th><th>Action</th></tr>
+    <tr><td><kbd>Space</kbd></td><td><span class="en">Connect / Disconnect</span><span class="fr">Connecter / Deconnecter</span><span class="ar">توصيل / فصل</span></td></tr>
+    <tr><td><kbd>1</kbd> - <kbd>8</kbd></td><td><span class="en">Switch tabs</span><span class="fr">Changer d'onglet</span><span class="ar">تبديل الألسنة</span></td></tr>
+    <tr><td><kbd>P</kbd></td><td><span class="en">Pause / Resume graph</span><span class="fr">Pause / Reprendre le graphique</span><span class="ar">إيقاف / استئناف الرسم البياني</span></td></tr>
+    <tr><td><kbd>F</kbd></td><td><span class="en">Fullscreen graph</span><span class="fr">Graphique plein ecran</span><span class="ar">الرسم البياني بملء الشاشة</span></td></tr>
+    <tr><td><kbd>K</kbd></td><td><span class="en">Show shortcuts help</span><span class="fr">Afficher l'aide des raccourcis</span><span class="ar">عرض مساعدة الاختصارات</span></td></tr>
+    <tr><td><kbd>Esc</kbd></td><td><span class="en">Close overlays</span><span class="fr">Fermer les fenetres</span><span class="ar">إغلاق النوافذ</span></td></tr>
 </table>
 
 <!-- 7. TROUBLESHOOTING -->
 <h2 id="troubleshooting">
     <span class="en">7. Troubleshooting</span>
     <span class="fr">7. Depannage</span>
+    <span class="ar">7. استكشاف الأخطاء</span>
 </h2>
 
 <div class="card">
-    <h3><span class="en">micro:bit not found in scanner</span><span class="fr">micro:bit introuvable dans le scanner</span></h3>
+    <h3><span class="en">micro:bit not found in scanner</span><span class="fr">micro:bit introuvable dans le scanner</span><span class="ar">micro:bit غير موجود في الماسح</span></h3>
     <ul>
-        <li><span class="en">Check that <strong>Bluetooth is ON</strong> on your computer</span><span class="fr">Verifiez que le <strong>Bluetooth est active</strong> sur votre ordinateur</span></li>
-        <li><span class="en">Make sure the micro:bit shows the <strong>X icon</strong> (firmware is running)</span><span class="fr">Assurez-vous que le micro:bit affiche l'<strong>icone X</strong> (le firmware est en cours d'execution)</span></li>
-        <li><span class="en">The micro:bit must NOT be connected to another device/tab</span><span class="fr">Le micro:bit ne doit PAS etre connecte a un autre appareil/onglet</span></li>
-        <li><span class="en">Try <strong>resetting</strong> the micro:bit (press the reset button on the back)</span><span class="fr">Essayez de <strong>reinitialiser</strong> le micro:bit (appuyez sur le bouton reset a l'arriere)</span></li>
-        <li><span class="en">Use <strong>Chrome</strong> or <strong>Edge</strong> — other browsers don't support Web Bluetooth</span><span class="fr">Utilisez <strong>Chrome</strong> ou <strong>Edge</strong> — les autres navigateurs ne supportent pas le Web Bluetooth</span></li>
+        <li><span class="en">Check that <strong>Bluetooth is ON</strong> on your computer</span><span class="fr">Verifiez que le <strong>Bluetooth est active</strong> sur votre ordinateur</span><span class="ar">تحقق أن <strong>البلوتوث مفعل</strong></span></li>
+        <li><span class="en">Make sure the micro:bit shows the <strong>X icon</strong> (firmware is running)</span><span class="fr">Assurez-vous que le micro:bit affiche l'<strong>icone X</strong> (le firmware est en cours d'execution)</span><span class="ar">تأكد أن micro:bit يعرض <strong>أيقونة X</strong></span></li>
+        <li><span class="en">The micro:bit must NOT be connected to another device/tab</span><span class="fr">Le micro:bit ne doit PAS etre connecte a un autre appareil/onglet</span><span class="ar">يجب ألا يكون متصلاً بجهاز آخر</span></li>
+        <li><span class="en">Try <strong>resetting</strong> the micro:bit (press the reset button on the back)</span><span class="fr">Essayez de <strong>reinitialiser</strong> le micro:bit (appuyez sur le bouton reset a l'arriere)</span><span class="ar">جرب <strong>إعادة تعيين</strong> micro:bit</span></li>
+        <li><span class="en">Use <strong>Chrome</strong> or <strong>Edge</strong> — other browsers don't support Web Bluetooth</span><span class="fr">Utilisez <strong>Chrome</strong> ou <strong>Edge</strong> — les autres navigateurs ne supportent pas le Web Bluetooth</span><span class="ar">استخدم <strong>Chrome</strong> أو <strong>Edge</strong></span></li>
     </ul>
 </div>
 
 <div class="card">
-    <h3><span class="en">MakeCode shows errors when pasting firmware</span><span class="fr">MakeCode affiche des erreurs en collant le firmware</span></h3>
+    <h3><span class="en">MakeCode shows errors when pasting firmware</span><span class="fr">MakeCode affiche des erreurs en collant le firmware</span><span class="ar">MakeCode يعرض أخطاء</span></h3>
     <ul>
-        <li><span class="en">You forgot to add the <strong>Bluetooth extension</strong> (step 5 in firmware flashing)</span><span class="fr">Vous avez oublie d'ajouter l'<strong>extension Bluetooth</strong> (etape 5 du flashage)</span></li>
-        <li><span class="en">Make sure you paste into <strong>main.ts</strong>, not <strong>pxt.json</strong></span><span class="fr">Assurez-vous de coller dans <strong>main.ts</strong>, pas dans <strong>pxt.json</strong></span></li>
-        <li><span class="en">Make sure you're in <strong>JavaScript</strong> mode, not Blocks mode</span><span class="fr">Assurez-vous d'etre en mode <strong>JavaScript</strong>, pas en mode Blocs</span></li>
+        <li><span class="en">You forgot to add the <strong>Bluetooth extension</strong> (step 5 in firmware flashing)</span><span class="fr">Vous avez oublie d'ajouter l'<strong>extension Bluetooth</strong> (etape 5 du flashage)</span><span class="ar">نسيت إضافة <strong>إضافة Bluetooth</strong></span></li>
+        <li><span class="en">Make sure you paste into <strong>main.ts</strong>, not <strong>pxt.json</strong></span><span class="fr">Assurez-vous de coller dans <strong>main.ts</strong>, pas dans <strong>pxt.json</strong></span><span class="ar">تأكد من اللصق في <strong>main.ts</strong> وليس <strong>pxt.json</strong></span></li>
+        <li><span class="en">Make sure you're in <strong>JavaScript</strong> mode, not Blocks mode</span><span class="fr">Assurez-vous d'etre en mode <strong>JavaScript</strong>, pas en mode Blocs</span><span class="ar">تأكد من وضع <strong>JavaScript</strong></span></li>
     </ul>
 </div>
 
 <div class="card">
-    <h3><span class="en">Compass calibration starts automatically</span><span class="fr">La calibration de la boussole demarre automatiquement</span></h3>
+    <h3><span class="en">Compass calibration starts automatically</span><span class="fr">La calibration de la boussole demarre automatiquement</span><span class="ar">معايرة البوصلة تبدأ تلقائياً</span></h3>
     <ul>
-        <li><span class="en">This was fixed in V8.1. Make sure you have the <strong>latest firmware</strong> flashed</span><span class="fr">Ceci a ete corrige en V8.1. Assurez-vous d'avoir flashe le <strong>dernier firmware</strong></span></li>
+        <li><span class="en">This was fixed in V8.1. Make sure you have the <strong>latest firmware</strong> flashed</span><span class="fr">Ceci a ete corrige en V8.1. Assurez-vous d'avoir flashe le <strong>dernier firmware</strong></span><span class="ar">تم إصلاح هذا في V8.1. تأكد من تثبيت أحدث <strong>برنامج ثابت</strong></span></li>
     </ul>
 </div>
 
@@ -414,46 +442,47 @@ kbd { background: var(--code-bg); border: 1px solid var(--card-border); border-r
 <h2 id="teacher">
     <span class="en">8. Teacher Notes</span>
     <span class="fr">8. Notes pour les enseignants</span>
+    <span class="ar">8. ملاحظات المعلم</span>
 </h2>
 
 <div class="card">
-    <h3><span class="en">Learning Objectives</span><span class="fr">Objectifs pedagogiques</span></h3>
+    <h3><span class="en">Learning Objectives</span><span class="fr">Objectifs pedagogiques</span><span class="ar">أهداف التعلم</span></h3>
     <ul>
-        <li><span class="en">Understand <strong>Bluetooth Low Energy</strong> communication</span><span class="fr">Comprendre la communication <strong>Bluetooth Low Energy</strong></span></li>
-        <li><span class="en">Read and interpret <strong>sensor data</strong> (temperature, light, motion)</span><span class="fr">Lire et interpreter les <strong>donnees des capteurs</strong> (temperature, lumiere, mouvement)</span></li>
-        <li><span class="en">Control <strong>actuators</strong> (servos, buzzer, LEDs) from a web interface</span><span class="fr">Controler des <strong>actionneurs</strong> (servos, buzzer, LEDs) depuis une interface web</span></li>
-        <li><span class="en"><strong>Data visualization</strong> with real-time graphs and CSV export</span><span class="fr"><strong>Visualisation de donnees</strong> avec des graphiques en temps reel et export CSV</span></li>
-        <li><span class="en">Introduction to <strong>3D modeling</strong> driven by sensor data</span><span class="fr">Introduction a la <strong>modelisation 3D</strong> pilotee par les capteurs</span></li>
+        <li><span class="en">Understand <strong>Bluetooth Low Energy</strong> communication</span><span class="fr">Comprendre la communication <strong>Bluetooth Low Energy</strong></span><span class="ar">فهم اتصال <strong>Bluetooth Low Energy</strong></span></li>
+        <li><span class="en">Read and interpret <strong>sensor data</strong> (temperature, light, motion)</span><span class="fr">Lire et interpreter les <strong>donnees des capteurs</strong> (temperature, lumiere, mouvement)</span><span class="ar">قراءة وتفسير <strong>بيانات المستشعرات</strong></span></li>
+        <li><span class="en">Control <strong>actuators</strong> (servos, buzzer, LEDs) from a web interface</span><span class="fr">Controler des <strong>actionneurs</strong> (servos, buzzer, LEDs) depuis une interface web</span><span class="ar">التحكم في <strong>المشغلات</strong> من واجهة ويب</span></li>
+        <li><span class="en"><strong>Data visualization</strong> with real-time graphs and CSV export</span><span class="fr"><strong>Visualisation de donnees</strong> avec des graphiques en temps reel et export CSV</span><span class="ar"><strong>تصور البيانات</strong> مع رسوم بيانية</span></li>
+        <li><span class="en">Introduction to <strong>3D modeling</strong> driven by sensor data</span><span class="fr">Introduction a la <strong>modelisation 3D</strong> pilotee par les capteurs</span><span class="ar">مقدمة في <strong>النمذجة ثلاثية الأبعاد</strong></span></li>
     </ul>
 </div>
 
 <div class="card">
-    <h3><span class="en">Activity Ideas</span><span class="fr">Idees d'activites</span></h3>
+    <h3><span class="en">Activity Ideas</span><span class="fr">Idees d'activites</span><span class="ar">أفكار الأنشطة</span></h3>
     <ul>
-        <li><span class="en">🚗 <strong>Robot Buggy</strong> — Connect 2 servos, use GamePad to drive, watch the 3D Buggy model move</span><span class="fr">🚗 <strong>Robot Buggy</strong> — Connectez 2 servos, utilisez le GamePad pour conduire, regardez le modele 3D Buggy bouger</span></li>
-        <li><span class="en">🌡️ <strong>Weather Station</strong> — Graph temperature and light over time, export CSV for spreadsheet analysis</span><span class="fr">🌡️ <strong>Station Meteo</strong> — Tracez la temperature et la lumiere au fil du temps, exportez en CSV pour analyse tableur</span></li>
-        <li><span class="en">🎯 <strong>Balance Game</strong> — Tilt the micro:bit to roll the ball to targets in the 3D view</span><span class="fr">🎯 <strong>Jeu d'Equilibre</strong> — Inclinez le micro:bit pour faire rouler la balle vers les cibles en 3D</span></li>
-        <li><span class="en">🎵 <strong>Sound Meter</strong> — Monitor noise levels, use graph annotations to mark events</span><span class="fr">🎵 <strong>Sonometre</strong> — Surveillez les niveaux sonores, utilisez les annotations du graphique pour marquer les evenements</span></li>
-        <li><span class="en">📐 <strong>Motion Tracker</strong> — Record accelerometer data, export and analyze in a spreadsheet</span><span class="fr">📐 <strong>Tracker de Mouvement</strong> — Enregistrez les donnees de l'accelerometre, exportez et analysez dans un tableur</span></li>
-        <li><span class="en">🦾 <strong>Robot Arm</strong> — Control 2 servos, see the 3D arm respond in real time</span><span class="fr">🦾 <strong>Bras Robot</strong> — Controlez 2 servos, voyez le bras 3D reagir en temps reel</span></li>
+        <li><span class="en">🚗 <strong>Robot Buggy</strong> — Connect 2 servos, use GamePad to drive, watch the 3D Buggy model move</span><span class="fr">🚗 <strong>Robot Buggy</strong> — Connectez 2 servos, utilisez le GamePad pour conduire, regardez le modele 3D Buggy bouger</span><span class="ar">🚗 <strong>روبوت بعجلات</strong></span></li>
+        <li><span class="en">🌡️ <strong>Weather Station</strong> — Graph temperature and light over time, export CSV for spreadsheet analysis</span><span class="fr">🌡️ <strong>Station Meteo</strong> — Tracez la temperature et la lumiere au fil du temps, exportez en CSV pour analyse tableur</span><span class="ar">🌡️ <strong>محطة طقس</strong></span></li>
+        <li><span class="en">🎯 <strong>Balance Game</strong> — Tilt the micro:bit to roll the ball to targets in the 3D view</span><span class="fr">🎯 <strong>Jeu d'Equilibre</strong> — Inclinez le micro:bit pour faire rouler la balle vers les cibles en 3D</span><span class="ar">🎯 <strong>لعبة التوازن</strong></span></li>
+        <li><span class="en">🎵 <strong>Sound Meter</strong> — Monitor noise levels, use graph annotations to mark events</span><span class="fr">🎵 <strong>Sonometre</strong> — Surveillez les niveaux sonores, utilisez les annotations du graphique pour marquer les evenements</span><span class="ar">🎵 <strong>مقياس الصوت</strong></span></li>
+        <li><span class="en">📐 <strong>Motion Tracker</strong> — Record accelerometer data, export and analyze in a spreadsheet</span><span class="fr">📐 <strong>Tracker de Mouvement</strong> — Enregistrez les donnees de l'accelerometre, exportez et analysez dans un tableur</span><span class="ar">📐 <strong>متتبع الحركة</strong></span></li>
+        <li><span class="en">🦾 <strong>Robot Arm</strong> — Control 2 servos, see the 3D arm respond in real time</span><span class="fr">🦾 <strong>Bras Robot</strong> — Controlez 2 servos, voyez le bras 3D reagir en temps reel</span><span class="ar">🦾 <strong>ذراع روبوت</strong></span></li>
     </ul>
 </div>
 
 <div class="card">
-    <h3><span class="en">Workshop Preparation Checklist</span><span class="fr">Checklist de preparation d'atelier</span></h3>
+    <h3><span class="en">Workshop Preparation Checklist</span><span class="fr">Checklist de preparation d'atelier</span><span class="ar">قائمة تحقق الورشة</span></h3>
     <ul>
-        <li><span class="en">Flash firmware on all micro:bits beforehand</span><span class="fr">Flashez le firmware sur tous les micro:bits a l'avance</span></li>
-        <li><span class="en">Test Bluetooth on all student computers (Chrome/Edge only)</span><span class="fr">Testez le Bluetooth sur tous les ordinateurs (Chrome/Edge uniquement)</span></li>
-        <li><span class="en">Have battery packs ready (USB can also power)</span><span class="fr">Preparez les blocs de piles (l'USB peut aussi alimenter)</span></li>
-        <li><span class="en">Bookmark the app URL: <code>abourdim.github.io/bit-playground</code></span><span class="fr">Ajoutez l'URL de l'application en favori : <code>abourdim.github.io/bit-playground</code></span></li>
-        <li><span class="en">Print this guide for students who need help</span><span class="fr">Imprimez ce guide pour les eleves qui ont besoin d'aide</span></li>
+        <li><span class="en">Flash firmware on all micro:bits beforehand</span><span class="fr">Flashez le firmware sur tous les micro:bits a l'avance</span><span class="ar">تثبيت البرنامج الثابت مسبقاً</span></li>
+        <li><span class="en">Test Bluetooth on all student computers (Chrome/Edge only)</span><span class="fr">Testez le Bluetooth sur tous les ordinateurs (Chrome/Edge uniquement)</span><span class="ar">اختبار البلوتوث</span></li>
+        <li><span class="en">Have battery packs ready (USB can also power)</span><span class="fr">Preparez les blocs de piles (l'USB peut aussi alimenter)</span><span class="ar">تجهيز البطاريات</span></li>
+        <li><span class="en">Bookmark the app URL: <code>abourdim.github.io/bit-playground</code></span><span class="fr">Ajoutez l'URL de l'application en favori : <code>abourdim.github.io/bit-playground</code></span><span class="ar">حفظ رابط التطبيق: <code>abourdim.github.io/bit-playground</code></span></li>
+        <li><span class="en">Print this guide for students who need help</span><span class="fr">Imprimez ce guide pour les eleves qui ont besoin d'aide</span><span class="ar">طباعة هذا الدليل</span></li>
     </ul>
 </div>
 
 <!-- Footer -->
 <div style="text-align:center; margin:40px 0 20px; color:var(--muted); font-size:0.85rem;">
     <p>micro:bit Playground v8.1</p>
-    <a href="index.html" class="btn-link"><span class="en">Open the App</span><span class="fr">Ouvrir l'application</span></a>
+    <a href="index.html" class="btn-link"><span class="en">Open the App</span><span class="fr">Ouvrir l'application</span><span class="ar">افتح التطبيق</span></a>
     <a href="https://github.com/abourdim/bit-playground" class="btn-link green">GitHub</a>
 </div>
 
