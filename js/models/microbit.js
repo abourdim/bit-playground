@@ -159,7 +159,9 @@
             }
 
             // Sensor chip
-            group.add(Object.assign(new T.Mesh(new T.BoxGeometry(0.3, 0.06, 0.3), chipMat), { position: new T.Vector3(0.75, BD / 2 + 0.03, 0.6) }));
+            const sensorChip = new T.Mesh(new T.BoxGeometry(0.3, 0.06, 0.3), chipMat);
+            sensorChip.position.set(0.75, BD / 2 + 0.03, 0.6);
+            group.add(sensorChip);
 
             // ---- USB PORT ----
             const usb = new T.Mesh(new T.BoxGeometry(0.6, 0.2, 0.3), usbMat);
@@ -167,7 +169,9 @@
             usb.castShadow = true;
             group.add(usb);
             // USB socket hole
-            group.add(Object.assign(new T.Mesh(new T.BoxGeometry(0.4, 0.1, 0.05), darkMat), { position: new T.Vector3(0, BD / 2 + 0.08, -BH / 2 - 0.02) }));
+            const usbHole = new T.Mesh(new T.BoxGeometry(0.4, 0.1, 0.05), darkMat);
+            usbHole.position.set(0, BD / 2 + 0.08, -BH / 2 - 0.02);
+            group.add(usbHole);
 
             // ---- BATTERY CONNECTOR ----
             const batt = new T.Mesh(new T.BoxGeometry(0.5, 0.25, 0.2), battMat);
@@ -190,16 +194,24 @@
             group.add(logo);
 
             // ---- ANTENNA ----
-            group.add(Object.assign(new T.Mesh(new T.BoxGeometry(0.45, 0.015, 0.35), new T.MeshStandardMaterial({ color: 0x2a3a4e, roughness: 0.8 })), { position: new T.Vector3(-0.65, BD / 2 + 0.015, -0.7) }));
+            const antenna = new T.Mesh(new T.BoxGeometry(0.45, 0.015, 0.35), new T.MeshStandardMaterial({ color: 0x2a3a4e, roughness: 0.8 }));
+            antenna.position.set(-0.65, BD / 2 + 0.015, -0.7);
+            group.add(antenna);
 
             // ---- SILK SCREEN LABELS (A, B markers) ----
             const slGeo = new T.BoxGeometry(0.15, 0.012, 0.08);
-            group.add(Object.assign(new T.Mesh(slGeo, silkMat), { position: new T.Vector3(-1.3, BD / 2 + 0.015, -0.48) }));
-            group.add(Object.assign(new T.Mesh(slGeo, silkMat), { position: new T.Vector3(1.3, BD / 2 + 0.015, -0.48) }));
+            const silkA = new T.Mesh(slGeo, silkMat);
+            silkA.position.set(-1.3, BD / 2 + 0.015, -0.48);
+            group.add(silkA);
+            const silkB = new T.Mesh(slGeo, silkMat);
+            silkB.position.set(1.3, BD / 2 + 0.015, -0.48);
+            group.add(silkB);
 
             // ---- SILK TEXT: "micro:bit" ----
             const txtGeo = new T.BoxGeometry(0.8, 0.012, 0.08);
-            group.add(Object.assign(new T.Mesh(txtGeo, silkMat), { position: new T.Vector3(0, BD / 2 + 0.015, -0.9) }));
+            const silkTxt = new T.Mesh(txtGeo, silkMat);
+            silkTxt.position.set(0, BD / 2 + 0.015, -0.9);
+            group.add(silkTxt);
         },
 
         update(D) {
