@@ -1707,7 +1707,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
         </div>
         <script id="firmwareSource" type="text/plain">/**
  * =========================================================
- *  micro:bit Playground - BLE Firmware (V6.0)
+ *  micro:bit Playground - BLE Firmware (V8.0)
  * =========================================================
  *
  * UART over Bluetooth LE - full telemetry, control &amp; 3D sync
@@ -1716,50 +1716,71 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
  *   TEMP:&lt;C&gt;                           every 100ms (on change)
  *   LIGHT:&lt;0-255&gt;                      every 100ms (on change)
  *   SOUND:&lt;0-255&gt;                      every 100ms (on change)
- *   ACC:&lt;x&gt;,&lt;y&gt;,&lt;z&gt;                    every 100ms (on change)
+ *   ACC:&lt;x&gt;,&lt;y&gt;,&lt;z&gt;                    every 300ms (on change, 15mg deadband)
  *   COMPASS:&lt;0-360&gt;                    every 200ms (on change)
  *   BTN:A:&lt;0|1&gt;  BTN:B:&lt;0|1&gt;          every 100ms (on change)
  *   BTN:P0/P1/P2:&lt;0|1&gt;                every 100ms (on change)
  *   BTN:LOGO:&lt;0|1&gt;                    every 100ms (on change)
  *   LEDS:&lt;r0&gt;,&lt;r1&gt;,&lt;r2&gt;,&lt;r3&gt;,&lt;r4&gt;     every 250ms (on change)
  *       each row 0-31 (5 bits), syncs with 3D board model
- *   SERVO1_POS:&lt;angle&gt;                 every 500ms
- *   SERVO2_POS:&lt;angle&gt;                 every 500ms
- *   GRAPH:&lt;label&gt;:&lt;value&gt;              simulate mode only
+ *   SERVO1_POS:&lt;angle&gt;                 every 500ms (on change)
+ *   SERVO2_POS:&lt;angle&gt;                 every 500ms (on change)
+ *   GRAPH:&lt;label&gt;:&lt;value&gt;              simulate mode only (Sine/Random/Ramp)
  *   SIMULATE:ACK:ON/OFF                simulate acknowledgement
  *   CAL:COMPASS:DONE                   after calibration complete
  *   INFO:CONNECTED / INFO:DISCONNECTED BLE state changes
  *   INFO:SERIAL:&lt;id&gt;                   device serial number
+ *   OTHER:ACK:&lt;cmd&gt;                    acknowledgement for Others tab commands
+ *   OTHER:NACK:&lt;reason&gt;                rejection (e.g. pin conflict)
  *
  * COMMANDS (browser -&gt; micro:bit):
  *   TEXT:&lt;string&gt;           Show scrolling text on LED
  *   LM:&lt;hex10&gt;             Set 5x5 LED matrix (hex encoded)
  *   CMD:HEART/SMILE/SAD/CLEAR/FIRE/UP/DOWN/LEFT/RIGHT
- *   SERVO1:&lt;angle&gt;         SERVO2:&lt;angle&gt;       (0-180)
- *   SERVO1:OFF             SERVO2:OFF
- *   BUZZ:&lt;freq&gt;,&lt;ms&gt;       BUZZ:OFF
- *   OTHER:LED/&lt;row&gt;,&lt;col&gt;,&lt;0|1&gt;
- *   OTHER:PIN/&lt;D|A&gt;&lt;n&gt;:&lt;val&gt;
- *   OTHER:PWM/&lt;pin&gt;:&lt;duty&gt;,&lt;period&gt;
- *   OTHER:SERVO/&lt;angle&gt;,&lt;speed&gt;
+ *   SERVO1:&lt;angle&gt;         SERVO2:&lt;angle&gt;       (0-180, smooth stepping)
+ *   SERVO1:OFF             SERVO2:OFF           (release PWM)
+ *   BUZZ:&lt;freq&gt;,&lt;ms&gt;       BUZZ:OFF             (non-blocking, V2 speaker + P0)
+ *   TAB:&lt;name&gt;             Notify firmware of active browser tab
  *   BENCH:&lt;cmd&gt;            (PING, STATUS, RESET)
- *   JSON:{...}             Parse JSON commands
+ *   JSON:{...}             Echo with byte count
  *   SIMULATE:ON/OFF        Start/stop graph demo data
  *   CAL:COMPASS            Trigger compass calibration game
- *   TAB:&lt;name&gt;             Notify firmware of active browser tab
  *   HELLO                  Sent on connect to confirm link
  *
+ * OTHERS TAB COMMANDS (browser -&gt; micro:bit):
+ *   OTHER:BTN:PRESS        Button press -&gt; LED flash
+ *   OTHER:SWITCH:ON/OFF    Toggle -&gt; tick/cross on LED
+ *   OTHER:SLIDER:&lt;0-100&gt;   Slider -&gt; bar graph on LED
+ *   OTHER:JOY:&lt;dir&gt;        Joystick -&gt; arrow on LED (UP/DOWN/LEFT/RIGHT)
+ *   OTHER:KEY:&lt;1-9&gt;        Keypad -&gt; show digit on LED
+ *   OTHER:TEXT:&lt;string&gt;    Text -&gt; scroll on LED
+ *   OTHER:LED:ON/OFF       LED indicator -&gt; center LED on/off
+ *   OTHER:PIN:&lt;pin&gt;:&lt;0|1&gt;  Digital pin write (D0/D1/D2/D8/D12/D16)
+ *   OTHER:PWM:P0:&lt;0-1023&gt;  PWM output on P0
+ *   OTHER:SERVO:&lt;angle&gt;,&lt;speed&gt;  Servo via Others tab
+ *   OTHER:STRIP:&lt;i&gt;:&lt;hex&gt;  RGB strip (placeholder, ACK only)
+ *   OTHER:MODE:&lt;mode&gt;      Mode selector -&gt; show initial on LED
+ *   OTHER:XY:&lt;x&gt;,&lt;y&gt;       XY pad -&gt; plot dot on 5x5 LED
+ *   OTHER:RANDOM:&lt;n&gt;       Random -&gt; show number on LED
+ *   OTHER:NUMBER:&lt;n&gt;       Numeric -&gt; show number on LED
+ *   OTHER:RANGE_MIN:&lt;n&gt;    Range min -&gt; bar graph on LED
+ *   OTHER:RANGE_MAX:&lt;n&gt;    Range max -&gt; bar graph on LED
+ *   OTHER:COLOR:&lt;hex&gt;      Color -&gt; diamond flash on LED
+ *   OTHER:DELAYED_ACTION   Delayed trigger -&gt; target icon + beep
+ *
  * PIN CONFLICT GUARDS:
- *   servo1Active  -&gt; blocks touch P1 polling
- *   servo2Active  -&gt; blocks touch P2 polling
+ *   servo1Active  -&gt; blocks touch P1 polling &amp; D1 pin writes
+ *   servo2Active  -&gt; blocks touch P2 polling &amp; D2 pin writes
  *   buzzerActive  -&gt; blocks touch P0 polling
  *
  * 3D BOARD SYNC:
- *   LEDS: telemetry mirrors actual LED display on 3D model
- *   ACC:  tilts 3D board matching physical orientation
- *   BTN:  buttons depress + glow on 3D model
- *   Touch pins glow on 3D model
- *   TEMP: tints 3D PCB color (blue to red)
+ *   LEDS:    telemetry mirrors actual LED display on 3D model
+ *   ACC:     tilts 3D board matching physical orientation
+ *   BTN:     buttons depress + glow on 3D model
+ *   Touch:   pins glow on 3D model
+ *   TEMP:    tints 3D PCB color (blue to red)
+ *   SERVO:   drives 3D Buggy wheels, Robot Arm joints
+ *   COMPASS: rotates 3D Weather Station wind vane
  * =========================================================
  */
 // Touch pin events using input.onPinPressed
