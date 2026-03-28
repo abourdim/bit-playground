@@ -643,9 +643,7 @@ loops.everyInterval(200, function () {
     simTick++;
 })
 bluetooth.startUartService()
-basic.showString("BT")
-basic.pause(200)
-basic.clearScreen()
+basic.showIcon(IconNames.No)  // X icon = advertising, waiting for connection
 // ---------- Servo state (minimal additions) ----------
 servo1Target = 90
 servo2Target = 90
