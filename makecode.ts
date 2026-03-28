@@ -504,6 +504,7 @@ bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () 
     // Calibration: CAL:COMPASS
     if (line == "CAL:COMPASS") {
         input.calibrateCompass()
+        compassEnabled = true
         bluetooth.uartWriteLine("CAL:COMPASS:DONE")
         return;
     }
@@ -805,10 +806,11 @@ loops.everyInterval(100, function () {
     lastTemp = t
     bluetooth.uartWriteLine("TEMP:" + t)
 })
-// Compass heading (degrees)
+// Compass heading (degrees) — only poll after user calibrates to avoid auto-calibration prompt
 let lastCompass = -1
+let compassEnabled = false
 loops.everyInterval(200, function () {
-    if (!(btConnected)) {
+    if (!(btConnected) || !compassEnabled) {
         return
     }
     const heading = input.compassHeading()
