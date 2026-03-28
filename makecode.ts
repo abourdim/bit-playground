@@ -1,6 +1,6 @@
 /**
  * =========================================================
- *  micro:bit Playground - BLE Firmware (V8.0)
+ *  micro:bit Playground - BLE Firmware (V8.1)
  * =========================================================
  *
  * UART over Bluetooth LE - full telemetry, control & 3D sync

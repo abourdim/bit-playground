@@ -4,7 +4,7 @@ All notable changes to the **micro:bit Playground** project.
 
 ---
 
-## V8.0 — Others Tab, Firmware Viewer & Bug Fixes *(current)*
+## V8.1 — Others Tab, Firmware Viewer & Bug Fixes *(current)*
 
 ### ✨ Others Tab — Full Widget Wiring
 All 30+ widgets in the More tab now have working JavaScript handlers:
