@@ -4,7 +4,40 @@ All notable changes to the **micro:bit Playground** project.
 
 ---
 
-## V7.0 — 3D Model System *(current)*
+## V8.0 — Others Tab, Firmware Viewer & Bug Fixes *(current)*
+
+### ✨ Others Tab — Full Widget Wiring
+All 30+ widgets in the More tab now have working JavaScript handlers:
+- **Fun Controls**: Button, Switch, Slider, Keypad, Joystick (new 5-button D-pad)
+- **Indicators**: LED toggle, Level bar, Live Graph, Multi-Graph, Debug Console, Data Capture (CSV export)
+- **Audio/Time**: Buzzer, Timer/Stopwatch, Delay Action, Random generator
+- **Advanced**: Mode selector, Numeric input, Dual range, Color picker, Presets (save/load), Global reset/clear, Theme selector
+- **Hardware**: XY Pad (pointer drag), LED Matrix, Sensor simulators, Pin control, Servo, RGB Strip
+
+### 🤖 Firmware Viewer
+- "micro:bit Firmware" button in the connection card
+- Modal overlay with full makecode.ts code (embedded for file:// support)
+- Copy Code button with clipboard API + fallback
+- Open MakeCode link
+
+### 🤖 Firmware Handlers (makecode.ts)
+New handlers for: MODE (show initial on LED), XY (plot on 5x5), RANDOM/NUMBER (show on LED), RANGE_MIN/MAX (bar graph), COLOR (diamond flash), DELAYED_ACTION (target + beep)
+
+### 📈 Graph Annotations
+- Added chartjs-plugin-annotation CDN — annotations now render on the chart
+
+### 📱 PWA Offline Fix
+- Chart.js, Three.js, and annotation plugin CDN URLs added to service worker cache (v6)
+
+### 🐛 Bug Fixes
+- Fixed 3D micro:bit model crash: null guards for logo, buttonA, buttonB in update()
+- Fixed Object.assign position errors (6 instances) — Three.js position is read-only
+- Reset all mesh references in destroy() to prevent stale access
+- Routed OTHER:ACK firmware responses to Others tab response area + debug console
+
+---
+
+## V7.0 — 3D Model System
 
 ### 🎲 5 Interactive 3D Models
 Replaced the single micro:bit board + 8 style system with 5 distinct interactive models, each driven by different sensor data:
