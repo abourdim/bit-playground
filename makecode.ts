@@ -363,6 +363,72 @@ bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () 
             bluetooth.uartWriteLine("OTHER:ACK:STRIP")
             return
         }
+        // Mode selector — show mode initial on LED
+        if (rest.substr(0, 5) == "MODE:") {
+            const mode = rest.substr(5)
+            basic.showString(mode.charAt(0))
+            bluetooth.uartWriteLine("OTHER:ACK:MODE:" + mode)
+            return
+        }
+        // XY Pad — plot dot on LED matrix at mapped position
+        if (rest.substr(0, 3) == "XY:") {
+            const xyParts = rest.substr(3).split(",")
+            if (xyParts.length == 2) {
+                const px = Math.round(parseFloat(xyParts[0]) * 4)
+                const py = Math.round(parseFloat(xyParts[1]) * 4)
+                basic.clearScreen()
+                led.plot(px, py)
+            }
+            bluetooth.uartWriteLine("OTHER:ACK:XY")
+            return
+        }
+        // Random number — show on LED
+        if (rest.substr(0, 7) == "RANDOM:") {
+            const rVal = rest.substr(7)
+            basic.showNumber(parseInt(rVal))
+            bluetooth.uartWriteLine("OTHER:ACK:RANDOM:" + rVal)
+            return
+        }
+        // Numeric input — show on LED
+        if (rest.substr(0, 7) == "NUMBER:") {
+            const nVal = rest.substr(7)
+            basic.showNumber(parseInt(nVal))
+            bluetooth.uartWriteLine("OTHER:ACK:NUMBER:" + nVal)
+            return
+        }
+        // Range min — plot as bar graph (0-100)
+        if (rest.substr(0, 10) == "RANGE_MIN:") {
+            const rMin = parseInt(rest.substr(10))
+            led.plotBarGraph(rMin, 100)
+            bluetooth.uartWriteLine("OTHER:ACK:RANGE_MIN:" + rMin)
+            return
+        }
+        // Range max — plot as bar graph (0-100)
+        if (rest.substr(0, 10) == "RANGE_MAX:") {
+            const rMax = parseInt(rest.substr(10))
+            led.plotBarGraph(rMax, 100)
+            bluetooth.uartWriteLine("OTHER:ACK:RANGE_MAX:" + rMax)
+            return
+        }
+        // Color — show color hex briefly on LED
+        if (rest.substr(0, 6) == "COLOR:") {
+            const hex = rest.substr(6)
+            // Flash a small diamond to acknowledge color change
+            basic.showIcon(IconNames.SmallDiamond)
+            basic.pause(200)
+            basic.clearScreen()
+            bluetooth.uartWriteLine("OTHER:ACK:COLOR:" + hex)
+            return
+        }
+        // Delayed action — beep + flash when triggered
+        if (rest == "DELAYED_ACTION") {
+            basic.showIcon(IconNames.Target)
+            music.playTone(880, music.beat(BeatFraction.Quarter))
+            basic.pause(300)
+            basic.clearScreen()
+            bluetooth.uartWriteLine("OTHER:ACK:DELAYED_ACTION")
+            return
+        }
         // Default ACK
         bluetooth.uartWriteLine("OTHER:ACK:" + rest)
         return
