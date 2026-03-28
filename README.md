@@ -57,7 +57,7 @@ Built for learning, teaching, hacking, and having fun — from beginners 🐣 to
     ├── servos.js      ⚙️ Servo sliders, gauges, trim, 3D hooks
     ├── graph.js       📈 Chart.js graph, fullscreen, recording, annotations
     ├── board3d.js     🎲 3D engine: scene, camera, orbit, model switcher
-    ├── others.js      ✨ Extra controls (LED, pin, PWM, joystick, servo2)
+    ├── others.js      ✨ Extra controls, joystick, timer, presets, debug, data capture
     └── models/
         ├── microbit.js 🎲 micro:bit V2 board
         ├── buggy.js    🚗 Robot Buggy
@@ -223,13 +223,46 @@ All calibrations are **user-triggered only** (nothing happens at startup). Setti
 - **Storage**: Saved per servo in `localStorage`
 
 ### ✨ More (Tab 8)
-Extra controls for advanced use:
-- Individual LED on/off control
-- Digital/analog pin read & write
-- PWM output (duty cycle + period)
-- Additional servo with speed control
-- Joystick input
-- Debug console and data capture
+
+**Fun Controls** (always visible):
+- 🔘 **Button** — press to trigger micro:bit LED flash
+- ⏻ **Switch** — on/off toggle, shows tick/cross on micro:bit
+- 🎚️ **Slider** — 0–100 value, plots as bar graph on micro:bit
+- 🔢 **Keypad** — 3×3 number pad (1–9), shows pressed key on micro:bit
+- 🕹️ **Joystick** — 5-button D-pad (up/down/left/right/center), shows arrows on micro:bit
+
+**Indicators & Outputs** (Expert only):
+- 💡 **LED indicator** — toggle on/off, plots center LED on micro:bit
+- 📊 **Level bar** — progress bar display
+- 📈 **Live Graph** — mini Chart.js single-line chart
+- 📊 **Multi-Graph** — mini Chart.js multi-series chart
+- 🧾 **Debug Console** — timestamped log with clear button
+- 📄 **Data Capture** — sample table with CSV download
+
+**Audio, Time & Random** (Expert only):
+- 🎵 **Buzzer** — frequency slider + duration, sends `BUZZ:` to micro:bit
+- ⏱️ **Timer** — start/stop/reset stopwatch (MM:SS.t format)
+- ⏲️ **Delay Action** — schedule a delayed command (100–60000ms), triggers beep on micro:bit
+- 🎲 **Random** — generate random 0–999, shows number on micro:bit LED
+
+**Advanced Controls & Presets** (Expert only):
+- 📂 **Mode selector** — idle/test1/test2/safe, shows mode initial on micro:bit
+- 🔢 **Numeric input** — send any number (0–1000), shows on micro:bit LED
+- 🏁 **Dual range** — min/max sliders (0–100), plots as bar graph on micro:bit
+- 🎨 **Color picker** — send hex color, flashes diamond on micro:bit
+- 💾 **Presets** — save/load widget states to localStorage
+- 🧹 **Global reset** — reset all controls to defaults
+- 🧹 **Global clear** — clear graphs and logs
+- 🎭 **Theme** — switch themes from within the tab
+
+**Simulators & Hardware** (Expert only):
+- 📐 **XY Pad** — drag to send coordinates, plots dot on micro:bit 5×5 LED
+- 🔲 **LED Matrix** — 5×5 mini grid, sends hex patterns
+- 🌡️ **Sensor simulators** — temp/light/sound sliders for testing
+- 🔌 **Pin control** — D0/D1/D2/D8/D12/D16 digital write + PWM P0
+- ⚙️ **Servo** — angle + speed control with move/stop
+- 💡 **RGB Strip** — 8-LED virtual strip, click to cycle colors (firmware placeholder)
+- 📁 **File I/O** — file picker for data import
 
 ---
 
@@ -267,9 +300,24 @@ Extra controls for advanced use:
 | `SERVO2:OFF` | — | Release servo 2 PWM |
 | `BUZZ:<freq>,<ms>` | `BUZZ:440,200` | Play tone at frequency for duration |
 | `BUZZ:OFF` | — | Stop buzzer |
-| `OTHER:LED/<r>,<c>,<0\|1>` | `OTHER:LED/2,3,1` | Set individual LED |
-| `OTHER:PIN/<mode><n>:<val>` | `OTHER:PIN/D0:1` | Digital/analog pin write |
-| `OTHER:PWM/<pin>:<duty>,<period>` | `OTHER:PWM/0:512,20000` | PWM output |
+| `OTHER:BTN:PRESS` | — | Button press → LED flash |
+| `OTHER:SWITCH:<ON\|OFF>` | `OTHER:SWITCH:ON` | Toggle → tick/cross on LED |
+| `OTHER:SLIDER:<0-100>` | `OTHER:SLIDER:75` | Slider → bar graph on LED |
+| `OTHER:JOY:<dir>` | `OTHER:JOY:UP` | Joystick → arrow on LED |
+| `OTHER:KEY:<1-9>` | `OTHER:KEY:5` | Keypad → show digit on LED |
+| `OTHER:LED:<ON\|OFF>` | `OTHER:LED:ON` | LED indicator → center LED |
+| `OTHER:PIN:<pin>:<0\|1>` | `OTHER:PIN:D0:1` | Digital pin write |
+| `OTHER:PWM:P0:<0-1023>` | `OTHER:PWM:P0:512` | PWM output on P0 |
+| `OTHER:SERVO:<angle>,<speed>` | `OTHER:SERVO:90,5` | Servo via Others tab |
+| `OTHER:MODE:<mode>` | `OTHER:MODE:TEST1` | Mode → show initial on LED |
+| `OTHER:XY:<x>,<y>` | `OTHER:XY:0.50,0.25` | XY pad → dot on 5×5 LED |
+| `OTHER:RANDOM:<n>` | `OTHER:RANDOM:42` | Random → show number on LED |
+| `OTHER:NUMBER:<n>` | `OTHER:NUMBER:100` | Numeric → show number on LED |
+| `OTHER:RANGE_MIN:<n>` | `OTHER:RANGE_MIN:20` | Range min → bar graph on LED |
+| `OTHER:RANGE_MAX:<n>` | `OTHER:RANGE_MAX:80` | Range max → bar graph on LED |
+| `OTHER:COLOR:<hex>` | `OTHER:COLOR:00ff00` | Color → diamond flash on LED |
+| `OTHER:DELAYED_ACTION` | — | Delayed trigger → target icon + beep |
+| `OTHER:STRIP:<i>:<hex>` | `OTHER:STRIP:0:ff0000` | RGB strip (firmware placeholder) |
 | `BENCH:<cmd>` | `BENCH:PING` | Bench test command |
 | `JSON:{...}` | `JSON:{"cmd":"test"}` | Raw JSON command |
 | `SIMULATE:ON` | — | Start demo data generation |
@@ -364,7 +412,7 @@ Dismissed once → never shown again (stored in `localStorage`).
 ## 📱 PWA & Mobile
 
 - **Installable**: Add to homescreen on Chrome/Edge via `manifest.json`
-- **Offline**: Service worker (`sw.js`) caches all HTML, CSS, JS, and assets
+- **Offline**: Service worker (`sw.js`) caches all HTML, CSS, JS, assets, and CDN libraries (Chart.js, Three.js, annotation plugin)
 - **Mobile responsive**:
   - Tabs scroll horizontally (no overflow/wrapping)
   - Header stacks vertically on narrow screens
@@ -436,7 +484,7 @@ Colors rotate through a palette of 10 colorblind-friendly colors.
 3. `sensors.js` — Parse incoming telemetry, update sensor UI, push data to graph + 3D
 4. `controls.js` — LED matrix, buzzer, tabs, bench, theme picker, DOMContentLoaded init
 5. `servos.js` — Servo sliders, gauges, trim, connection-aware enable/disable
-6. `others.js` — Others tab controls (individual LED, pin, PWM, joystick)
+6. `others.js` — Others tab: fun controls, joystick, timer, presets, debug console, data capture, XY pad
 7. `graph.js` — Chart.js setup, datasets, recording, fullscreen, annotations, export
 8. `models/*.js` — 5 model files register on `window.board3dModels`
 9. `board3d.js` — 3D engine, loads saved model, starts animation loop
@@ -470,6 +518,7 @@ User-initiated disconnect does **not** trigger auto-reconnect.
 | `mb_servo1_trim` | Servo 1 trim offset (-15 to +15) |
 | `mb_servo2_trim` | Servo 2 trim offset (-15 to +15) |
 | `mb_board3d_model` | 3D model name (microbit/buggy/arm/balance/weather) |
+| `mb_other_presets` | JSON of saved Others tab widget presets |
 
 ---
 
@@ -480,7 +529,7 @@ User-initiated disconnect does **not** trigger auto-reconnect.
 | HTML5 | Semantic markup, ARIA roles for accessibility |
 | CSS3 | Custom properties, keyframe animations, 4-theme system, responsive media queries |
 | JavaScript ES6+ | Vanilla, modular files, no build step needed |
-| Chart.js | Real-time charting (loaded via CDN, cacheable offline) |
+| Chart.js + Annotation Plugin | Real-time charting with timestamped annotations (loaded via CDN, cached offline) |
 | Three.js r128 | 3D model rendering: 5 interactive models (loaded via CDN) |
 | Web Bluetooth API | BLE UART communication |
 | Service Worker | Offline PWA caching |
