@@ -237,12 +237,16 @@
 
             // Buttons — press down + green glow
             const topY = BD / 2;
-            buttonA.material = D.btnA ? btnPressedMat : btnBlackMat;
-            buttonA.position.y = D.btnA ? topY + 0.02 : topY + 0.07;
+            if (buttonA) {
+                buttonA.material = D.btnA ? btnPressedMat : btnBlackMat;
+                buttonA.position.y = D.btnA ? topY + 0.02 : topY + 0.07;
+            }
             if (btnHousingA) btnHousingA.material.emissive = D.btnA ? new THREE.Color(0x115522) : new THREE.Color(0x000000);
 
-            buttonB.material = D.btnB ? btnPressedMat : btnBlackMat;
-            buttonB.position.y = D.btnB ? topY + 0.02 : topY + 0.07;
+            if (buttonB) {
+                buttonB.material = D.btnB ? btnPressedMat : btnBlackMat;
+                buttonB.position.y = D.btnB ? topY + 0.02 : topY + 0.07;
+            }
             if (btnHousingB) btnHousingB.material.emissive = D.btnB ? new THREE.Color(0x115522) : new THREE.Color(0x000000);
 
             // Touch pins glow
@@ -256,7 +260,7 @@
             });
 
             // Logo touch glow
-            logo.material.emissiveIntensity = D.logo ? 0.9 : 0.1;
+            if (logo) logo.material.emissiveIntensity = D.logo ? 0.9 : 0.1;
 
             // Temperature tint (PCB color shifts)
             const temp = Math.max(0, Math.min(50, D.temp));
@@ -268,7 +272,7 @@
             if (group) {
                 scene.remove(group);
                 group.traverse(c => { if (c.geometry) c.geometry.dispose(); if (c.material?.dispose) c.material.dispose(); });
-                group = null; leds = []; ledGlows = [];
+                group = null; leds = []; ledGlows = []; logo = null; buttonA = null; buttonB = null; btnHousingA = null; btnHousingB = null; pinRings = {};
             }
         }
     };
