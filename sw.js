@@ -1,5 +1,5 @@
 // sw.js — Service Worker for micro:bit Playground PWA
-const CACHE_NAME = 'microbit-playground-v5';
+const CACHE_NAME = 'microbit-playground-v6';
 const ASSETS = [
     'index.html',
     'styles.css',
@@ -16,6 +16,7 @@ const ASSETS = [
     'js/models/arm.js',
     'js/models/balance.js',
     'js/models/weather.js',
+    'makecode.ts',
     'logo.svg',
     'manifest.json',
     'https://cdn.jsdelivr.net/npm/chart.js',

@@ -127,8 +127,11 @@
                             </div>
                         </div>
 
-                        <div class="connection-footer expert-only">
-                            <div class="badge soft">
+                        <div class="connection-footer">
+                            <button id="firmwareBtn" class="secondary small" style="width:100%;">
+                                <span>🤖</span> micro:bit Firmware
+                            </button>
+                            <div class="badge soft expert-only" style="margin-top:6px;">
                                 <span class="dot"></span>
                                 <span>Waiting for messages…</span>
                             </div>
@@ -1681,6 +1684,30 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
 
     </div>
 </div>
+<!-- Firmware Code Overlay -->
+<div id="firmwareOverlay" class="overlay">
+    <div class="overlay-card" style="max-width:800px; width:95vw;">
+        <div class="overlay-title">🤖 micro:bit Firmware</div>
+        <div style="margin-bottom:12px; font-size:0.85rem; opacity:0.8;">
+            Flash this code to your micro:bit V2 using MakeCode:
+        </div>
+        <ol style="font-size:0.8rem; margin-bottom:12px; padding-left:20px; opacity:0.8;">
+            <li>Click <strong>Copy Code</strong> below</li>
+            <li>Open <strong>MakeCode</strong> and switch to <strong>JavaScript</strong> mode</li>
+            <li>Select all (Ctrl+A) and paste (Ctrl+V)</li>
+            <li>Click <strong>Download</strong> and flash to your micro:bit</li>
+        </ol>
+        <div style="display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
+            <button id="firmwareCopyBtn" class="primary">Copy Code</button>
+            <a href="https://makecode.microbit.org/" target="_blank" rel="noopener" class="secondary" style="display:inline-flex; align-items:center; text-decoration:none; padding:8px 16px; border-radius:8px;">Open MakeCode</a>
+            <button id="firmwareCloseBtn" class="secondary">Close</button>
+        </div>
+        <div id="firmwareCodeWrap" style="max-height:60vh; overflow:auto; border-radius:8px; border:1px solid var(--card-border, #333);">
+            <pre id="firmwareCode" style="margin:0; padding:12px; font-size:0.7rem; line-height:1.4; white-space:pre; tab-size:4; font-family:var(--font-mono, monospace); background:rgba(0,0,0,0.3);"></pre>
+        </div>
+    </div>
+</div>
+
 <!-- Keyboard Shortcuts Overlay (press K to toggle) -->
 <div id="shortcutsOverlay" class="overlay">
     <div class="overlay-card">
@@ -1712,6 +1739,53 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
 </div>
 
 <script>
+// Firmware overlay
+(function() {
+    const btn = document.getElementById('firmwareBtn');
+    const overlay = document.getElementById('firmwareOverlay');
+    const codeEl = document.getElementById('firmwareCode');
+    const copyBtn = document.getElementById('firmwareCopyBtn');
+    const closeBtn = document.getElementById('firmwareCloseBtn');
+    let codeLoaded = false;
+
+    if (btn && overlay) {
+        btn.addEventListener('click', () => {
+            overlay.classList.add('visible');
+            if (!codeLoaded) {
+                fetch('makecode.ts')
+                    .then(r => r.text())
+                    .then(code => {
+                        codeEl.textContent = code;
+                        codeLoaded = true;
+                    })
+                    .catch(() => {
+                        codeEl.textContent = '// Could not load makecode.ts\n// Make sure this file is in the same folder as index.html';
+                    });
+            }
+        });
+
+        closeBtn?.addEventListener('click', () => overlay.classList.remove('visible'));
+
+        copyBtn?.addEventListener('click', () => {
+            const code = codeEl.textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                copyBtn.textContent = 'Copied!';
+                setTimeout(() => { copyBtn.textContent = 'Copy Code'; }, 2000);
+            }).catch(() => {
+                // Fallback for file:// protocol
+                const ta = document.createElement('textarea');
+                ta.value = code;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                copyBtn.textContent = 'Copied!';
+                setTimeout(() => { copyBtn.textContent = 'Copy Code'; }, 2000);
+            });
+        });
+    }
+})();
+
 // Onboarding: show only on first visit
 (function() {
     try {
