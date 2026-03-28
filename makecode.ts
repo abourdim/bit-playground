@@ -10,7 +10,7 @@
  *   LIGHT:<0-255>                      every 100ms (on change)
  *   SOUND:<0-255>                      every 100ms (on change)
  *   ACC:<x>,<y>,<z>                    every 300ms (on change, 15mg deadband)
- *   COMPASS:<0-360>                    every 200ms (on change)
+ *   COMPASS:<0-360>                    every 200ms (after calibration only)
  *   BTN:A:<0|1>  BTN:B:<0|1>          every 100ms (on change)
  *   BTN:P0/P1/P2:<0|1>                every 100ms (on change)
  *   BTN:LOGO:<0|1>                    every 100ms (on change)

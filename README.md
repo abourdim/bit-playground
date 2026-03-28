@@ -196,6 +196,7 @@ All calibrations are **user-triggered only** (nothing happens at startup). Setti
 - **Action**: Click "Calibrate" → sends `CAL:COMPASS` to micro:bit
 - **Firmware**: Triggers the built-in tilt-to-fill-screen calibration game
 - **Response**: `CAL:COMPASS:DONE` → status shows "Calibrated ✅"
+- **Note**: Compass polling is disabled by default to avoid auto-calibration on boot. It only activates after the user clicks Calibrate.
 - **Requires**: BLE connection + firmware re-flash with updated `makecode.ts`
 
 ### ⚖️ Accelerometer Zero
