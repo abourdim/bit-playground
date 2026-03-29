@@ -1352,8 +1352,21 @@
     _currentLang = saved;
   }
 
+  // Wire up language picker buttons
+  function wirePickerButtons() {
+    var pickers = document.querySelectorAll("[data-lang]");
+    for (var i = 0; i < pickers.length; i++) {
+      (function(btn) {
+        btn.addEventListener("click", function() {
+          setAppLang(btn.dataset.lang);
+        });
+      })(pickers[i]);
+    }
+  }
+
   // Apply once the DOM is ready (or immediately if already ready)
   function applyOnReady() {
+    wirePickerButtons();
     setAppLang(_currentLang);
   }
 
