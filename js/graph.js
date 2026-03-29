@@ -6,24 +6,24 @@
 (function () {
     'use strict';
 
-    // --- Sensor color palette (distinct, colorblind-friendly) ---
+    // --- Sensor color palette (all distinct, no repeats) ---
     const SENSOR_COLORS = {
         accelX:  '#ef4444', // red
         accelY:  '#22c55e', // green
         accelZ:  '#3b82f6', // blue
         compass: '#f59e0b', // amber
-        sound:   '#f59e0b', // amber
+        sound:   '#a855f7', // purple
         light:   '#eab308', // yellow
         temp:    '#06b6d4', // cyan
         touchP0: '#0ea5e9', // sky blue
-        touchP1: '#f97316', // orange
+        touchP1: '#d946ef', // fuchsia
         touchP2: '#14b8a6', // teal
     };
 
-    // Rolling custom colors for GRAPH: protocol
+    // Rolling custom colors for GRAPH: protocol (all distinct)
     const CUSTOM_COLORS = [
-        '#0ea5e9', '#10b981', '#ef4444', '#f59e0b', '#06b6d4',
-        '#84cc16', '#38bdf8', '#f97316', '#a3e635', '#0284c7'
+        '#ef4444', '#22c55e', '#3b82f6', '#f59e0b', '#a855f7',
+        '#06b6d4', '#ec4899', '#f97316', '#14b8a6', '#eab308'
     ];
     let customColorIdx = 0;
 
