@@ -219,7 +219,7 @@ html[dir="rtl"] .hint ol { padding-left: 0; padding-right: 20px; }
                     <div class="mode-selector" style="display:flex; width:100%;">
                         <button
                             id="controlsTabBtn"
-                            class="mode-btn tab-btn active"
+                            class="mode-btn tab-btn"
                             data-page="controls"
                             style="flex:1;">
                             <span class="mode-icon">🎛️</span>
@@ -251,7 +251,7 @@ html[dir="rtl"] .hint ol { padding-left: 0; padding-right: 20px; }
                         </button>
                         <button
                             id="graphTabBtn"
-                            class="mode-btn tab-btn"
+                            class="mode-btn tab-btn active"
                             data-page="graph"
                             style="flex:1;">
                             <span class="mode-icon">📈</span>
@@ -286,7 +286,7 @@ html[dir="rtl"] .hint ol { padding-left: 0; padding-right: 20px; }
 
                 <div class="tab-pages">
                     <!-- CONTROLS PAGE -->
-                    <div class="tab-page active" data-page="controls">
+                    <div class="tab-page" data-page="controls">
                         <div class="card">
                             <div class="card-header">
                                 <div>
@@ -902,7 +902,7 @@ html[dir="rtl"] .hint ol { padding-left: 0; padding-right: 20px; }
                         </div>
                     </div>
 <!-- GRAPH PAGE -->
-<div class="tab-page" data-page="graph">
+<div class="tab-page active" data-page="graph">
     <div class="card">
         <div class="card-header">
             <div>
@@ -933,16 +933,16 @@ html[dir="rtl"] .hint ol { padding-left: 0; padding-right: 20px; }
             <div class="graph-row">
                 <label class="graph-label">Sensors</label>
                 <div class="graph-sensor-toggles">
-                    <label class="graph-toggle"><input type="checkbox" data-sensor="accelX"> Accel X</label>
-                    <label class="graph-toggle"><input type="checkbox" data-sensor="accelY"> Accel Y</label>
-                    <label class="graph-toggle"><input type="checkbox" data-sensor="accelZ"> Accel Z</label>
-                    <label class="graph-toggle"><input type="checkbox" data-sensor="compass"> Compass</label>
-                    <label class="graph-toggle"><input type="checkbox" data-sensor="sound"> Sound</label>
-                    <label class="graph-toggle"><input type="checkbox" data-sensor="light"> Light</label>
-                    <label class="graph-toggle"><input type="checkbox" data-sensor="temp"> Temp</label>
-                    <label class="graph-toggle"><input type="checkbox" data-sensor="touchP0"> Touch P0</label>
-                    <label class="graph-toggle"><input type="checkbox" data-sensor="touchP1"> Touch P1</label>
-                    <label class="graph-toggle"><input type="checkbox" data-sensor="touchP2"> Touch P2</label>
+                    <label class="graph-toggle"><input type="checkbox" data-sensor="accelX" checked> Accel X</label>
+                    <label class="graph-toggle"><input type="checkbox" data-sensor="accelY" checked> Accel Y</label>
+                    <label class="graph-toggle"><input type="checkbox" data-sensor="accelZ" checked> Accel Z</label>
+                    <label class="graph-toggle"><input type="checkbox" data-sensor="compass" checked> Compass</label>
+                    <label class="graph-toggle"><input type="checkbox" data-sensor="sound" checked> Sound</label>
+                    <label class="graph-toggle"><input type="checkbox" data-sensor="light" checked> Light</label>
+                    <label class="graph-toggle"><input type="checkbox" data-sensor="temp" checked> Temp</label>
+                    <label class="graph-toggle"><input type="checkbox" data-sensor="touchP0" checked> Touch P0</label>
+                    <label class="graph-toggle"><input type="checkbox" data-sensor="touchP1" checked> Touch P1</label>
+                    <label class="graph-toggle"><input type="checkbox" data-sensor="touchP2" checked> Touch P2</label>
                 </div>
             </div>
 
