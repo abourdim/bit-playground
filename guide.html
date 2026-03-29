@@ -145,6 +145,20 @@ kbd { background: var(--code-bg); border: 1px solid var(--card-border); border-r
     margin: 8px 4px 8px 0;
 }
 .btn-link.green { background: var(--accent2); }
+pre.code-block {
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 14px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    margin: 8px 0 16px;
+}
+pre.code-block .comment { color: #64748b; }
+pre.code-block .keyword { color: #38bdf8; }
+pre.code-block .string { color: #a3e635; }
+pre.code-block .function { color: #f59e0b; }
 @media print {
     .lang-toggle { display: none; }
     body { max-width: 100%; }
@@ -192,6 +206,7 @@ kbd { background: var(--code-bg); border: 1px solid var(--card-border); border-r
         <li><a href="#shortcuts"><span class="en">Keyboard Shortcuts</span><span class="fr">Raccourcis clavier</span><span class="ar">اختصارات لوحة المفاتيح</span></a></li>
         <li><a href="#troubleshooting"><span class="en">Troubleshooting</span><span class="fr">Depannage</span><span class="ar">استكشاف الأخطاء</span></a></li>
         <li><a href="#teacher"><span class="en">Teacher Notes</span><span class="fr">Notes pour les enseignants</span><span class="ar">ملاحظات المعلم</span></a></li>
+        <li><a href="#code-examples"><span class="en">Code Examples</span><span class="fr">Exemples de code</span><span class="ar">أمثلة الكود</span></a></li>
     </ol>
 </div>
 
@@ -477,6 +492,252 @@ kbd { background: var(--code-bg); border: 1px solid var(--card-border); border-r
         <li><span class="en">Bookmark the app URL: <code>abourdim.github.io/bit-playground</code></span><span class="fr">Ajoutez l'URL de l'application en favori : <code>abourdim.github.io/bit-playground</code></span><span class="ar">حفظ رابط التطبيق: <code>abourdim.github.io/bit-playground</code></span></li>
         <li><span class="en">Print this guide for students who need help</span><span class="fr">Imprimez ce guide pour les eleves qui ont besoin d'aide</span><span class="ar">طباعة هذا الدليل</span></li>
     </ul>
+</div>
+
+<!-- 9. CODE EXAMPLES -->
+<h2 id="code-examples">
+    <span class="en">9. Code Examples</span>
+    <span class="fr">9. Exemples de code</span>
+    <span class="ar">9. أمثلة الكود</span>
+</h2>
+
+<h3>
+    <span class="en">9.1 MakeCode Firmware Examples (TypeScript)</span>
+    <span class="fr">9.1 Exemples de firmware MakeCode (TypeScript)</span>
+    <span class="ar">9.1 أمثلة برنامج MakeCode الثابت (TypeScript)</span>
+</h3>
+
+<!-- 9.1.1 Send Custom Graph Data -->
+<div class="card">
+    <h3>
+        <span class="en">9.1.1 Send Custom Graph Data</span>
+        <span class="fr">9.1.1 Envoyer des donnees graphiques personnalisees</span>
+        <span class="ar">9.1.1 إرسال بيانات رسم بياني مخصصة</span>
+    </h3>
+<pre class="code-block"><span class="comment">// Plot distance sensor value — appears automatically in the Graph tab</span>
+<span class="keyword">let</span> distance = pins.analogReadPin(AnalogPin.P0)
+bluetooth.uartWriteLine(<span class="string">"GRAPH:Distance:"</span> + distance)
+
+<span class="comment">// Plot multiple values — each gets its own colored line</span>
+bluetooth.uartWriteLine(<span class="string">"GRAPH:Speed:"</span> + speed)
+bluetooth.uartWriteLine(<span class="string">"GRAPH:Angle:"</span> + angle)</pre>
+    <p>
+        <span class="en">Send any value with <code>GRAPH:Label:Value</code> — the browser auto-creates a line for each unique label.</span>
+        <span class="fr">Envoyez n'importe quelle valeur avec <code>GRAPH:Label:Value</code> — le navigateur cree automatiquement une ligne pour chaque label unique.</span>
+        <span class="ar">أرسل أي قيمة بصيغة <code>GRAPH:Label:Value</code> — المتصفح ينشئ خطاً تلقائياً لكل تسمية فريدة.</span>
+    </p>
+</div>
+
+<!-- 9.1.2 Detect Events and Send Alerts -->
+<div class="card">
+    <h3>
+        <span class="en">9.1.2 Detect Events and Send Alerts</span>
+        <span class="fr">9.1.2 Detecter des evenements et envoyer des alertes</span>
+        <span class="ar">9.1.2 اكتشاف الأحداث وإرسال التنبيهات</span>
+    </h3>
+<pre class="code-block"><span class="comment">// Send alert when sound is too loud</span>
+<span class="keyword">if</span> (input.soundLevel() > 150) {
+    bluetooth.uartWriteLine(<span class="string">"GRAPH:Loud:1"</span>)
+} <span class="keyword">else</span> {
+    bluetooth.uartWriteLine(<span class="string">"GRAPH:Loud:0"</span>)
+}
+
+<span class="comment">// Send button events</span>
+input.onButtonPressed(Button.A, <span class="keyword">function</span>() {
+    bluetooth.uartWriteLine(<span class="string">"EVENT:BUTTON_A_PRESSED"</span>)
+})</pre>
+    <p>
+        <span class="en">Binary signals (0/1) are great for event detection on the graph.</span>
+        <span class="fr">Les signaux binaires (0/1) sont parfaits pour la detection d'evenements sur le graphique.</span>
+        <span class="ar">الإشارات الثنائية (0/1) مثالية لاكتشاف الأحداث على الرسم البياني.</span>
+    </p>
+</div>
+
+<!-- 9.1.3 Custom LED Patterns -->
+<div class="card">
+    <h3>
+        <span class="en">9.1.3 Custom LED Patterns</span>
+        <span class="fr">9.1.3 Motifs LED personnalises</span>
+        <span class="ar">9.1.3 أنماط LED مخصصة</span>
+    </h3>
+<pre class="code-block"><span class="comment">// Show a custom icon for 500ms then clear</span>
+basic.<span class="function">showLeds</span>(`
+    . # . # .
+    # # # # #
+    # # # # #
+    . # # # .
+    . . # . .
+`)
+basic.pause(500)
+basic.clearScreen()</pre>
+    <p>
+        <span class="en">Use <code>basic.showLeds()</code> for custom patterns or <code>LM:&lt;hex&gt;</code> for programmatic LED control.</span>
+        <span class="fr">Utilisez <code>basic.showLeds()</code> pour des motifs personnalises ou <code>LM:&lt;hex&gt;</code> pour un controle programmatique des LEDs.</span>
+        <span class="ar">استخدم <code>basic.showLeds()</code> للأنماط المخصصة أو <code>LM:&lt;hex&gt;</code> للتحكم البرمجي في LEDs.</span>
+    </p>
+</div>
+
+<!-- 9.1.4 Servo with Speed Control -->
+<div class="card">
+    <h3>
+        <span class="en">9.1.4 Servo with Speed Control</span>
+        <span class="fr">9.1.4 Servo avec controle de vitesse</span>
+        <span class="ar">9.1.4 سيرفو مع التحكم بالسرعة</span>
+    </h3>
+<pre class="code-block"><span class="comment">// Smooth servo movement from 0 to 180</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> angle = 0; angle &lt;= 180; angle += 5) {
+    pins.servoWritePin(AnalogPin.P1, angle)
+    basic.pause(50)
+}</pre>
+    <p>
+        <span class="en">The firmware uses background threads for smooth 1-degree stepping. Direct pin writes give faster but jumpy movement.</span>
+        <span class="fr">Le firmware utilise des threads en arriere-plan pour un mouvement fluide de 1 degre. L'ecriture directe donne un mouvement plus rapide mais saccade.</span>
+        <span class="ar">يستخدم البرنامج الثابت خيوطاً في الخلفية للحركة السلسة بمقدار درجة واحدة.</span>
+    </p>
+</div>
+
+<!-- 9.1.5 Play a Melody -->
+<div class="card">
+    <h3>
+        <span class="en">9.1.5 Play a Melody</span>
+        <span class="fr">9.1.5 Jouer une melodie</span>
+        <span class="ar">9.1.5 تشغيل لحن</span>
+    </h3>
+<pre class="code-block"><span class="comment">// Play a simple tune</span>
+<span class="keyword">let</span> notes = [262, 330, 392, 523]  <span class="comment">// C E G C</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> note <span class="keyword">of</span> notes) {
+    music.playTone(note, music.beat(BeatFraction.Quarter))
+    basic.pause(100)
+}</pre>
+    <p>
+        <span class="en">The buzzer supports frequencies from 20Hz to 20kHz. Use <code>BUZZ:freq,duration</code> from the browser.</span>
+        <span class="fr">Le buzzer supporte les frequences de 20Hz a 20kHz. Utilisez <code>BUZZ:freq,duree</code> depuis le navigateur.</span>
+        <span class="ar">يدعم الجرس الترددات من 20 هرتز إلى 20 كيلوهرتز.</span>
+    </p>
+</div>
+
+<h3>
+    <span class="en">9.2 Browser JavaScript Examples</span>
+    <span class="fr">9.2 Exemples JavaScript navigateur</span>
+    <span class="ar">9.2 أمثلة JavaScript للمتصفح</span>
+</h3>
+
+<!-- 9.2.1 Push Data to the Graph -->
+<div class="card">
+    <h3>
+        <span class="en">9.2.1 Push Data to the Graph</span>
+        <span class="fr">9.2.1 Envoyer des donnees au graphique</span>
+        <span class="ar">9.2.1 إرسال البيانات إلى الرسم البياني</span>
+    </h3>
+<pre class="code-block"><span class="comment">// Push a custom value to the graph (no micro:bit needed)</span>
+<span class="function">graphPushData</span>(<span class="string">'mySensor'</span>, 42, <span class="string">'My Sensor'</span>)
+
+<span class="comment">// Push multiple values — each gets a colored line</span>
+<span class="function">setInterval</span>(() =&gt; {
+    <span class="function">graphPushData</span>(<span class="string">'sine'</span>, Math.sin(Date.now()/1000) * 50 + 50, <span class="string">'Sine Wave'</span>)
+    <span class="function">graphPushData</span>(<span class="string">'random'</span>, Math.random() * 100, <span class="string">'Random'</span>)
+}, 200)</pre>
+    <p>
+        <span class="en">Use <code>graphPushData(key, value, label)</code> from the browser console to plot any data.</span>
+        <span class="fr">Utilisez <code>graphPushData(key, value, label)</code> depuis la console du navigateur pour tracer des donnees.</span>
+        <span class="ar">استخدم <code>graphPushData(key, value, label)</code> من وحدة تحكم المتصفح لرسم أي بيانات.</span>
+    </p>
+</div>
+
+<!-- 9.2.2 Send Commands to micro:bit -->
+<div class="card">
+    <h3>
+        <span class="en">9.2.2 Send Commands to micro:bit</span>
+        <span class="fr">9.2.2 Envoyer des commandes au micro:bit</span>
+        <span class="ar">9.2.2 إرسال أوامر إلى micro:bit</span>
+    </h3>
+<pre class="code-block"><span class="comment">// Send a text message to display on LEDs</span>
+<span class="function">sendLine</span>(<span class="string">'TEXT:Hello!'</span>)
+
+<span class="comment">// Show a heart icon</span>
+<span class="function">sendLine</span>(<span class="string">'CMD:HEART'</span>)
+
+<span class="comment">// Set servo angle</span>
+<span class="function">sendLine</span>(<span class="string">'SERVO1:90'</span>)
+
+<span class="comment">// Play a tone (440Hz for 200ms)</span>
+<span class="function">sendLine</span>(<span class="string">'BUZZ:440,200'</span>)
+
+<span class="comment">// Set LED matrix (hex pattern)</span>
+<span class="function">sendLine</span>(<span class="string">'LM:1F0E040000'</span>)</pre>
+    <p>
+        <span class="en">Use <code>sendLine(command)</code> to send any UART command to the micro:bit.</span>
+        <span class="fr">Utilisez <code>sendLine(commande)</code> pour envoyer n'importe quelle commande UART au micro:bit.</span>
+        <span class="ar">استخدم <code>sendLine(command)</code> لإرسال أي أمر UART إلى micro:bit.</span>
+    </p>
+</div>
+
+<!-- 9.2.3 Log to Debug Console -->
+<div class="card">
+    <h3>
+        <span class="en">9.2.3 Log to Debug Console</span>
+        <span class="fr">9.2.3 Journaliser dans la console de debogage</span>
+        <span class="ar">9.2.3 التسجيل في وحدة تحكم التصحيح</span>
+    </h3>
+<pre class="code-block"><span class="comment">// Write to the Others tab debug console</span>
+<span class="function">otherConsoleLog</span>(<span class="string">'Sensor reading: 42'</span>)
+
+<span class="comment">// Capture data for CSV export</span>
+<span class="function">otherCaptureData</span>(<span class="string">'Temperature'</span>, 23)
+<span class="function">otherCaptureData</span>(<span class="string">'Light'</span>, 180)
+
+<span class="comment">// Push to mini live chart</span>
+<span class="function">otherLiveChartPush</span>(75)
+
+<span class="comment">// Push to multi-series chart</span>
+<span class="function">otherMultiChartPush</span>(<span class="string">'Speed'</span>, 42)
+<span class="function">otherMultiChartPush</span>(<span class="string">'Distance'</span>, 100)</pre>
+    <p>
+        <span class="en">These functions are available globally — call them from the console or your own scripts.</span>
+        <span class="fr">Ces fonctions sont disponibles globalement — appelez-les depuis la console ou vos propres scripts.</span>
+        <span class="ar">هذه الوظائف متاحة عالمياً — استدعها من وحدة التحكم أو من سكريبتاتك الخاصة.</span>
+    </p>
+</div>
+
+<!-- 9.2.4 Listen for Language Changes -->
+<div class="card">
+    <h3>
+        <span class="en">9.2.4 Listen for Language Changes</span>
+        <span class="fr">9.2.4 Ecouter les changements de langue</span>
+        <span class="ar">9.2.4 الاستماع لتغييرات اللغة</span>
+    </h3>
+<pre class="code-block"><span class="comment">// React when the user switches language</span>
+document.addEventListener(<span class="string">'langchange'</span>, (e) =&gt; {
+    console.log(<span class="string">'Language changed to:'</span>, e.detail.lang)
+    <span class="comment">// Update your custom UI elements</span>
+})
+
+<span class="comment">// Get current translation</span>
+<span class="keyword">const</span> label = <span class="function">t</span>(<span class="string">'connect_btn'</span>)  <span class="comment">// Returns "Connect", "Connecter", or "اتصال"</span></pre>
+    <p>
+        <span class="en">The <code>langchange</code> event fires whenever the user switches language. Use <code>t(key)</code> to get translated strings.</span>
+        <span class="fr">L'evenement <code>langchange</code> se declenche quand l'utilisateur change de langue. Utilisez <code>t(key)</code> pour obtenir les traductions.</span>
+        <span class="ar">يتم إطلاق حدث <code>langchange</code> عندما يغير المستخدم اللغة. استخدم <code>t(key)</code> للحصول على النصوص المترجمة.</span>
+    </p>
+</div>
+
+<!-- 9.2.5 3D Model Data -->
+<div class="card">
+    <h3>
+        <span class="en">9.2.5 3D Model Data</span>
+        <span class="fr">9.2.5 Donnees du modele 3D</span>
+        <span class="ar">9.2.5 بيانات النموذج ثلاثي الأبعاد</span>
+    </h3>
+<pre class="code-block"><span class="comment">// Update 3D model with custom data</span>
+<span class="function">board3dUpdate</span>(<span class="string">'accel'</span>, { x: 100, y: -200, z: -980 })
+<span class="function">board3dUpdate</span>(<span class="string">'temp'</span>, 25)
+<span class="function">board3dUpdate</span>(<span class="string">'btnA'</span>, <span class="keyword">true</span>)
+<span class="function">board3dUpdate</span>(<span class="string">'servo1'</span>, 90)</pre>
+    <p>
+        <span class="en"><code>board3dUpdate(key, value)</code> drives the 3D model animations. Available keys: accel, temp, light, sound, compass, btnA, btnB, servo1, servo2, leds, touchP0/P1/P2, logo.</span>
+        <span class="fr"><code>board3dUpdate(key, value)</code> pilote les animations du modele 3D. Cles disponibles : accel, temp, light, sound, compass, btnA, btnB, servo1, servo2, leds, touchP0/P1/P2, logo.</span>
+        <span class="ar"><code>board3dUpdate(key, value)</code> يحرّك الرسوم المتحركة للنموذج ثلاثي الأبعاد.</span>
+    </p>
 </div>
 
 <!-- Footer -->
