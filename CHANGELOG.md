@@ -4,7 +4,35 @@ All notable changes to the **micro:bit Playground** project.
 
 ---
 
-## V8.1 — Others Tab, Firmware Viewer & Bug Fixes *(current)*
+## V8.2 — Multi-Language, Boy-Friendly Palette & SVG Flags *(current)*
+
+### 🌍 Multi-Language Support (EN/FR/AR)
+- `js/lang.js`: Translation system with 367+ keys in 3 languages
+- `t()` function for JS strings, `data-i18n` attributes for 200+ HTML elements
+- Language picker with inline SVG flags (UK, France, Algeria)
+- Full RTL support for Arabic (direction, flex reversal, margin/padding swap, border flip)
+- Language persists in localStorage
+
+### 🎨 Boy-Friendly Color Palette
+- Removed all pink, magenta, and rainbow colors
+- Replaced with blues, cyans, ambers, and oranges
+- Updated graph sensor colors and custom palette
+- Neon theme glow changed from magenta to sky blue
+- Rainbow slider animation replaced with blue-green gradient
+
+### 🚩 SVG Flag Icons
+- Replaced emoji flags (broken on Windows) with inline SVG
+- UK, French, and Algerian flags render on all platforms
+
+### 📖 User Guide (guide.html)
+- Standalone bilingual guide (EN/FR/AR) with language toggle
+- Full firmware flashing instructions, tab-by-tab guide
+- Troubleshooting, teacher notes, workshop checklist
+- Light/print-friendly theme
+
+---
+
+## V8.1 — Others Tab, Firmware Viewer & Bug Fixes
 
 ### ✨ Others Tab — Full Widget Wiring
 All 30+ widgets in the More tab now have working JavaScript handlers:
