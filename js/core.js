@@ -208,9 +208,9 @@ function setConnectionStatus(connected) {
 
     // Toast notification
     if (connected) {
-        showToast('Connected to micro:bit!', 'success');
+        showToast(t('toast_connected'), 'success');
     } else {
-        showToast('Disconnected from micro:bit', 'error');
+        showToast(t('toast_disconnected'), 'error');
     }
 
     // Notify all listeners (servos, etc.)
@@ -222,11 +222,11 @@ function setConnectionStatus(connected) {
     if (connected) {
         connectionStatusEl.classList.add('connected');
         connectionStatusEl.classList.remove('disconnected');
-        if (text) text.textContent = 'Connected';
+        if (text) text.textContent = t('status_connected');
     } else {
         connectionStatusEl.classList.remove('connected');
         connectionStatusEl.classList.add('disconnected');
-        if (text) text.textContent = 'Disconnected';
+        if (text) text.textContent = t('status_disconnected');
     }
 }
 

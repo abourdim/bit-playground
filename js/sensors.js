@@ -115,11 +115,11 @@ function setButtonPill(pill, dot, textNode, pressed) {
     if (pressed) {
         pill.classList.add('active');
         dot.style.backgroundColor = '#22c55e';
-        textNode.textContent = 'Pressed';
+        textNode.textContent = t('pressed');
     } else {
         pill.classList.remove('active');
         dot.style.backgroundColor = '';
-        textNode.textContent = 'Ready';
+        textNode.textContent = t('ready');
     }
 }
 
@@ -127,13 +127,13 @@ function setButtonPill(pill, dot, textNode, pressed) {
 
 function handleUartLine(line) {
     try {
-        const t = line.trim();
-        if (!t) return;
+        const ln = line.trim();
+        if (!ln) return;
 
-        addLogLine('RX < ' + t, 'rx');
+        addLogLine('RX < ' + ln, 'rx');
 
-        if (t.startsWith('BENCH:')) {
-            const resp = t.slice(6).trim();
+        if (ln.startsWith('BENCH:')) {
+            const resp = ln.slice(6).trim();
             const respWin = document.getElementById("benchResponse");
             if (respWin) {
                 const lineEl = document.createElement("div");
@@ -148,8 +148,8 @@ function handleUartLine(line) {
             return;
         }
 
-        if (t.startsWith('TEMP:')) {
-            const v = parseInt(t.slice(5), 10);
+        if (ln.startsWith('TEMP:')) {
+            const v = parseInt(ln.slice(5), 10);
             if (!Number.isNaN(v)) {
                 if (tempValueEl) tempValueEl.textContent = v;
                 pushPoint(tempChart, v);
@@ -159,8 +159,8 @@ function handleUartLine(line) {
             return;
         }
 
-        if (t.startsWith('LIGHT:')) {
-            const v = parseInt(t.slice(6), 10);
+        if (ln.startsWith('LIGHT:')) {
+            const v = parseInt(ln.slice(6), 10);
             if (!Number.isNaN(v)) {
                 lastRawLight = v;
                 const display = v - calibration.lightBaseline;
@@ -172,8 +172,8 @@ function handleUartLine(line) {
             return;
         }
 
-        if (t.startsWith('SOUND:')) {
-            const v = parseInt(t.slice(6), 10);
+        if (ln.startsWith('SOUND:')) {
+            const v = parseInt(ln.slice(6), 10);
             if (!Number.isNaN(v)) {
                 lastRawSound = v;
                 const display = v - calibration.soundBaseline;
@@ -185,8 +185,8 @@ function handleUartLine(line) {
             return;
         }
 
-        if (t.startsWith('ACC:')) {
-            const parts = t.slice(4).split(',');
+        if (ln.startsWith('ACC:')) {
+            const parts = ln.slice(4).split(',');
             if (parts.length === 3) {
                 const ax = parseInt(parts[0], 10);
                 const ay = parseInt(parts[1], 10);
@@ -217,8 +217,8 @@ function handleUartLine(line) {
             return;
         }
 
-        if (t.startsWith('BTN:A:')) {
-            const v = parseInt(t.slice(6), 10);
+        if (ln.startsWith('BTN:A:')) {
+            const v = parseInt(ln.slice(6), 10);
             if (!Number.isNaN(v)) {
                 setButtonPill(btnAStateEl, btnADotEl, btnATextEl, v === 1);
                 pushPoint(btnAChart, v);
@@ -230,8 +230,8 @@ function handleUartLine(line) {
             return;
         }
 
-        if (t.startsWith('BTN:B:')) {
-            const v = parseInt(t.slice(6), 10);
+        if (ln.startsWith('BTN:B:')) {
+            const v = parseInt(ln.slice(6), 10);
             if (!Number.isNaN(v)) {
                 setButtonPill(btnBStateEl, btnBDotEl, btnBTextEl, v === 1);
                 pushPoint(btnBChart, v);
@@ -243,8 +243,8 @@ function handleUartLine(line) {
             return;
         }
 
-        if (t.startsWith('BTN:P0:')) {
-            const v = parseInt(t.slice(7), 10);
+        if (ln.startsWith('BTN:P0:')) {
+            const v = parseInt(ln.slice(7), 10);
             if (!Number.isNaN(v)) {
                 setButtonPill(touchP0StateEl, touchP0DotEl, touchP0TextEl, v === 1);
                 pushPoint(touchP0Chart, v);
@@ -257,8 +257,8 @@ function handleUartLine(line) {
             return;
         }
 
-        if (t.startsWith('BTN:P1:')) {
-            const v = parseInt(t.slice(7), 10);
+        if (ln.startsWith('BTN:P1:')) {
+            const v = parseInt(ln.slice(7), 10);
             if (!Number.isNaN(v)) {
                 setButtonPill(touchP1StateEl, touchP1DotEl, touchP1TextEl, v === 1);
                 pushPoint(touchP1Chart, v);
@@ -268,8 +268,8 @@ function handleUartLine(line) {
             return;
         }
 
-        if (t.startsWith('BTN:P2:')) {
-            const v = parseInt(t.slice(7), 10);
+        if (ln.startsWith('BTN:P2:')) {
+            const v = parseInt(ln.slice(7), 10);
             if (!Number.isNaN(v)) {
                 setButtonPill(touchP2StateEl, touchP2DotEl, touchP2TextEl, v === 1);
                 pushPoint(touchP2Chart, v);
@@ -279,8 +279,8 @@ function handleUartLine(line) {
             return;
         }
 
-        if (t.startsWith('BTN:LOGO:')) {
-            const v = parseInt(t.slice(9), 10);
+        if (ln.startsWith('BTN:LOGO:')) {
+            const v = parseInt(ln.slice(9), 10);
             if (!Number.isNaN(v)) {
                 setButtonPill(logoStateEl, logoDotEl, logoTextEl, v === 1);
                 pushPoint(logoChart, v);
@@ -292,8 +292,8 @@ function handleUartLine(line) {
             return;
         }
 
-        if (t.startsWith('COMPASS:')) {
-            const v = parseInt(t.slice(8), 10);
+        if (ln.startsWith('COMPASS:')) {
+            const v = parseInt(ln.slice(8), 10);
             if (!Number.isNaN(v)) {
                 if (compassHeadingValueEl) compassHeadingValueEl.textContent = v;
                 if (typeof graphPushData === 'function') graphPushData('compass', v, 'Compass');
@@ -302,28 +302,28 @@ function handleUartLine(line) {
             return;
         }
 
-        if (t.startsWith('INFO:SERIAL:')) {
-            const serial = t.slice('INFO:SERIAL:'.length);
+        if (ln.startsWith('INFO:SERIAL:')) {
+            const serial = ln.slice('INFO:SERIAL:'.length);
             if (serialNumberEl) serialNumberEl.textContent = serial;
             return;
         }
 
         // Servo position telemetry
-        if (t.startsWith('SERVO1_POS:')) {
-            const v = parseInt(t.slice(11), 10);
+        if (ln.startsWith('SERVO1_POS:')) {
+            const v = parseInt(ln.slice(11), 10);
             if (!Number.isNaN(v) && typeof updateServoGauge === 'function') updateServoGauge('servo1Needle', v, 'servo1GaugeValue');
             return;
         }
 
-        if (t.startsWith('SERVO2_POS:')) {
-            const v = parseInt(t.slice(11), 10);
+        if (ln.startsWith('SERVO2_POS:')) {
+            const v = parseInt(ln.slice(11), 10);
             if (!Number.isNaN(v) && typeof updateServoGauge === 'function') updateServoGauge('servo2Needle', v, 'servo2GaugeValue');
             return;
         }
 
         // LED state telemetry from micro:bit: LEDS:r0,r1,r2,r3,r4
-        if (t.startsWith('LEDS:')) {
-            const parts = t.slice(5).split(',');
+        if (ln.startsWith('LEDS:')) {
+            const parts = ln.slice(5).split(',');
             if (parts.length === 5) {
                 const ledGrid = [];
                 for (let r = 0; r < 5; r++) {
@@ -339,8 +339,8 @@ function handleUartLine(line) {
         }
 
         // Custom graph data: GRAPH:Label:Value
-        if (t.startsWith('GRAPH:')) {
-            const parts = t.slice(6).split(':');
+        if (ln.startsWith('GRAPH:')) {
+            const parts = ln.slice(6).split(':');
             if (parts.length === 2) {
                 const label = parts[0].trim();
                 const v = parseFloat(parts[1]);
@@ -352,30 +352,30 @@ function handleUartLine(line) {
         }
 
         // Touch button events
-        if (t.startsWith('EVENT:TOUCH_P0_PRESSED'))  { addLogLine('Touch P0 pressed', 'success'); return; }
-        if (t.startsWith('EVENT:TOUCH_P0_RELEASED')) { addLogLine('Touch P0 released', 'info');    return; }
-        if (t.startsWith('EVENT:TOUCH_P1_PRESSED'))  { addLogLine('Touch P1 pressed', 'success'); return; }
-        if (t.startsWith('EVENT:TOUCH_P1_RELEASED')) { addLogLine('Touch P1 released', 'info');    return; }
-        if (t.startsWith('EVENT:TOUCH_P2_PRESSED'))  { addLogLine('Touch P2 pressed', 'success'); return; }
-        if (t.startsWith('EVENT:TOUCH_P2_RELEASED')) { addLogLine('Touch P2 released', 'info');    return; }
-        if (t.startsWith('EVENT:LOGO_PRESSED'))      { addLogLine('Logo pressed', 'success');      return; }
-        if (t.startsWith('EVENT:LOGO_RELEASED'))     { addLogLine('Logo released', 'info');        return; }
+        if (ln.startsWith('EVENT:TOUCH_P0_PRESSED'))  { addLogLine('Touch P0 pressed', 'success'); return; }
+        if (ln.startsWith('EVENT:TOUCH_P0_RELEASED')) { addLogLine('Touch P0 released', 'info');    return; }
+        if (ln.startsWith('EVENT:TOUCH_P1_PRESSED'))  { addLogLine('Touch P1 pressed', 'success'); return; }
+        if (ln.startsWith('EVENT:TOUCH_P1_RELEASED')) { addLogLine('Touch P1 released', 'info');    return; }
+        if (ln.startsWith('EVENT:TOUCH_P2_PRESSED'))  { addLogLine('Touch P2 pressed', 'success'); return; }
+        if (ln.startsWith('EVENT:TOUCH_P2_RELEASED')) { addLogLine('Touch P2 released', 'info');    return; }
+        if (ln.startsWith('EVENT:LOGO_PRESSED'))      { addLogLine('Logo pressed', 'success');      return; }
+        if (ln.startsWith('EVENT:LOGO_RELEASED'))     { addLogLine('Logo released', 'info');        return; }
 
         // OTHER:ACK responses → Others tab response area + debug console
-        if (t.startsWith('OTHER:ACK:')) {
-            const resp = t.slice(10).trim();
+        if (ln.startsWith('OTHER:ACK:')) {
+            const resp = ln.slice(10).trim();
             if (typeof otherShowResponse === 'function') otherShowResponse(resp);
             if (typeof otherConsoleLog === 'function') otherConsoleLog('ACK: ' + resp);
             return;
         }
 
         // Calibration response
-        if (t === 'CAL:COMPASS:DONE') {
+        if (ln === 'CAL:COMPASS:DONE') {
             calibration.compassCalibrated = true;
             saveCalibration();
             updateCalUI();
-            if (typeof showToast === 'function') showToast('Compass calibrated! ✅', 'success');
-            addLogLine('Compass calibration complete', 'success');
+            if (typeof showToast === 'function') showToast(t('toast_compass_cal'), 'success');
+            addLogLine(t('toast_compass_cal'), 'success');
             return;
         }
 
@@ -396,13 +396,13 @@ function updateCalUI() {
     const lightStatus = document.getElementById('calLightStatus');
 
     if (compassStatus) {
-        compassStatus.textContent = calibration.compassCalibrated ? 'Calibrated ✅' : 'Not calibrated';
+        compassStatus.textContent = calibration.compassCalibrated ? t('cal_done') : t('cal_not_done');
         compassStatus.classList.toggle('cal-ok', calibration.compassCalibrated);
     }
 
     const hasAccel = calibration.accelOffset.x !== 0 || calibration.accelOffset.y !== 0 || calibration.accelOffset.z !== 0;
     if (accelStatus) {
-        accelStatus.textContent = hasAccel ? 'Offset set ✅' : 'No offset';
+        accelStatus.textContent = hasAccel ? t('cal_offset_set') : t('cal_no_offset');
         accelStatus.classList.toggle('cal-ok', hasAccel);
     }
     if (accelValues && hasAccel) {
@@ -413,13 +413,13 @@ function updateCalUI() {
 
     if (soundStatus) {
         const has = calibration.soundBaseline !== 0;
-        soundStatus.textContent = has ? `Baseline: ${calibration.soundBaseline} ✅` : 'No baseline';
+        soundStatus.textContent = has ? t('cal_baseline') + ': ' + calibration.soundBaseline : t('cal_no_baseline');
         soundStatus.classList.toggle('cal-ok', has);
     }
 
     if (lightStatus) {
         const has = calibration.lightBaseline !== 0;
-        lightStatus.textContent = has ? `Baseline: ${calibration.lightBaseline} ✅` : 'No baseline';
+        lightStatus.textContent = has ? t('cal_baseline') + ': ' + calibration.lightBaseline : t('cal_no_baseline');
         lightStatus.classList.toggle('cal-ok', has);
     }
 }
@@ -430,7 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('calCompassBtn')?.addEventListener('click', () => {
         if (typeof sendLine === 'function') {
             sendLine('CAL:COMPASS');
-            if (typeof showToast === 'function') showToast('Tilt micro:bit to calibrate compass...', 'info', 5000);
+            if (typeof showToast === 'function') showToast(t('toast_compass_tilt'), 'info', 5000);
         }
     });
 
@@ -439,13 +439,13 @@ document.addEventListener('DOMContentLoaded', () => {
         calibration.accelOffset = { ...lastRawAccel };
         saveCalibration();
         updateCalUI();
-        if (typeof showToast === 'function') showToast('Accelerometer zeroed ✅', 'success');
+        if (typeof showToast === 'function') showToast(t('toast_accel_zeroed'), 'success');
     });
     document.getElementById('calAccelResetBtn')?.addEventListener('click', () => {
         calibration.accelOffset = { x: 0, y: 0, z: 0 };
         saveCalibration();
         updateCalUI();
-        if (typeof showToast === 'function') showToast('Accel offset cleared', 'info');
+        if (typeof showToast === 'function') showToast(t('toast_accel_cleared'), 'info');
     });
 
     // Sound Baseline
@@ -453,13 +453,13 @@ document.addEventListener('DOMContentLoaded', () => {
         calibration.soundBaseline = lastRawSound;
         saveCalibration();
         updateCalUI();
-        if (typeof showToast === 'function') showToast('Sound baseline set: ' + lastRawSound, 'success');
+        if (typeof showToast === 'function') showToast(t('toast_sound_baseline_set') + ': ' + lastRawSound, 'success');
     });
     document.getElementById('calSoundResetBtn')?.addEventListener('click', () => {
         calibration.soundBaseline = 0;
         saveCalibration();
         updateCalUI();
-        if (typeof showToast === 'function') showToast('Sound baseline cleared', 'info');
+        if (typeof showToast === 'function') showToast(t('toast_sound_baseline_cleared'), 'info');
     });
 
     // Light Baseline
@@ -467,13 +467,13 @@ document.addEventListener('DOMContentLoaded', () => {
         calibration.lightBaseline = lastRawLight;
         saveCalibration();
         updateCalUI();
-        if (typeof showToast === 'function') showToast('Light baseline set: ' + lastRawLight, 'success');
+        if (typeof showToast === 'function') showToast(t('toast_light_baseline_set') + ': ' + lastRawLight, 'success');
     });
     document.getElementById('calLightResetBtn')?.addEventListener('click', () => {
         calibration.lightBaseline = 0;
         saveCalibration();
         updateCalUI();
-        if (typeof showToast === 'function') showToast('Light baseline cleared', 'info');
+        if (typeof showToast === 'function') showToast(t('toast_light_baseline_cleared'), 'info');
     });
 
     // Init UI from saved state

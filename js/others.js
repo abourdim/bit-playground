@@ -317,12 +317,12 @@
         scheduleActionBtn.addEventListener('click', () => {
             const ms = scheduleDelay ? parseInt(scheduleDelay.value, 10) || 1000 : 1000;
             scheduleActionBtn.disabled = true;
-            scheduleActionBtn.textContent = 'Waiting ' + ms + 'ms...';
+            scheduleActionBtn.textContent = t('waiting') + ' ' + ms + 'ms...';
             setTimeout(() => {
                 sendLine('OTHER:DELAYED_ACTION');
                 scheduleActionBtn.disabled = false;
-                scheduleActionBtn.textContent = 'Schedule action';
-                if (typeof showToast === 'function') showToast('Delayed action fired!', 'info');
+                scheduleActionBtn.textContent = t('schedule_action');
+                if (typeof showToast === 'function') showToast(t('toast_delayed'), 'info');
             }, ms);
         });
     }
@@ -408,7 +408,7 @@
     if (presetSaveBtn) {
         presetSaveBtn.addEventListener('click', () => {
             const name = presetName ? presetName.value.trim() : '';
-            if (!name) { if (typeof showToast === 'function') showToast('Enter a preset name', 'warning'); return; }
+            if (!name) { if (typeof showToast === 'function') showToast(t('toast_enter_name'), 'warning'); return; }
             const state = {
                 slider: otherSlider ? otherSlider.value : 50,
                 switch: otherSwitch ? otherSwitch.checked : false,
@@ -422,7 +422,7 @@
             presets[name] = state;
             savePresets(presets);
             refreshPresetList();
-            if (typeof showToast === 'function') showToast('Preset "' + name + '" saved', 'success');
+            if (typeof showToast === 'function') showToast(t('toast_preset_saved') + ' "' + name + '"', 'success');
         });
     }
 
@@ -440,7 +440,7 @@
             if (numberInput) numberInput.value = state.number;
             if (rangeMin) { rangeMin.value = state.rangeMin; if (rangeMinValue) rangeMinValue.textContent = state.rangeMin; }
             if (rangeMax) { rangeMax.value = state.rangeMax; if (rangeMaxValue) rangeMaxValue.textContent = state.rangeMax; }
-            if (typeof showToast === 'function') showToast('Preset "' + sel + '" loaded', 'info');
+            if (typeof showToast === 'function') showToast(t('toast_preset_loaded') + ' "' + sel + '"', 'info');
         });
     }
 
@@ -460,7 +460,7 @@
             ledOn = false;
             if (otherLed) otherLed.style.backgroundColor = '#333';
             if (otherLedState) otherLedState.textContent = 'Off';
-            if (typeof showToast === 'function') showToast('Controls reset', 'info');
+            if (typeof showToast === 'function') showToast(t('toast_controls_reset'), 'info');
         });
     }
 
@@ -472,7 +472,7 @@
             if (graphClear) graphClear.click();
             const consoleClear = document.getElementById('otherConsoleClear');
             if (consoleClear) consoleClear.click();
-            if (typeof showToast === 'function') showToast('Graphs & logs cleared', 'info');
+            if (typeof showToast === 'function') showToast(t('toast_cleared'), 'info');
         });
     }
 
@@ -560,7 +560,7 @@
     if (otherCsvDownloadBtn) {
         otherCsvDownloadBtn.addEventListener('click', () => {
             if (capturedData.length === 0) {
-                if (typeof showToast === 'function') showToast('No data captured yet', 'warning');
+                if (typeof showToast === 'function') showToast(t('toast_no_capture'), 'warning');
                 return;
             }
             let csv = 'Time,Label,Value\n';

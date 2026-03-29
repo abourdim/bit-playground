@@ -71,7 +71,7 @@ let userDisconnected = false; // flag to distinguish manual vs unexpected discon
 async function attemptReconnect() {
     if (userDisconnected || !btDevice || reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
         if (reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
-            addLogLine('Reconnection failed after ' + MAX_RECONNECT_ATTEMPTS + ' attempts. Click Connect to try again.', 'error');
+            addLogLine(t('log_reconnect_fail'), 'error');
             if (typeof addActivity === 'function') {
                 addActivity('⚠️ Could not reconnect. Try again!', 'info');
             }
@@ -81,9 +81,9 @@ async function attemptReconnect() {
     }
 
     reconnectAttempts++;
-    addLogLine('Attempting reconnect (' + reconnectAttempts + '/' + MAX_RECONNECT_ATTEMPTS + ')...', 'info');
+    addLogLine(t('log_reconnecting') + ' (' + reconnectAttempts + '/' + MAX_RECONNECT_ATTEMPTS + ')...', 'info');
     if (typeof showToast === 'function') {
-        showToast('Reconnecting... (' + reconnectAttempts + '/' + MAX_RECONNECT_ATTEMPTS + ')', 'warning');
+        showToast(t('toast_reconnecting') + ' (' + reconnectAttempts + '/' + MAX_RECONNECT_ATTEMPTS + ')', 'warning');
     }
     if (typeof addActivity === 'function') {
         addActivity('🔄 Reconnecting... (' + reconnectAttempts + '/' + MAX_RECONNECT_ATTEMPTS + ')', 'info');
@@ -127,7 +127,7 @@ async function attemptReconnect() {
 
         setConnectionStatus(true);
         reconnectAttempts = 0;
-        addLogLine('Reconnected!', 'success');
+        addLogLine(t('log_reconnected'), 'success');
         sendLine('HELLO');
     } catch (err) {
         addLogLine('Reconnect failed: ' + err, 'error');
@@ -140,12 +140,12 @@ async function connect() {
         userDisconnected = false;
         reconnectAttempts = 0;
         if (!navigator.bluetooth) {
-            addLogLine('Web Bluetooth not available in this browser.', 'error');
+            addLogLine(t('log_web_bt_na'), 'error');
             return;
         }
 
         connectBtn.disabled = true;
-        addLogLine('Requesting micro:bit device...', 'info');
+        addLogLine(t('log_requesting'), 'info');
 
         btDevice = await navigator.bluetooth.requestDevice({
             filters: [
@@ -166,13 +166,13 @@ async function connect() {
             attemptReconnect();
         });
 
-        addLogLine('Connecting GATT...', 'info');
+        addLogLine(t('log_connecting'), 'info');
         btServer = await btDevice.gatt.connect();
 
-        addLogLine('Getting UART service...', 'info');
+        addLogLine(t('log_getting_uart'), 'info');
         uartService = await btServer.getPrimaryService(UART_SERVICE_UUID);
 
-        addLogLine('Getting characteristics...', 'info');
+        addLogLine(t('log_getting_chars'), 'info');
         const chars = await uartService.getCharacteristics();
         notifyChar = null;
         writeChar  = null;
@@ -215,7 +215,7 @@ async function connect() {
         if (txCharUuidEl)  txCharUuidEl.textContent  = notifyChar.uuid;
 
         setConnectionStatus(true);
-        addLogLine('Connected!', 'success');
+        addLogLine(t('log_connected'), 'success');
 
         // Hello to firmware
         sendLine('HELLO');
@@ -239,7 +239,7 @@ async function disconnect() {
     } catch (e) {
         console.error(e);
     } finally {
-        addLogLine('Disconnected', 'info');
+        addLogLine(t('log_disconnected'), 'info');
         setConnectionStatus(false);
         connectBtn.disabled = false;
     }

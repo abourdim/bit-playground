@@ -1,0 +1,1082 @@
+/* ============================================================
+   lang.js  --  i18n translation system for micro:bit Playground
+   Load this file FIRST, before all other JS files.
+   ============================================================ */
+(function () {
+  "use strict";
+
+  /* ----------------------------------------------------------
+     Current language  (default: English)
+     ---------------------------------------------------------- */
+  var _currentLang = "en";
+
+  /* ----------------------------------------------------------
+     LANG  --  flat dictionaries for en / fr / ar
+     ---------------------------------------------------------- */
+  var LANG = {
+
+    /* ============================  ENGLISH  ============================ */
+    en: {
+      // Header & Connection
+      app_title:          "micro:bit Playground",
+      app_subtitle:       "Play . Learn . Create",
+      ready:              "READY!",
+      connect_title:      "Connect",
+      beginner_mode:      "Beginner Mode",
+      ready_to_connect:   "READY TO CONNECT",
+      connected:          "CONNECTED",
+      disconnected:       "DISCONNECTED",
+      connect_btn:        "Connect",
+      disconnect_btn:     "Disconnect",
+      firmware_btn:       "Firmware",
+      guide_btn:          "Guide",
+      how_to_connect:     "How to connect",
+      step1_connect:      "Turn on your micro:bit",
+      step2_connect:      "Click Connect",
+      step3_connect:      "Pick your micro:bit from the list",
+      mode_label:         "MODE",
+      beginner:           "BEGINNER",
+      expert:             "EXPERT",
+      device_label:       "Device",
+      name_label:         "Name",
+      none:               "None",
+      waiting_msg:        "Waiting for messages\u2026",
+
+      // Activity & Log
+      activity_title:     "Activity",
+      clear:              "Clear",
+      message_log:        "Message Log",
+      export:             "Export",
+
+      // Tabs
+      tab_controls:       "Controls",
+      tab_sensors:        "Sensors",
+      tab_motors:         "Motors",
+      tab_gamepad:        "GamePad",
+      tab_graph:          "Graph",
+      tab_3d:             "3D",
+      tab_bench:          "Bench",
+      tab_more:           "More",
+
+      // Controls Tab
+      controls_title:     "CONTROLS",
+      show_message:       "SHOW A MESSAGE",
+      send:               "Send",
+      draw_leds:          "DRAW ON LEDS",
+      click_drag:         "Click and drag to draw!",
+      quick_shapes:       "QUICK SHAPES",
+      heart:              "Heart",
+      smile:              "Smile",
+      tick:               "Tick",
+      show_icons:         "SHOW ICONS",
+      make_sounds:        "MAKE SOUNDS",
+      low_beep:           "Low beep",
+      beep:               "Beep",
+      high_beep:          "High beep",
+      melody:             "Melody",
+      play:               "Play",
+      stop:               "Stop",
+
+      // Sensors Tab
+      sensors_title:      "SENSORS",
+      temperature:        "Temperature",
+      temp_hint:          "Is it warm or cold?",
+      light:              "Light",
+      light_hint:         "Bright or dark?",
+      sound:              "Sound",
+      sound_hint:         "How loud is it?",
+      motion:             "Motion",
+      motion_hint:        "Shake it!",
+      accel_x:            "Accel X",
+      accel_y:            "Accel Y",
+      accel_z:            "Accel Z",
+      compass:            "Compass",
+      compass_hint:       "Which way is North?",
+      button_a:           "Button A",
+      btn_hint_a:         "Press the A button!",
+      button_b:           "Button B",
+      btn_hint_b:         "Press the B button!",
+      touch_p0:           "Touch P0",
+      touch_p0_hint:      "Touch pin P0",
+      touch_p1:           "Touch P1",
+      touch_p1_hint:      "Touch pin P1",
+      touch_p2:           "Touch P2",
+      touch_p2_hint:      "Touch pin P2",
+      logo_touch:         "Logo",
+      logo_hint:          "Touch the logo!",
+      pressed:            "Pressed",
+      released:           "Released",
+      calibration:        "CALIBRATION",
+      calibrate:          "Calibrate",
+      set_level:          "Set Level",
+      set_ambient:        "Set Ambient",
+      reset:              "Reset",
+      not_calibrated:     "Not calibrated",
+      no_baseline:        "No baseline",
+
+      // Motors Tab
+      motors_title:       "MOTORS",
+      servo1:             "Servo 1",
+      servo2:             "Servo 2",
+      move:               "Move",
+      off:                "OFF",
+      trim:               "Trim",
+
+      // GamePad Tab
+      gamepad_title:      "GAMEPAD",
+      fire:               "FIRE",
+
+      // Graph Tab
+      graph_title:        "GRAPH",
+      line:               "Line",
+      bar:                "Bar",
+      scatter:            "Scatter",
+      area:               "Area",
+      realtime:           "Realtime",
+      simulate:           "Simulate",
+      stop_sim:           "Stop Sim",
+      pause:              "Pause",
+      resume:             "Resume",
+      fullscreen:         "Fullscreen",
+      exit_fs:            "Exit",
+      record:             "Record",
+      stop_rec:           "Stop Rec",
+      replay:             "Replay",
+      save_session:       "Save",
+      annotate:           "Note",
+      export_png:         "PNG",
+      export_csv:         "CSV",
+      window_size:        "Window",
+      y_axis:             "Y Axis",
+      line_width:         "Width",
+      grid:               "Grid",
+      auto:               "Auto",
+      thin:               "Thin",
+      normal:             "Normal",
+      thick:              "Thick",
+
+      // 3D Tab
+      board3d_title:      "3D MICRO:BIT",
+      board3d_subtitle:   "Interactive 3D board \u2014 mirrors live sensor data",
+      reset_view:         "Reset View",
+      auto_rotate:        "Auto Rotate",
+      stop_rotate:        "Stop",
+      live_sync:          "Live Sync",
+      sync_off:           "Sync Off",
+      drag_rotate:        "Drag to rotate",
+      scroll_zoom:        "Scroll to zoom",
+      live_info:          "Live: LEDs, tilt, buttons, touch",
+
+      // Bench Tab
+      bench_title:        "BENCH",
+      bench_subtitle:     "Raw BLE commands & responses",
+      bench_send:         "Send",
+      bench_response:     "Response",
+
+      // More Tab
+      more_title:         "MORE",
+      more_subtitle:      "Extra fun stuff!",
+      fun_controls:       "Fun Controls",
+      button:             "Button",
+      press_me:           "Press me!",
+      switch_label:       "Switch",
+      slider:             "Slider",
+      keypad:             "Keypad",
+      you_pressed:        "You pressed:",
+      joystick:           "Joystick",
+      text_label:         "Text",
+      indicators:         "Indicators & Outputs",
+      indicators_sub:     "Visual feedback from the system.",
+      led:                "LED",
+      toggle:             "Toggle",
+      level:              "Level",
+      live_graph:         "Live Graph",
+      multi_graph:        "Multi-Graph",
+      debug_console:      "Debug Console",
+      clear_log:          "Clear log",
+      data_capture:       "Data Capture",
+      no_samples:         "(No samples yet)",
+      download_csv:       "Download CSV",
+      audio_time:         "Audio, Time & Random",
+      audio_sub:          "Buzzer, timers and random tests.",
+      buzzer:             "Buzzer",
+      freq:               "Freq",
+      duration:           "Duration",
+      timer:              "Timer",
+      start:              "Start",
+      delay_action:       "Delay Action",
+      schedule_action:    "Schedule action",
+      random:             "Random",
+      generate_random:    "Generate random",
+      value_label:        "Value:",
+      advanced_controls:  "Advanced Controls & Presets",
+      advanced_sub:       "Modes, ranges, presets and global actions.",
+      mode:               "Mode",
+      idle:               "Idle",
+      test_mode_1:        "Test mode 1",
+      test_mode_2:        "Test mode 2",
+      safe_mode:          "Safe mode",
+      numeric:            "Numeric",
+      range_label:        "Range",
+      min_label:          "Min",
+      max_label:          "Max",
+      color:              "Color",
+      presets:            "Presets",
+      preset_name_ph:     "Preset name",
+      save:               "Save",
+      no_presets:         "(no presets)",
+      load_preset:        "Load preset",
+      global:             "Global",
+      reset_controls:     "Reset controls",
+      clear_graphs:       "Clear graphs & logs",
+      theme:              "Theme",
+      system_default:     "System default",
+      dark:               "Dark",
+      light_theme:        "Light",
+      funny_mode:         "Funny mode",
+      simulators:         "Simulators & Hardware",
+      simulators_sub:     "LED matrix, sensors, pins, servo, keypad\u2026",
+      xy_pad:             "XY Pad",
+      led_matrix:         "LED Matrix",
+      sensors_sim:        "Sensors",
+      pins:               "Pins",
+      servo:              "Servo",
+      angle:              "Angle",
+      speed:              "Speed",
+      move_servo:         "Move Servo",
+      stop_servo:         "Stop Servo",
+      rgb_strip:          "RGB Strip",
+      clear_strip:        "Clear strip",
+      file_io:            "File I/O",
+      no_file:            "No file loaded",
+      response:           "Response",
+      response_sub:       "Output from micro:bit.",
+      last_key:           "Last key:",
+
+      // Keyboard Shortcuts Overlay
+      shortcuts_title:    "Keyboard Shortcuts",
+      shortcut_connect:   "Connect / Disconnect",
+      shortcut_tabs:      "Switch tabs",
+      shortcut_pause:     "Pause / Resume graph",
+      shortcut_fs:        "Fullscreen graph",
+      shortcut_help:      "Toggle this help",
+      shortcut_close:     "Close overlays",
+      close:              "Close",
+
+      // Onboarding Overlay
+      welcome:            "Welcome to micro:bit Playground!",
+      ob_step1:           "Turn on your micro:bit V2",
+      ob_step2:           "Click Connect and pick your device",
+      ob_step3:           "Explore tabs: Controls, Sensors, Motors, GamePad, Graph",
+      ob_step4:           "Press K anytime for keyboard shortcuts",
+      lets_go:            "Let's Go!",
+
+      // Firmware Overlay
+      fw_title:           "micro:bit Firmware",
+      fw_intro:           "Flash this code to your micro:bit V2 using MakeCode:",
+      fw_step1:           "Click Copy Code below",
+      fw_step2:           "Open MakeCode and switch to JavaScript mode",
+      fw_step3:           "Select all (Ctrl+A) and paste (Ctrl+V)",
+      fw_step4:           "Click Download and flash to your micro:bit",
+      copy_code:          "Copy Code",
+      copied:             "Copied!",
+      open_makecode:      "Open MakeCode",
+
+      // Toast / Log Messages (JS)
+      toast_connected:      "Connected to micro:bit!",
+      toast_disconnected:   "Disconnected from micro:bit",
+      toast_reconnecting:   "Reconnecting...",
+      toast_reconnect_fail: "Reconnection failed",
+      toast_compass_cal:    "Compass calibrated!",
+      toast_accel_zero:     "Accelerometer zeroed",
+      toast_sound_base:     "Sound baseline set",
+      toast_light_base:     "Light baseline set",
+      toast_recording:      "Recording started",
+      toast_rec_stop:       "Recording stopped",
+      toast_no_data:        "No recorded data",
+      toast_replaying:      "Replaying",
+      toast_note_added:     "Note added",
+      toast_preset_saved:   "Preset saved",
+      toast_preset_loaded:  "Preset loaded",
+      toast_controls_reset: "Controls reset",
+      toast_cleared:        "Graphs & logs cleared",
+      toast_delayed:        "Delayed action fired!",
+      toast_no_capture:     "No data captured yet",
+      toast_enter_name:     "Enter a preset name",
+      log_connected:        "Connected!",
+      log_disconnected:     "Disconnected",
+      log_web_bt_na:        "Web Bluetooth not available",
+      log_requesting:       "Requesting micro:bit device...",
+      log_connecting:       "Connecting GATT...",
+      log_uart_service:     "Getting UART service...",
+      log_chars:            "Getting characteristics...",
+      log_getting_uart:     "Getting UART service...",
+      log_getting_chars:    "Getting characteristics...",
+      log_ready:            "UI ready",
+      log_ui_ready:         "UI ready",
+      log_reconnecting:     "Attempting reconnect",
+      log_reconnected:      "Reconnected!",
+      log_reconnect_fail:   "Reconnection failed",
+      add_note_prompt:      "Add note at current time:",
+      status_connected:     "Connected",
+      status_disconnected:  "Disconnected",
+      toast_compass_tilt:   "Tilt micro:bit to calibrate compass...",
+      toast_accel_zeroed:   "Accelerometer zeroed",
+      toast_accel_cleared:  "Accelerometer offset cleared",
+      toast_sound_baseline_set: "Sound baseline set",
+      toast_sound_baseline_cleared: "Sound baseline cleared",
+      toast_light_baseline_set: "Light baseline set",
+      toast_light_baseline_cleared: "Light baseline cleared",
+      cal_done:             "Calibrated",
+      cal_not_done:         "Not calibrated",
+      cal_offset_set:       "Offset set",
+      cal_no_offset:        "No offset",
+      cal_baseline:         "Baseline set",
+      cal_no_baseline:      "No baseline",
+      waiting:              "Waiting",
+      schedule_action:      "Schedule action"
+    },
+
+    /* ============================  FRENCH  ============================= */
+    fr: {
+      // Header & Connection
+      app_title:          "micro:bit Playground",
+      app_subtitle:       "Jouer . Apprendre . Cr\u00e9er",
+      ready:              "PR\u00caT !",
+      connect_title:      "Connexion",
+      beginner_mode:      "Mode D\u00e9butant",
+      ready_to_connect:   "PR\u00caT \u00c0 CONNECTER",
+      connected:          "CONNECT\u00c9",
+      disconnected:       "D\u00c9CONNECT\u00c9",
+      connect_btn:        "Connecter",
+      disconnect_btn:     "D\u00e9connecter",
+      firmware_btn:       "Firmware",
+      guide_btn:          "Guide",
+      how_to_connect:     "Comment connecter",
+      step1_connect:      "Allumez votre micro:bit",
+      step2_connect:      "Cliquez sur Connecter",
+      step3_connect:      "Choisissez votre micro:bit dans la liste",
+      mode_label:         "MODE",
+      beginner:           "D\u00c9BUTANT",
+      expert:             "EXPERT",
+      device_label:       "Appareil",
+      name_label:         "Nom",
+      none:               "Aucun",
+      waiting_msg:        "En attente de messages\u2026",
+
+      // Activity & Log
+      activity_title:     "Activit\u00e9",
+      clear:              "Effacer",
+      message_log:        "Journal des messages",
+      export:             "Exporter",
+
+      // Tabs
+      tab_controls:       "Commandes",
+      tab_sensors:        "Capteurs",
+      tab_motors:         "Moteurs",
+      tab_gamepad:        "Manette",
+      tab_graph:          "Graphique",
+      tab_3d:             "3D",
+      tab_bench:          "Banc",
+      tab_more:           "Plus",
+
+      // Controls Tab
+      controls_title:     "COMMANDES",
+      show_message:       "AFFICHER UN MESSAGE",
+      send:               "Envoyer",
+      draw_leds:          "DESSINER SUR LES LEDS",
+      click_drag:         "Cliquez et glissez pour dessiner !",
+      quick_shapes:       "FORMES RAPIDES",
+      heart:              "C\u0153ur",
+      smile:              "Sourire",
+      tick:               "Coche",
+      show_icons:         "AFFICHER LES IC\u00d4NES",
+      make_sounds:        "FAIRE DES SONS",
+      low_beep:           "Bip grave",
+      beep:               "Bip",
+      high_beep:          "Bip aigu",
+      melody:             "M\u00e9lodie",
+      play:               "Jouer",
+      stop:               "Arr\u00eat",
+
+      // Sensors Tab
+      sensors_title:      "CAPTEURS",
+      temperature:        "Temp\u00e9rature",
+      temp_hint:          "Chaud ou froid ?",
+      light:              "Lumi\u00e8re",
+      light_hint:         "Clair ou sombre ?",
+      sound:              "Son",
+      sound_hint:         "Quel est le volume ?",
+      motion:             "Mouvement",
+      motion_hint:        "Secouez-le !",
+      accel_x:            "Acc\u00e9l X",
+      accel_y:            "Acc\u00e9l Y",
+      accel_z:            "Acc\u00e9l Z",
+      compass:            "Boussole",
+      compass_hint:       "O\u00f9 est le Nord ?",
+      button_a:           "Bouton A",
+      btn_hint_a:         "Appuyez sur le bouton A !",
+      button_b:           "Bouton B",
+      btn_hint_b:         "Appuyez sur le bouton B !",
+      touch_p0:           "Tactile P0",
+      touch_p0_hint:      "Touchez la broche P0",
+      touch_p1:           "Tactile P1",
+      touch_p1_hint:      "Touchez la broche P1",
+      touch_p2:           "Tactile P2",
+      touch_p2_hint:      "Touchez la broche P2",
+      logo_touch:         "Logo",
+      logo_hint:          "Touchez le logo !",
+      pressed:            "Appuy\u00e9",
+      released:           "Rel\u00e2ch\u00e9",
+      calibration:        "CALIBRATION",
+      calibrate:          "Calibrer",
+      set_level:          "Mettre \u00e0 niveau",
+      set_ambient:        "D\u00e9finir ambiance",
+      reset:              "R\u00e9initialiser",
+      not_calibrated:     "Non calibr\u00e9",
+      no_baseline:        "Pas de r\u00e9f\u00e9rence",
+
+      // Motors Tab
+      motors_title:       "MOTEURS",
+      servo1:             "Servo 1",
+      servo2:             "Servo 2",
+      move:               "Bouger",
+      off:                "ARR\u00caT",
+      trim:               "Ajustement",
+
+      // GamePad Tab
+      gamepad_title:      "MANETTE",
+      fire:               "FEU",
+
+      // Graph Tab
+      graph_title:        "GRAPHIQUE",
+      line:               "Ligne",
+      bar:                "Barres",
+      scatter:            "Nuage",
+      area:               "Aire",
+      realtime:           "Temps r\u00e9el",
+      simulate:           "Simuler",
+      stop_sim:           "Arr\u00eater Sim",
+      pause:              "Pause",
+      resume:             "Reprendre",
+      fullscreen:         "Plein \u00e9cran",
+      exit_fs:            "Quitter",
+      record:             "Enregistrer",
+      stop_rec:           "Arr\u00eater Enr",
+      replay:             "Rejouer",
+      save_session:       "Sauvegarder",
+      annotate:           "Note",
+      export_png:         "PNG",
+      export_csv:         "CSV",
+      window_size:        "Fen\u00eatre",
+      y_axis:             "Axe Y",
+      line_width:         "Largeur",
+      grid:               "Grille",
+      auto:               "Auto",
+      thin:               "Fin",
+      normal:             "Normal",
+      thick:              "\u00c9pais",
+
+      // 3D Tab
+      board3d_title:      "3D MICRO:BIT",
+      board3d_subtitle:   "Carte 3D interactive \u2014 refl\u00e8te les donn\u00e9es des capteurs",
+      reset_view:         "R\u00e9initialiser",
+      auto_rotate:        "Rotation auto",
+      stop_rotate:        "Arr\u00eater",
+      live_sync:          "Synchro live",
+      sync_off:           "Synchro off",
+      drag_rotate:        "Glissez pour tourner",
+      scroll_zoom:        "Scrollez pour zoomer",
+      live_info:          "Live : LEDs, inclinaison, boutons, tactile",
+
+      // Bench Tab
+      bench_title:        "BANC D\u2019ESSAI",
+      bench_subtitle:     "Commandes BLE brutes",
+      bench_send:         "Envoyer",
+      bench_response:     "R\u00e9ponse",
+
+      // More Tab
+      more_title:         "PLUS",
+      more_subtitle:      "Encore plus de fun !",
+      fun_controls:       "Contr\u00f4les amusants",
+      button:             "Bouton",
+      press_me:           "Appuyez !",
+      switch_label:       "Interrupteur",
+      slider:             "Curseur",
+      keypad:             "Clavier",
+      you_pressed:        "Vous avez appuy\u00e9 :",
+      joystick:           "Joystick",
+      text_label:         "Texte",
+      indicators:         "Indicateurs et sorties",
+      indicators_sub:     "Retour visuel du syst\u00e8me.",
+      led:                "LED",
+      toggle:             "Basculer",
+      level:              "Niveau",
+      live_graph:         "Graphique live",
+      multi_graph:        "Multi-graphique",
+      debug_console:      "Console de d\u00e9bogage",
+      clear_log:          "Effacer le journal",
+      data_capture:       "Capture de donn\u00e9es",
+      no_samples:         "(Pas encore d\u2019\u00e9chantillons)",
+      download_csv:       "T\u00e9l\u00e9charger CSV",
+      audio_time:         "Audio, Temps et Al\u00e9atoire",
+      audio_sub:          "Buzzer, minuteries et tests al\u00e9atoires.",
+      buzzer:             "Buzzer",
+      freq:               "Fr\u00e9q",
+      duration:           "Dur\u00e9e",
+      timer:              "Chronom\u00e8tre",
+      start:              "D\u00e9marrer",
+      delay_action:       "Action diff\u00e9r\u00e9e",
+      schedule_action:    "Programmer l\u2019action",
+      random:             "Al\u00e9atoire",
+      generate_random:    "G\u00e9n\u00e9rer al\u00e9atoire",
+      value_label:        "Valeur :",
+      advanced_controls:  "Contr\u00f4les avanc\u00e9s et pr\u00e9r\u00e9glages",
+      advanced_sub:       "Modes, plages, pr\u00e9r\u00e9glages et actions globales.",
+      mode:               "Mode",
+      idle:               "Inactif",
+      test_mode_1:        "Mode test 1",
+      test_mode_2:        "Mode test 2",
+      safe_mode:          "Mode s\u00fbr",
+      numeric:            "Num\u00e9rique",
+      range_label:        "Plage",
+      min_label:          "Min",
+      max_label:          "Max",
+      color:              "Couleur",
+      presets:            "Pr\u00e9r\u00e9glages",
+      preset_name_ph:     "Nom du pr\u00e9r\u00e9glage",
+      save:               "Sauvegarder",
+      no_presets:         "(aucun pr\u00e9r\u00e9glage)",
+      load_preset:        "Charger pr\u00e9r\u00e9glage",
+      global:             "Global",
+      reset_controls:     "R\u00e9initialiser",
+      clear_graphs:       "Effacer graphiques et journaux",
+      theme:              "Th\u00e8me",
+      system_default:     "Syst\u00e8me par d\u00e9faut",
+      dark:               "Sombre",
+      light_theme:        "Clair",
+      funny_mode:         "Mode amusant",
+      simulators:         "Simulateurs et mat\u00e9riel",
+      simulators_sub:     "Matrice LED, capteurs, broches, servo\u2026",
+      xy_pad:             "Pad XY",
+      led_matrix:         "Matrice LED",
+      sensors_sim:        "Capteurs",
+      pins:               "Broches",
+      servo:              "Servo",
+      angle:              "Angle",
+      speed:              "Vitesse",
+      move_servo:         "Bouger servo",
+      stop_servo:         "Arr\u00eater servo",
+      rgb_strip:          "Ruban RGB",
+      clear_strip:        "Effacer ruban",
+      file_io:            "Fichier E/S",
+      no_file:            "Aucun fichier charg\u00e9",
+      response:           "R\u00e9ponse",
+      response_sub:       "Sortie du micro:bit.",
+      last_key:           "Derni\u00e8re touche :",
+
+      // Keyboard Shortcuts Overlay
+      shortcuts_title:    "Raccourcis clavier",
+      shortcut_connect:   "Connecter / D\u00e9connecter",
+      shortcut_tabs:      "Changer d\u2019onglet",
+      shortcut_pause:     "Pause / Reprendre graphique",
+      shortcut_fs:        "Graphique plein \u00e9cran",
+      shortcut_help:      "Afficher cette aide",
+      shortcut_close:     "Fermer les fen\u00eatres",
+      close:              "Fermer",
+
+      // Onboarding Overlay
+      welcome:            "Bienvenue dans micro:bit Playground !",
+      ob_step1:           "Allumez votre micro:bit V2",
+      ob_step2:           "Cliquez sur Connecter et choisissez votre appareil",
+      ob_step3:           "Explorez les onglets : Commandes, Capteurs, Moteurs, Manette, Graphique",
+      ob_step4:           "Appuyez sur K pour les raccourcis clavier",
+      lets_go:            "C\u2019est parti !",
+
+      // Firmware Overlay
+      fw_title:           "micro:bit Firmware",
+      fw_intro:           "Flashez ce code sur votre micro:bit V2 avec MakeCode :",
+      fw_step1:           "Cliquez sur Copier le code ci-dessous",
+      fw_step2:           "Ouvrez MakeCode et passez en mode JavaScript",
+      fw_step3:           "S\u00e9lectionnez tout (Ctrl+A) et collez (Ctrl+V)",
+      fw_step4:           "Cliquez sur T\u00e9l\u00e9charger et flashez sur votre micro:bit",
+      copy_code:          "Copier le code",
+      copied:             "Copi\u00e9 !",
+      open_makecode:      "Ouvrir MakeCode",
+
+      // Toast / Log Messages (JS)
+      toast_connected:      "Connect\u00e9 au micro:bit !",
+      toast_disconnected:   "D\u00e9connect\u00e9 du micro:bit",
+      toast_reconnecting:   "Reconnexion...",
+      toast_reconnect_fail: "\u00c9chec de la reconnexion",
+      toast_compass_cal:    "Boussole calibr\u00e9e !",
+      toast_accel_zero:     "Acc\u00e9l\u00e9rom\u00e8tre mis \u00e0 z\u00e9ro",
+      toast_sound_base:     "R\u00e9f\u00e9rence sonore d\u00e9finie",
+      toast_light_base:     "R\u00e9f\u00e9rence lumineuse d\u00e9finie",
+      toast_recording:      "Enregistrement d\u00e9marr\u00e9",
+      toast_rec_stop:       "Enregistrement arr\u00eat\u00e9",
+      toast_no_data:        "Pas de donn\u00e9es enregistr\u00e9es",
+      toast_replaying:      "Rejouer",
+      toast_note_added:     "Note ajout\u00e9e",
+      toast_preset_saved:   "Pr\u00e9r\u00e9glage sauvegard\u00e9",
+      toast_preset_loaded:  "Pr\u00e9r\u00e9glage charg\u00e9",
+      toast_controls_reset: "Contr\u00f4les r\u00e9initialis\u00e9s",
+      toast_cleared:        "Graphiques et journaux effac\u00e9s",
+      toast_delayed:        "Action diff\u00e9r\u00e9e d\u00e9clench\u00e9e !",
+      toast_no_capture:     "Pas encore de donn\u00e9es captur\u00e9es",
+      toast_enter_name:     "Entrez un nom de pr\u00e9r\u00e9glage",
+      log_connected:        "Connect\u00e9 !",
+      log_disconnected:     "D\u00e9connect\u00e9",
+      log_web_bt_na:        "Web Bluetooth non disponible",
+      log_requesting:       "Recherche de micro:bit...",
+      log_connecting:       "Connexion GATT...",
+      log_uart_service:     "Obtention du service UART...",
+      log_chars:            "Obtention des caract\u00e9ristiques...",
+      log_getting_uart:     "Obtention du service UART...",
+      log_getting_chars:    "Obtention des caract\u00e9ristiques...",
+      log_ready:            "Interface pr\u00eate",
+      log_ui_ready:         "Interface pr\u00eate",
+      log_reconnecting:     "Tentative de reconnexion",
+      log_reconnected:      "Reconnect\u00e9 !",
+      log_reconnect_fail:   "\u00c9chec de la reconnexion",
+      add_note_prompt:      "Ajouter une note au temps actuel :",
+      status_connected:     "Connect\u00e9",
+      status_disconnected:  "D\u00e9connect\u00e9",
+      toast_compass_tilt:   "Inclinez le micro:bit pour calibrer la boussole...",
+      toast_accel_zeroed:   "Acc\u00e9l\u00e9rom\u00e8tre mis \u00e0 z\u00e9ro",
+      toast_accel_cleared:  "Offset de l'acc\u00e9l\u00e9rom\u00e8tre effac\u00e9",
+      toast_sound_baseline_set: "R\u00e9f\u00e9rence sonore d\u00e9finie",
+      toast_sound_baseline_cleared: "R\u00e9f\u00e9rence sonore effac\u00e9e",
+      toast_light_baseline_set: "R\u00e9f\u00e9rence lumineuse d\u00e9finie",
+      toast_light_baseline_cleared: "R\u00e9f\u00e9rence lumineuse effac\u00e9e",
+      cal_done:             "Calibr\u00e9",
+      cal_not_done:         "Non calibr\u00e9",
+      cal_offset_set:       "Offset d\u00e9fini",
+      cal_no_offset:        "Pas d'offset",
+      cal_baseline:         "R\u00e9f\u00e9rence d\u00e9finie",
+      cal_no_baseline:      "Pas de r\u00e9f\u00e9rence",
+      waiting:              "En attente",
+      schedule_action:      "Programmer l'action"
+    },
+
+    /* ============================  ARABIC  ============================= */
+    ar: {
+      // Header & Connection
+      app_title:          "micro:bit Playground",
+      app_subtitle:       "\u0627\u0644\u0639\u0628 . \u062a\u0639\u0644\u0651\u0645 . \u0623\u0646\u0634\u0626",
+      ready:              "!\u062c\u0627\u0647\u0632",
+      connect_title:      "\u0627\u0644\u0627\u062a\u0635\u0627\u0644",
+      beginner_mode:      "\u0648\u0636\u0639 \u0627\u0644\u0645\u0628\u062a\u062f\u0626",
+      ready_to_connect:   "\u062c\u0627\u0647\u0632 \u0644\u0644\u0627\u062a\u0635\u0627\u0644",
+      connected:          "\u0645\u062a\u0635\u0644",
+      disconnected:       "\u063a\u064a\u0631 \u0645\u062a\u0635\u0644",
+      connect_btn:        "\u0627\u062a\u0635\u0627\u0644",
+      disconnect_btn:     "\u0642\u0637\u0639 \u0627\u0644\u0627\u062a\u0635\u0627\u0644",
+      firmware_btn:       "\u0627\u0644\u0628\u0631\u0646\u0627\u0645\u062c \u0627\u0644\u062b\u0627\u0628\u062a",
+      guide_btn:          "\u0627\u0644\u062f\u0644\u064a\u0644",
+      how_to_connect:     "\u0643\u064a\u0641\u064a\u0629 \u0627\u0644\u0627\u062a\u0635\u0627\u0644",
+      step1_connect:      "\u0634\u063a\u0651\u0644 micro:bit",
+      step2_connect:      "\u0627\u0646\u0642\u0631 \u0639\u0644\u0649 \u0627\u062a\u0635\u0627\u0644",
+      step3_connect:      "\u0627\u062e\u062a\u0631 micro:bit \u0645\u0646 \u0627\u0644\u0642\u0627\u0626\u0645\u0629",
+      mode_label:         "\u0627\u0644\u0648\u0636\u0639",
+      beginner:           "\u0645\u0628\u062a\u062f\u0626",
+      expert:             "\u062e\u0628\u064a\u0631",
+      device_label:       "\u0627\u0644\u062c\u0647\u0627\u0632",
+      name_label:         "\u0627\u0644\u0627\u0633\u0645",
+      none:               "\u0644\u0627 \u064a\u0648\u062c\u062f",
+      waiting_msg:        "\u0641\u064a \u0627\u0646\u062a\u0638\u0627\u0631 \u0627\u0644\u0631\u0633\u0627\u0626\u0644\u2026",
+
+      // Activity & Log
+      activity_title:     "\u0627\u0644\u0646\u0634\u0627\u0637",
+      clear:              "\u0645\u0633\u062d",
+      message_log:        "\u0633\u062c\u0644 \u0627\u0644\u0631\u0633\u0627\u0626\u0644",
+      export:             "\u062a\u0635\u062f\u064a\u0631",
+
+      // Tabs
+      tab_controls:       "\u0627\u0644\u062a\u062d\u0643\u0645",
+      tab_sensors:        "\u0627\u0644\u0645\u0633\u062a\u0634\u0639\u0631\u0627\u062a",
+      tab_motors:         "\u0627\u0644\u0645\u062d\u0631\u0643\u0627\u062a",
+      tab_gamepad:        "\u0644\u0648\u062d\u0629 \u0627\u0644\u0623\u0644\u0639\u0627\u0628",
+      tab_graph:          "\u0627\u0644\u0631\u0633\u0645 \u0627\u0644\u0628\u064a\u0627\u0646\u064a",
+      tab_3d:             "\u062b\u0644\u0627\u062b\u064a \u0627\u0644\u0623\u0628\u0639\u0627\u062f",
+      tab_bench:          "\u0627\u062e\u062a\u0628\u0627\u0631",
+      tab_more:           "\u0627\u0644\u0645\u0632\u064a\u062f",
+
+      // Controls Tab
+      controls_title:     "\u0627\u0644\u062a\u062d\u0643\u0645",
+      show_message:       "\u0639\u0631\u0636 \u0631\u0633\u0627\u0644\u0629",
+      send:               "\u0625\u0631\u0633\u0627\u0644",
+      draw_leds:          "\u0627\u0631\u0633\u0645 \u0639\u0644\u0649 LEDs",
+      click_drag:         "\u0627\u0646\u0642\u0631 \u0648\u0627\u0633\u062d\u0628 \u0644\u0644\u0631\u0633\u0645!",
+      quick_shapes:       "\u0623\u0634\u0643\u0627\u0644 \u0633\u0631\u064a\u0639\u0629",
+      heart:              "\u0642\u0644\u0628",
+      smile:              "\u0627\u0628\u062a\u0633\u0627\u0645\u0629",
+      tick:               "\u0639\u0644\u0627\u0645\u0629 \u0635\u062d",
+      show_icons:         "\u0639\u0631\u0636 \u0627\u0644\u0623\u064a\u0642\u0648\u0646\u0627\u062a",
+      make_sounds:        "\u0625\u0635\u062f\u0627\u0631 \u0623\u0635\u0648\u0627\u062a",
+      low_beep:           "\u0635\u0648\u062a \u0645\u0646\u062e\u0641\u0636",
+      beep:               "\u0635\u0627\u0641\u0631\u0629",
+      high_beep:          "\u0635\u0648\u062a \u0639\u0627\u0644\u064a",
+      melody:             "\u0644\u062d\u0646",
+      play:               "\u062a\u0634\u063a\u064a\u0644",
+      stop:               "\u0625\u064a\u0642\u0627\u0641",
+
+      // Sensors Tab
+      sensors_title:      "\u0627\u0644\u0645\u0633\u062a\u0634\u0639\u0631\u0627\u062a",
+      temperature:        "\u062f\u0631\u062c\u0629 \u0627\u0644\u062d\u0631\u0627\u0631\u0629",
+      temp_hint:          "\u0647\u0644 \u0627\u0644\u062c\u0648 \u062d\u0627\u0631 \u0623\u0645 \u0628\u0627\u0631\u062f\u061f",
+      light:              "\u0627\u0644\u0636\u0648\u0621",
+      light_hint:         "\u0645\u0636\u064a\u0621 \u0623\u0645 \u0645\u0638\u0644\u0645\u061f",
+      sound:              "\u0627\u0644\u0635\u0648\u062a",
+      sound_hint:         "\u0645\u0627 \u0645\u062f\u0649 \u0627\u0631\u062a\u0641\u0627\u0639 \u0627\u0644\u0635\u0648\u062a\u061f",
+      motion:             "\u0627\u0644\u062d\u0631\u0643\u0629",
+      motion_hint:        "\u0647\u0632\u0651\u0647!",
+      accel_x:            "\u0627\u0644\u062a\u0633\u0627\u0631\u0639 X",
+      accel_y:            "\u0627\u0644\u062a\u0633\u0627\u0631\u0639 Y",
+      accel_z:            "\u0627\u0644\u062a\u0633\u0627\u0631\u0639 Z",
+      compass:            "\u0627\u0644\u0628\u0648\u0635\u0644\u0629",
+      compass_hint:       "\u0623\u064a\u0646 \u0627\u0644\u0634\u0645\u0627\u0644\u061f",
+      button_a:           "\u0627\u0644\u0632\u0631 A",
+      btn_hint_a:         "\u0627\u0636\u063a\u0637 \u0639\u0644\u0649 \u0627\u0644\u0632\u0631 A!",
+      button_b:           "\u0627\u0644\u0632\u0631 B",
+      btn_hint_b:         "\u0627\u0636\u063a\u0637 \u0639\u0644\u0649 \u0627\u0644\u0632\u0631 B!",
+      touch_p0:           "\u0627\u0644\u0644\u0645\u0633 P0",
+      touch_p0_hint:      "\u0627\u0644\u0645\u0633 \u0627\u0644\u0645\u0633\u0645\u0627\u0631 P0",
+      touch_p1:           "\u0627\u0644\u0644\u0645\u0633 P1",
+      touch_p1_hint:      "\u0627\u0644\u0645\u0633 \u0627\u0644\u0645\u0633\u0645\u0627\u0631 P1",
+      touch_p2:           "\u0627\u0644\u0644\u0645\u0633 P2",
+      touch_p2_hint:      "\u0627\u0644\u0645\u0633 \u0627\u0644\u0645\u0633\u0645\u0627\u0631 P2",
+      logo_touch:         "\u0627\u0644\u0634\u0639\u0627\u0631",
+      logo_hint:          "\u0627\u0644\u0645\u0633 \u0627\u0644\u0634\u0639\u0627\u0631!",
+      pressed:            "\u0645\u0636\u063a\u0648\u0637",
+      released:           "\u0645\u062d\u0631\u0631",
+      calibration:        "\u0627\u0644\u0645\u0639\u0627\u064a\u0631\u0629",
+      calibrate:          "\u0645\u0639\u0627\u064a\u0631\u0629",
+      set_level:          "\u0636\u0628\u0637 \u0627\u0644\u0645\u0633\u062a\u0648\u0649",
+      set_ambient:        "\u0636\u0628\u0637 \u0627\u0644\u0645\u062d\u064a\u0637",
+      reset:              "\u0625\u0639\u0627\u062f\u0629 \u062a\u0639\u064a\u064a\u0646",
+      not_calibrated:     "\u063a\u064a\u0631 \u0645\u0639\u0627\u064a\u064e\u0631",
+      no_baseline:        "\u0644\u0627 \u0645\u0631\u062c\u0639",
+
+      // Motors Tab
+      motors_title:       "\u0627\u0644\u0645\u062d\u0631\u0643\u0627\u062a",
+      servo1:             "\u0633\u064a\u0631\u0641\u0648 1",
+      servo2:             "\u0633\u064a\u0631\u0641\u0648 2",
+      move:               "\u062a\u062d\u0631\u064a\u0643",
+      off:                "\u0625\u064a\u0642\u0627\u0641",
+      trim:               "\u0636\u0628\u0637 \u062f\u0642\u064a\u0642",
+
+      // GamePad Tab
+      gamepad_title:      "\u0644\u0648\u062d\u0629 \u0627\u0644\u0623\u0644\u0639\u0627\u0628",
+      fire:               "\u0625\u0637\u0644\u0627\u0642",
+
+      // Graph Tab
+      graph_title:        "\u0627\u0644\u0631\u0633\u0645 \u0627\u0644\u0628\u064a\u0627\u0646\u064a",
+      line:               "\u062e\u0637",
+      bar:                "\u0623\u0639\u0645\u062f\u0629",
+      scatter:            "\u0646\u0642\u0627\u0637",
+      area:               "\u0645\u0633\u0627\u062d\u0629",
+      realtime:           "\u0648\u0642\u062a \u062d\u0642\u064a\u0642\u064a",
+      simulate:           "\u0645\u062d\u0627\u0643\u0627\u0629",
+      stop_sim:           "\u0625\u064a\u0642\u0627\u0641 \u0627\u0644\u0645\u062d\u0627\u0643\u0627\u0629",
+      pause:              "\u0625\u064a\u0642\u0627\u0641 \u0645\u0624\u0642\u062a",
+      resume:             "\u0627\u0633\u062a\u0626\u0646\u0627\u0641",
+      fullscreen:         "\u0645\u0644\u0621 \u0627\u0644\u0634\u0627\u0634\u0629",
+      exit_fs:            "\u062e\u0631\u0648\u062c",
+      record:             "\u062a\u0633\u062c\u064a\u0644",
+      stop_rec:           "\u0625\u064a\u0642\u0627\u0641 \u0627\u0644\u062a\u0633\u062c\u064a\u0644",
+      replay:             "\u0625\u0639\u0627\u062f\u0629",
+      save_session:       "\u062d\u0641\u0638",
+      annotate:           "\u0645\u0644\u0627\u062d\u0638\u0629",
+      export_png:         "PNG",
+      export_csv:         "CSV",
+      window_size:        "\u0627\u0644\u0646\u0627\u0641\u0630\u0629",
+      y_axis:             "\u0627\u0644\u0645\u062d\u0648\u0631 Y",
+      line_width:         "\u0627\u0644\u0633\u0645\u0643",
+      grid:               "\u0627\u0644\u0634\u0628\u0643\u0629",
+      auto:               "\u062a\u0644\u0642\u0627\u0626\u064a",
+      thin:               "\u0631\u0641\u064a\u0639",
+      normal:             "\u0639\u0627\u062f\u064a",
+      thick:              "\u0633\u0645\u064a\u0643",
+
+      // 3D Tab
+      board3d_title:      "3D MICRO:BIT",
+      board3d_subtitle:   "\u0644\u0648\u062d\u0629 \u062b\u0644\u0627\u062b\u064a\u0629 \u0627\u0644\u0623\u0628\u0639\u0627\u062f \u2014 \u062a\u0639\u0643\u0633 \u0628\u064a\u0627\u0646\u0627\u062a \u0627\u0644\u0645\u0633\u062a\u0634\u0639\u0631\u0627\u062a",
+      reset_view:         "\u0625\u0639\u0627\u062f\u0629 \u0627\u0644\u0639\u0631\u0636",
+      auto_rotate:        "\u062f\u0648\u0631\u0627\u0646 \u062a\u0644\u0642\u0627\u0626\u064a",
+      stop_rotate:        "\u0625\u064a\u0642\u0627\u0641",
+      live_sync:          "\u0645\u0632\u0627\u0645\u0646\u0629 \u0645\u0628\u0627\u0634\u0631\u0629",
+      sync_off:           "\u0625\u064a\u0642\u0627\u0641 \u0627\u0644\u0645\u0632\u0627\u0645\u0646\u0629",
+      drag_rotate:        "\u0627\u0633\u062d\u0628 \u0644\u0644\u062a\u062f\u0648\u064a\u0631",
+      scroll_zoom:        "\u0645\u0631\u0631 \u0644\u0644\u062a\u0643\u0628\u064a\u0631",
+      live_info:          "\u0645\u0628\u0627\u0634\u0631: LEDs\u060c \u0627\u0644\u0645\u064a\u0644\u060c \u0627\u0644\u0623\u0632\u0631\u0627\u0631\u060c \u0627\u0644\u0644\u0645\u0633",
+
+      // Bench Tab
+      bench_title:        "\u0645\u0646\u0635\u0629 \u0627\u0644\u0627\u062e\u062a\u0628\u0627\u0631",
+      bench_subtitle:     "\u0623\u0648\u0627\u0645\u0631 BLE \u0627\u0644\u062e\u0627\u0645",
+      bench_send:         "\u0625\u0631\u0633\u0627\u0644",
+      bench_response:     "\u0627\u0644\u0627\u0633\u062a\u062c\u0627\u0628\u0629",
+
+      // More Tab
+      more_title:         "\u0627\u0644\u0645\u0632\u064a\u062f",
+      more_subtitle:      "\u0627\u0644\u0645\u0632\u064a\u062f \u0645\u0646 \u0627\u0644\u0645\u062a\u0639\u0629!",
+      fun_controls:       "\u062a\u062d\u0643\u0645 \u0645\u0645\u062a\u0639",
+      button:             "\u0632\u0631",
+      press_me:           "\u0627\u0636\u063a\u0637!",
+      switch_label:       "\u0645\u0641\u062a\u0627\u062d",
+      slider:             "\u0634\u0631\u064a\u0637 \u0627\u0644\u062a\u0645\u0631\u064a\u0631",
+      keypad:             "\u0644\u0648\u062d\u0629 \u0627\u0644\u0645\u0641\u0627\u062a\u064a\u062d",
+      you_pressed:        "\u0636\u063a\u0637\u062a:",
+      joystick:           "\u0639\u0635\u0627 \u0627\u0644\u062a\u062d\u0643\u0645",
+      text_label:         "\u0646\u0635",
+      indicators:         "\u0627\u0644\u0645\u0624\u0634\u0631\u0627\u062a \u0648\u0627\u0644\u0645\u062e\u0631\u062c\u0627\u062a",
+      indicators_sub:     "\u0631\u062f\u0648\u062f \u0627\u0644\u0641\u0639\u0644 \u0627\u0644\u0628\u0635\u0631\u064a\u0629.",
+      led:                "LED",
+      toggle:             "\u062a\u0628\u062f\u064a\u0644",
+      level:              "\u0627\u0644\u0645\u0633\u062a\u0648\u0649",
+      live_graph:         "\u0631\u0633\u0645 \u0628\u064a\u0627\u0646\u064a \u0645\u0628\u0627\u0634\u0631",
+      multi_graph:        "\u0631\u0633\u0645 \u0628\u064a\u0627\u0646\u064a \u0645\u062a\u0639\u062f\u062f",
+      debug_console:      "\u0648\u062d\u062f\u0629 \u0627\u0644\u062a\u0635\u062d\u064a\u062d",
+      clear_log:          "\u0645\u0633\u062d \u0627\u0644\u0633\u062c\u0644",
+      data_capture:       "\u0627\u0644\u062a\u0642\u0627\u0637 \u0627\u0644\u0628\u064a\u0627\u0646\u0627\u062a",
+      no_samples:         "(\u0644\u0627 \u062a\u0648\u062c\u062f \u0639\u064a\u0646\u0627\u062a \u0628\u0639\u062f)",
+      download_csv:       "\u062a\u062d\u0645\u064a\u0644 CSV",
+      audio_time:         "\u0627\u0644\u0635\u0648\u062a \u0648\u0627\u0644\u0648\u0642\u062a \u0648\u0627\u0644\u0639\u0634\u0648\u0627\u0626\u064a",
+      audio_sub:          "\u0627\u0644\u062c\u0631\u0633 \u0648\u0627\u0644\u0645\u0624\u0642\u062a\u0627\u062a \u0648\u0627\u0644\u0627\u062e\u062a\u0628\u0627\u0631\u0627\u062a \u0627\u0644\u0639\u0634\u0648\u0627\u0626\u064a\u0629.",
+      buzzer:             "\u0627\u0644\u062c\u0631\u0633",
+      freq:               "\u0627\u0644\u062a\u0631\u062f\u062f",
+      duration:           "\u0627\u0644\u0645\u062f\u0629",
+      timer:              "\u0627\u0644\u0645\u0624\u0642\u062a",
+      start:              "\u0628\u062f\u0621",
+      delay_action:       "\u0625\u062c\u0631\u0627\u0621 \u0645\u0624\u062c\u0644",
+      schedule_action:    "\u062c\u062f\u0648\u0644\u0629 \u0627\u0644\u0625\u062c\u0631\u0627\u0621",
+      random:             "\u0639\u0634\u0648\u0627\u0626\u064a",
+      generate_random:    "\u062a\u0648\u0644\u064a\u062f \u0639\u0634\u0648\u0627\u0626\u064a",
+      value_label:        "\u0627\u0644\u0642\u064a\u0645\u0629:",
+      advanced_controls:  "\u062a\u062d\u0643\u0645 \u0645\u062a\u0642\u062f\u0645 \u0648\u0625\u0639\u062f\u0627\u062f\u0627\u062a \u0645\u0633\u0628\u0642\u0629",
+      advanced_sub:       "\u0627\u0644\u0623\u0648\u0636\u0627\u0639 \u0648\u0627\u0644\u0646\u0637\u0627\u0642\u0627\u062a \u0648\u0627\u0644\u0625\u0639\u062f\u0627\u062f\u0627\u062a.",
+      mode:               "\u0627\u0644\u0648\u0636\u0639",
+      idle:               "\u062e\u0627\u0645\u0644",
+      test_mode_1:        "\u0648\u0636\u0639 \u0627\u062e\u062a\u0628\u0627\u0631 1",
+      test_mode_2:        "\u0648\u0636\u0639 \u0627\u062e\u062a\u0628\u0627\u0631 2",
+      safe_mode:          "\u0627\u0644\u0648\u0636\u0639 \u0627\u0644\u0622\u0645\u0646",
+      numeric:            "\u0631\u0642\u0645\u064a",
+      range_label:        "\u0627\u0644\u0646\u0637\u0627\u0642",
+      min_label:          "\u0627\u0644\u062d\u062f \u0627\u0644\u0623\u062f\u0646\u0649",
+      max_label:          "\u0627\u0644\u062d\u062f \u0627\u0644\u0623\u0642\u0635\u0649",
+      color:              "\u0627\u0644\u0644\u0648\u0646",
+      presets:            "\u0627\u0644\u0625\u0639\u062f\u0627\u062f\u0627\u062a \u0627\u0644\u0645\u0633\u0628\u0642\u0629",
+      preset_name_ph:     "\u0627\u0633\u0645 \u0627\u0644\u0625\u0639\u062f\u0627\u062f",
+      save:               "\u062d\u0641\u0638",
+      no_presets:         "(\u0644\u0627 \u0625\u0639\u062f\u0627\u062f\u0627\u062a \u0645\u0633\u0628\u0642\u0629)",
+      load_preset:        "\u062a\u062d\u0645\u064a\u0644 \u0627\u0644\u0625\u0639\u062f\u0627\u062f",
+      global:             "\u0639\u0627\u0645",
+      reset_controls:     "\u0625\u0639\u0627\u062f\u0629 \u0636\u0628\u0637 \u0627\u0644\u062a\u062d\u0643\u0645",
+      clear_graphs:       "\u0645\u0633\u062d \u0627\u0644\u0631\u0633\u0648\u0645 \u0627\u0644\u0628\u064a\u0627\u0646\u064a\u0629 \u0648\u0627\u0644\u0633\u062c\u0644\u0627\u062a",
+      theme:              "\u0627\u0644\u0633\u0645\u0629",
+      system_default:     "\u0627\u0644\u0646\u0638\u0627\u0645 \u0627\u0644\u0627\u0641\u062a\u0631\u0627\u0636\u064a",
+      dark:               "\u062f\u0627\u0643\u0646",
+      light_theme:        "\u0641\u0627\u062a\u062d",
+      funny_mode:         "\u0648\u0636\u0639 \u0645\u0631\u062d",
+      simulators:         "\u0627\u0644\u0645\u062d\u0627\u0643\u064a\u0627\u062a \u0648\u0627\u0644\u0623\u062c\u0647\u0632\u0629",
+      simulators_sub:     "\u0645\u0635\u0641\u0648\u0641\u0629 LED\u060c \u0645\u0633\u062a\u0634\u0639\u0631\u0627\u062a\u060c \u0645\u0633\u0627\u0645\u064a\u0631\u2026",
+      xy_pad:             "\u0644\u0648\u062d\u0629 XY",
+      led_matrix:         "\u0645\u0635\u0641\u0648\u0641\u0629 LED",
+      sensors_sim:        "\u0627\u0644\u0645\u0633\u062a\u0634\u0639\u0631\u0627\u062a",
+      pins:               "\u0627\u0644\u0645\u0633\u0627\u0645\u064a\u0631",
+      servo:              "\u0633\u064a\u0631\u0641\u0648",
+      angle:              "\u0627\u0644\u0632\u0627\u0648\u064a\u0629",
+      speed:              "\u0627\u0644\u0633\u0631\u0639\u0629",
+      move_servo:         "\u062a\u062d\u0631\u064a\u0643 \u0627\u0644\u0633\u064a\u0631\u0641\u0648",
+      stop_servo:         "\u0625\u064a\u0642\u0627\u0641 \u0627\u0644\u0633\u064a\u0631\u0641\u0648",
+      rgb_strip:          "\u0634\u0631\u064a\u0637 RGB",
+      clear_strip:        "\u0645\u0633\u062d \u0627\u0644\u0634\u0631\u064a\u0637",
+      file_io:            "\u0645\u0644\u0641 \u0625\u062f\u062e\u0627\u0644/\u0625\u062e\u0631\u0627\u062c",
+      no_file:            "\u0644\u0627 \u0645\u0644\u0641 \u0645\u062d\u0645\u0651\u0644",
+      response:           "\u0627\u0644\u0627\u0633\u062a\u062c\u0627\u0628\u0629",
+      response_sub:       "\u0645\u062e\u0631\u062c\u0627\u062a micro:bit.",
+      last_key:           "\u0622\u062e\u0631 \u0645\u0641\u062a\u0627\u062d:",
+
+      // Keyboard Shortcuts Overlay
+      shortcuts_title:    "\u0627\u062e\u062a\u0635\u0627\u0631\u0627\u062a \u0644\u0648\u062d\u0629 \u0627\u0644\u0645\u0641\u0627\u062a\u064a\u062d",
+      shortcut_connect:   "\u062a\u0648\u0635\u064a\u0644 / \u0641\u0635\u0644",
+      shortcut_tabs:      "\u062a\u0628\u062f\u064a\u0644 \u0627\u0644\u0623\u0644\u0633\u0646\u0629",
+      shortcut_pause:     "\u0625\u064a\u0642\u0627\u0641 / \u0627\u0633\u062a\u0626\u0646\u0627\u0641 \u0627\u0644\u0631\u0633\u0645 \u0627\u0644\u0628\u064a\u0627\u0646\u064a",
+      shortcut_fs:        "\u0645\u0644\u0621 \u0627\u0644\u0634\u0627\u0634\u0629",
+      shortcut_help:      "\u0639\u0631\u0636 \u0627\u0644\u0645\u0633\u0627\u0639\u062f\u0629",
+      shortcut_close:     "\u0625\u063a\u0644\u0627\u0642 \u0627\u0644\u0646\u0648\u0627\u0641\u0630",
+      close:              "\u0625\u063a\u0644\u0627\u0642",
+
+      // Onboarding Overlay
+      welcome:            "!\u0645\u0631\u062d\u0628\u064b\u0627 \u0641\u064a micro:bit Playground",
+      ob_step1:           "\u0634\u063a\u0651\u0644 micro:bit V2",
+      ob_step2:           "\u0627\u0646\u0642\u0631 \u0639\u0644\u0649 \u0627\u062a\u0635\u0627\u0644 \u0648\u0627\u062e\u062a\u0631 \u062c\u0647\u0627\u0632\u0643",
+      ob_step3:           "\u0627\u0633\u062a\u0643\u0634\u0641 \u0627\u0644\u0623\u0644\u0633\u0646\u0629: \u0627\u0644\u062a\u062d\u0643\u0645\u060c \u0627\u0644\u0645\u0633\u062a\u0634\u0639\u0631\u0627\u062a\u060c \u0627\u0644\u0645\u062d\u0631\u0643\u0627\u062a\u060c \u0644\u0648\u062d\u0629 \u0627\u0644\u0623\u0644\u0639\u0627\u0628\u060c \u0627\u0644\u0631\u0633\u0645 \u0627\u0644\u0628\u064a\u0627\u0646\u064a",
+      ob_step4:           "\u0627\u0636\u063a\u0637 K \u0641\u064a \u0623\u064a \u0648\u0642\u062a \u0644\u0627\u062e\u062a\u0635\u0627\u0631\u0627\u062a \u0644\u0648\u062d\u0629 \u0627\u0644\u0645\u0641\u0627\u062a\u064a\u062d",
+      lets_go:            "!\u0647\u064a\u0627 \u0628\u0646\u0627",
+
+      // Firmware Overlay
+      fw_title:           "\u0627\u0644\u0628\u0631\u0646\u0627\u0645\u062c \u0627\u0644\u062b\u0627\u0628\u062a micro:bit",
+      fw_intro:           "\u062b\u0628\u0651\u062a \u0647\u0630\u0627 \u0627\u0644\u0643\u0648\u062f \u0639\u0644\u0649 micro:bit V2 \u0628\u0627\u0633\u062a\u062e\u062f\u0627\u0645 MakeCode:",
+      fw_step1:           "\u0627\u0646\u0642\u0631 \u0639\u0644\u0649 \u0646\u0633\u062e \u0627\u0644\u0643\u0648\u062f \u0623\u062f\u0646\u0627\u0647",
+      fw_step2:           "\u0627\u0641\u062a\u062d MakeCode \u0648\u0627\u0646\u062a\u0642\u0644 \u0644\u0648\u0636\u0639 JavaScript",
+      fw_step3:           "\u062d\u062f\u062f \u0627\u0644\u0643\u0644 (Ctrl+A) \u0648\u0627\u0644\u0635\u0642 (Ctrl+V)",
+      fw_step4:           "\u0627\u0646\u0642\u0631 \u0639\u0644\u0649 \u062a\u062d\u0645\u064a\u0644 \u0648\u062b\u0628\u0651\u062a \u0639\u0644\u0649 micro:bit",
+      copy_code:          "\u0646\u0633\u062e \u0627\u0644\u0643\u0648\u062f",
+      copied:             "!\u062a\u0645 \u0627\u0644\u0646\u0633\u062e",
+      open_makecode:      "\u0641\u062a\u062d MakeCode",
+
+      // Toast / Log Messages (JS)
+      toast_connected:      "!\u062a\u0645 \u0627\u0644\u0627\u062a\u0635\u0627\u0644 \u0628\u0640 micro:bit",
+      toast_disconnected:   "\u062a\u0645 \u0641\u0635\u0644 micro:bit",
+      toast_reconnecting:   "\u0625\u0639\u0627\u062f\u0629 \u0627\u0644\u0627\u062a\u0635\u0627\u0644...",
+      toast_reconnect_fail: "\u0641\u0634\u0644 \u0625\u0639\u0627\u062f\u0629 \u0627\u0644\u0627\u062a\u0635\u0627\u0644",
+      toast_compass_cal:    "!\u062a\u0645\u062a \u0645\u0639\u0627\u064a\u0631\u0629 \u0627\u0644\u0628\u0648\u0635\u0644\u0629",
+      toast_accel_zero:     "\u062a\u0645 \u062a\u0635\u0641\u064a\u0631 \u0645\u0642\u064a\u0627\u0633 \u0627\u0644\u062a\u0633\u0627\u0631\u0639",
+      toast_sound_base:     "\u062a\u0645 \u0636\u0628\u0637 \u0645\u0631\u062c\u0639 \u0627\u0644\u0635\u0648\u062a",
+      toast_light_base:     "\u062a\u0645 \u0636\u0628\u0637 \u0645\u0631\u062c\u0639 \u0627\u0644\u0636\u0648\u0621",
+      toast_recording:      "\u0628\u062f\u0623 \u0627\u0644\u062a\u0633\u062c\u064a\u0644",
+      toast_rec_stop:       "\u062a\u0648\u0642\u0641 \u0627\u0644\u062a\u0633\u062c\u064a\u0644",
+      toast_no_data:        "\u0644\u0627 \u062a\u0648\u062c\u062f \u0628\u064a\u0627\u0646\u0627\u062a \u0645\u0633\u062c\u0644\u0629",
+      toast_replaying:      "\u0625\u0639\u0627\u062f\u0629 \u0627\u0644\u062a\u0634\u063a\u064a\u0644",
+      toast_note_added:     "\u062a\u0645\u062a \u0625\u0636\u0627\u0641\u0629 \u0645\u0644\u0627\u062d\u0638\u0629",
+      toast_preset_saved:   "\u062a\u0645 \u062d\u0641\u0638 \u0627\u0644\u0625\u0639\u062f\u0627\u062f",
+      toast_preset_loaded:  "\u062a\u0645 \u062a\u062d\u0645\u064a\u0644 \u0627\u0644\u0625\u0639\u062f\u0627\u062f",
+      toast_controls_reset: "\u062a\u0645\u062a \u0625\u0639\u0627\u062f\u0629 \u0636\u0628\u0637 \u0627\u0644\u062a\u062d\u0643\u0645",
+      toast_cleared:        "\u062a\u0645 \u0645\u0633\u062d \u0627\u0644\u0631\u0633\u0648\u0645 \u0627\u0644\u0628\u064a\u0627\u0646\u064a\u0629 \u0648\u0627\u0644\u0633\u062c\u0644\u0627\u062a",
+      toast_delayed:        "!\u062a\u0645 \u062a\u0646\u0641\u064a\u0630 \u0627\u0644\u0625\u062c\u0631\u0627\u0621 \u0627\u0644\u0645\u0624\u062c\u0644",
+      toast_no_capture:     "\u0644\u0627 \u062a\u0648\u062c\u062f \u0628\u064a\u0627\u0646\u0627\u062a \u0645\u0644\u062a\u0642\u0637\u0629 \u0628\u0639\u062f",
+      toast_enter_name:     "\u0623\u062f\u062e\u0644 \u0627\u0633\u0645 \u0627\u0644\u0625\u0639\u062f\u0627\u062f",
+      log_connected:        "!\u0645\u062a\u0635\u0644",
+      log_disconnected:     "\u063a\u064a\u0631 \u0645\u062a\u0635\u0644",
+      log_web_bt_na:        "Web Bluetooth \u063a\u064a\u0631 \u0645\u062a\u0627\u062d",
+      log_requesting:       "\u062c\u0627\u0631\u064a \u0627\u0644\u0628\u062d\u062b \u0639\u0646 micro:bit...",
+      log_connecting:       "...\u062c\u0627\u0631\u064a \u0627\u0644\u0627\u062a\u0635\u0627\u0644 GATT",
+      log_uart_service:     "...\u062c\u0627\u0631\u064a \u0627\u0644\u062d\u0635\u0648\u0644 \u0639\u0644\u0649 \u062e\u062f\u0645\u0629 UART",
+      log_chars:            "...\u062c\u0627\u0631\u064a \u0627\u0644\u062d\u0635\u0648\u0644 \u0639\u0644\u0649 \u0627\u0644\u062e\u0635\u0627\u0626\u0635",
+      log_getting_uart:     "...\u062c\u0627\u0631\u064a \u0627\u0644\u062d\u0635\u0648\u0644 \u0639\u0644\u0649 \u062e\u062f\u0645\u0629 UART",
+      log_getting_chars:    "...\u062c\u0627\u0631\u064a \u0627\u0644\u062d\u0635\u0648\u0644 \u0639\u0644\u0649 \u0627\u0644\u062e\u0635\u0627\u0626\u0635",
+      log_ready:            "\u0627\u0644\u0648\u0627\u062c\u0647\u0629 \u062c\u0627\u0647\u0632\u0629",
+      log_ui_ready:         "\u0627\u0644\u0648\u0627\u062c\u0647\u0629 \u062c\u0627\u0647\u0632\u0629",
+      log_reconnecting:     "\u0645\u062d\u0627\u0648\u0644\u0629 \u0625\u0639\u0627\u062f\u0629 \u0627\u0644\u0627\u062a\u0635\u0627\u0644",
+      log_reconnected:      "!\u062a\u0645\u062a \u0625\u0639\u0627\u062f\u0629 \u0627\u0644\u0627\u062a\u0635\u0627\u0644",
+      log_reconnect_fail:   "\u0641\u0634\u0644 \u0625\u0639\u0627\u062f\u0629 \u0627\u0644\u0627\u062a\u0635\u0627\u0644",
+      add_note_prompt:      ":\u0623\u0636\u0641 \u0645\u0644\u0627\u062d\u0638\u0629 \u0641\u064a \u0627\u0644\u0648\u0642\u062a \u0627\u0644\u062d\u0627\u0644\u064a",
+      status_connected:     "\u0645\u062a\u0635\u0644",
+      status_disconnected:  "\u063a\u064a\u0631 \u0645\u062a\u0635\u0644",
+      toast_compass_tilt:   "...\u0645\u0644 micro:bit \u0644\u0645\u0639\u0627\u064a\u0631\u0629 \u0627\u0644\u0628\u0648\u0635\u0644\u0629",
+      toast_accel_zeroed:   "\u062a\u0645 \u062a\u0635\u0641\u064a\u0631 \u0645\u0642\u064a\u0627\u0633 \u0627\u0644\u062a\u0633\u0627\u0631\u0639",
+      toast_accel_cleared:  "\u062a\u0645 \u0645\u0633\u062d \u0625\u0632\u0627\u062d\u0629 \u0645\u0642\u064a\u0627\u0633 \u0627\u0644\u062a\u0633\u0627\u0631\u0639",
+      toast_sound_baseline_set: "\u062a\u0645 \u0636\u0628\u0637 \u0645\u0631\u062c\u0639 \u0627\u0644\u0635\u0648\u062a",
+      toast_sound_baseline_cleared: "\u062a\u0645 \u0645\u0633\u062d \u0645\u0631\u062c\u0639 \u0627\u0644\u0635\u0648\u062a",
+      toast_light_baseline_set: "\u062a\u0645 \u0636\u0628\u0637 \u0645\u0631\u062c\u0639 \u0627\u0644\u0636\u0648\u0621",
+      toast_light_baseline_cleared: "\u062a\u0645 \u0645\u0633\u062d \u0645\u0631\u062c\u0639 \u0627\u0644\u0636\u0648\u0621",
+      cal_done:             "\u062a\u0645\u062a \u0627\u0644\u0645\u0639\u0627\u064a\u0631\u0629",
+      cal_not_done:         "\u063a\u064a\u0631 \u0645\u0639\u0627\u064a\u0631",
+      cal_offset_set:       "\u062a\u0645 \u0636\u0628\u0637 \u0627\u0644\u0625\u0632\u0627\u062d\u0629",
+      cal_no_offset:        "\u0644\u0627 \u0625\u0632\u0627\u062d\u0629",
+      cal_baseline:         "\u062a\u0645 \u0636\u0628\u0637 \u0627\u0644\u0645\u0631\u062c\u0639",
+      cal_no_baseline:      "\u0644\u0627 \u0645\u0631\u062c\u0639",
+      waiting:              "\u0627\u0646\u062a\u0638\u0627\u0631",
+      schedule_action:      "\u062c\u062f\u0648\u0644\u0629 \u0627\u0644\u0625\u062c\u0631\u0627\u0621"
+    }
+  };
+
+  /* ----------------------------------------------------------
+     RTL languages
+     ---------------------------------------------------------- */
+  var RTL_LANGS = { ar: true };
+
+  /* ----------------------------------------------------------
+     t(key)  --  return translated string, fallback to English
+     ---------------------------------------------------------- */
+  function t(key) {
+    var dict = LANG[_currentLang];
+    if (dict && dict[key] !== undefined) return dict[key];
+    // fallback to English
+    if (LANG.en[key] !== undefined) return LANG.en[key];
+    // key not found at all -- return the key itself for debugging
+    return key;
+  }
+
+  /* ----------------------------------------------------------
+     setAppLang(lang)  --  apply a language to the whole UI
+     ---------------------------------------------------------- */
+  function setAppLang(lang) {
+    if (!LANG[lang]) lang = "en";
+    _currentLang = lang;
+
+    // 1. Set <html lang="…"> and dir
+    var html = document.documentElement;
+    html.lang = lang;
+    html.dir  = RTL_LANGS[lang] ? "rtl" : "ltr";
+
+    // 2. Walk data-i18n elements  -->  textContent
+    var els = document.querySelectorAll("[data-i18n]");
+    for (var i = 0; i < els.length; i++) {
+      els[i].textContent = t(els[i].dataset.i18n);
+    }
+
+    // 3. Walk data-i18n-placeholder  -->  placeholder
+    var phs = document.querySelectorAll("[data-i18n-placeholder]");
+    for (var j = 0; j < phs.length; j++) {
+      phs[j].placeholder = t(phs[j].dataset.i18nPlaceholder);
+    }
+
+    // 4. Walk data-i18n-title  -->  title
+    var tls = document.querySelectorAll("[data-i18n-title]");
+    for (var k = 0; k < tls.length; k++) {
+      tls[k].title = t(tls[k].dataset.i18nTitle);
+    }
+
+    // 5. Walk data-i18n-aria  -->  aria-label
+    var als = document.querySelectorAll("[data-i18n-aria]");
+    for (var m = 0; m < als.length; m++) {
+      als[m].setAttribute("aria-label", t(als[m].dataset.i18nAria));
+    }
+
+    // 6. Persist choice
+    try { localStorage.setItem("mb_lang", lang); } catch (e) { /* ignore */ }
+
+    // 7. Update language picker active state
+    var pickers = document.querySelectorAll("[data-lang]");
+    for (var n = 0; n < pickers.length; n++) {
+      if (pickers[n].dataset.lang === lang) {
+        pickers[n].classList.add("active");
+      } else {
+        pickers[n].classList.remove("active");
+      }
+    }
+
+    // 8. Dispatch custom event so other JS modules can react
+    document.dispatchEvent(new CustomEvent("langchange", { detail: { lang: lang } }));
+  }
+
+  /* ----------------------------------------------------------
+     Auto-restore saved language on load
+     ---------------------------------------------------------- */
+  var saved;
+  try { saved = localStorage.getItem("mb_lang"); } catch (e) { /* ignore */ }
+  if (saved && LANG[saved]) {
+    _currentLang = saved;
+  }
+
+  // Apply once the DOM is ready (or immediately if already ready)
+  function applyOnReady() {
+    setAppLang(_currentLang);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", applyOnReady);
+  } else {
+    applyOnReady();
+  }
+
+  /* ----------------------------------------------------------
+     Expose globals
+     ---------------------------------------------------------- */
+  window.LANG       = LANG;
+  window.t           = t;
+  window.setAppLang  = setAppLang;
+
+})();

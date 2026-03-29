@@ -368,5 +368,5 @@ window.addEventListener('DOMContentLoaded', () => {
     } catch {}
     setActiveTab(initialTab);
 
-    addLogLine('UI ready. Click "Connect to micro:bit" to begin.', 'info');
+    addLogLine(t('log_ui_ready'), 'info');
 });

@@ -15,6 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/lang.js" defer></script>
     <!-- Modular scripts (load order matters) -->
     <script src="js/core.js" defer></script>
     <script src="js/ble.js" defer></script>
@@ -29,6 +30,13 @@
     <script src="js/models/balance.js" defer></script>
     <script src="js/models/weather.js" defer></script>
     <script src="js/board3d.js" defer></script>
+<style>
+.lang-picker { display: flex; gap: 2px; }
+.lang-picker .lang-btn { border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.7rem; font-weight: 600; background: transparent; color: inherit; opacity: 0.5; }
+.lang-picker .lang-btn.active { opacity: 1; background: var(--accent, #22c55e); color: #fff; }
+html[dir="rtl"] .step-num { margin-right: 0; margin-left: 8px; }
+html[dir="rtl"] .hint ol { padding-left: 0; padding-right: 20px; }
+</style>
 </head>
 <body>
 <div class="app beginner-mode">
@@ -36,8 +44,8 @@
 <div class="header">
     <div class="title-block">
         <img src="logo.svg" alt="micro:bit Playground Logo" class="site-logo animated-logo">
-        <h1>micro:bit Playground</h1>
-        <div class="subtitle">Play • Learn • Create <span style="opacity:0.4; font-size:0.75em;">v8.1</span></div>
+        <h1 data-i18n="app_title">micro:bit Playground</h1>
+        <div class="subtitle"><span data-i18n="app_subtitle">Play • Learn • Create</span> <span style="opacity:0.4; font-size:0.75em;">v8.1</span></div>
     </div>
     <div class="theme-picker" aria-label="Theme selector">
         <button class="theme-btn active" data-theme="stealth" title="Stealth">🌙</button>
@@ -45,9 +53,14 @@
         <button class="theme-btn" data-theme="arctic" title="Arctic">☁️</button>
         <button class="theme-btn" data-theme="blaze" title="Blaze">🔥</button>
     </div>
+    <div class="lang-picker" aria-label="Language selector">
+        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="fr">FR</button>
+        <button class="lang-btn" data-lang="ar">AR</button>
+    </div>
     <div class="chip" role="status" aria-live="polite" aria-atomic="true">
         <div class="chip-dot"></div>
-        <span>Ready!</span>
+        <span data-i18n="ready">Ready!</span>
     </div>
 </div>
 
@@ -61,13 +74,13 @@
                         <div>
                             <div class="card-title">
                                 <span class="icon">📡</span>
-                                Connect
+                                <span data-i18n="connect_title">Connect</span>
                             </div>
                             <div class="card-subtitle expert-only">
                                 Bluetooth connection to your micro:bit
                             </div>
                         </div>
-                        <div class="badge beginner-only">Beginner Mode</div>
+                        <div class="badge beginner-only" data-i18n="beginner_mode">Beginner Mode</div>
                     </div>
 
                     <div class="connection-grid">
@@ -76,48 +89,48 @@
                                 <div class="status-row">
                                     <div id="connectionStatus" class="status-pill">
                                         <span class="status-dot"></span>
-                                        <span>Ready to connect</span>
+                                        <span data-i18n="ready_to_connect">Ready to connect</span>
                                     </div>
                                 </div>
 
                                 <div class="button-row">
                                     <button id="connectBtn" class="primary" aria-label="Connect to micro:bit">
                                         <span class="btn-icon">🔗</span>
-                                        Connect
+                                        <span data-i18n="connect_btn">Connect</span>
                                     </button>
                                     <button id="disconnectBtn" class="secondary" disabled aria-label="Disconnect micro:bit">
                                         <span class="btn-icon">✕</span>
-                                        Disconnect
+                                        <span data-i18n="disconnect_btn">Disconnect</span>
                                     </button>
                                 </div>
 
                                 <div class="hint">
-                                    <div class="hint-title">How to connect</div>
+                                    <div class="hint-title" data-i18n="how_to_connect">How to connect</div>
                                     <ol>
-                                        <li>Turn on your micro:bit</li>
-                                        <li>Click <strong>Connect</strong></li>
-                                        <li>Pick your micro:bit from the list</li>
+                                        <li data-i18n="step1_connect">Turn on your micro:bit</li>
+                                        <li data-i18n="step2_connect">Click Connect</li>
+                                        <li data-i18n="step3_connect">Pick your micro:bit from the list</li>
                                     </ol>
                                 </div>
                             </div>
 
                             <div class="connection-details">
-                                <div class="connection-section-title">Mode</div>
+                                <div class="connection-section-title" data-i18n="mode_label">Mode</div>
                                 <div class="pill-group">
                                     <button id="beginnerModeBtn" class="pill active" aria-pressed="true">
                                         <div class="pill-dot"></div>
-                                        <span class="pill-text">Beginner</span>
+                                        <span class="pill-text" data-i18n="beginner">Beginner</span>
                                     </button>
                                     <button id="expertModeBtn" class="pill" aria-pressed="false">
                                         <div class="pill-dot"></div>
-                                        <span class="pill-text">Expert</span>
+                                        <span class="pill-text" data-i18n="expert">Expert</span>
                                     </button>
                                 </div>
 
-                                <div class="connection-section-title expert-only">Device</div>
+                                <div class="connection-section-title expert-only" data-i18n="device_label">Device</div>
                                 <div class="device-row expert-only">
-                                    <span class="device-label">Name</span>
-                                    <span id="deviceName" class="device-value">None</span>
+                                    <span class="device-label" data-i18n="name_label">Name</span>
+                                    <span id="deviceName" class="device-value" data-i18n="none">None</span>
                                 </div>
 
                                 <!-- Hidden technical info -->
@@ -131,15 +144,15 @@
                         <div class="connection-footer">
                             <div style="display:flex; gap:6px;">
                                 <button id="firmwareBtn" class="secondary small" style="flex:1;">
-                                    <span>🤖</span> Firmware
+                                    <span>🤖</span> <span data-i18n="firmware_btn">Firmware</span>
                                 </button>
                                 <a href="guide.html" class="secondary small" style="flex:1; text-decoration:none; text-align:center; display:inline-flex; align-items:center; justify-content:center; gap:4px;">
-                                    <span>📖</span> Guide
+                                    <span>📖</span> <span data-i18n="guide_btn">Guide</span>
                                 </a>
                             </div>
                             <div class="badge soft expert-only" style="margin-top:6px;">
                                 <span class="dot"></span>
-                                <span>Waiting for messages…</span>
+                                <span data-i18n="waiting_msg">Waiting for messages…</span>
                             </div>
                         </div>
                     </div>
@@ -154,10 +167,10 @@
                         <div>
                             <div class="card-title">
                                 <span class="icon">⚡</span>
-                                Activity
+                                <span data-i18n="activity_title">Activity</span>
                             </div>
                         </div>
-                        <button id="clearActivityBtn" class="secondary small">Clear</button>
+                        <button id="clearActivityBtn" class="secondary small" data-i18n="clear">Clear</button>
                     </div>
                     <div id="activity" class="activity-feed" aria-live="polite"></div>
                 </div>
@@ -168,17 +181,17 @@
                         <div>
                             <div class="card-title">
                                 <span class="icon">📜</span>
-                                Message Log
+                                <span data-i18n="message_log">Message Log</span>
                             </div>
                             <div class="card-subtitle">
                                 Raw UART messages
                             </div>
                         </div>
                         <div class="log-controls">
-                            <button id="clearLogBtn" class="secondary small" aria-label="Clear log">Clear</button>
+                            <button id="clearLogBtn" class="secondary small" aria-label="Clear log" data-i18n="clear">Clear</button>
                             <button id="exportLogBtn" class="small" aria-label="Export log">
                                 <span class="btn-icon">⬇</span>
-                                Export
+                                <span data-i18n="export">Export</span>
                             </button>
                         </div>
                     </div>
@@ -206,7 +219,7 @@
                             data-page="controls"
                             style="flex:1;">
                             <span class="mode-icon">🎛️</span>
-                            Controls
+                            <span data-i18n="tab_controls">Controls</span>
                         </button>
                         <button
                             id="sensesTabBtn"
@@ -214,7 +227,7 @@
                             data-page="senses"
                             style="flex:1;">
                             <span class="mode-icon">👀</span>
-                            Sensors
+                            <span data-i18n="tab_sensors">Sensors</span>
                         </button>
                         <button
                             id="servosTabBtn"
@@ -222,7 +235,7 @@
                             data-page="servos"
                             style="flex:1;">
                             <span class="mode-icon">⚙️</span>
-                            Motors
+                            <span data-i18n="tab_motors">Motors</span>
                         </button>
                         <button
                             id="gamepadTabBtn"
@@ -230,7 +243,7 @@
                             data-page="gamepad"
                             style="flex:1;">
                             <span class="mode-icon">🎮</span>
-                            GamePad
+                            <span data-i18n="tab_gamepad">GamePad</span>
                         </button>
                         <button
                             id="graphTabBtn"
@@ -238,7 +251,7 @@
                             data-page="graph"
                             style="flex:1;">
                             <span class="mode-icon">📈</span>
-                            Graph
+                            <span data-i18n="tab_graph">Graph</span>
                         </button>
                         <button
                             id="board3dTabBtn"
@@ -246,7 +259,7 @@
                             data-page="board3d"
                             style="flex:1;">
                             <span class="mode-icon">🎲</span>
-                            3D
+                            <span data-i18n="tab_3d">3D</span>
                         </button>
                         <button
                             id="benchTabBtn"
@@ -254,7 +267,7 @@
                             data-page="bench"
                             style="flex:1;">
                             <span class="mode-icon">🔧</span>
-                            Bench
+                            <span data-i18n="tab_bench">Bench</span>
                         </button>
                         <button
                             id="othersTabBtn"
@@ -262,7 +275,7 @@
                             data-page="others"
                             style="flex:1;">
                             <span class="mode-icon">✨</span>
-                            More
+                            <span data-i18n="tab_more">More</span>
                         </button>
                     </div>
                 </div>
@@ -275,7 +288,7 @@
                                 <div>
                                     <div class="card-title">
                                         <span class="icon">🎮</span>
-                                        Controls
+                                        <span data-i18n="controls_title">Controls</span>
                                     </div>
                                     <div class="card-subtitle expert-only">
                                         Send commands to your micro:bit
@@ -289,14 +302,14 @@
                                     <div class="section-header">
                                         <div class="section-title">
                                             <span class="section-icon">💬</span>
-                                            Show a message
+                                            <span data-i18n="show_message">Show a message</span>
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <input id="textInput" type="text" placeholder="Hello!" aria-label="Message to micro:bit">
                                         <button id="sendTextBtn" class="primary" aria-label="Send text">
                                             <span class="btn-icon">📨</span>
-                                            Send
+                                            <span data-i18n="send">Send</span>
                                         </button>
                                     </div>
                                 </div>
@@ -307,7 +320,7 @@
                                         <div>
                                             <div class="card-title">
                                                 <span class="icon">🎨</span>
-                                                Draw on LEDs
+                                                <span data-i18n="draw_leds">Draw on LEDs</span>
                                             </div>
                                         </div>
                                     </div>
@@ -322,7 +335,7 @@
                                                 </div>
                                             </div>
                                             <div id="ledMatrix" class="led-matrix" role="grid" aria-label="5 by 5 LED drawing board"></div>
-                                            <div class="drawing-mode-hint">Click and drag to draw!</div>
+                                            <div class="drawing-mode-hint" data-i18n="click_drag">Click and drag to draw!</div>
                                         </div>
 
 <div class="matrix-controls">
@@ -330,28 +343,28 @@
     <div class="button-row">
         <button id="sendLedPatternBtn" class="small primary" aria-label="Send LED pattern">
             <span class="btn-icon">📤</span>
-            Send
+            <span data-i18n="send">Send</span>
         </button>
         <button id="clearMatrixBtn" class="small secondary" aria-label="Clear LED matrix">
             <span class="btn-icon">🧽</span>
-            Clear
+            <span data-i18n="clear">Clear</span>
         </button>
     </div>
 
     <!-- Quick shapes -->
     <div class="matrix-groups">
         <div class="matrix-group">
-            <div class="matrix-group-label">Quick shapes</div>
+            <div class="matrix-group-label" data-i18n="quick_shapes">Quick shapes</div>
             <div class="button-row compact">
-                <button class="chip-btn small" data-preset="heart">❤️ Heart</button>
-                <button class="chip-btn small" data-preset="smile">😊 Smile</button>
-                <button class="chip-btn small" data-preset="tick">✔ Tick</button>
+                <button class="chip-btn small" data-preset="heart">❤️ <span data-i18n="heart">Heart</span></button>
+                <button class="chip-btn small" data-preset="smile">😊 <span data-i18n="smile">Smile</span></button>
+                <button class="chip-btn small" data-preset="tick">✔ <span data-i18n="tick">Tick</span></button>
             </div>
         </div>
 
         <!-- Show icons -->
         <div class="matrix-group">
-            <div class="matrix-group-label">Show icons</div>
+            <div class="matrix-group-label" data-i18n="show_icons">Show icons</div>
             <div class="button-row compact">
                 <button class="chip-btn small" data-cmd="HEART">❤️</button>
                 <button class="chip-btn small" data-cmd="SMILE">😊</button>
@@ -369,16 +382,16 @@
     <div class="section-header">
         <div class="section-title">
             <span class="section-icon">🎵</span>
-            Make sounds
+            <span data-i18n="make_sounds">Make sounds</span>
         </div>
     </div>
 
     <!-- Kid-friendly preset buttons -->
     <div class="button-row compact beginner-show">
-        <button class="chip-btn" id="buzzLow">🔈 Low beep</button>
-        <button class="chip-btn" id="buzzMid">🔉 Beep</button>
-        <button class="chip-btn" id="buzzHigh">🔊 High beep</button>
-        <button class="chip-btn" id="buzzMelody">🎶 Melody</button>
+        <button class="chip-btn" id="buzzLow">🔈 <span data-i18n="low_beep">Low beep</span></button>
+        <button class="chip-btn" id="buzzMid">🔉 <span data-i18n="beep">Beep</span></button>
+        <button class="chip-btn" id="buzzHigh">🔊 <span data-i18n="high_beep">High beep</span></button>
+        <button class="chip-btn" id="buzzMelody">🎶 <span data-i18n="melody">Melody</span></button>
     </div>
 
     <!-- Expert controls -->
@@ -397,8 +410,8 @@
     </div>
 
     <div class="button-row" style="margin-top:8px;">
-        <button id="buzzPlay" class="primary">▶ Play</button>
-        <button id="buzzStop" class="secondary">⏹ Stop</button>
+        <button id="buzzPlay" class="primary">▶ <span data-i18n="play">Play</span></button>
+        <button id="buzzStop" class="secondary">⏹ <span data-i18n="stop">Stop</span></button>
     </div>
 </div>
 
@@ -433,7 +446,7 @@
                                 <div>
                                     <div class="card-title">
                                         <span class="icon">👀</span>
-                                        Sensors
+                                        <span data-i18n="sensors_title">Sensors</span>
                                     </div>
                                     <div class="card-subtitle">
                                         See what your micro:bit senses!
@@ -445,11 +458,11 @@
                                 <!-- Temperature -->
                                 <div class="sensor-block">
                                     <div class="sensor-card big">
-                                        <div class="sensor-label">🌡️ Temperature</div>
+                                        <div class="sensor-label" data-i18n="sensor_temp">🌡️ Temperature</div>
                                         <div class="sensor-value">
                                             <span id="tempValue">–</span><span class="sensor-unit">°C</span>
                                         </div>
-                                        <div class="sensor-hint">Is it warm or cold?</div>
+                                        <div class="sensor-hint" data-i18n="hint_temp">Is it warm or cold?</div>
                                     </div>
                                     <div class="chart-container small expert-only">
                                         <canvas id="tempChart"></canvas>
@@ -459,11 +472,11 @@
                                 <!-- Light -->
                                 <div class="sensor-block">
                                     <div class="sensor-card big">
-                                        <div class="sensor-label">💡 Light</div>
+                                        <div class="sensor-label" data-i18n="sensor_light">💡 Light</div>
                                         <div class="sensor-value">
                                             <span id="lightValue">–</span>
                                         </div>
-                                        <div class="sensor-hint">Bright or dark?</div>
+                                        <div class="sensor-hint" data-i18n="hint_light">Bright or dark?</div>
                                     </div>
                                     <div class="chart-container small expert-only">
                                         <canvas id="lightChart"></canvas>
@@ -473,11 +486,11 @@
                                 <!-- Sound -->
                                 <div class="sensor-block">
                                     <div class="sensor-card big">
-                                        <div class="sensor-label">🔊 Sound</div>
+                                        <div class="sensor-label" data-i18n="sensor_sound">🔊 Sound</div>
                                         <div class="sensor-value">
                                             <span id="soundValue">–</span>
                                         </div>
-                                        <div class="sensor-hint">Clap or talk!</div>
+                                        <div class="sensor-hint" data-i18n="hint_sound">Clap or talk!</div>
                                     </div>
                                     <div class="chart-container small expert-only">
                                         <canvas id="soundChart"></canvas>
@@ -487,11 +500,11 @@
                                 <!-- Motion / Tilt (simplified for kids) -->
                                 <div class="sensor-block">
                                     <div class="sensor-card big">
-                                        <div class="sensor-label">📱 Tilt & Shake</div>
+                                        <div class="sensor-label" data-i18n="sensor_tilt">📱 Tilt & Shake</div>
                                         <div class="sensor-value">
                                             <span id="motionValue">–</span>
                                         </div>
-                                        <div class="sensor-hint">Move your micro:bit!</div>
+                                        <div class="sensor-hint" data-i18n="hint_tilt">Move your micro:bit!</div>
                                     </div>
                                     <div class="chart-container small expert-only">
                                         <canvas id="motionChart"></canvas>
@@ -501,7 +514,7 @@
                                 <!-- Accel X (expert only) -->
                                 <div class="sensor-block expert-only">
                                     <div class="sensor-card">
-                                        <div class="sensor-label">Acceleration X</div>
+                                        <div class="sensor-label" data-i18n="sensor_accel_x">Acceleration X</div>
                                         <div class="sensor-value">
                                             <span id="accelXValue">–</span><span class="sensor-unit">mg</span>
                                         </div>
@@ -514,7 +527,7 @@
                                 <!-- Accel Y (expert only) -->
                                 <div class="sensor-block expert-only">
                                     <div class="sensor-card">
-                                        <div class="sensor-label">Acceleration Y</div>
+                                        <div class="sensor-label" data-i18n="sensor_accel_y">Acceleration Y</div>
                                         <div class="sensor-value">
                                             <span id="accelYValue">–</span><span class="sensor-unit">mg</span>
                                         </div>
@@ -527,7 +540,7 @@
                                 <!-- Accel Z (expert only) -->
                                 <div class="sensor-block expert-only">
                                     <div class="sensor-card">
-                                        <div class="sensor-label">Acceleration Z</div>
+                                        <div class="sensor-label" data-i18n="sensor_accel_z">Acceleration Z</div>
                                         <div class="sensor-value">
                                             <span id="accelZValue">–</span><span class="sensor-unit">mg</span>
                                         </div>
@@ -540,11 +553,11 @@
                                 <!-- Compass -->
                                 <div class="sensor-block">
                                     <div class="sensor-card">
-                                        <div class="sensor-label">🧭 Compass</div>
+                                        <div class="sensor-label" data-i18n="sensor_compass">🧭 Compass</div>
                                         <div class="sensor-value">
                                             <span id="compassHeadingValue">–</span><span class="sensor-unit">°</span>
                                         </div>
-                                        <div class="sensor-hint beginner-show">Which way is North?</div>
+                                        <div class="sensor-hint beginner-show" data-i18n="hint_compass">Which way is North?</div>
                                     </div>
                                     <div class="chart-container small chart-placeholder expert-only">
                                         <span class="chart-placeholder-text">No chart</span>
@@ -554,14 +567,14 @@
                                 <!-- Button A -->
                                 <div class="sensor-block">
                                     <div class="sensor-card big">
-                                        <div class="sensor-label">Button A</div>
+                                        <div class="sensor-label" data-i18n="sensor_btn_a">Button A</div>
                                         <div style="display:flex; gap:4px; margin-top:4px;">
                                             <div id="btnAState" class="pill big">
                                                 <div id="btnADot" class="pill-dot"></div>
                                                 <span id="btnAText" class="pill-text">Ready</span>
                                             </div>
                                         </div>
-                                        <div class="sensor-hint">Press the A button!</div>
+                                        <div class="sensor-hint" data-i18n="hint_btn_a">Press the A button!</div>
                                     </div>
                                     <div class="chart-container small">
                                         <canvas id="btnAChart"></canvas>
@@ -571,14 +584,14 @@
                                 <!-- Button B -->
                                 <div class="sensor-block">
                                     <div class="sensor-card big">
-                                        <div class="sensor-label">Button B</div>
+                                        <div class="sensor-label" data-i18n="sensor_btn_b">Button B</div>
                                         <div style="display:flex; gap:4px; margin-top:4px;">
                                             <div id="btnBState" class="pill big">
                                                 <div id="btnBDot" class="pill-dot"></div>
                                                 <span id="btnBText" class="pill-text">Ready</span>
                                             </div>
                                         </div>
-                                        <div class="sensor-hint">Press the B button!</div>
+                                        <div class="sensor-hint" data-i18n="hint_btn_b">Press the B button!</div>
                                     </div>
                                     <div class="chart-container small">
                                         <canvas id="btnBChart"></canvas>
@@ -588,14 +601,14 @@
                                 <!-- Touch P0 -->
                                 <div class="sensor-block">
                                     <div class="sensor-card big">
-                                        <div class="sensor-label">Touch P0</div>
+                                        <div class="sensor-label" data-i18n="sensor_touch_p0">Touch P0</div>
                                         <div style="display:flex; gap:4px; margin-top:4px;">
                                             <div id="touchP0State" class="pill big">
                                                 <div id="touchP0Dot" class="pill-dot"></div>
                                                 <span id="touchP0Text" class="pill-text">Ready</span>
                                             </div>
                                         </div>
-                                        <div class="sensor-hint">Touch pin P0</div>
+                                        <div class="sensor-hint" data-i18n="hint_touch_p0">Touch pin P0</div>
                                     </div>
                                     <div class="chart-container small">
                                         <canvas id="touchP0Chart"></canvas>
@@ -605,14 +618,14 @@
                                 <!-- Touch P1 -->
                                 <div class="sensor-block">
                                     <div class="sensor-card big">
-                                        <div class="sensor-label">Touch P1</div>
+                                        <div class="sensor-label" data-i18n="sensor_touch_p1">Touch P1</div>
                                         <div style="display:flex; gap:4px; margin-top:4px;">
                                             <div id="touchP1State" class="pill big">
                                                 <div id="touchP1Dot" class="pill-dot"></div>
                                                 <span id="touchP1Text" class="pill-text">Ready</span>
                                             </div>
                                         </div>
-                                        <div class="sensor-hint">Touch pin P1</div>
+                                        <div class="sensor-hint" data-i18n="hint_touch_p1">Touch pin P1</div>
                                     </div>
                                     <div class="chart-container small">
                                         <canvas id="touchP1Chart"></canvas>
@@ -622,14 +635,14 @@
                                 <!-- Touch P2 -->
                                 <div class="sensor-block">
                                     <div class="sensor-card big">
-                                        <div class="sensor-label">Touch P2</div>
+                                        <div class="sensor-label" data-i18n="sensor_touch_p2">Touch P2</div>
                                         <div style="display:flex; gap:4px; margin-top:4px;">
                                             <div id="touchP2State" class="pill big">
                                                 <div id="touchP2Dot" class="pill-dot"></div>
                                                 <span id="touchP2Text" class="pill-text">Ready</span>
                                             </div>
                                         </div>
-                                        <div class="sensor-hint">Touch pin P2</div>
+                                        <div class="sensor-hint" data-i18n="hint_touch_p2">Touch pin P2</div>
                                     </div>
                                     <div class="chart-container small">
                                         <canvas id="touchP2Chart"></canvas>
@@ -639,14 +652,14 @@
                                 <!-- Logo Touch -->
                                 <div class="sensor-block">
                                     <div class="sensor-card big">
-                                        <div class="sensor-label">Logo Touch</div>
+                                        <div class="sensor-label" data-i18n="sensor_logo">Logo Touch</div>
                                         <div style="display:flex; gap:4px; margin-top:4px;">
                                             <div id="logoState" class="pill big">
                                                 <div id="logoDot" class="pill-dot"></div>
                                                 <span id="logoText" class="pill-text">Ready</span>
                                             </div>
                                         </div>
-                                        <div class="sensor-hint">Touch the logo</div>
+                                        <div class="sensor-hint" data-i18n="hint_logo">Touch the logo</div>
                                     </div>
                                     <div class="chart-container small">
                                         <canvas id="logoChart"></canvas>
@@ -656,49 +669,49 @@
 
                             <!-- ⚙️ CALIBRATION SECTION -->
                             <div class="calibration-section">
-                                <div class="section-title"><span class="section-icon">⚙️</span> Calibration</div>
+                                <div class="section-title"><span class="section-icon">⚙️</span> <span data-i18n="calibration">Calibration</span></div>
                                 <div class="calibration-grid">
 
                                     <!-- 🧭 Compass Calibration -->
                                     <div class="cal-item">
-                                        <div class="cal-label">🧭 Compass</div>
-                                        <div class="cal-status" id="calCompassStatus">Not calibrated</div>
-                                        <button id="calCompassBtn" class="secondary small">Calibrate</button>
-                                        <div class="cal-hint">Tilt micro:bit to fill the LED screen</div>
+                                        <div class="cal-label" data-i18n="cal_compass">🧭 Compass</div>
+                                        <div class="cal-status" id="calCompassStatus" data-i18n="not_calibrated">Not calibrated</div>
+                                        <button id="calCompassBtn" class="secondary small" data-i18n="calibrate">Calibrate</button>
+                                        <div class="cal-hint" data-i18n="cal_compass_hint">Tilt micro:bit to fill the LED screen</div>
                                     </div>
 
                                     <!-- ⚖️ Accelerometer Zero -->
                                     <div class="cal-item">
-                                        <div class="cal-label">⚖️ Accel Zero</div>
-                                        <div class="cal-status" id="calAccelStatus">No offset</div>
+                                        <div class="cal-label" data-i18n="cal_accel">⚖️ Accel Zero</div>
+                                        <div class="cal-status" id="calAccelStatus" data-i18n="no_offset">No offset</div>
                                         <div class="cal-values" id="calAccelValues"></div>
                                         <div class="cal-row">
-                                            <button id="calAccelSetBtn" class="secondary small">Set Level</button>
-                                            <button id="calAccelResetBtn" class="secondary small">Reset</button>
+                                            <button id="calAccelSetBtn" class="secondary small" data-i18n="set_level">Set Level</button>
+                                            <button id="calAccelResetBtn" class="secondary small" data-i18n="reset">Reset</button>
                                         </div>
-                                        <div class="cal-hint">Place micro:bit flat, then click Set Level</div>
+                                        <div class="cal-hint" data-i18n="cal_accel_hint">Place micro:bit flat, then click Set Level</div>
                                     </div>
 
                                     <!-- 🔊 Sound Baseline -->
                                     <div class="cal-item">
-                                        <div class="cal-label">🔊 Sound Baseline</div>
-                                        <div class="cal-status" id="calSoundStatus">No baseline</div>
+                                        <div class="cal-label" data-i18n="cal_sound">🔊 Sound Baseline</div>
+                                        <div class="cal-status" id="calSoundStatus" data-i18n="no_baseline">No baseline</div>
                                         <div class="cal-row">
-                                            <button id="calSoundSetBtn" class="secondary small">Set Ambient</button>
-                                            <button id="calSoundResetBtn" class="secondary small">Reset</button>
+                                            <button id="calSoundSetBtn" class="secondary small" data-i18n="set_ambient">Set Ambient</button>
+                                            <button id="calSoundResetBtn" class="secondary small" data-i18n="reset">Reset</button>
                                         </div>
-                                        <div class="cal-hint">Quiet room → click Set Ambient</div>
+                                        <div class="cal-hint" data-i18n="cal_sound_hint">Quiet room → click Set Ambient</div>
                                     </div>
 
                                     <!-- 💡 Light Baseline -->
                                     <div class="cal-item">
-                                        <div class="cal-label">💡 Light Baseline</div>
-                                        <div class="cal-status" id="calLightStatus">No baseline</div>
+                                        <div class="cal-label" data-i18n="cal_light">💡 Light Baseline</div>
+                                        <div class="cal-status" id="calLightStatus" data-i18n="no_baseline">No baseline</div>
                                         <div class="cal-row">
-                                            <button id="calLightSetBtn" class="secondary small">Set Ambient</button>
-                                            <button id="calLightResetBtn" class="secondary small">Reset</button>
+                                            <button id="calLightSetBtn" class="secondary small" data-i18n="set_ambient">Set Ambient</button>
+                                            <button id="calLightResetBtn" class="secondary small" data-i18n="reset">Reset</button>
                                         </div>
-                                        <div class="cal-hint">Normal lighting → click Set Ambient</div>
+                                        <div class="cal-hint" data-i18n="cal_light_hint">Normal lighting → click Set Ambient</div>
                                     </div>
 
                                 </div>
@@ -714,7 +727,7 @@
                                 <div>
                                     <div class="card-title">
                                         <span class="icon">⚙️</span>
-                                        Motors
+                                        <span data-i18n="motors_title">Motors</span>
                                     </div>
                                     <div class="card-subtitle">
                                         Move servos left and right!
@@ -724,7 +737,7 @@
 
                             <div class="controls-grid">
                               <div class="control-section">
-                                <div class="section-title">🔵 Motor 1 <span class="expert-only">(P1)</span></div>
+                                <div class="section-title">🔵 <span data-i18n="servo1">Motor 1</span> <span class="expert-only">(P1)</span></div>
                                 
                                 <div class="servo-gauge" id="gauge1Container">
     <svg width="160" height="100" viewBox="0 0 160 100">
@@ -770,8 +783,8 @@
                                   <input id="servo1Number" type="number" min="0" max="180" value="90" style="width:72px;" aria-label="Motor 1 numeric angle" class="expert-only">
                                 </div>
                                 <div class="button-row">
-                                  <button id="servo1Send" class="primary" aria-label="Move motor 1">Move</button>
-                                  <button id="servo1Off" class="secondary" aria-label="Stop motor 1">Stop</button>
+                                  <button id="servo1Send" class="primary" aria-label="Move motor 1" data-i18n="move">Move</button>
+                                  <button id="servo1Off" class="secondary" aria-label="Stop motor 1" data-i18n="stop">Stop</button>
                                 </div>
                                 <div class="servo-trim expert-only">
                                     <label class="trim-label">🔧 Trim: <span id="servo1TrimVal">0°</span></label>
@@ -781,7 +794,7 @@
                               </div>
 
                               <div class="control-section">
-                                <div class="section-title">🟢 Motor 2 <span class="expert-only">(P2)</span></div>
+                                <div class="section-title">🟢 <span data-i18n="servo2">Motor 2</span> <span class="expert-only">(P2)</span></div>
                                 <div class="servo-gauge" id="gauge2Container">
     <svg width="160" height="100" viewBox="0 0 160 100">
         <defs>
@@ -826,8 +839,8 @@
                                   <input id="servo2Number" type="number" min="0" max="180" value="90" style="width:72px;" aria-label="Motor 2 numeric angle" class="expert-only">
                                 </div>
                                 <div class="button-row">
-                                  <button id="servo2Send" class="primary" aria-label="Move motor 2">Move</button>
-                                  <button id="servo2Off" class="secondary" aria-label="Stop motor 2">Stop</button>
+                                  <button id="servo2Send" class="primary" aria-label="Move motor 2" data-i18n="move">Move</button>
+                                  <button id="servo2Off" class="secondary" aria-label="Stop motor 2" data-i18n="stop">Stop</button>
                                 </div>
                                 <div class="servo-trim expert-only">
                                     <label class="trim-label">🔧 Trim: <span id="servo2TrimVal">0°</span></label>
@@ -845,7 +858,7 @@
                                 <div>
                                     <div class="card-title">
                                         <span class="icon">🎮</span>
-                                        GamePad
+                                        <span data-i18n="gamepad_title">GamePad</span>
                                     </div>
                                     <div class="card-subtitle">
                                         Control your robot or game!
@@ -877,7 +890,7 @@
         <button class="primary cmd-btn dpad-btn dpad-down" data-cmd="DOWN" aria-label="Move down">⬇</button>
 
         <!-- Fire button -->
-        <button class="primary cmd-btn fire-btn" data-cmd="FIRE" aria-label="Fire">🔥 Fire</button>
+        <button class="primary cmd-btn fire-btn" data-cmd="FIRE" aria-label="Fire">🔥 <span data-i18n="fire">Fire</span></button>
     </div>
 </div>
 
@@ -891,7 +904,7 @@
             <div>
                 <div class="card-title">
                     <span class="icon">📈</span>
-                    Live Graph
+                    <span data-i18n="graph_title">Live Graph</span>
                 </div>
                 <div class="card-subtitle">
                     Plot sensor data and custom values in real time.
@@ -904,11 +917,11 @@
             <div class="graph-row">
                 <label class="graph-label">Type</label>
                 <div class="graph-type-group">
-                    <button class="graph-type-btn active" data-type="line" title="Line">📈 Line</button>
-                    <button class="graph-type-btn" data-type="bar" title="Bar">📊 Bar</button>
-                    <button class="graph-type-btn" data-type="scatter" title="Scatter">🔘 Scatter</button>
-                    <button class="graph-type-btn" data-type="area" title="Area">📐 Area</button>
-                    <button class="graph-type-btn" data-type="realtime" title="Realtime">⚡ Realtime</button>
+                    <button class="graph-type-btn active" data-type="line" title="Line">📈 <span data-i18n="graph_line">Line</span></button>
+                    <button class="graph-type-btn" data-type="bar" title="Bar">📊 <span data-i18n="graph_bar">Bar</span></button>
+                    <button class="graph-type-btn" data-type="scatter" title="Scatter">🔘 <span data-i18n="graph_scatter">Scatter</span></button>
+                    <button class="graph-type-btn" data-type="area" title="Area">📐 <span data-i18n="graph_area">Area</span></button>
+                    <button class="graph-type-btn" data-type="realtime" title="Realtime">⚡ <span data-i18n="graph_realtime">Realtime</span></button>
                 </div>
             </div>
 
@@ -972,16 +985,16 @@
 
         <!-- Action Buttons -->
         <div class="graph-actions">
-            <button id="graphSimBtn" class="secondary">🎲 Simulate</button>
-            <button id="graphPauseBtn" class="secondary">⏸ Pause</button>
-            <button id="graphClearBtn" class="secondary">🗑 Clear</button>
-            <button id="graphFullscreenBtn" class="secondary">🔲 Fullscreen</button>
-            <button id="graphRecordBtn" class="secondary">⏺ Record</button>
-            <button id="graphRecordPlay" class="secondary">▶ Replay</button>
-            <button id="graphRecordExport" class="secondary">💾 Save Session</button>
-            <button id="graphAnnotateBtn" class="secondary">📝 Note</button>
-            <button id="graphExportPng" class="secondary">📷 PNG</button>
-            <button id="graphExportCsv" class="secondary">📄 CSV</button>
+            <button id="graphSimBtn" class="secondary">🎲 <span data-i18n="simulate">Simulate</span></button>
+            <button id="graphPauseBtn" class="secondary">⏸ <span data-i18n="pause">Pause</span></button>
+            <button id="graphClearBtn" class="secondary">🗑 <span data-i18n="clear">Clear</span></button>
+            <button id="graphFullscreenBtn" class="secondary">🔲 <span data-i18n="fullscreen">Fullscreen</span></button>
+            <button id="graphRecordBtn" class="secondary">⏺ <span data-i18n="record">Record</span></button>
+            <button id="graphRecordPlay" class="secondary">▶ <span data-i18n="replay">Replay</span></button>
+            <button id="graphRecordExport" class="secondary">💾 <span data-i18n="save_session">Save Session</span></button>
+            <button id="graphAnnotateBtn" class="secondary">📝 <span data-i18n="note">Note</span></button>
+            <button id="graphExportPng" class="secondary">📷 <span data-i18n="png">PNG</span></button>
+            <button id="graphExportCsv" class="secondary">📄 <span data-i18n="csv">CSV</span></button>
             <span class="graph-point-count" id="graphPointCount">0 pts</span>
         </div>
 
@@ -1021,9 +1034,9 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
             <div>
                 <div class="card-title">
                     <span class="icon">🎲</span>
-                    3D micro:bit
+                    <span data-i18n="board3d_title">3D micro:bit</span>
                 </div>
-                <div class="card-subtitle">
+                <div class="card-subtitle" data-i18n="board3d_subtitle">
                     Interactive 3D board — mirrors live sensor data
                 </div>
             </div>
@@ -1037,9 +1050,9 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                 <option value="balance">🎯 Balance Game</option>
                 <option value="weather">🌦️ Weather Station</option>
             </select>
-            <button id="board3dResetView" class="secondary small">🔄 Reset View</button>
-            <button id="board3dAutoRotate" class="secondary small">🔁 Auto Rotate</button>
-            <button id="board3dLiveSync" class="secondary small active">📡 Live Sync</button>
+            <button id="board3dResetView" class="secondary small">🔄 <span data-i18n="reset_view">Reset View</span></button>
+            <button id="board3dAutoRotate" class="secondary small">🔁 <span data-i18n="auto_rotate">Auto Rotate</span></button>
+            <button id="board3dLiveSync" class="secondary small active">📡 <span data-i18n="live_sync">Live Sync</span></button>
             <div class="board3d-info">
                 <span id="board3dAccelInfo" class="board3d-pill">Accel: –</span>
                 <span id="board3dTempInfo" class="board3d-pill">Temp: –</span>
@@ -1051,9 +1064,9 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
         </div>
 
         <div class="board3d-legend">
-            <span>🖱️ Drag to rotate</span>
-            <span>🔍 Scroll to zoom</span>
-            <span>📡 Live: LEDs, tilt, buttons, touch</span>
+            <span>🖱️ <span data-i18n="drag_rotate">Drag to rotate</span></span>
+            <span>🔍 <span data-i18n="scroll_zoom">Scroll to zoom</span></span>
+            <span>📡 <span data-i18n="live_info">Live: LEDs, tilt, buttons, touch</span></span>
         </div>
     </div>
 </div>
@@ -1065,9 +1078,9 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
             <div>
                 <div class="card-title">
                     <span class="icon">🪑</span>
-                    Bench
+                    <span data-i18n="bench_title">Bench</span>
                 </div>
-                <div class="card-subtitle">
+                <div class="card-subtitle" data-i18n="bench_subtitle">
                     Tools and experiments for testing micro:bit features.
                 </div>
             </div>
@@ -1086,7 +1099,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                 </div>
                 <div class="form-row">
                     <input id="benchInput" type="text" placeholder="Enter test command">
-                    <button id="benchSendBtn" class="primary">Run</button>
+                    <button id="benchSendBtn" class="primary" data-i18n="bench_send">Run</button>
                 </div>
                 <div class="hint">Use this area for experiments and debugging.</div>
             </div>
@@ -1097,7 +1110,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
   <div class="section-header">
     <div class="section-title">
       <span class="section-icon">📥</span>
-      Bench Response
+      <span data-i18n="bench_response">Bench Response</span>
     </div>
     <div class="section-subtitle">
       Output from the micro:bit will appear here.
@@ -1120,9 +1133,9 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
             <div>
                 <div class="card-title">
                     <span class="icon">✨</span>
-                    More
+                    <span data-i18n="more_title">More</span>
                 </div>
-                <div class="card-subtitle">
+                <div class="card-subtitle" data-i18n="more_subtitle">
                     Extra fun stuff!
                 </div>
             </div>
@@ -1135,7 +1148,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                 <summary class="section-header">
                     <div class="section-title">
                         <span class="section-icon">🎛️</span>
-                        Fun Controls
+                        <span data-i18n="fun_controls">Fun Controls</span>
                     </div>
                 </summary>
 
@@ -1143,15 +1156,15 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Button -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">🔘</span>Button</div>
+                            <div class="section-title"><span class="section-icon">🔘</span><span data-i18n="other_button">Button</span></div>
                         </div>
-                        <button id="otherButton" class="primary" style="width:100%;">Press me!</button>
+                        <button id="otherButton" class="primary" style="width:100%;" data-i18n="press_me">Press me!</button>
                     </div>
 
                     <!-- Switch -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">⏻</span>Switch</div>
+                            <div class="section-title"><span class="section-icon">⏻</span><span data-i18n="other_switch">Switch</span></div>
                         </div>
                         <div class="form-row" style="align-items:center;">
                             <label style="display:flex; align-items:center; gap:8px;">
@@ -1164,7 +1177,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Slider -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">🎚️</span>Slider</div>
+                            <div class="section-title"><span class="section-icon">🎚️</span><span data-i18n="other_slider">Slider</span></div>
                         </div>
                         <div class="form-row">
                             <input id="otherSlider" type="range" min="0" max="100" value="50" style="flex:1;">
@@ -1175,7 +1188,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Keypad (moved up for kids) -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">🔢</span>Keypad</div>
+                            <div class="section-title"><span class="section-icon">🔢</span><span data-i18n="other_keypad">Keypad</span></div>
                         </div>
                         <div id="otherKeypad"
                              style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;">
@@ -1197,7 +1210,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Joystick -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">🕹️</span>Joystick</div>
+                            <div class="section-title"><span class="section-icon">🕹️</span><span data-i18n="other_joystick">Joystick</span></div>
                         </div>
                         <div style="display:grid;grid-template-columns:repeat(3,40px);grid-template-rows:repeat(3,40px);gap:4px;justify-content:center;">
                             <div></div>
@@ -1215,7 +1228,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Text string (simplified) -->
                     <div class="control-section expert-only">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">📝</span>Text</div>
+                            <div class="section-title"><span class="section-icon">📝</span><span data-i18n="other_text">Text</span></div>
                         </div>
                         <div class="form-row">
                             <input id="otherTextInput" type="text" placeholder="Enter text">
@@ -1233,7 +1246,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                 <summary class="section-header">
                     <div class="section-title">
                         <span class="section-icon">💡</span>
-                        Indicators & Outputs
+                        <span data-i18n="indicators_outputs">Indicators & Outputs</span>
                     </div>
                     <div class="section-subtitle">
                         Visual feedback from the system.
@@ -1244,7 +1257,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- LED -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">💡</span>LED</div>
+                            <div class="section-title"><span class="section-icon">💡</span><span data-i18n="other_led">LED</span></div>
                         </div>
                         <div class="form-row" style="align-items:center; gap:10px;">
                             <div id="otherLed" style="width:18px;height:18px;border-radius:50%;background:#333;"></div>
@@ -1256,7 +1269,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Level -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">📊</span>Level</div>
+                            <div class="section-title"><span class="section-icon">📊</span><span data-i18n="other_level">Level</span></div>
                         </div>
                         <progress id="otherLevel" max="100" value="30" style="width:100%;"></progress>
                         <span id="otherLevelLabel" style="font-size:0.8rem;">30%</span>
@@ -1265,7 +1278,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Live graph -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">📈</span>Live Graph</div>
+                            <div class="section-title"><span class="section-icon">📈</span><span data-i18n="other_live_graph">Live Graph</span></div>
                         </div>
                         <div class="chart-container small">
                             <canvas id="otherLiveChart"></canvas>
@@ -1275,7 +1288,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Multi-series graph -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">📊</span>Multi-Graph</div>
+                            <div class="section-title"><span class="section-icon">📊</span><span data-i18n="other_multi_graph">Multi-Graph</span></div>
                         </div>
                         <div class="chart-container small">
                             <canvas id="otherMultiChart"></canvas>
@@ -1285,7 +1298,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Debug console -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">🧾</span>Debug Console</div>
+                            <div class="section-title"><span class="section-icon">🧾</span><span data-i18n="other_debug_console">Debug Console</span></div>
                         </div>
                         <div id="otherConsole"
                              style="height:120px;overflow:auto;border-radius:8px;border:1px solid var(--border-color,#555);padding:6px;font-family:var(--font-mono,monospace);font-size:0.7rem;background:rgba(0,0,0,0.4);">
@@ -1296,7 +1309,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Data capture -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">📄</span>Data Capture</div>
+                            <div class="section-title"><span class="section-icon">📄</span><span data-i18n="other_data_capture">Data Capture</span></div>
                         </div>
                         <div id="otherDataTable"
                              style="height:120px;overflow:auto;border-radius:8px;border:1px solid var(--border-color,#555);padding:6px;font-size:0.7rem;">
@@ -1312,7 +1325,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                 <summary class="section-header">
                     <div class="section-title">
                         <span class="section-icon">⏱️</span>
-                        Audio, Time & Random
+                        <span data-i18n="audio_time_random">Audio, Time & Random</span>
                     </div>
                     <div class="section-subtitle">
                         Buzzer, timers and random tests.
@@ -1323,7 +1336,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Buzzer -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">🎵</span>Buzzer</div>
+                            <div class="section-title"><span class="section-icon">🎵</span><span data-i18n="other_buzzer">Buzzer</span></div>
                         </div>
                         <div class="form-row">
                             <label style="width:90px;">Freq</label>
@@ -1341,7 +1354,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Timer / stopwatch -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">⏱️</span>Timer</div>
+                            <div class="section-title"><span class="section-icon">⏱️</span><span data-i18n="other_timer">Timer</span></div>
                         </div>
                         <div id="otherTimerDisplay"
                              style="font-family:var(--font-mono,monospace);font-size:1.1rem;margin-bottom:6px;">
@@ -1357,7 +1370,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Delayed action -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">⏲️</span>Delay Action</div>
+                            <div class="section-title"><span class="section-icon">⏲️</span><span data-i18n="other_delay_action">Delay Action</span></div>
                         </div>
                         <div class="form-row">
                             <input id="otherScheduleDelay" type="number" min="100" max="60000" value="1000"
@@ -1372,7 +1385,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Random generator -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">🎲</span>Random</div>
+                            <div class="section-title"><span class="section-icon">🎲</span><span data-i18n="other_random">Random</span></div>
                         </div>
                         <button id="otherRandomNumberBtn" class="primary" style="width:100%;">Generate random</button>
                         <div style="margin-top:6px;font-size:0.85rem;">
@@ -1387,7 +1400,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                 <summary class="section-header">
                     <div class="section-title">
                         <span class="section-icon">🧠</span>
-                        Advanced Controls & Presets
+                        <span data-i18n="advanced_controls">Advanced Controls & Presets</span>
                     </div>
                     <div class="section-subtitle">
                         Modes, ranges, presets and global actions.
@@ -1398,7 +1411,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Mode selector -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">📂</span>Mode</div>
+                            <div class="section-title"><span class="section-icon">📂</span><span data-i18n="other_mode">Mode</span></div>
                         </div>
                         <select id="otherModeSelect" style="width:100%;">
                             <option value="idle">Idle</option>
@@ -1411,7 +1424,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Numeric input -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">🔢</span>Numeric</div>
+                            <div class="section-title"><span class="section-icon">🔢</span><span data-i18n="other_numeric">Numeric</span></div>
                         </div>
                         <input id="otherNumberInput" type="number" min="0" max="1000" value="100" style="width:100%;">
                     </div>
@@ -1419,7 +1432,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Dual range -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">🏁</span>Range</div>
+                            <div class="section-title"><span class="section-icon">🏁</span><span data-i18n="other_range">Range</span></div>
                         </div>
                         <div class="form-row" style="flex-direction:column; gap:6px;">
                             <div class="form-row">
@@ -1440,7 +1453,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Color picker -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">🎨</span>Color</div>
+                            <div class="section-title"><span class="section-icon">🎨</span><span data-i18n="other_color">Color</span></div>
                         </div>
                         <div class="form-row" style="align-items:center; gap:8px;">
                             <input id="otherColorPicker" type="color" value="#ff0000"
@@ -1452,7 +1465,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Presets -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">💾</span>Presets</div>
+                            <div class="section-title"><span class="section-icon">💾</span><span data-i18n="other_presets">Presets</span></div>
                         </div>
                         <input id="otherPresetName" type="text" placeholder="Preset name"
                                style="width:100%;margin-bottom:6px;">
@@ -1469,7 +1482,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Global controls -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">🧹</span>Global</div>
+                            <div class="section-title"><span class="section-icon">🧹</span><span data-i18n="other_global">Global</span></div>
                         </div>
                         <button id="otherGlobalResetBtn" class="chip-btn" style="width:100%;margin-bottom:4px;">Reset
                             controls
@@ -1480,7 +1493,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Theme -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">🎭</span>Theme</div>
+                            <div class="section-title"><span class="section-icon">🎭</span><span data-i18n="other_theme">Theme</span></div>
                         </div>
                         <select id="otherThemeSelect" style="width:100%;">
                             <option value="system">System default</option>
@@ -1497,7 +1510,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                 <summary class="section-header">
                     <div class="section-title">
                         <span class="section-icon">🧪</span>
-                        Simulators & Hardware
+                        <span data-i18n="simulators_hardware">Simulators & Hardware</span>
                     </div>
                     <div class="section-subtitle">
                         LED matrix, sensors, pins, servo, keypad…
@@ -1508,7 +1521,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- XY Pad -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">📐</span>XY Pad</div>
+                            <div class="section-title"><span class="section-icon">📐</span><span data-i18n="other_xy_pad">XY Pad</span></div>
                         </div>
                         <div id="otherXYPad"
                              style="position:relative;width:100%;padding-top:100%;border-radius:8px;border:1px dashed var(--border-color,#555);background:rgba(255,255,255,0.03);cursor:crosshair;">
@@ -1524,7 +1537,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- LED matrix -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">🔲</span>LED Matrix</div>
+                            <div class="section-title"><span class="section-icon">🔲</span><span data-i18n="other_led_matrix">LED Matrix</span></div>
                         </div>
                         <div id="otherLedMatrix"
                              style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;max-width:140px;">
@@ -1561,7 +1574,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Sensor simulator -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">🌡️</span>Sensors</div>
+                            <div class="section-title"><span class="section-icon">🌡️</span><span data-i18n="other_sensors">Sensors</span></div>
                         </div>
                         <div class="form-row">
                             <span style="width:80px;font-size:0.75rem;">Temp</span>
@@ -1583,7 +1596,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Pin control -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">🔌</span>Pins</div>
+                            <div class="section-title"><span class="section-icon">🔌</span><span data-i18n="other_pins">Pins</span></div>
                         </div>
                         <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;font-size:0.75rem;">
                             <label><input id="otherPinD0" type="checkbox"> P0</label>
@@ -1602,7 +1615,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Servo -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">⚙️</span>Servo</div>
+                            <div class="section-title"><span class="section-icon">⚙️</span><span data-i18n="other_servo">Servo</span></div>
                         </div>
                         <div class="form-row">
                             <label style="width:60px;font-size:0.75rem;">Angle</label>
@@ -1621,7 +1634,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- RGB strip -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">💡</span>RGB Strip</div>
+                            <div class="section-title"><span class="section-icon">💡</span><span data-i18n="other_rgb_strip">RGB Strip</span></div>
                         </div>
                         <div id="otherStrip"
                              style="display:flex;gap:4px;flex-wrap:wrap;">
@@ -1640,7 +1653,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- Keypad -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">🔢</span>Keypad</div>
+                            <div class="section-title"><span class="section-icon">🔢</span><span data-i18n="other_keypad_sim">Keypad</span></div>
                         </div>
                         <div id="otherKeypad"
                              style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;">
@@ -1662,7 +1675,7 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
                     <!-- File I/O -->
                     <div class="control-section">
                         <div class="section-header">
-                            <div class="section-title"><span class="section-icon">📁</span>File I/O</div>
+                            <div class="section-title"><span class="section-icon">📁</span><span data-i18n="other_file_io">File I/O</span></div>
                         </div>
                         <input id="otherFileUpload" type="file" style="width:100%;margin-bottom:6px;">
                         <div id="otherFileUploadLabel" style="font-size:0.75rem;">No file loaded</div>
@@ -1676,8 +1689,8 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
     <!-- Response area (micro:bit output) -->
     <div class="control-section">
         <div class="section-header">
-            <div class="section-title"><span class="section-icon">📥</span>Response</div>
-            <div class="section-subtitle">Output from micro:bit.</div>
+            <div class="section-title"><span class="section-icon">📥</span><span data-i18n="other_response">Response</span></div>
+            <div class="section-subtitle" data-i18n="other_response_subtitle">Output from micro:bit.</div>
         </div>
         <div id="otherResponse" class="bench-response"></div>
     </div>
@@ -1693,20 +1706,20 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
 <!-- Firmware Code Overlay -->
 <div id="firmwareOverlay" class="overlay">
     <div class="overlay-card" style="max-width:800px; width:95vw;">
-        <div class="overlay-title">🤖 micro:bit Firmware</div>
-        <div style="margin-bottom:12px; font-size:0.85rem; opacity:0.8;">
+        <div class="overlay-title" data-i18n="fw_title">🤖 micro:bit Firmware</div>
+        <div style="margin-bottom:12px; font-size:0.85rem; opacity:0.8;" data-i18n="fw_intro">
             Flash this code to your micro:bit V2 using MakeCode:
         </div>
         <ol style="font-size:0.8rem; margin-bottom:12px; padding-left:20px; opacity:0.8;">
-            <li>Click <strong>Copy Code</strong> below</li>
-            <li>Open <strong>MakeCode</strong> and switch to <strong>JavaScript</strong> mode</li>
-            <li>Select all (Ctrl+A) and paste (Ctrl+V)</li>
-            <li>Click <strong>Download</strong> and flash to your micro:bit</li>
+            <li data-i18n="fw_step1">Click Copy Code below</li>
+            <li data-i18n="fw_step2">Open MakeCode and switch to JavaScript mode</li>
+            <li data-i18n="fw_step3">Select all (Ctrl+A) and paste (Ctrl+V)</li>
+            <li data-i18n="fw_step4">Click Download and flash to your micro:bit</li>
         </ol>
         <div style="display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
-            <button id="firmwareCopyBtn" class="primary">Copy Code</button>
-            <a href="https://makecode.microbit.org/" target="_blank" rel="noopener" class="secondary" style="display:inline-flex; align-items:center; text-decoration:none; padding:8px 16px; border-radius:8px;">Open MakeCode</a>
-            <button id="firmwareCloseBtn" class="secondary">Close</button>
+            <button id="firmwareCopyBtn" class="primary" data-i18n="copy_code">Copy Code</button>
+            <a href="https://makecode.microbit.org/" target="_blank" rel="noopener" class="secondary" style="display:inline-flex; align-items:center; text-decoration:none; padding:8px 16px; border-radius:8px;" data-i18n="open_makecode">Open MakeCode</a>
+            <button id="firmwareCloseBtn" class="secondary" data-i18n="close">Close</button>
         </div>
         <div id="firmwareCodeWrap" style="max-height:60vh; overflow:auto; border-radius:8px; border:1px solid var(--card-border, #333); -webkit-overflow-scrolling:touch;">
             <pre id="firmwareCode" style="margin:0; padding:12px; font-size:0.7rem; line-height:1.4; white-space:pre; tab-size:4; font-family:var(--font-mono, monospace); background:rgba(0,0,0,0.3); overflow-x:auto;"></pre>
@@ -1718,30 +1731,30 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
 <!-- Keyboard Shortcuts Overlay (press K to toggle) -->
 <div id="shortcutsOverlay" class="overlay">
     <div class="overlay-card">
-        <div class="overlay-title">⌨️ Keyboard Shortcuts</div>
+        <div class="overlay-title" data-i18n="shortcuts_title">⌨️ Keyboard Shortcuts</div>
         <div class="shortcut-grid">
-            <div class="shortcut-row"><kbd>Space</kbd> <span>Connect / Disconnect</span></div>
-            <div class="shortcut-row"><kbd>1</kbd>–<kbd>8</kbd> <span>Switch tabs</span></div>
-            <div class="shortcut-row"><kbd>P</kbd> <span>Pause / Resume graph</span></div>
-            <div class="shortcut-row"><kbd>F</kbd> <span>Fullscreen graph</span></div>
-            <div class="shortcut-row"><kbd>K</kbd> <span>Toggle this help</span></div>
-            <div class="shortcut-row"><kbd>Esc</kbd> <span>Close overlays</span></div>
+            <div class="shortcut-row"><kbd>Space</kbd> <span data-i18n="shortcut_connect">Connect / Disconnect</span></div>
+            <div class="shortcut-row"><kbd>1</kbd>–<kbd>8</kbd> <span data-i18n="shortcut_tabs">Switch tabs</span></div>
+            <div class="shortcut-row"><kbd>P</kbd> <span data-i18n="shortcut_pause">Pause / Resume graph</span></div>
+            <div class="shortcut-row"><kbd>F</kbd> <span data-i18n="shortcut_fullscreen">Fullscreen graph</span></div>
+            <div class="shortcut-row"><kbd>K</kbd> <span data-i18n="shortcut_help">Toggle this help</span></div>
+            <div class="shortcut-row"><kbd>Esc</kbd> <span data-i18n="shortcut_close">Close overlays</span></div>
         </div>
-        <button class="secondary" onclick="this.closest('.overlay').classList.remove('visible')">Close</button>
+        <button class="secondary" onclick="this.closest('.overlay').classList.remove('visible')" data-i18n="close">Close</button>
     </div>
 </div>
 
 <!-- Onboarding Overlay (first visit) -->
 <div id="onboardingOverlay" class="overlay">
     <div class="overlay-card onboarding-card">
-        <div class="overlay-title">🚀 Welcome to micro:bit Playground!</div>
+        <div class="overlay-title" data-i18n="welcome">🚀 Welcome to micro:bit Playground!</div>
         <div class="onboarding-steps">
-            <div class="ob-step"><span class="ob-num">1</span> Turn on your micro:bit V2</div>
-            <div class="ob-step"><span class="ob-num">2</span> Click <strong>Connect</strong> and pick your device</div>
-            <div class="ob-step"><span class="ob-num">3</span> Explore tabs: Controls, Sensors, Motors, GamePad, Graph</div>
-            <div class="ob-step"><span class="ob-num">4</span> Press <kbd>K</kbd> anytime for keyboard shortcuts</div>
+            <div class="ob-step"><span class="ob-num">1</span> <span data-i18n="ob_step1">Turn on your micro:bit V2</span></div>
+            <div class="ob-step"><span class="ob-num">2</span> <span data-i18n="ob_step2">Click Connect and pick your device</span></div>
+            <div class="ob-step"><span class="ob-num">3</span> <span data-i18n="ob_step3">Explore tabs: Controls, Sensors, Motors, GamePad, Graph</span></div>
+            <div class="ob-step"><span class="ob-num">4</span> <span data-i18n="ob_step4">Press K anytime for keyboard shortcuts</span></div>
         </div>
-        <button class="primary" id="onboardingDismiss">Let's Go! 🎮</button>
+        <button class="primary" id="onboardingDismiss" data-i18n="lets_go">Let's Go! 🎮</button>
     </div>
 </div>
 

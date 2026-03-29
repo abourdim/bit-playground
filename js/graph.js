@@ -294,7 +294,7 @@
     if (pauseBtn) {
         pauseBtn.addEventListener('click', () => {
             paused = !paused;
-            pauseBtn.textContent = paused ? '▶ Resume' : '⏸ Pause';
+            pauseBtn.textContent = paused ? '▶ ' + t('resume') : '⏸ ' + t('pause');
             pauseBtn.classList.toggle('active', paused);
         });
     }
@@ -367,7 +367,7 @@
             if (typeof sendLine === 'function') {
                 sendLine(cmd);
             }
-            simBtn.textContent = simulating ? '🎲 Stop Sim' : '🎲 Simulate';
+            simBtn.textContent = simulating ? '🎲 ' + t('stop_sim') : '🎲 ' + t('simulate');
             simBtn.classList.toggle('active', simulating);
         });
     }
@@ -419,13 +419,13 @@
             isRecording = !isRecording;
             if (isRecording) {
                 recordedData = [];
-                recBtn.textContent = '⏹ Stop Rec';
+                recBtn.textContent = '⏹ ' + t('stop_rec');
                 recBtn.classList.add('active');
-                if (typeof showToast === 'function') showToast('Recording started', 'info');
+                if (typeof showToast === 'function') showToast(t('toast_recording'), 'info');
             } else {
-                recBtn.textContent = '⏺ Record';
+                recBtn.textContent = '⏺ ' + t('record');
                 recBtn.classList.remove('active');
-                if (typeof showToast === 'function') showToast('Recording stopped (' + recordedData.length + ' points)', 'success');
+                if (typeof showToast === 'function') showToast(t('toast_rec_stop') + ' (' + recordedData.length + ')', 'success');
             }
         });
     }
@@ -444,7 +444,7 @@
     if (recExportBtn) {
         recExportBtn.addEventListener('click', () => {
             if (recordedData.length === 0) {
-                if (typeof showToast === 'function') showToast('No recorded data', 'warning');
+                if (typeof showToast === 'function') showToast(t('toast_no_data'), 'warning');
                 return;
             }
             const blob = new Blob([JSON.stringify(recordedData, null, 2)], { type: 'application/json' });
@@ -461,10 +461,10 @@
     if (recPlayBtn) {
         recPlayBtn.addEventListener('click', () => {
             if (recordedData.length === 0) {
-                if (typeof showToast === 'function') showToast('No recorded data to replay', 'warning');
+                if (typeof showToast === 'function') showToast(t('toast_no_data'), 'warning');
                 return;
             }
-            if (typeof showToast === 'function') showToast('Replaying ' + recordedData.length + ' points...', 'info');
+            if (typeof showToast === 'function') showToast(t('toast_replaying') + '...', 'info');
             // Clear current
             timeLabels.length = 0;
             Object.values(datasets).forEach(d => { d.data.length = 0; });
@@ -487,7 +487,7 @@
 
     if (annotateBtn) {
         annotateBtn.addEventListener('click', () => {
-            const text = prompt('Add note at current time:');
+            const text = prompt(t('add_note_prompt'));
             if (!text) return;
             const now = ((Date.now() - startTime) / 1000).toFixed(1);
             annotations.push({ time: now, text });
@@ -515,7 +515,7 @@
                 };
                 chart.update('none');
             }
-            if (typeof showToast === 'function') showToast('Note added: ' + text, 'info');
+            if (typeof showToast === 'function') showToast(t('toast_note_added') + ': ' + text, 'info');
         });
     }
 
