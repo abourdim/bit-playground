@@ -531,17 +531,22 @@
     function restoreCheckboxState() {
         try {
             const saved = localStorage.getItem('mb_graph_sensors');
-            if (!saved) return;
-            const state = JSON.parse(saved);
-            document.querySelectorAll('.graph-toggle input[data-sensor]').forEach(chk => {
-                const key = chk.dataset.sensor;
-                if (key in state) {
-                    chk.checked = state[key];
-                    if (state[key]) {
-                        const label = chk.parentElement.textContent.trim();
-                        ensureDataset(key, label, SENSOR_COLORS[key]);
-                        datasets[key].active = true;
+            if (saved) {
+                const state = JSON.parse(saved);
+                document.querySelectorAll('.graph-toggle input[data-sensor]').forEach(chk => {
+                    const key = chk.dataset.sensor;
+                    if (key in state) {
+                        chk.checked = state[key];
                     }
+                });
+            }
+            // Initialize datasets for all currently checked sensors
+            document.querySelectorAll('.graph-toggle input[data-sensor]').forEach(chk => {
+                if (chk.checked) {
+                    const key = chk.dataset.sensor;
+                    const label = chk.parentElement.textContent.trim();
+                    ensureDataset(key, label, SENSOR_COLORS[key]);
+                    datasets[key].active = true;
                 }
             });
             syncChartDatasets();
