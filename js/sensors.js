@@ -64,9 +64,28 @@ const MAX_POINTS = 50;
 
 // ------------ Charts ------------
 
+// Sparkline color + style per sensor
+var SPARKLINE_STYLES = {
+    tempChart:    { color: '#06b6d4', dash: [] },          // cyan, solid
+    lightChart:   { color: '#eab308', dash: [] },          // yellow, solid
+    soundChart:   { color: '#f59e0b', dash: [] },          // amber, solid
+    motionChart:  { color: '#ef4444', dash: [4, 2] },      // red, dashed
+    accelXChart:  { color: '#ef4444', dash: [] },          // red, solid
+    accelYChart:  { color: '#22c55e', dash: [] },          // green, solid
+    accelZChart:  { color: '#3b82f6', dash: [] },          // blue, solid
+    btnAChart:    { color: '#f97316', dash: [2, 2] },      // orange, dotted
+    btnBChart:    { color: '#0ea5e9', dash: [2, 2] },      // sky blue, dotted
+    touchP0Chart: { color: '#0ea5e9', dash: [] },          // sky blue, solid
+    touchP1Chart: { color: '#f97316', dash: [] },          // orange, solid
+    touchP2Chart: { color: '#14b8a6', dash: [] },          // teal, solid
+    logoChart:    { color: '#f59e0b', dash: [6, 3] }       // amber, long dash
+};
+
 function createChart(canvasId, label) {
     const canvas = $(canvasId);
     if (!canvas || typeof Chart === 'undefined') return null;
+
+    var style = SPARKLINE_STYLES[canvasId] || { color: '#22c55e', dash: [] };
 
     return new Chart(canvas, {
         type: 'line',
@@ -75,8 +94,13 @@ function createChart(canvasId, label) {
             datasets: [{
                 label,
                 data: [],
+                borderColor: style.color,
+                backgroundColor: style.color + '20',
+                borderWidth: 2,
+                borderDash: style.dash,
+                pointRadius: 0,
                 tension: 0.25,
-                fill: false
+                fill: true
             }]
         },
         options: {
