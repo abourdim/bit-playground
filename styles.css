@@ -3982,3 +3982,45 @@ kbd {
 [data-theme="blaze"] .board3d-select option {
     background: #f1f5f9;
 }
+
+/* ======== RTL (Arabic) Support ======== */
+html[dir="rtl"] body { text-align: right; }
+html[dir="rtl"] .header { direction: rtl; }
+html[dir="rtl"] .card-header { flex-direction: row-reverse; }
+html[dir="rtl"] .card-title { direction: rtl; }
+html[dir="rtl"] .card-subtitle { text-align: right; }
+html[dir="rtl"] .button-row { flex-direction: row-reverse; }
+html[dir="rtl"] .form-row { flex-direction: row-reverse; }
+html[dir="rtl"] .pill-group { flex-direction: row-reverse; }
+html[dir="rtl"] .device-row { flex-direction: row-reverse; }
+html[dir="rtl"] .hint ol { padding-left: 0; padding-right: 20px; }
+html[dir="rtl"] .hint { text-align: right; }
+html[dir="rtl"] .step-num { margin-right: 0; margin-left: 8px; }
+html[dir="rtl"] .icon, html[dir="rtl"] .mode-icon, html[dir="rtl"] .section-icon { margin-right: 0; margin-left: 6px; }
+html[dir="rtl"] .btn-icon { margin-right: 0; margin-left: 4px; }
+html[dir="rtl"] .status-dot, html[dir="rtl"] .dot, html[dir="rtl"] .chip-dot { margin-right: 0; margin-left: 6px; }
+html[dir="rtl"] .pill-dot { margin-right: 0; margin-left: 4px; }
+html[dir="rtl"] .tab-bar { direction: rtl; }
+html[dir="rtl"] .connection-grid { direction: rtl; }
+html[dir="rtl"] .controls-grid { direction: rtl; }
+html[dir="rtl"] .sensor-grid { direction: rtl; }
+html[dir="rtl"] .shortcut-grid { direction: rtl; text-align: right; }
+html[dir="rtl"] .shortcut-row { flex-direction: row-reverse; }
+html[dir="rtl"] kbd { margin-right: 0; margin-left: 8px; }
+html[dir="rtl"] .teacher-note, html[dir="rtl"] .warning { border-left: none; border-right: 4px solid; }
+html[dir="rtl"] .badge { direction: rtl; }
+html[dir="rtl"] .toast { direction: rtl; text-align: right; }
+html[dir="rtl"] .overlay-card { direction: rtl; text-align: right; }
+html[dir="rtl"] .onboarding-steps { text-align: right; }
+html[dir="rtl"] .ob-step { flex-direction: row-reverse; }
+html[dir="rtl"] .ob-num { margin-right: 0; margin-left: 12px; }
+html[dir="rtl"] select { direction: rtl; }
+html[dir="rtl"] input[type="text"], html[dir="rtl"] input[type="number"] { direction: rtl; text-align: right; }
+html[dir="rtl"] .section-header { flex-direction: row-reverse; text-align: right; }
+html[dir="rtl"] .section-subtitle { text-align: right; }
+html[dir="rtl"] .activity-feed { direction: rtl; text-align: right; }
+html[dir="rtl"] .log-line { direction: rtl; text-align: right; }
+html[dir="rtl"] .bench-response { direction: rtl; text-align: right; }
+html[dir="rtl"] .graph-toggle { direction: rtl; }
+html[dir="rtl"] .graph-toggle label { flex-direction: row-reverse; }
+html[dir="rtl"] .lang-picker { margin-left: 0; margin-right: auto; }
