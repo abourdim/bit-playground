@@ -50,7 +50,7 @@
     --accent: #00d4ff;
     --accent-soft: rgba(0, 212, 255, 0.15);
     --accent-strong: rgba(0, 212, 255, 0.7);
-    --accent2: #ff00ff;
+    --accent2: #0ea5e9;
     --danger: #ff3366;
     --muted: #8888bb;
     --text: #eeeeff;
@@ -60,9 +60,9 @@
     --pill-border: rgba(100, 100, 255, 0.4);
     --input-bg: rgba(18, 18, 42, 0.6);
     --glow1: rgba(0, 212, 255, 0.2);
-    --glow2: rgba(255, 0, 255, 0.15);
+    --glow2: rgba(14, 165, 233, 0.15);
     --body-glow1: rgba(0, 212, 255, 0.2);
-    --body-glow2: rgba(255, 0, 255, 0.15);
+    --body-glow2: rgba(14, 165, 233, 0.15);
     --btn-primary-bg: linear-gradient(135deg, #00d4ff, #0088ff);
     --btn-primary-text: #fff;
     --btn-primary-border: rgba(0, 212, 255, 0.8);
@@ -1380,18 +1380,15 @@ textarea:focus-visible {
   50%      { transform: scale(1.12) rotate(2deg); }
 }
 
-/* Titles rainbow shimmer */
+/* Titles green glow pulse */
 .app.kids-mode h1 {
-  animation: rainbowShimmer 5s infinite linear;
+  animation: greenGlowPulse 3s infinite ease-in-out;
 }
 
-@keyframes rainbowShimmer {
-  0%   { color: #f97316; }
-  20%  { color: #facc15; }
-  40%  { color: #22c55e; }
-  60%  { color: #3b82f6; }
-  80%  { color: #a855f7; }
-  100% { color: #f97316; }
+@keyframes greenGlowPulse {
+  0%   { color: #22c55e; text-shadow: 0 0 8px rgba(34, 197, 94, 0.4); }
+  50%  { color: #4ade80; text-shadow: 0 0 16px rgba(74, 222, 128, 0.6); }
+  100% { color: #22c55e; text-shadow: 0 0 8px rgba(34, 197, 94, 0.4); }
 }
 
 /* Chips sparkle */
@@ -1567,7 +1564,7 @@ textarea:focus-visible {
 
 /* AUDIO, TIME & RANDOM */
 .tool-group:nth-child(3) .control-section {
-    border-left: 4px solid #a855f7; /* purple */
+    border-left: 4px solid #f59e0b; /* amber */
 }
 
 /* ADVANCED CONTROLS */
@@ -1577,7 +1574,7 @@ textarea:focus-visible {
 
 /* SIMULATORS & HARDWARE */
 .tool-group:nth-child(5) .control-section {
-    border-left: 4px solid #ec4899; /* pink */
+    border-left: 4px solid #0ea5e9; /* sky blue */
 }
 /* ============================================
    BIG / COLORFUL expand arrows for <details>
@@ -1639,10 +1636,10 @@ textarea:focus-visible {
     text-shadow: 0 0 6px #ff9d00;
 }
 
-/* SIMULATORS — neon pink */
+/* SIMULATORS — neon cyan */
 .tool-group:nth-child(5) > summary::before {
-    color: #ff00aa;
-    text-shadow: 0 0 6px #ff00aa;
+    color: #0ea5e9;
+    text-shadow: 0 0 6px #0ea5e9;
 }
 /* ==============================================
    NEON CIRCULAR EXPAND ICONS FOR <details> 
@@ -1721,12 +1718,12 @@ textarea:focus-visible {
     box-shadow: 0 0 12px #ff9d00, 0 0 22px #ff9d0080;
 }
 
-/* SIMULATORS — Neon Pink */
+/* SIMULATORS — Neon Cyan */
 .tool-group:nth-child(5) > summary::before {
     content: "▶";
-    background: #ff00aa;
-    color: #30001d;
-    box-shadow: 0 0 12px #ff00aa, 0 0 22px #ff00aa80;
+    background: #0ea5e9;
+    color: #082f49;
+    box-shadow: 0 0 12px #0ea5e9, 0 0 22px #0ea5e980;
 }
 
 /* ============================================================
@@ -1827,7 +1824,7 @@ textarea:focus-visible {
    🎨 FUN & PLAYFUL STYLES - Making widgets exciting! 🎮
    ============================================================ */
 
-/* === 🌈 RAINBOW SLIDERS === */
+/* === STYLED SLIDERS === */
 input[type="range"] {
     -webkit-appearance: none;
     appearance: none;
@@ -1922,21 +1919,14 @@ input[type="range"]::-moz-range-thumb {
         #ef5350 100%);
 }
 
-/* Other slider - party colors */
+/* Other slider - blue-green gradient */
 #otherSlider {
-    background: linear-gradient(90deg, 
-        #ff6b6b 0%, 
-        #feca57 20%, 
-        #48dbfb 40%, 
-        #ff9ff3 60%, 
-        #54a0ff 80%, 
-        #5f27cd 100%);
-    animation: rainbow-slide 4s linear infinite;
-}
-
-@keyframes rainbow-slide {
-    0% { filter: hue-rotate(0deg); }
-    100% { filter: hue-rotate(360deg); }
+    background: linear-gradient(90deg,
+        #0ea5e9 0%,
+        #06b6d4 25%,
+        #14b8a6 50%,
+        #22c55e 75%,
+        #3b82f6 100%);
 }
 
 /* === ⚙️ PLAYFUL SERVO GAUGES === */
@@ -2254,7 +2244,7 @@ input[type="range"]::-moz-range-thumb {
     transform: scale(0.9) !important;
 }
 
-/* Keypad rainbow colors */
+/* Keypad colors */
 .other-keypad-btn[data-key="1"] {
     background: linear-gradient(145deg, #ff6b6b, #ee5a5a) !important;
     color: #fff !important;
@@ -2281,9 +2271,9 @@ input[type="range"]::-moz-range-thumb {
     box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
 }
 .other-keypad-btn[data-key="6"] {
-    background: linear-gradient(145deg, #f472b6, #ec4899) !important;
+    background: linear-gradient(145deg, #06b6d4, #0891b2) !important;
     color: #fff !important;
-    box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);
 }
 .other-keypad-btn[data-key="7"] {
     background: linear-gradient(145deg, #22d3ee, #06b6d4) !important;
@@ -2352,20 +2342,20 @@ input[type="range"]::-moz-range-thumb {
     font-size: 1.2rem;
     font-weight: 700;
     padding: 16px 24px;
-    background: linear-gradient(145deg, #ec4899, #db2777);
+    background: linear-gradient(145deg, #0ea5e9, #0369a1);
     border: none;
     border-radius: 16px;
-    box-shadow: 
-        0 6px 20px rgba(219, 39, 119, 0.4),
+    box-shadow:
+        0 6px 20px rgba(3, 105, 161, 0.4),
         inset 0 2px 4px rgba(255,255,255,0.2);
     transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 #otherButton:hover {
     transform: translateY(-4px) scale(1.05);
-    box-shadow: 
-        0 10px 30px rgba(219, 39, 119, 0.5),
-        0 0 40px rgba(236, 72, 153, 0.3);
+    box-shadow:
+        0 10px 30px rgba(3, 105, 161, 0.5),
+        0 0 40px rgba(14, 165, 233, 0.3);
 }
 
 #otherButton:active {
@@ -2748,7 +2738,7 @@ input[type="text"]::placeholder {
 }
 
 .theme-btn[data-theme="stealth"] { background: #0f0f23; }
-.theme-btn[data-theme="neon"]    { background: linear-gradient(135deg, #00d4ff, #ff00ff); }
+.theme-btn[data-theme="neon"]    { background: linear-gradient(135deg, #00d4ff, #0ea5e9); }
 .theme-btn[data-theme="arctic"]  { background: linear-gradient(135deg, #e8eef4, #2563eb); }
 .theme-btn[data-theme="blaze"]   { background: linear-gradient(135deg, #fef7f0, #ea580c); }
 
@@ -3606,11 +3596,11 @@ kbd {
 /* ==================== GRAPH EXTRA BUTTONS ==================== */
 
 #graphFullscreenBtn {
-    border-color: rgba(168, 85, 247, 0.5);
-    color: #a78bfa;
+    border-color: rgba(245, 158, 11, 0.5);
+    color: #fbbf24;
 }
-#graphFullscreenBtn:hover { background: rgba(168, 85, 247, 0.15); }
-#graphFullscreenBtn.active { background: rgba(168, 85, 247, 0.2); border-color: #a855f7; }
+#graphFullscreenBtn:hover { background: rgba(245, 158, 11, 0.15); }
+#graphFullscreenBtn.active { background: rgba(245, 158, 11, 0.2); border-color: #f59e0b; }
 
 #graphRecordBtn {
     border-color: rgba(239, 68, 68, 0.5);

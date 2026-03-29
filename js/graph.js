@@ -12,18 +12,18 @@
         accelY:  '#22c55e', // green
         accelZ:  '#3b82f6', // blue
         compass: '#f59e0b', // amber
-        sound:   '#a855f7', // purple
+        sound:   '#f59e0b', // amber
         light:   '#eab308', // yellow
         temp:    '#06b6d4', // cyan
-        touchP0: '#ec4899', // pink
+        touchP0: '#0ea5e9', // sky blue
         touchP1: '#f97316', // orange
         touchP2: '#14b8a6', // teal
     };
 
     // Rolling custom colors for GRAPH: protocol
     const CUSTOM_COLORS = [
-        '#8b5cf6', '#10b981', '#f43f5e', '#0ea5e9', '#d946ef',
-        '#84cc16', '#fb7185', '#38bdf8', '#a3e635', '#c084fc'
+        '#0ea5e9', '#10b981', '#ef4444', '#f59e0b', '#06b6d4',
+        '#84cc16', '#38bdf8', '#f97316', '#a3e635', '#0284c7'
     ];
     let customColorIdx = 0;
 

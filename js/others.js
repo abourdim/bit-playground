@@ -220,7 +220,7 @@
     stripLeds.forEach(led => {
         led.addEventListener('click', () => {
             const idx = parseInt(led.dataset.index, 10);
-            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffffff', '#000000'];
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff8800', '#00ffff', '#ffffff', '#000000'];
             const currentIdx = colors.indexOf(stripColors[idx]);
             const nextIdx = (currentIdx + 1) % colors.length;
             stripColors[idx] = colors[nextIdx];
