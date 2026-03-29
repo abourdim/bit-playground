@@ -153,6 +153,9 @@ html[dir="rtl"] .hint ol { padding-left: 0; padding-right: 20px; }
                                 <a href="guide.html" class="secondary small" style="flex:1; text-decoration:none; text-align:center; display:inline-flex; align-items:center; justify-content:center; gap:4px;">
                                     <span>📖</span> <span data-i18n="guide_btn">Guide</span>
                                 </a>
+                                <button id="clearCacheBtn" class="secondary small" style="flex:1;" data-i18n="clear_cache" title="Clear saved settings and reload">
+                                    🗑️ Reset
+                                </button>
                             </div>
                             <div class="badge soft expert-only" style="margin-top:6px;">
                                 <span class="dot"></span>
@@ -1763,6 +1766,22 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
 </div>
 
 <script>
+// Clear cache / reset button
+document.getElementById('clearCacheBtn')?.addEventListener('click', () => {
+    if (!confirm('Clear all saved settings and reload?')) return;
+    // Clear all app localStorage keys
+    ['mb_theme','mb_active_tab','mb_graph_sensors','mb_onboarded','mb_calibration',
+     'mb_servo1_trim','mb_servo2_trim','mb_board3d_model','mb_other_presets','mb_lang'
+    ].forEach(k => localStorage.removeItem(k));
+    // Unregister service workers and clear caches
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));
+    }
+    caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
+    // Reload
+    setTimeout(() => window.location.reload(true), 300);
+});
+
 // Firmware overlay
 (function() {
     const btn = document.getElementById('firmwareBtn');
