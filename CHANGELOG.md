@@ -4,7 +4,53 @@ All notable changes to the **micro:bit Playground** project.
 
 ---
 
-## V8.2 — Multi-Language, Boy-Friendly Palette & SVG Flags *(current)*
+## V1.0.2 — 2026-04-18 *(current)*
+
+Major upgrade to `guide.html` — from a prose-heavy document to an interactive, illustrated teaching resource.
+
+### 🎨 New visual helpers in `guide.html`
+- Architecture SVG — browser ↔ BLE ↔ micro:bit with payload labels.
+- Browser-compatibility grid — 6 colored ✅/❌ cards.
+- Firmware-flashing storyboard — 4-step SVG (MakeCode → hex → drag → X icon).
+- micro:bit V2 pin-out diagram — labeled SVG showing pins, LEDs, mic, buttons, servos, touch.
+- Connection state machine — Disconnected → Connecting → Connected with reconnect arrows.
+- Tab map — clickable grid of all 8 tabs, scrolls to each card.
+- Interactive LED playground — click cells to toggle, live `LM:…` hex readout, 6 presets.
+- Theme color swatches — 4 live-rendered theme cards.
+- Illustrated keyboard — rendered keyboard with active shortcut keys highlighted.
+
+### 🧰 Richer troubleshooting section
+- Decision tree — Q1 → Q4 branching guide.
+- Symptom picker — 12 collapsible `<details>` cards covering every common failure mode.
+- Icon gallery — 8 mini-LED illustrations of what each micro:bit display means.
+- Hard reset recipe — 3-step visual.
+- Structured "Still stuck?" help CTA template.
+
+### 🌍 Trilingual + RTL
+All new content in EN/FR/AR with RTL layout reflowing correctly for Arabic.
+
+---
+
+## V1.0.1 — 2026-04-18
+
+Added new license tier and groundwork for non-English distribution.
+
+- New `LICENSE` options covering personal, single-user and multi-teacher site use.
+- Arabic distribution materials aligned with the existing V8.2 AR + RTL UI (no code changes needed).
+
+---
+
+## V1.0 — 2026-04-18
+
+First packaged release.
+
+- Added `LICENSE` — single-user license (personal, classroom, and home-school use; no redistribution).
+- Added `SETUP.md` — 5-minute quick-start guide (separate from the developer README).
+- README: added a quick-start callout pointing to `SETUP.md`, and a License section at the end.
+
+---
+
+## V8.2 — Multi-Language, Boy-Friendly Palette & SVG Flags
 
 ### 🌍 Multi-Language Support (EN/FR/AR)
 - `js/lang.js`: Translation system with 367+ keys in 3 languages

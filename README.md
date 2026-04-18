@@ -7,6 +7,8 @@ Built for learning, teaching, hacking, and having fun — from beginners 🐣 to
 
 > Runs entirely in your browser. No install, no backend, no stress.
 
+> 🛒 **Just bought this on Etsy?** Open **[SETUP.md](SETUP.md)** for the 5-minute setup guide. The rest of this README is the full technical reference.
+
 ---
 
 ## ✨ Features at a Glance
@@ -601,3 +603,19 @@ All buttons feature fun, interactive styling:
 If you're smiling while using it — **mission accomplished** 😄
 
 Happy hacking! 🚀🎮🤖
+
+---
+
+## 📜 License
+
+Single-user license for personal, classroom, and home-school use. **Redistribution, resale, or re-uploading is not permitted.** See [LICENSE](LICENSE) for the full terms.
+
+Licensing tiers available:
+
+| Tier | Coverage | Where to buy |
+|------|----------|--------------|
+| Single User | One teacher / family / maker | Default Etsy listing |
+| School Site License | Up to 30 teachers at one school, unlimited students | Separate Etsy listing, or message the seller |
+| District / OEM | Multiple sites, custom terms | Contact the seller through your Etsy order |
+
+Third-party libraries used: Chart.js (MIT) and Three.js (MIT), loaded from public CDNs.
