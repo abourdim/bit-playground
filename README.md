@@ -45,12 +45,20 @@ Built for learning, teaching, hacking, and having fun — from beginners 🐣 to
 ├── styles.css         🎨 3900+ lines of themed styles & animations
 ├── manifest.json      📱 PWA manifest for install-to-homescreen
 ├── sw.js              📦 Service worker for offline caching
-├── logo.svg           🖼️ Animated project logo
 ├── makecode.ts        🤖 micro:bit firmware (TypeScript for MakeCode)
 ├── pxt.json           ⚙️ MakeCode project config
 ├── tests.html         🧪 Unit test suite
 ├── CHANGELOG.md       📋 Version history
 ├── README.md          📘 This file
+├── assets/
+│   └── logo.svg        🖼️ Animated project logo
+├── docs/
+│   ├── guide.html      📖 User guide (EN/FR/AR)
+│   ├── cheatsheet.html ⌨️ Keyboard shortcuts reference
+│   ├── faq.html        ❓ Buyer FAQ
+│   ├── start.html      🚀 First-run onboarding
+│   └── etsy-playbook.html 🛒 1-minute Etsy playbook
+├── etsy-package/       🔒 Seller-only (gitignored): printables + ZIP builder
 └── js/
     ├── core.js        🏗️ Event bus, DOM helpers, logging, toasts, keyboard shortcuts
     ├── ble.js         📡 Bluetooth connect/disconnect/reconnect, UART chunking

@@ -1,13 +1,11 @@
 # macOS
 .DS_Store
 
-# Seller-only — never commit to the public repo
-ETSY_LISTING.md
-ETSY_LISTING.html
-ETSY_PUBLISH_GUIDE.html
-LICENSE-SITE
-SITE_LICENSE_CERTIFICATE.html
+# Node / Playwright
+/node_modules/
 
 # Built artifacts (rebuilt from source on demand)
 /dist/
 *.zip
+etsy-package/BitPlayground-v*/
+etsy-package/output/
