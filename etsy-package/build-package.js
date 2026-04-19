@@ -19,7 +19,7 @@
 
 import { chromium } from '@playwright/test';
 import { execSync } from 'child_process';
-import { mkdirSync, existsSync, copyFileSync, readdirSync, statSync } from 'fs';
+import { mkdirSync, existsSync, copyFileSync, readdirSync, rmSync, statSync } from 'fs';
 import { resolve, join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -30,6 +30,7 @@ const PKG = resolve(__dirname);
 const OUT = resolve(PKG, 'output');
 const ZIP_DIR = resolve(PKG, `BitPlayground-${VERSION}`);
 
+if (existsSync(ZIP_DIR)) rmSync(ZIP_DIR, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
 mkdirSync(join(ZIP_DIR, 'printables'), { recursive: true });
 mkdirSync(join(ZIP_DIR, 'etsy-mockups'), { recursive: true });
@@ -160,6 +161,7 @@ async function main() {
 
   console.log('\n📦 Creating ZIP archive...\n');
   const zipPath = join(PKG, `BitPlayground-${VERSION}.zip`);
+  if (existsSync(zipPath)) rmSync(zipPath);
   let zipped = false;
   try { execSync(`cd "${PKG}" && zip -r "${zipPath}" "BitPlayground-${VERSION}/"`, { stdio: 'pipe' }); zipped = true; } catch {}
   if (!zipped) try { execSync(`cd "${PKG}" && ditto -c -k --keepParent "BitPlayground-${VERSION}" "${zipPath}"`, { stdio: 'pipe' }); zipped = true; } catch {}
