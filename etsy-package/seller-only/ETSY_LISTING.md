@@ -2,7 +2,9 @@
 
 ## Title (140 char max — pack it with searchable keywords)
 
-micro:bit V2 Playground — Bluetooth Web App + Illustrated Guide | 8 Tabs, 5 Robots, Live Graphs | STEM Classroom | Digital Download
+Bluetooth Web App for BBC micro:bit V2 + Illustrated Guide | 8 Tabs, 5 Robots, Live Graphs | STEM Classroom | Digital Download
+
+> Product name in your Etsy shop is **"micro:bit Playground"** — use the phrase **"for the BBC micro:bit V2"** everywhere else to stay within the Micro:bit Educational Foundation's trademark-use guidelines.
 
 ## Category
 
@@ -11,15 +13,17 @@ Digital Downloads → Educational Resources
 
 ## Tags (13 max — Etsy lets you use all 13, use them)
 
-micro:bit, microbit v2, STEM, coding kids, BBC microbit, bluetooth app, MakeCode, classroom resource, homeschool STEM, robotics, web bluetooth, edtech, sensor playground
+micro:bit, microbit v2, STEM, coding kids, BBC microbit, bluetooth app, MakeCode, classroom resource, homeschool STEM, robotics, web bluetooth, coding club, chromebook stem
+
+> Replaced the two weakest tags (`edtech` — corporate, not what teachers search; `sensor playground` — zero search volume) with `coding club` and `chromebook stem` (both strong long-tail teacher queries).
 
 ## Price suggestion (revised after V1.0.2 — illustrated guide justifies ~30% bump)
 
 - **$12.99** launch (was $9.99 — the interactive illustrated guide is worth the bump)
 - **$17.99** standard, after 5 reviews
 - **$29.99** with a printable Lesson Plan PDF bundle
-- **$149** School Site License (separate listing)
-- **$499+** district (3+ sites — quote via Etsy message)
+- **$199** School Site License (separate listing — was $149; TpT comparables are $200–$400 so $149 was leaving money on the table)
+- **Starting at $499** for districts (3+ sites — quote via Etsy message)
 
 ## Listing description
 
@@ -83,10 +87,10 @@ No. Apple does not allow Web Bluetooth in any iOS browser. Use a laptop, Chromeb
 Yes — single teacher, one school, unlimited students. For multi-teacher / district licenses, message me.
 
 **Q: Do you offer refunds?**
-Etsy doesn't allow refunds on instant digital downloads, so please read the requirements carefully before purchasing.
+Because this is an instant download, I can't offer refunds once the ZIP has been delivered — please double-check compatibility (Chrome or Edge, desktop, BBC micro:bit V2) before buying. If the product doesn't work as described on a supported browser, message me within 14 days and I'll make it right.
 
 **Q: Will it get updates?**
-Free bug-fix updates for 12 months — message me with your Etsy order number.
+Yes — free updates within the v1.x line (new features and bug fixes), plus guaranteed bug-fix updates for 12 months after your purchase. A future v2.x major version, if released, would be a separate listing with an upgrade discount for existing buyers. This wording now matches `LICENSE.txt` clause 4 exactly — keep them in sync when you revise either.
 
 ---
 
@@ -279,19 +283,19 @@ A weekly 5-minute "what you can build with micro:bit Playground" video, ending w
 
 ---
 
-## Second listing — School Site License ($149)
+## Second listing — School Site License ($199)
 
 **Why:** One site-license sale = 15 individual sales. Same files, different LICENSE. Zero extra work once the ZIP is built. Buyer file: `~/Desktop/microbit-playground-v1.0-site-license.zip` (already built).
 
 ### Title
 
 ```
-micro:bit V2 Playground — SCHOOL SITE LICENSE | Up to 30 Teachers, Unlimited Students | STEM Classroom App | Instant Digital Download
+School Site License for the BBC micro:bit V2 Bluetooth Web App | Up to 30 Teachers, Unlimited Students | STEM Classroom | Instant Digital Download
 ```
 
 ### Price
 
-- **$149** launch
+- **$199** launch
 - **$199** after 2 sales
 - **$499+** for multi-site / district — list as "Request a Quote" in the description, handle via Etsy messages
 
@@ -598,7 +602,7 @@ Offer **5 teachers** a free perpetual license + $50 Etsy credit in exchange for:
 >
 > **What I give you:**
 > - A free perpetual license for the full app (normally $17.99)
-> - A free School Site License for your school (normally $149)
+> - A free School Site License for your school (normally $199)
 > - $50 Etsy credit to spend however you want
 > - Early access to everything I ship for the next 12 months
 > - Your name on the shop page as a featured teacher
@@ -858,7 +862,7 @@ Everything you need for your first STEM workshop of the year. Available Aug 1 �
 
 [Full bundle contents...]
 
-🎁 This month only: 20-min Zoom onboarding call with the creator. $149 value, included free.
+🎁 This month only: 20-min Zoom onboarding call with the creator. $199 value, included free.
 
 Ships instantly. License covers one teacher / one family. Full terms in LICENSE.
 
