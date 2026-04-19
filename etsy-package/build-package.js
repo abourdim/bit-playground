@@ -135,16 +135,7 @@ async function main() {
     else console.log(`  ⚠️  missing: ${f}`);
   }
 
-  const docFiles = [
-    'docs/guide.html', 'docs/cheatsheet.html', 'docs/faq.html', 'docs/start.html',
-    'docs/GUIDE.md', 'docs/plan.md', 'docs/prompt.md',
-  ];
-  for (const f of docFiles) {
-    const src = join(ROOT, f);
-    if (existsSync(src)) { copyFileSync(src, join(ZIP_DIR, f)); console.log(`  ✓ ${f}`); }
-    else console.log(`  ⚠️  missing: ${f}`);
-  }
-
+  copyDir('docs');
   copyDir('assets');
   copyDir('js');
 
