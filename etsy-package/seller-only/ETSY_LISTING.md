@@ -73,7 +73,7 @@ micro:bit, microbit v2, STEM, coding kids, BBC microbit, bluetooth app, MakeCode
 >
 > 🔒 **No accounts. No sign-in. No data collected. Safe for students under 13 — COPPA-friendly by design.**
 >
-> 🧪 **Try it now** (Simulate mode, no micro:bit needed): `https://<your-github-pages-url>/` *(placeholder — fill in after deploying GitHub Pages)*
+> 🧪 **Try it now** (Simulate mode, no micro:bit needed): <https://abourdim.github.io/bit-playground/>
 >
 > ✨ **What you get** (instant download):
 > • A complete web app (HTML, CSS, JS) you run locally in Chrome or Edge

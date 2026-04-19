@@ -4,6 +4,25 @@ Things the build pipeline can't do for you. Review before hitting **Publish**
 on Etsy.
 
 > 🛒 **Etsy create-listing URL**: <https://www.etsy.com/your/shops/me/listing-editor/create>
+> 🧪 **Live demo**: <https://abourdim.github.io/bit-playground/>
+
+## 🚨 Launch-critical — only you can do these
+
+These are the three items flagged as "likely launch killers" in the review
+that require human hands. Don't hit Publish until they're done.
+
+- [ ] **Photograph a real micro:bit propped on a laptop running the app.**
+      Replace the current text-only hero (mockup 1) — hardware in the photo
+      is the single biggest Etsy thumbnail conversion factor for teacher-
+      product listings. Follow the staging note in ETSY_LISTING.md.
+- [ ] **Record the 60-second listing video** following
+      `seller-only/etsy-playbook.html` (EN). Export ≤100 MB, 1080p+,
+      upload as the listing video. Etsy algorithmically prefers listings
+      with videos by ~30%.
+- [ ] **Create the LAUNCH10 Etsy promo code** (Shop Manager → Marketing
+      → Sales & coupons → new code `LAUNCH10`, $7 discount off $12.99,
+      10 uses, expires 14 days). Paste the review-request template from
+      ETSY_LISTING.md to the first 10 buyers.
 
 ---
 
@@ -67,9 +86,9 @@ on Etsy.
 
 ## Extra improvements queued (see ETSY_LISTING.md for specs)
 
-- [ ] **Host a live demo on GitHub Pages** — app works in Simulate mode
-      without hardware. Put the URL into the description so browsers
-      can try before buying. Hugely friction-reducing.
+- [x] ~~Host a live demo on GitHub Pages~~ — done. Live at
+      <https://abourdim.github.io/bit-playground/>. Already in the
+      listing description.
 - [ ] **Record a 5-second demo GIF** (pairing + LED draw) — becomes
       listing image #3. Etsy mobile auto-plays GIFs in the image grid.
 - [ ] **Create the tripwire $5 Classroom Poster listing** after main

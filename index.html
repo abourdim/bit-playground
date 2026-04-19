@@ -72,11 +72,23 @@ html[dir="rtl"] .hint ol { padding-left: 0; padding-right: 20px; }
 <script>
 (function(){
   try {
-    if (localStorage.getItem('compatBannerDismissed') === '1') return;
     var ok = ('bluetooth' in navigator) && typeof navigator.bluetooth.requestDevice === 'function';
-    if (!ok) {
+    if (!ok && localStorage.getItem('compatBannerDismissed') !== '1') {
       var b = document.getElementById('compat-banner');
       if (b) b.style.display = 'flex';
+    }
+    // Chromebook positive signal — big trust win for school buyers.
+    var isCrOS = /CrOS/i.test(navigator.userAgent || '');
+    if (ok && isCrOS && localStorage.getItem('chromebookBadgeSeen') !== '1') {
+      setTimeout(function(){
+        var bar = document.createElement('div');
+        bar.style.cssText = 'position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:9998;background:linear-gradient(90deg,#22c55e,#16a34a);color:#020617;padding:12px 22px;border-radius:30px;font:600 0.9rem system-ui,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.35);cursor:pointer';
+        bar.innerHTML = '✅ <strong>Chromebook detected</strong> — you\'re good to go.';
+        bar.title = 'Click to dismiss';
+        bar.onclick = function(){ bar.remove(); try{localStorage.setItem('chromebookBadgeSeen','1');}catch{} };
+        document.body.appendChild(bar);
+        setTimeout(function(){ if (bar.isConnected) bar.style.opacity='0.35'; }, 5000);
+      }, 1200);
     }
   } catch(e) {}
 })();

@@ -16,7 +16,8 @@
   /* ===== MOCKUP 1: Hero (screenshot + compat badge) ===== */
   .m1 {
     background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #020617 100%);
-    padding: 80px 100px;
+    /* Side padding keeps hero content inside Etsy's 1500x1500 square crop. */
+    padding: 80px 300px;
   }
   .m1::before {
     content: ''; position: absolute; inset: 0;
@@ -33,8 +34,10 @@
   .m1 .copy .py { background: rgba(251,191,36,.14); color: #fbbf24; border: 2px solid rgba(251,191,36,.4); }
   .m1 .screenshot { position: relative; border-radius: 22px; overflow: hidden; border: 4px solid rgba(34,197,94,.35); box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 120px rgba(34,197,94,.15); }
   .m1 .screenshot img { display: block; width: 100%; height: auto; }
+  /* Etsy square-crops the first photo: ~250px lost on each side of 2000x1500.
+     Keep the badge inside the centered 1500x1500 safe zone. */
   .m1 .compat {
-    position: absolute; top: 50px; right: 60px; background: #fbbf24; color: #020617;
+    position: absolute; top: 50px; right: 310px; background: #fbbf24; color: #020617;
     padding: 18px 28px; border-radius: 14px; font-weight: 900; font-size: 22px;
     box-shadow: 0 10px 30px rgba(0,0,0,.5); transform: rotate(3deg);
     font-family: 'Righteous', sans-serif; letter-spacing: 1px;
