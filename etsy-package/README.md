@@ -1,9 +1,8 @@
-# etsy-package 🔒
+# etsy-package 🛒
 
-Seller-only assets + ZIP builder for the Etsy release of **micro:bit Playground**.
-
-Mirrors the `noor-cast/etsy-package/` pattern: everything commercial lives here,
-gitignored so it never leaks into the public repo.
+All Etsy-release assets for **micro:bit Playground**: the ZIP builder, the
+printables shipped to buyers, the Etsy listing mockups, and — inside
+[`seller-only/`](seller-only/) — the business playbook and site-license paperwork.
 
 ## Build the buyer ZIP
 
@@ -11,27 +10,38 @@ gitignored so it never leaks into the public repo.
 node etsy-package/build-package.js
 ```
 
-Produces `etsy-package/BitPlayground-v1.1.0.zip` containing the app source,
-docs, LICENSE, SETUP, README, CHANGELOG, printables, and Etsy listing
-mockups. Seller-only files (below) are **never** included in the ZIP.
+Produces `etsy-package/BitPlayground-v<version>.zip` with the app source,
+docs, LICENSE, SETUP, README, CHANGELOG, printables, and the 7 Etsy
+listing mockup PNGs. Anything in `seller-only/` is **never** included.
 
-## Files in this folder
+## Layout
 
-| File | Ships in ZIP? | Purpose |
-|------|---------------|---------|
-| `build-package.js`                | — (tool)      | ZIP builder script |
-| `LICENSE.txt`                     | ✅ buyer      | End-user license shipped to buyer |
-| `quickstart-card.html`            | ✅ printable  | A4 5-minute setup card |
-| `shortcuts-cheatsheet.html`       | ✅ printable  | A4 landscape keyboard shortcuts |
-| `classroom-poster.html`           | ✅ printable  | A3 classroom poster |
-| `lesson-plan-template.html`       | ✅ printable  | A4 editable lesson plan |
-| `sticker-sheet.html`              | ✅ printable  | A4 printable stickers |
-| `README-quickstart.html`          | ✅ printable  | A4 buyer welcome page |
-| `etsy-listing-mockups.html`       | — (source)    | Source for 7 Etsy listing images |
-| `ETSY_LISTING.md` / `.html`       | ❌ private    | Full business playbook |
-| `ETSY_PUBLISH_GUIDE.html`         | ❌ private    | 16-step launch checklist |
-| `LICENSE-SITE`                    | ❌ private    | School site-license legal text |
-| `SITE_LICENSE_CERTIFICATE.html`   | ❌ private    | Per-sale certificate template |
+```
+etsy-package/
+├── build-package.js           🛠  ZIP builder
+├── LICENSE.txt                ✅ End-user license (ships to buyer)
+├── README.md                  📘 This file
+│
+├── quickstart-card.html       ✅ A4  5-min setup card
+├── shortcuts-cheatsheet.html  ✅ A4L Keyboard shortcuts
+├── classroom-poster.html      ✅ A3  Classroom poster
+├── lesson-plan-template.html  ✅ A4  Editable lesson plan
+├── sticker-sheet.html         ✅ A4  Printable stickers
+├── README-quickstart.html     ✅ A4  Buyer welcome page
+├── etsy-listing-mockups.html  🖼  Source for 7 Etsy listing images
+│
+├── output/                    🔧 Rendered PNGs (rebuilt on demand)
+├── BitPlayground-v*/          📦 Build staging dir (rebuilt on demand)
+├── BitPlayground-v*.zip       📦 Final buyer ZIP
+│
+└── seller-only/               🔒 NOT shipped — business & legal
+    ├── ETSY_LISTING.md / .html        Listing copy, tags, pricing, scripts
+    ├── ETSY_PUBLISH_GUIDE.html        16-step launch checklist
+    ├── etsy-playbook.html (+fr/ar)    1-minute listing playbook
+    ├── ETSY-1MIN-PLAYBOOK.md          Markdown twin of the playbook
+    ├── LICENSE-SITE                   School site-license legal text
+    └── SITE_LICENSE_CERTIFICATE.html  Per-sale certificate template
+```
 
-The entire `etsy-package/` folder is gitignored — none of these files ever
-reach the public repo.
+The repo is private, but `seller-only/` makes it explicit which files
+would need to be withheld if the repo ever goes public again.
