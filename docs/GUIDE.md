@@ -261,7 +261,6 @@ Press **Esc**, or click the ⛶ icon again.
 - [cheatsheet.html](cheatsheet.html) — keyboard shortcuts, BLE states, themes
 - [faq.html](faq.html) — buyer FAQ
 - [start.html](start.html) — first-run onboarding
-- [etsy-playbook.html](etsy-playbook.html) — 1-minute listing demo
 - [../README.md](../README.md) — full technical reference
 - [../CHANGELOG.md](../CHANGELOG.md) — version history
 - [../SETUP.md](../SETUP.md) — 5-minute setup

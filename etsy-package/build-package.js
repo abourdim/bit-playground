@@ -116,8 +116,7 @@ async function main() {
 
   const docFiles = [
     'docs/guide.html', 'docs/cheatsheet.html', 'docs/faq.html', 'docs/start.html',
-    'docs/etsy-playbook.html', 'docs/etsy-playbook-fr.html', 'docs/etsy-playbook-ar.html',
-    'docs/GUIDE.md', 'docs/plan.md', 'docs/prompt.md', 'docs/ETSY-1MIN-PLAYBOOK.md',
+    'docs/GUIDE.md', 'docs/plan.md', 'docs/prompt.md',
   ];
   for (const f of docFiles) {
     const src = join(ROOT, f);

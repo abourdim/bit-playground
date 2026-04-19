@@ -56,9 +56,8 @@ Built for learning, teaching, hacking, and having fun — from beginners 🐣 to
 │   ├── guide.html      📖 User guide (EN/FR/AR)
 │   ├── cheatsheet.html ⌨️ Keyboard shortcuts reference
 │   ├── faq.html        ❓ Buyer FAQ
-│   ├── start.html      🚀 First-run onboarding
-│   └── etsy-playbook.html 🛒 1-minute Etsy playbook
-├── etsy-package/       🔒 Seller-only (gitignored): printables + ZIP builder
+│   └── start.html      🚀 First-run onboarding
+├── etsy-package/       🛒 All Etsy-related assets: printables, mockups, seller playbook, ZIP builder
 └── js/
     ├── core.js        🏗️ Event bus, DOM helpers, logging, toasts, keyboard shortcuts
     ├── ble.js         📡 Bluetooth connect/disconnect/reconnect, UART chunking
