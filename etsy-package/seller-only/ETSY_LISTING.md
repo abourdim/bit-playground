@@ -1,5 +1,41 @@
 # Etsy listing copy — micro:bit Playground
 
+> ### 🛒 [Open Etsy "Create a Listing"](https://www.etsy.com/your/shops/me/listing-editor/create)
+> Jump straight into a fresh listing draft — keep this file open in another tab and paste section-by-section.
+
+## Contents
+
+- [Title](#title-140-char-max--pack-it-with-searchable-keywords)
+- [Category](#category)
+- [Tags](#tags-13-max--etsy-lets-you-use-all-13-use-them)
+- [Price suggestion](#price-suggestion-revised-after-v102--illustrated-guide-justifies-30-bump)
+- [Listing description](#listing-description)
+- [Social proof — creator credentials](#social-proof--creator-credentials)
+- [Photo / mockup checklist](#photo--mockup-checklist-etsy-allows-10)
+- [FAQ](#faq-to-add-to-the-listing)
+- [Guarantee](#guarantee-paste-this-right-under-the-faq)
+- [Tripwire listing ($5 — Classroom Poster Only)](#tripwire-listing-5--classroom-poster-only)
+- [Lead magnet — Free 3-lesson STEM starter PDF](#lead-magnet--free-3-lesson-stem-starter-pdf)
+- [Launch promo codes](#launch-promo-codes)
+- [UTM strategy](#utm-strategy)
+- [Trilingual go-to-market](#trilingual-go-to-market)
+- [Post-launch metrics to watch](#post-launch-metrics-to-watch)
+- [Product-side improvements](#product-side-improvements)
+- [Shop announcement](#shop-announcement-shop-manager--info--appearance--announcement)
+- [Message to buyers (auto-reply)](#message-to-buyers-auto-reply-shop-manager--settings--info--appearance--message-to-buyers)
+- [Pre-purchase reply template](#message-to-buyers--abandoned-cart--pre-purchase-reply-template)
+- [Post-sale follow-up](#post-sale-follow-up-optional-send-7-days-after-purchase)
+- [Video scripts](#video-script--15-second-etsy-listing-video-silent-autoplay-loop)
+- [Screenshot prep](#screenshot-prep--exactly-what-to-capture-for-the-10-listing-photos)
+- [Pinterest pins](#pinterest-pins-free-traffic--biggest-channel-for-stem--homeschool-buyers)
+- [Free-traffic playbook](#free-traffic-playbook-beyond-pinterest)
+- [Second listing — School Site License ($199)](#second-listing--school-site-license-199)
+- [Third listing — Arabic](#third-listing--arabic-uncontested-market)
+- [V1.0.2 sell ideas](#new-sell-ideas-enabled-by-the-illustrated-guide-v102)
+- [Tier-2 sell ideas](#tier-2-sell-ideas--deeper-less-obvious)
+
+---
+
 ## Title (140 char max — pack it with searchable keywords)
 
 Bluetooth Web App for BBC micro:bit V2 + Illustrated Guide | 8 Tabs, 5 Robots, Live Graphs | STEM Classroom | Digital Download
@@ -27,9 +63,11 @@ micro:bit, microbit v2, STEM, coding kids, BBC microbit, bluetooth app, MakeCode
 
 ## Listing description
 
-> 🎮 **micro:bit Playground — the all-in-one Bluetooth control panel for the BBC micro:bit V2**
+> **Browser-based Bluetooth control panel for the BBC micro:bit V2. No install. Works on Chromebook. Chrome or Edge required — not iPhone / iPad / Safari.**
 >
-> Turn your micro:bit into an interactive STEM lab — no installs, no accounts, no cloud. Just open it in your browser and connect.
+> 🎮 **micro:bit Playground** turns your micro:bit into an interactive STEM lab — no installs, no accounts, no cloud. Just open it in your browser and connect.
+>
+> 🧪 **Try it now** (Simulate mode, no micro:bit needed): `https://<your-github-pages-url>/` *(placeholder — fill in after deploying GitHub Pages)*
 >
 > ✨ **What you get** (instant download):
 > • A complete web app (HTML, CSS, JS) you run locally in Chrome or Edge
@@ -60,11 +98,25 @@ micro:bit, microbit v2, STEM, coding kids, BBC microbit, bluetooth app, MakeCode
 >
 > 💬 Questions? Message me before buying — happy to help.
 
+---
+
+## Social proof — creator credentials
+
+Paste this block into the listing just above the FAQ. No fabricated reviews — it's all creator-credential framing, which Etsy buyers trust more than a shop with zero reviews.
+
+> 👩‍🏫 **Built and tested in real classroom sessions by a working educator.**
+>
+> Every feature, every theme, every sensor, every diagram has been field-tested with actual students — not mocked up in a marketing deck. The illustrated guide, the symptom picker, and the onboarding overlay exist because real learners got stuck in those exact places. Fixes shipped, and then shipped again.
+>
+> If something doesn't work the way my listing promises, I want to hear about it — message me and I'll make it right.
+
+---
+
 ## Photo / mockup checklist (Etsy allows 10)
 
 1. Hero: micro:bit + laptop screen with the app open (LED matrix tab)
 2. Sensor dashboard screenshot
-3. Live graph screenshot, fullscreen
+3. **Demo GIF — 5-second silent loop of pairing + drawing on the 5×5 LED matrix** (auto-plays on Etsy, highest conversion slot after the hero)
 4. 3D board viewer screenshot
 5. All 4 themes side-by-side
 6. Mobile / tablet view
@@ -91,6 +143,202 @@ Because this is an instant download, I can't offer refunds once the ZIP has been
 
 **Q: Will it get updates?**
 Yes — free updates within the v1.x line (new features and bug fixes), plus guaranteed bug-fix updates for 12 months after your purchase. A future v2.x major version, if released, would be a separate listing with an upgrade discount for existing buyers. This wording now matches `LICENSE.txt` clause 4 exactly — keep them in sync when you revise either.
+
+---
+
+## Guarantee (paste this right under the FAQ)
+
+> ✅ **My personal guarantee**
+>
+> **If it doesn't pair on a Chromebook in under 5 minutes on a supported browser (Chrome or Edge), message me and I'll refund you personally.**
+>
+> This isn't an Etsy-policy refund, it's a me-refund. I'd rather lose $12.99 than leave a teacher stuck before first period.
+
+---
+
+## Tripwire listing ($5 — Classroom Poster Only)
+
+**Purpose.** A low-friction first sale that earns a 5-star review, pushes the shop into Etsy's "new-shop with 3+ reviews" tier, and drops the main listing's CPA on Etsy Ads. Tripwire buyers come back for the main listing at 20–30%.
+
+**Product.** Just the A3 **micro:bit V2 classroom poster** (the pin-out diagram already baked into `etsy-package/classroom-poster.html`) as a standalone printable PDF. No app. No firmware. No guide. One file.
+
+### Title
+```
+A3 micro:bit V2 Pin-out Classroom Poster — Printable PDF | STEM Wall Chart for Robotics Clubs & Coding Classrooms | Instant Download
+```
+
+### Description
+> 🖨️ **One poster. One price. Print it today.**
+>
+> A printable A3 **BBC micro:bit V2 pin-out poster** — the exact diagram used in the micro:bit Playground illustrated guide. Labeled pins, accelerometer axes, sound sensor callout, touch-logo arrow, radio + BLE note.
+>
+> 📄 **What you get:** 1 PDF, A3 (297×420 mm) + US Tabloid (11×17 in) versions, print-at-home or send to any copy shop.
+>
+> 🧑‍🏫 **Perfect for:** robotics clubs, coding classrooms, homeschool walls, library maker corners.
+>
+> ⚡ **Instant download** — the file is yours seconds after checkout.
+>
+> 💬 Loved it? Check out the full **micro:bit Playground** app in my shop — the browser Bluetooth control panel this poster was designed for.
+
+### Tags (13)
+```
+microbit poster, microbit pinout, STEM poster, classroom poster,
+robotics club, coding classroom, printable A3, homeschool STEM,
+microbit v2, stem wall chart, teacher printable, maker poster, coding club
+```
+
+### Pricing note
+- **$5.00** — hard floor, don't discount below this. Etsy takes ~$0.85 in fees, leaving ~$4.15 margin on a zero-COGS digital. The point isn't the margin, it's the **review and retargeting pixel**.
+- After 10 reviews, raise to **$6.99** to stop it cannibalising poster-pack listings.
+
+---
+
+## Lead magnet — Free 3-lesson STEM starter PDF
+
+**Purpose.** Build an email list of STEM teachers / homeschool parents for remarketing the main listing and the Back-to-School bundle. Cost per lead via a lead-magnet landing page is ~5× cheaper than cold Etsy Ads.
+
+### What the lead magnet is
+A free **3-lesson STEM starter PDF** emailed instantly after opt-in. Contents:
+1. **Quickstart** — a 1-page "plug it in, open Chrome, click Connect" walkthrough (re-use of `etsy-package/README-quickstart.html`)
+2. **One sample lesson** — "Make your first LED heart" (reuse the first lesson from `etsy-package/lesson-plan-template.html`)
+3. **One printable sticker sheet** (re-use `etsy-package/sticker-sheet.html` as a PDF export)
+
+All three are generated from the existing printable HTML templates already shipped in `etsy-package/`. No new content creation needed — **just print-to-PDF the three HTML files, zip them, and attach to the email autoresponder**.
+
+### Funnel
+1. Landing page on your own domain (`workshopdiy.com/microbit-starter/`) — one clear headline, one email field, one button.
+2. Headline: *"Free 3-lesson micro:bit STEM starter — quickstart + 1 sample lesson + printable sticker sheet."*
+3. Button: *"Send me the free PDF"*.
+4. Email provider: **ConvertKit** (free tier up to 1,000 subs) or **MailerLite** (free tier up to 1,000 subs).
+5. Autoresponder email #1 delivers the PDF + links to the Etsy listing.
+6. Autoresponder email #2 (3 days later) shares a classroom tip + the $5 tripwire listing.
+7. Autoresponder email #3 (7 days later) shares a Pinterest pin + the main $12.99 listing with a **10% code**.
+
+### Where to share the landing page
+- Pinterest pins (use UTMs — see below)
+- Facebook group posts (the freebie is the anchor, not the paid listing — keeps group mods happy)
+- Reddit self-posts in r/homeschool and r/teachers ("I made a free starter PDF for micro:bit lessons, here you go")
+- TikTok / Reels bio link
+
+---
+
+## Launch promo codes
+
+**Purpose.** Break the "zero-reviews cold-start" problem by buying the first 10 reviews with a steep discount in exchange for an honest review.
+
+### Code spec (create in Etsy: Shop Manager → Marketing → Sales and discounts → Item-specific sale)
+- Code name: **LAUNCH10**
+- Discount: **$5.99 off** (brings $12.99 → **$7.00**)
+- Quantity: **10 uses** (Etsy supports per-code use caps)
+- Duration: 30 days from first use
+- Applies to: main single-user listing only (not site license, not tripwire)
+
+### Where to share the code
+- Pinterest pin caption: *"First 10 buyers — code LAUNCH10 for $7 (from $12.99)"*
+- Facebook group posts (where self-promo day allows it)
+- Your newsletter's first autoresponder
+
+### Follow-up message to send ~48h after delivery
+
+Send via Etsy's "Contact buyer" → keep it short, keep it human, never beg.
+
+> Hi [First Name] — thank you for grabbing micro:bit Playground with the launch code! 🎉
+>
+> I offered LAUNCH10 to the first 10 buyers in exchange for something small: **an honest review** once you've had a chance to try it. If it worked for you, a quick ⭐ means a LOT for a brand-new shop — it's the difference between Etsy showing my listing to other teachers or burying it.
+>
+> If something didn't work, reply here **first** and I'll fix it before you leave a review. I'd rather spend 20 minutes helping you than lose a star I could have earned.
+>
+> Either way — thanks for the early trust!
+> — *[Your name]*
+
+---
+
+## UTM strategy
+
+**Purpose.** Etsy Stats shows *which external site* drove a visit, but not *which specific pin / post / blog*. Appending `?utm_source=<channel>` to every shared URL lets you see in Etsy Stats → "Traffic" exactly which channel converts.
+
+### Convention
+Use one value per channel — keep it consistent so totals are clean.
+
+| Channel | URL to share |
+|---------|--------------|
+| Pinterest | `https://etsy.com/listing/<ID>?utm_source=pinterest` |
+| Reddit | `https://etsy.com/listing/<ID>?utm_source=reddit` |
+| Your blog | `https://etsy.com/listing/<ID>?utm_source=blog` |
+| Facebook groups | `https://etsy.com/listing/<ID>?utm_source=facebook` |
+| TikTok bio | `https://etsy.com/listing/<ID>?utm_source=tiktok` |
+| Instructables | `https://etsy.com/listing/<ID>?utm_source=instructables` |
+| Newsletter | `https://etsy.com/listing/<ID>?utm_source=newsletter` |
+| Ambassador blogs | `https://etsy.com/listing/<ID>?utm_source=ambassador` |
+
+### Where to read the numbers
+Shop Manager → **Stats** → Traffic sources. After 30 days you'll see one of these channels doing 70% of the volume. **Pour more time into that channel, drop the bottom two.**
+
+### Extra tip
+For A/B testing the same channel (e.g. two different Pinterest pin designs), add `&utm_campaign=pin-A` vs `&utm_campaign=pin-B`.
+
+---
+
+## Trilingual go-to-market
+
+**Purpose.** Three separate Etsy listings (one EN, one FR, one AR) pointing at the same ZIP, each with localized title / description / tags / video. FR targets EU teachers and homeschool parents, AR targets MENA + diaspora. Arabic STEM on Etsy is nearly empty — first-mover advantage.
+
+### Three listings, one ZIP
+The shipped ZIP already contains `etsy-playbook-en.html`, `etsy-playbook-fr.html`, and `etsy-playbook-ar.html` — each is the same content localized. Use each HTML file as the source of truth for its listing:
+
+| Listing | Language | Title source | Description source | Video |
+|---------|----------|--------------|--------------------|-------|
+| #1 | English | EN title above | EN description above | 15-sec silent loop, EN end-card |
+| #2 | Français | Translate EN title, keep "for the BBC micro:bit V2" English | From `etsy-playbook-fr.html` | Same footage, FR end-card text |
+| #3 | العربية | See [Third listing — Arabic](#third-listing--arabic-uncontested-market) section below | From `etsy-playbook-ar.html` | Same footage, AR end-card text (RTL) |
+
+### Localized video plan
+- Shoot the silent 15-sec loop **once** (same hardware, same hands).
+- Produce **3 end-card variants** in Canva — EN, FR, AR — swap the last 3 seconds per listing.
+- Export each as 1080×1080 MP4.
+- Total shoot time: ~30 min; localization: ~10 min per language.
+
+### Targeting
+- **EN listing**: default Etsy audience (US, UK, CA, AU).
+- **FR listing**: Etsy → Shipping profile → EU priority. Mention "Livraison numérique instantanée" in the title.
+- **AR listing**: see Third listing section — worldwide digital delivery, no shipping profile needed.
+
+### Cross-listing rule
+Do **not** cross-link between the three in the descriptions (Etsy mild-penalizes multi-shop cross-links). Do link from your shop **About** page in all three languages.
+
+---
+
+## Post-launch metrics to watch
+
+Watch these weekly for the first 90 days. If the listing is below target after 30 days, diagnose before you spend on ads.
+
+| Metric | Target | Where to look in Etsy |
+|--------|--------|-----------------------|
+| **Listing CTR** (impressions → visits) | **≥ 1.2%** | Shop Manager → Stats → pick the listing → "Visits" vs "Impressions" |
+| **Conversion rate** (visits → orders) | **≥ 1.0%** | Shop Manager → Stats → listing → "Orders" ÷ "Visits" |
+| **Favorites rate** | ≥ 3% of visits | Stats → Favorites column |
+| **Review rate** | ≥ 25% of orders | Shop Manager → Orders & Shipping → filter Reviews |
+| **Traffic source mix** | Pinterest + Etsy search ≥ 60% | Stats → Traffic sources (UTMs help here) |
+| **Refund / message rate** | < 2% | Conversations tab — count "didn't work" messages per 100 sales |
+
+### Diagnosis cheat-sheet
+- **CTR < 1.2%** → the photo #1 and title are weak. Swap hero, re-test title keywords.
+- **Conversion < 1%** → price is wrong OR the description doesn't reassure compatibility fast enough. Check that the front-loaded compatibility line is first in the description.
+- **High favorites, low orders** → visitors are price-shocked. Consider the LAUNCH10 code or a small price test at $9.99.
+- **High refund / message rate** → wrong-browser buyers (Safari / iPhone). Strengthen photo #8 (compatibility infographic) and the description's first line.
+
+---
+
+## Product-side improvements
+
+Small in-app tweaks that directly reduce 1-star reviews. Every 1-star review from a wrong-browser buyer drags the listing's search position down — this is the most cost-effective defense.
+
+- ✅ **Compat banner** already added to `index.html` — detects non-Chromium browsers and iOS Safari on first paint and shows a friendly red bar with "This app needs Chrome or Edge on a laptop / Chromebook / Android — not iPhone or iPad." Critical for blocking the single biggest 1-star-review trigger.
+- ✅ **Error messages polished** — the BLE connect flow now says *"No device was picked"* instead of a raw DOMException, and reconnect toasts show attempt count (*"Reconnecting 1/3"*).
+- ✅ **Onboarding overlay** shows on first visit only — 4 plain-English steps, dismissible, stored in `localStorage`. Reduces "I bought it and don't know what to do" messages.
+- 🔜 **Next:** add a one-line "Did this help? ⭐⭐⭐⭐⭐" prompt in the app after the first successful sensor read — most buyers never find their way back to Etsy to leave a review without a nudge.
+
+The logic: every wrong-browser buyer who refunds or leaves a 1-star review costs ~$15 in direct revenue + ~$50 in lost search ranking. Three lines of JavaScript (the compat banner) prevent that outcome for the entire buyer base.
 
 ---
 

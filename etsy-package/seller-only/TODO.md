@@ -3,6 +3,8 @@
 Things the build pipeline can't do for you. Review before hitting **Publish**
 on Etsy.
 
+> 🛒 **Etsy create-listing URL**: <https://www.etsy.com/your/shops/me/listing-editor/create>
+
 ---
 
 ## Before launch
@@ -60,3 +62,23 @@ on Etsy.
 - [ ] When you bump the version, rebuild the ZIP (`npm run build:etsy`)
       AND update the attached file on the Etsy listing. Old buyers get
       the new version free from their purchase history.
+
+---
+
+## Extra improvements queued (see ETSY_LISTING.md for specs)
+
+- [ ] **Host a live demo on GitHub Pages** — app works in Simulate mode
+      without hardware. Put the URL into the description so browsers
+      can try before buying. Hugely friction-reducing.
+- [ ] **Record a 5-second demo GIF** (pairing + LED draw) — becomes
+      listing image #3. Etsy mobile auto-plays GIFs in the image grid.
+- [ ] **Create the tripwire $5 Classroom Poster listing** after main
+      listing has 3 reviews. Drives buyers back for the full thing.
+- [ ] **Stand up the lead-magnet landing page** — free 3-lesson PDF
+      behind an email opt-in. Builds a remarketing list.
+- [ ] **Create the LAUNCH10 promo code** (first 10 buyers: $12.99 → $7
+      with review request). Ships reviews fast.
+- [ ] **Duplicate listing in FR + AR** using `etsy-playbook-fr.html` +
+      `etsy-playbook-ar.html` scripts. Same ZIP, localized copy.
+- [ ] **UTM-tag every share link** (pinterest, reddit, blog). Etsy
+      Stats shows you which channel actually converts.

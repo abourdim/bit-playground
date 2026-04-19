@@ -66,6 +66,23 @@ async function renderMockups(browser) {
   await page.close();
 }
 
+async function renderPinterestPins(browser) {
+  const src = resolve(PKG, 'seller-only/pinterest-pins.html');
+  if (!existsSync(src)) return;
+  const page = await browser.newPage({
+    viewport: { width: 1000, height: 1500 }, deviceScaleFactor: 2,
+  });
+  await page.goto(`file://${src}`, { waitUntil: 'networkidle' });
+  await page.waitForTimeout(2000);
+  const pins = await page.$$('.pin');
+  for (let i = 0; i < pins.length; i++) {
+    const p = join(OUT, `pinterest-pin-${i + 1}.png`);
+    await pins[i].screenshot({ path: p });
+    console.log(`  ✓ pinterest-pin-${i + 1}.png`);
+  }
+  await page.close();
+}
+
 function copyDir(name, destName = name) {
   const src = join(ROOT, name);
   if (!existsSync(src)) { console.log(`  ⚠️  missing: ${name}/`); return; }
@@ -99,6 +116,9 @@ async function main() {
 
   console.log('\n🖼️  Rendering Etsy listing mockups...\n');
   await renderMockups(browser);
+
+  console.log('\n📌 Rendering Pinterest pins (seller-only)...\n');
+  await renderPinterestPins(browser);
 
   await browser.close();
 

@@ -42,6 +42,45 @@ html[dir="rtl"] .hint ol { padding-left: 0; padding-right: 20px; }
 </style>
 </head>
 <body>
+<!-- Compatibility banner: Web Bluetooth is only on Chromium-based browsers (Chrome/Edge/Opera).
+     Shows once on Safari/Firefox/iOS, dismissable, persists via localStorage. -->
+<style>
+  #compat-banner { position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: linear-gradient(90deg, #fbbf24, #f59e0b); color: #020617;
+    padding: 14px 22px; display: none; align-items: center; gap: 14px;
+    font-family: system-ui, -apple-system, sans-serif; font-weight: 600;
+    box-shadow: 0 4px 18px rgba(0,0,0,.3); font-size: 0.95rem; }
+  #compat-banner .c-ic { font-size: 1.5rem; }
+  #compat-banner .c-msg { flex: 1; line-height: 1.35; }
+  #compat-banner .c-msg strong { font-weight: 900; }
+  #compat-banner .c-msg a { color: #020617; text-decoration: underline; }
+  #compat-banner button { background: #020617; color: #fbbf24; border: none;
+    padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer;
+    font-family: inherit; font-size: 0.9rem; }
+  #compat-banner button:hover { background: #1e293b; }
+  @media (max-width: 600px) { #compat-banner { flex-wrap: wrap; font-size: 0.85rem; } #compat-banner .c-msg { flex-basis: 100%; } }
+</style>
+<div id="compat-banner" role="alert">
+  <span class="c-ic">⚠️</span>
+  <div class="c-msg">
+    <strong>Your browser doesn't support Web Bluetooth.</strong>
+    micro:bit Playground needs <strong>Chrome</strong>, <strong>Edge</strong>, or <strong>Opera</strong> on desktop / Android.
+    It will <strong>not</strong> connect to a micro:bit on Safari, Firefox, iPhone, or iPad.
+  </div>
+  <button onclick="this.parentElement.style.display='none';try{localStorage.setItem('compatBannerDismissed','1')}catch{}">Got it</button>
+</div>
+<script>
+(function(){
+  try {
+    if (localStorage.getItem('compatBannerDismissed') === '1') return;
+    var ok = ('bluetooth' in navigator) && typeof navigator.bluetooth.requestDevice === 'function';
+    if (!ok) {
+      var b = document.getElementById('compat-banner');
+      if (b) b.style.display = 'flex';
+    }
+  } catch(e) {}
+})();
+</script>
 <div class="app beginner-mode">
     <!-- Header -->
 <div class="header">

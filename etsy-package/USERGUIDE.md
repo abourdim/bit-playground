@@ -3,6 +3,8 @@
 Everything in this folder exists for **one purpose**: to publish and maintain
 the **micro:bit Playground** listing on Etsy.
 
+> 🛒 **Create a listing**: <https://www.etsy.com/your/shops/me/listing-editor/create>
+
 This guide walks through each file, what it's for, and at which step of
 the Etsy workflow you actually use it.
 
