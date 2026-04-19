@@ -9,8 +9,9 @@
 - [Category](#category)
 - [Tags](#tags-13-max--etsy-lets-you-use-all-13-use-them)
 - [Price suggestion](#price-suggestion-revised-after-v102--illustrated-guide-justifies-30-bump)
-- [Listing description](#listing-description)
+- [Listing description](#listing-description) — ⚠️ contains `{{LAUNCH_DATE}}` placeholder in the launch-countdown line; **fill it in before publishing**
 - [Social proof — creator credentials](#social-proof--creator-credentials)
+- [Compare table for the description](#compare-table-for-the-description)
 - [Photo / mockup checklist](#photo--mockup-checklist-etsy-allows-10)
 - [FAQ](#faq-to-add-to-the-listing)
 - [Guarantee](#guarantee-paste-this-right-under-the-faq)
@@ -22,6 +23,7 @@
 - [Post-launch metrics to watch](#post-launch-metrics-to-watch)
 - [Product-side improvements](#product-side-improvements)
 - [Shop announcement](#shop-announcement-shop-manager--info--appearance--announcement)
+- [Post-purchase review-request message](#post-purchase-review-request-message)
 - [Message to buyers (auto-reply)](#message-to-buyers-auto-reply-shop-manager--settings--info--appearance--message-to-buyers)
 - [Pre-purchase reply template](#message-to-buyers--abandoned-cart--pre-purchase-reply-template)
 - [Post-sale follow-up](#post-sale-follow-up-optional-send-7-days-after-purchase)
@@ -65,7 +67,11 @@ micro:bit, microbit v2, STEM, coding kids, BBC microbit, bluetooth app, MakeCode
 
 > **Browser-based Bluetooth control panel for the BBC micro:bit V2. No install. Works on Chromebook. Chrome or Edge required — not iPhone / iPad / Safari.**
 >
+> ✅ **Tested on Chromebook** — primary target device for schools. Installs as a PWA, works offline after the first load.
+>
 > 🎮 **micro:bit Playground** turns your micro:bit into an interactive STEM lab — no installs, no accounts, no cloud. Just open it in your browser and connect.
+>
+> 🔒 **No accounts. No sign-in. No data collected. Safe for students under 13 — COPPA-friendly by design.**
 >
 > 🧪 **Try it now** (Simulate mode, no micro:bit needed): `https://<your-github-pages-url>/` *(placeholder — fill in after deploying GitHub Pages)*
 >
@@ -96,6 +102,10 @@ micro:bit, microbit v2, STEM, coding kids, BBC microbit, bluetooth app, MakeCode
 >
 > 📜 **License**: Single-teacher / single-family use. Use it in your own classroom or home as much as you like. You may **not** resell, redistribute, or upload it elsewhere.
 >
+> ⏰ **Launch price $12.99 through Friday {{LAUNCH_DATE}}. Goes to $17.99 after.** Grab it now if you're on the fence.
+>
+> <!-- SELLER TODO: replace {{LAUNCH_DATE}} above with the actual launch-Friday date (e.g. "May 2, 2026") BEFORE publishing the listing. See the TOC note next to "Listing description". -->
+>
 > 💬 Questions? Message me before buying — happy to help.
 
 ---
@@ -109,6 +119,23 @@ Paste this block into the listing just above the FAQ. No fabricated reviews — 
 > Every feature, every theme, every sensor, every diagram has been field-tested with actual students — not mocked up in a marketing deck. The illustrated guide, the symptom picker, and the onboarding overlay exist because real learners got stuck in those exact places. Fixes shipped, and then shipped again.
 >
 > If something doesn't work the way my listing promises, I want to hear about it — message me and I'll make it right.
+
+---
+
+## Compare table for the description
+
+**What makes micro:bit Playground different?** Side-by-side with the two free alternatives most teachers try first:
+
+| Feature | micro:bit Playground | MakeCode Editor | Raw Web Bluetooth demos |
+|---|:---:|:---:|:---:|
+| Works in-browser, zero install | ✅ | ✅ | ✅ |
+| Ready-to-use sensor dashboard (temp, light, sound, accel, compass, touch) | ✅ | ❌ | ❌ |
+| Live graph + CSV / PNG export + session record & replay | ✅ | ❌ | ❌ |
+| Dual servo control UI with gauges and trim | ✅ | ❌ | Build it yourself |
+| 5 interactive 3D models (micro:bit, Buggy, Arm, Balance, Weather) | ✅ | ❌ | ❌ |
+| Trilingual EN/FR/AR with full RTL support | ✅ | Partial | ❌ |
+| Classroom lesson plan + printable stickers & A3 poster | ✅ | ❌ | ❌ |
+| Works offline after first load (installable PWA) | ✅ | ❌ | ❌ |
 
 ---
 
@@ -140,6 +167,9 @@ Yes — single teacher, one school, unlimited students. For multi-teacher / dist
 
 **Q: Do you offer refunds?**
 Because this is an instant download, I can't offer refunds once the ZIP has been delivered — please double-check compatibility (Chrome or Edge, desktop, BBC micro:bit V2) before buying. If the product doesn't work as described on a supported browser, message me within 14 days and I'll make it right.
+
+**Q: Is it safe for students under 13 (COPPA)?**
+Yes. Everything runs locally in the browser — no accounts, no sign-ins, no data collection, no cloud, no telemetry. Nothing leaves the device. COPPA-friendly by design.
 
 **Q: Will it get updates?**
 Yes — free updates within the v1.x line (new features and bug fixes), plus guaranteed bug-fix updates for 12 months after your purchase. A future v2.x major version, if released, would be a separate listing with an upgrade discount for existing buyers. This wording now matches `LICENSE.txt` clause 4 exactly — keep them in sync when you revise either.
@@ -347,6 +377,27 @@ The logic: every wrong-browser buyer who refunds or leaves a 1-star review costs
 > 🎮 STEM tools for makers, teachers, and curious kids — instant digital downloads you can use the same day. Built and tested by a working educator. Questions before buying? Message me anytime — I usually reply within a few hours.
 
 *(Keep the first sentence under ~140 chars — Etsy truncates the preview shown on your shop card.)*
+
+---
+
+## Post-purchase review-request message
+
+Paste this into Etsy's **"Message buyer"** once delivery is confirmed. Keep it short, friendly, human — this is the single biggest lever on new-shop review count.
+
+```
+Hey {{BUYER_FIRST_NAME}} — thanks so much for grabbing micro:bit Playground! 🎮
+
+Quick question: did it pair OK on your Chromebook (or whichever laptop you used)?
+If anything was weird, reply here — I'll fix it the same day.
+
+If it worked and you have 30 seconds, a ⭐⭐⭐⭐⭐ review would really help a tiny one-person shop.
+Here's the direct link: {{ETSY_REVIEW_URL}}
+
+Happy classroom coding,
+— {{YOUR_NAME}}
+```
+
+> Send within 3 days of delivery. Etsy only allows one follow-up message per order — use it here, not for anything else.
 
 ---
 
