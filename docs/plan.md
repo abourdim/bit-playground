@@ -27,7 +27,7 @@ Target audience: teachers running STEM workshops · home-schooling families · r
 
 ## ✅ Shipped
 
-### V1.0.2 — 2026-04-18 *(current)*
+### V1.2.0 — 2026-04-18 *(current)*
 - Major rewrite of `guide.html` — interactive, illustrated, trilingual.
 - Architecture SVG · browser-compatibility grid · firmware storyboard · pin-out diagram · state machine · tab map.
 - Interactive LED playground with live hex readout.

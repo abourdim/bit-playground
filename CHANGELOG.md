@@ -4,9 +4,74 @@ All notable changes to the **micro:bit Playground** project.
 
 ---
 
-## V1.0.2 — 2026-04-18 *(current)*
+## V1.2.0 — 2026-04-19 *(current)*
 
-Major upgrade to `guide.html` — from a prose-heavy document to an interactive, illustrated teaching resource.
+First Etsy-ready release. Restructures the project to mirror a known-good
+shippable layout (`docs/`, `assets/`, `etsy-package/`) and lands every
+pre-launch improvement surfaced by the listing review.
+
+### 🛡 Product
+- **New: browser-compatibility banner** in `index.html`. Shows a friendly
+  yellow "needs Chrome / Edge / Opera" warning whenever `navigator.bluetooth`
+  is unavailable (Safari, Firefox, iPhone, iPad). Dismissable, persistent via
+  `localStorage`. Pre-empts 1-star reviews from wrong-browser buyers.
+- Version badge in the header updated (v8.2 → v1.2.0) so buyers see the
+  product version the Etsy listing advertises.
+
+### 📁 Repo structure
+- Move `guide.html` → `docs/guide.html` and `logo.svg` → `assets/logo.svg`;
+  update every cross-reference (`index.html`, `sw.js`, `manifest.json`,
+  `README.md`). Service-worker cache bumped (`v8` → `v10`) so existing
+  buyers get the new layout on reload.
+- New `docs/` folder adds `cheatsheet.html`, `faq.html`, `start.html`,
+  plus `GUIDE.md`, `plan.md`, `prompt.md` as markdown companions.
+- New `assets/` adds `workshop-diy-logo.svg`, `bitplayground-flyer.svg`,
+  `app-screenshot.png`.
+- New `etsy-package/` houses the ZIP builder, buyer-facing printables,
+  Etsy listing mockups, and a gitignored-from-ZIP `seller-only/`
+  subfolder for strategy, legal, and video-production material.
+- Added `package.json` with `@playwright/test` dev-dep and the
+  `npm run build:etsy` script.
+
+### 🛒 Etsy launch kit (in `etsy-package/`)
+- Six printable HTML templates (`quickstart-card`, `shortcuts-cheatsheet`,
+  `classroom-poster`, `lesson-plan-template`, `sticker-sheet`,
+  `README-quickstart`) with A4 / A4 landscape / A3 page sizing.
+- `etsy-listing-mockups.html` — 7 Etsy listing images (2000×1500). Hero
+  (M1) now embeds a real `app-screenshot.png` plus a prominent
+  "Chrome & Edge only" badge; "What's in the ZIP" reordered to slot 2.
+- `seller-only/pinterest-pins.html` — 4 portrait 2:3 Pinterest pins,
+  auto-rendered to PNG by `build-package.js`.
+- `seller-only/ETSY_LISTING.md` rewritten: front-loaded compatibility,
+  creator-credential social proof, 5-minute Chromebook guarantee,
+  $5 tripwire listing spec, lead-magnet funnel, LAUNCH10 promo-code
+  plan, UTM-tracking table, trilingual go-to-market (EN / FR / AR),
+  post-launch CTR + conversion targets, tags swap
+  (`edtech` + `sensor playground` → `coding club` + `chromebook stem`),
+  School Site License $149 → $199.
+- `seller-only/ETSY_PUBLISH_GUIDE.html`, `seller-only/TODO.md`,
+  `USERGUIDE.{md,html}` all anchor on the Etsy create-listing URL
+  (<https://www.etsy.com/your/shops/me/listing-editor/create>).
+- `LICENSE.txt` reorganised: new clause 5 (refunds, seller-discretion
+  wording), clause 11 (order # = proof of license); updates clause now
+  matches the listing FAQ exactly ("free updates within v1.x,
+  12-month bug-fix guarantee"); "source code" → "app files" throughout.
+
+### 🔧 Build pipeline
+- `build-package.js` renders all printables + 7 mockups + 4 Pinterest
+  pins in one pass, assembles a versioned folder, and writes
+  `BitPlayground-v<version>.zip`. Always wipes stale staging dirs / ZIPs
+  before rebuilding (previously `zip -r` appended, masking removed
+  files). Versioned ZIPs are tracked in Git via a `.gitignore` exemption
+  so the exact shipped artifact is always recoverable.
+
+### 🔒 Privacy
+- Repo visibility toggled private during the launch phase;
+  `.gitignore` strips only build artifacts.
+
+---
+
+## V1.0.2 — 2026-04-18
 
 ### 🎨 New visual helpers in `guide.html`
 - Architecture SVG — browser ↔ BLE ↔ micro:bit with payload labels.

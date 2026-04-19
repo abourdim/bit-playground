@@ -267,4 +267,4 @@ Press **Esc**, or click the ⛶ icon again.
 
 ---
 
-*micro:bit Playground v1.0.2 — Connect · Explore · Create · Play.*
+*micro:bit Playground v1.2.0 — Connect · Explore · Create · Play.*

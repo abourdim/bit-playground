@@ -31,7 +31,7 @@
 - [Free-traffic playbook](#free-traffic-playbook-beyond-pinterest)
 - [Second listing — School Site License ($199)](#second-listing--school-site-license-199)
 - [Third listing — Arabic](#third-listing--arabic-uncontested-market)
-- [V1.0.2 sell ideas](#new-sell-ideas-enabled-by-the-illustrated-guide-v102)
+- [V1.2.0 sell ideas](#new-sell-ideas-enabled-by-the-illustrated-guide-v102)
 - [Tier-2 sell ideas](#tier-2-sell-ideas--deeper-less-obvious)
 
 ---
@@ -53,7 +53,7 @@ micro:bit, microbit v2, STEM, coding kids, BBC microbit, bluetooth app, MakeCode
 
 > Replaced the two weakest tags (`edtech` — corporate, not what teachers search; `sensor playground` — zero search volume) with `coding club` and `chromebook stem` (both strong long-tail teacher queries).
 
-## Price suggestion (revised after V1.0.2 — illustrated guide justifies ~30% bump)
+## Price suggestion (revised after V1.2.0 — illustrated guide justifies ~30% bump)
 
 - **$12.99** launch (was $9.99 — the interactive illustrated guide is worth the bump)
 - **$17.99** standard, after 5 reviews
@@ -695,9 +695,9 @@ Price at **$12.99** (same as English) — do **not** discount for Arabic buyers.
 
 ---
 
-## New sell ideas enabled by the illustrated guide (V1.0.2)
+## New sell ideas enabled by the illustrated guide (V1.2.0)
 
-The visual helpers added in V1.0.2 unlock product angles that weren't viable before. Ranked by payoff ÷ effort.
+The visual helpers added in V1.2.0 unlock product angles that weren't viable before. Ranked by payoff ÷ effort.
 
 ### 1. Printable classroom posters (new Etsy listing, $4–8 each)
 The SVG diagrams inside `guide.html` are print-ready. Extract each as a standalone 1-page PDF and sell as a **STEM classroom wall poster pack**:
@@ -740,7 +740,7 @@ The guide makes the firmware protocol transparent. Offer **1-hour custom firmwar
 TpT rewards interactivity. Your `guide.html` has a clickable LED playground, collapsible symptom picker, and state-saving localStorage. Badge the TpT listing as **"Interactive — runs in browser, no prep"**. Charge **$24.99** (2× Etsy price). TpT's search surfaces interactive listings above static PDFs.
 
 ### 8. Pre-order for "Playground v9" with a lesson book ($39)
-Use the momentum of V1.0.2 to announce a lesson book (20 activities, printable). Take pre-orders at $39 with a "delivered by December" timeline. Half the buyers won't notice the delay; the other half will wait happily.
+Use the momentum of V1.2.0 to announce a lesson book (20 activities, printable). Take pre-orders at $39 with a "delivered by December" timeline. Half the buyers won't notice the delay; the other half will wait happily.
 
 ### 9. Affiliate-style referral — small shops link to yours in exchange for yours linking back
 Find 3–5 non-competing STEM Etsy shops (robot kits, STEM books). Propose: "I'll add a 'recommended companion' section to my listing linking to yours if you do the same." Zero cost, 3× visibility.

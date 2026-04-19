@@ -38,7 +38,7 @@ on Etsy.
 - [ ] Double-check every `{{PRICE}}` placeholder is filled in before
       pasting from `seller-only/ETSY_LISTING.md` into the Etsy form.
 - [ ] Final sanity check: does the description's "what you get" list
-      exactly match what `BitPlayground-v1.1.0.zip` actually contains?
+      exactly match what `BitPlayground-v1.2.0.zip` actually contains?
       (Open the ZIP fresh and compare — mismatches = bad reviews.)
 
 ---

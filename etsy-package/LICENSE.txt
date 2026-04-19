@@ -1,9 +1,9 @@
 micro:bit Playground — Single-User / Classroom License Agreement
 ==================================================================
 
-Version: 1.1
+Version: 1.2
 Effective Date: April 2026
-Product: micro:bit Playground v1.1.0
+Product: micro:bit Playground v1.2.0
 Licensor: the original author (as listed in the Etsy listing)
 
 1. GRANT OF LICENSE
@@ -102,5 +102,5 @@ Licensor: the original author (as listed in the Etsy listing)
 
 ==================================================================
 Thank you for supporting independent educational software!
-micro:bit Playground v1.1.0 — Connect • Explore • Create • Play
+micro:bit Playground v1.2.0 — Connect • Explore • Create • Play
 ==================================================================

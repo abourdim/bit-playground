@@ -1,5 +1,5 @@
 // sw.js — Service Worker for micro:bit Playground PWA
-const CACHE_NAME = 'microbit-playground-v9';
+const CACHE_NAME = 'microbit-playground-v10';
 const ASSETS = [
     'index.html',
     'styles.css',

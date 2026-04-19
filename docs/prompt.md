@@ -10,7 +10,7 @@ Paste this into Claude, ChatGPT, or another assistant so it has the right contex
 
 **Target audience:** kids (8–16), teachers running STEM workshops, home-schooling families, robotics clubs, makers prototyping BLE projects.
 
-**Current version:** v1.0.2 (April 2026).
+**Current version:** v1.2.0 (April 2026).
 
 ---
 

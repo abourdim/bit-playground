@@ -8,8 +8,8 @@
  *   node etsy-package/build-package.js
  *
  * Produces:
- *   etsy-package/BitPlayground-v1.1.0/          (folder)
- *   etsy-package/BitPlayground-v1.1.0.zip       (final ZIP)
+ *   etsy-package/BitPlayground-v1.2.0/          (folder)
+ *   etsy-package/BitPlayground-v1.2.0.zip       (final ZIP)
  *   etsy-package/output/*.png                   (rendered printables + mockups)
  *
  * Mirrors noor-cast/etsy-package/build-package.js (same structure, adapted paths).
@@ -23,7 +23,7 @@ import { mkdirSync, existsSync, copyFileSync, readdirSync, rmSync, statSync } fr
 import { resolve, join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-const VERSION = 'v1.1.0';
+const VERSION = 'v1.2.0';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
 const PKG = resolve(__dirname);

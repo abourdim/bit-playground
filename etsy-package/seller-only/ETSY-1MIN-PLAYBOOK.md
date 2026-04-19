@@ -224,4 +224,4 @@ browser-based · no-install · privacy-first · offline-capable · web bluetooth
 
 ---
 
-*Made for micro:bit Playground v1.0.2 — print this on A4, laminate, keep next to the shoot rig.*
+*Made for micro:bit Playground v1.2.0 — print this on A4, laminate, keep next to the shoot rig.*

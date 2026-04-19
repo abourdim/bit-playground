@@ -1,6 +1,6 @@
 {
   "name": "bit-playground",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "type": "module",
   "description": "Web-based BLE control panel for the BBC micro:bit V2",
