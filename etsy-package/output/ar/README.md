@@ -74,6 +74,20 @@ Pinterest × 5 عناوين بريد إلكتروني، لكل من الشخصي
 رمز QR موسوم بـ `utm_medium=print` لتتبع حركة الزيارات من خلال
 إحصائيات Etsy.
 
+### 📱 طقم وسائل التواصل الاجتماعي — `social/`
+
+- `ig-post.png` (1080×1080) — منشور Instagram / فيسبوك المربّع
+- `ig-story.png` (1080×1920) — قصة Instagram / WhatsApp / Reels
+- `twitter.png` (1200×675) — Twitter / X
+- `linkedin.png` (1200×627) — LinkedIn
+
+نفس العرض، أربعة مقاسات. كلها بتخطيط RTL. جاهزة للجدولة.
+
+### 🪪 الهوية — `identity/`
+
+- `business-card.pdf` / `.png` — بطاقة عمل 85×55 مم جاهزة للطباعة
+- `email-signature.png` (600×160) — توقيع بريد إلكتروني لـ Gmail / Outlook
+
 ### 💬 روبوت الدردشة قبل البيع — `chatbot/`
 
 - `embed.js` (~6 كيلوبايت) — أداة لدمجها في صفحة العرض التوضيحي

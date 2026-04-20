@@ -73,6 +73,20 @@ Conforme aux exigences procurement des académies françaises
 QR code étiqueté `utm_medium=print` pour attribuer le trafic via Etsy
 Stats.
 
+### 📱 Kit réseaux sociaux — `social/`
+
+- `ig-post.png` (1080×1080) — Instagram feed / Facebook carré
+- `ig-story.png` (1080×1920) — Instagram story / WhatsApp / Reels
+- `twitter.png` (1200×675) — Twitter / X
+- `linkedin.png` (1200×627) — LinkedIn
+
+Même pitch, quatre formats. À glisser directement dans un planificateur.
+
+### 🪪 Identité — `identity/`
+
+- `business-card.pdf` / `.png` — carte de visite 85×55mm prête à l'impression
+- `email-signature.png` (600×160) — signature email pour Gmail / Outlook
+
 ### 💬 Chatbot d'avant-vente — `chatbot/`
 
 - `embed.js` (~6 Ko) — widget à intégrer dans la page de démo live

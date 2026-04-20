@@ -222,6 +222,35 @@ async function main() {
   if (mockupCount === 0) warn('no etsy-mockups rendered');
   console.log(`  ✓ etsy-mockups/ (${mockupCount})`);
 
+  // Localized print + identity assets. Ship the generated output/<lang>/print/
+  // and output/<lang>/identity/ folders as the localization path — no need to
+  // translate every HTML printable source; the pipeline-generated PDFs are
+  // print-ready in all three languages.
+  for (const L of ['en', 'fr', 'ar']) {
+    const printSrc = join(OUT, L, 'print');
+    const idSrc = join(OUT, L, 'identity');
+    let copied = 0;
+    if (existsSync(printSrc)) {
+      const dest = join(ZIP_DIR, 'printables', L);
+      mkdirSync(dest, { recursive: true });
+      for (const f of readdirSync(printSrc)) {
+        if (f.endsWith('.pdf') || f.endsWith('.png')) {
+          copyFileSync(join(printSrc, f), join(dest, f)); copied++;
+        }
+      }
+    }
+    if (existsSync(idSrc)) {
+      const dest = join(ZIP_DIR, 'identity', L);
+      mkdirSync(dest, { recursive: true });
+      for (const f of readdirSync(idSrc)) {
+        if (f.endsWith('.pdf') || f.endsWith('.png')) {
+          copyFileSync(join(idSrc, f), join(dest, f)); copied++;
+        }
+      }
+    }
+    if (copied) console.log(`  ✓ printables/${L}/ + identity/${L}/ (${copied} files)`);
+  }
+
   console.log('\n🔎 Scanning ZIP contents for unsubstituted placeholders...\n');
   const textExts = new Set(['.html', '.md', '.txt', '.css', '.js', '.json', '.ts', '.svg', '.xml']);
   const placeholderRe = /\{\{[A-Z_]+\}\}/g;

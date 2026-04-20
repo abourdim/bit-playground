@@ -356,6 +356,8 @@ etsy-package/
     │   ├─ accessibility/        <span class="comment">Zira narrations + EN Braille</span>
     │   ├─ chatbot/              <span class="comment">embed.js widget + EN FAQ rules</span>
     │   ├─ print/                <span class="comment">poster-a3 + flyer-a4 (PNG + print-ready PDF)</span>
+    │   ├─ social/               <span class="comment">IG post/story + Twitter + LinkedIn PNGs</span>
+    │   ├─ identity/             <span class="comment">business-card + email-signature</span>
     │   └─ narrated/             <span class="comment">backup copy of the narrated MP4</span>
     ├─ <span class="folder">fr/</span>                      <span class="comment">French deliverables (same shape, Hortense narration)</span>
     ├─ <span class="folder">ar/</span>                      <span class="comment">Arabic deliverables (RTL layout, Naayf narration)</span>
@@ -465,6 +467,8 @@ node tools/generate-captions.mjs            # A/B caption bank
 node tools/generate-accessibility.mjs       # audio desc + Braille
 node tools/chatbot-embed.mjs                # "Ask the product" widget
 node tools/generate-print.mjs               # poster A3 + flyer A4 (EN)
+node tools/generate-social.mjs              # IG/Twitter/LinkedIn PNGs (EN)
+node tools/generate-identity.mjs            # business card + email sig (EN)
 node tools/generate-datasets.mjs 100        # 100 CSVs (hardware-optional)
 node tools/generate-stand-svg.mjs           # lasercut stand SVG+DXF
 node tools/generate-video.mjs               # silent 60s base (EN)
@@ -486,6 +490,7 @@ node build-package.js</code></pre>
     <tr><td><code>capture-config.json</code></td><td>Per-product config: app container, tab selectors, sensor IDs, themes, synthetic state (including per-language strings). <strong>Edit this, not the scripts.</strong></td></tr>
     <tr><td><code>hero-specs.json</code></td><td>A/B hero variants declaration. Add/edit entries here, rerun <code>hero-compose.mjs</code>.</td></tr>
     <tr><td><code>print-specs.json</code></td><td>Per-language strings for <code>generate-print.mjs</code> (poster + flyer copy).</td></tr>
+    <tr><td><code>social-specs.json</code></td><td>Per-language strings + format list for <code>generate-social.mjs</code> (IG / Twitter / LinkedIn).</td></tr>
     <tr><td><code>captions/video-captions-{en,fr,ar}.srt</code></td><td>The 8-scene SRT scripts. These drive both the burned-in captions and the TTS narration.</td></tr>
   </tbody>
 </table>
