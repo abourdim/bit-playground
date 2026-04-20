@@ -3,6 +3,12 @@
 > ### 🛒 [Open Etsy "Create a Listing"](https://www.etsy.com/your/shops/me/listing-editor/create)
 > Jump straight into a fresh listing draft — keep this file open in another tab and paste section-by-section.
 
+> 🌍 **Localized buyer-facing copy** lives in sibling files. Create a **separate listing** per language (Etsy search ranks mono-language listings better than mixed ones):
+> - **French** — [`ETSY_LISTING-fr.md`](./ETSY_LISTING-fr.md) (titre, tags, description, FAQ, messages)
+> - **Arabic** — [`ETSY_LISTING-ar.md`](./ETSY_LISTING-ar.md) (العنوان، الوسوم، الوصف، الأسئلة الشائعة، الرسائل)
+>
+> Seller-internal strategy (pricing, UTM, Pinterest, launch sequence, Tier-2 ideas) stays in this file only — the localized files have just the text that ends up in the Etsy UI.
+
 ## Contents
 
 - [Title](#title-140-char-max--pack-it-with-searchable-keywords)
