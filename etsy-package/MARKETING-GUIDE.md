@@ -235,6 +235,14 @@ Same pitch + screenshot, layout adapts to aspect. Arabic auto-RTL.
 | `business-card.png` | ~1280×830 preview | Digital share / signature image. |
 | `email-signature.png` | 600×160 | Gmail / Outlook signature — point teachers to the demo. |
 
+### Press kit — `press-kit.html`
+
+Single-page media kit with 3-lang toggle (EN/FR/AR). Includes fact
+sheet, boilerplate in three lengths (one-liner / short / long),
+press-grade asset links, and contact block. Upload next to the live
+demo at `/press-kit.html` — send the URL to journalists and bloggers
+instead of attaching 40 MB of images.
+
 ---
 
 ## Specialty proof assets
