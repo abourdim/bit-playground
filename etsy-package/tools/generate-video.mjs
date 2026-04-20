@@ -28,14 +28,20 @@ import { mkdirSync, existsSync, writeFileSync, rmSync } from 'fs';
 import { resolve, join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
+// --lang <code> selects a different caption file and changes the output
+// filename suffix. Default is "en" (and the output filename has no suffix
+// to preserve the canonical silent-EN MP4 that narrate-video expects).
+const argLangIdx = process.argv.indexOf('--lang');
+const LANG = argLangIdx > 0 ? process.argv[argLangIdx + 1] : 'en';
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG  = resolve(__dirname, '..');
 const ROOT = resolve(PKG, '..');
 const OUT  = resolve(PKG, 'output');
 const SCENES_DIR = resolve(OUT, 'video-scenes');
 const SHOTS = resolve(PKG, 'output', 'screenshots');
-const CAPTIONS = resolve(__dirname, 'captions', 'video-captions-en.srt');
-const FINAL = resolve(OUT, 'etsy-video-v1.mp4');
+const CAPTIONS = resolve(__dirname, 'captions', `video-captions-${LANG}.srt`);
+const FINAL = resolve(OUT, LANG === 'en' ? 'etsy-video-v1.mp4' : `etsy-video-v1-${LANG}-silent.mp4`);
 
 const W = 1080, H = 1920, FPS = 30;
 const BG = '#0a0e12';      // matches teleprompter/shoot-card

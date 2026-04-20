@@ -37,13 +37,14 @@ const PKG  = resolve(__dirname, '..');
 const OUT  = resolve(PKG, 'output', 'narrated');
 const TMP  = resolve(OUT, '_tmp');
 const CAPTIONS_DIR = resolve(__dirname, 'captions');
-const SILENT_MP4 = resolve(PKG, 'output', 'etsy-video-v1.mp4');
-// NOTE: the silent MP4 has EN captions burned in. The FR/AR narrated
-// outputs will therefore have FR/AR audio over EN visible captions —
-// acceptable for social/YouTube (audio carries the message) but not
-// ideal for muted autoplay. For per-language captions, re-render the
-// base by replacing CAPTIONS in tools/generate-video.mjs with the
-// target SRT before running this script.
+// Per-language silent video lookup: prefer output/etsy-video-v1-<lang>-silent.mp4
+// (produced by `generate-video.mjs --lang <code>`). Falls back to the EN
+// silent base if a language-specific one isn't on disk.
+function silentVideoFor(lang) {
+  const specific = resolve(PKG, 'output', `etsy-video-v1-${lang}-silent.mp4`);
+  if (existsSync(specific)) return specific;
+  return resolve(PKG, 'output', 'etsy-video-v1.mp4');
+}
 mkdirSync(OUT, { recursive: true });
 
 const ONLY_LANG = process.argv[2];
@@ -57,8 +58,8 @@ function checkFfmpeg() {
   if (r.status !== 0) { console.error('❌ ffmpeg not on PATH.'); process.exit(1); }
 }
 checkFfmpeg();
-if (!existsSync(SILENT_MP4)) {
-  console.error(`❌ base video missing: ${SILENT_MP4}\n   Run tools/generate-video.mjs first.`);
+if (!existsSync(resolve(PKG, 'output', 'etsy-video-v1.mp4'))) {
+  console.error(`❌ base video missing. Run tools/generate-video.mjs first.`);
   process.exit(1);
 }
 
@@ -212,7 +213,7 @@ async function buildTrack(lang, langPrefix) {
   // ---------- mux into the silent video ----------
   const outMp4 = join(OUT, `etsy-video-v1-${lang}.mp4`);
   ff([
-    '-y', '-i', SILENT_MP4, '-i', trackWav,
+    '-y', '-i', silentVideoFor(lang), '-i', trackWav,
     '-c:v', 'copy',
     '-c:a', 'aac', '-b:a', '128k',
     '-shortest',
@@ -231,7 +232,7 @@ const LANGS = [
   { code: 'ar', prefix: 'ar' },
 ];
 
-console.log(`\n🎤 Narrating ${SILENT_MP4.split(/[\\/]/).pop()}\n`);
+console.log(`\n🎤 Narrating etsy-video-v1 (will prefer per-language silent base if present)\n`);
 for (const l of LANGS) {
   if (ONLY_LANG && ONLY_LANG !== l.code) continue;
   console.log(`▸ ${l.code}`);
