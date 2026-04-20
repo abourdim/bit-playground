@@ -39,7 +39,7 @@
       "pillAddClass": "connected",
       "pillRemoveClass": "disconnected",
       "pillTextSelector": "span:last-child",
-      "pillText": "Connected",
+      "pillText": { "en": "Connected", "fr": "Connecté" },
       "disableConnectSelector": "#connectBtn",
       "enableDisconnectSelector": "#disconnectBtn"
     },
@@ -53,19 +53,27 @@
       { "selector": "#compassValue","value": "174"  }
     ],
     "pills": [
-      { "selector": "#btnAState",    "textSelector": ".pill-text", "text": "Pressed",      "active": true  },
-      { "selector": "#btnBState",    "textSelector": ".pill-text", "text": "Released",     "active": false },
-      { "selector": "#touchP0State", "textSelector": ".pill-text", "text": "Not touched",  "active": false }
+      { "selector": "#btnAState",    "textSelector": ".pill-text", "text": { "en": "Pressed",     "fr": "Appuyé" },      "active": true  },
+      { "selector": "#btnBState",    "textSelector": ".pill-text", "text": { "en": "Released",    "fr": "Relâché" },     "active": false },
+      { "selector": "#touchP0State", "textSelector": ".pill-text", "text": { "en": "Not touched", "fr": "Non touché" },  "active": false }
     ],
     "activityFeed": {
       "selector": "#activity",
       "entryClass": "activity-item",
-      "entries": [
-        "[10:42:03] 🔗 Paired with BBC micro:bit [JqXtP]",
-        "[10:42:04] 📡 Sensor stream active (10 Hz)",
-        "[10:42:09] 🌡️ Temperature: 22°C",
-        "[10:42:14] 🔘 Button A pressed"
-      ]
+      "entries": {
+        "en": [
+          "[10:42:03] 🔗 Paired with BBC micro:bit [JqXtP]",
+          "[10:42:04] 📡 Sensor stream active (10 Hz)",
+          "[10:42:09] 🌡️ Temperature: 22°C",
+          "[10:42:14] 🔘 Button A pressed"
+        ],
+        "fr": [
+          "[10:42:03] 🔗 Appairé avec BBC micro:bit [JqXtP]",
+          "[10:42:04] 📡 Flux de capteurs actif (10 Hz)",
+          "[10:42:09] 🌡️ Température : 22°C",
+          "[10:42:14] 🔘 Bouton A appuyé"
+        ]
+      }
     }
   },
 

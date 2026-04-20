@@ -143,8 +143,25 @@ async function selectVariant(page, variantKey) {
   return async () => false;
 }
 
-// Inject synthetic BLE+sensor state from config.
+// Resolve a string/array field that may be language-keyed.
+// Accepts plain strings/arrays (used as-is) or { en: ..., fr: ..., ... } objects.
+function pickLang(val, lang) {
+  if (val == null) return val;
+  if (Array.isArray(val)) return val;
+  if (typeof val === 'object' && !Array.isArray(val)) return val[lang] ?? val.en ?? Object.values(val)[0];
+  return val;
+}
+
+// Inject synthetic BLE+sensor state from config, resolving lang-keyed strings.
 async function injectSyntheticState(page) {
+  // Resolve any lang-keyed strings into plain values before passing to the page.
+  const synth = JSON.parse(JSON.stringify(CFG.synthetic || {}));
+  const L = LANG || 'en';
+  if (synth.connect?.pillText) synth.connect.pillText = pickLang(synth.connect.pillText, L);
+  for (const p of synth.pills || []) {
+    if (p.text) p.text = pickLang(p.text, L);
+  }
+  if (synth.activityFeed?.entries) synth.activityFeed.entries = pickLang(synth.activityFeed.entries, L);
   await page.evaluate((cfg) => {
     try { if (cfg.silenceToastsGlobal) new Function(cfg.silenceToastsGlobal)(); } catch {}
     // Clear any lingering toasts
@@ -181,7 +198,7 @@ async function injectSyntheticState(page) {
           .map(l => `<div class="${cls}">${l}</div>`).join('');
       }
     }
-  }, CFG.synthetic || {});
+  }, synth);
   await page.waitForTimeout(400);
 }
 
