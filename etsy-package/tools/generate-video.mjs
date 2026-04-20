@@ -39,7 +39,15 @@ const PKG  = resolve(__dirname, '..');
 const ROOT = resolve(PKG, '..');
 const OUT  = resolve(PKG, 'output');
 const SCENES_DIR = resolve(OUT, 'video-scenes');
-const SHOTS = resolve(PKG, 'output', 'screenshots');
+// Prefer lang-specific screenshots when available (e.g. output/fr/screenshots
+// holds screenshots of the app rendered in French). Falls back to the default
+// EN set if the lang-specific folder doesn't exist.
+const SHOTS = (() => {
+  const langShots = resolve(PKG, 'output', LANG, 'screenshots');
+  return LANG !== 'en' && existsSync(langShots)
+    ? langShots
+    : resolve(PKG, 'output', 'screenshots');
+})();
 const CAPTIONS = resolve(__dirname, 'captions', `video-captions-${LANG}.srt`);
 const FINAL = resolve(OUT, LANG === 'en' ? 'etsy-video-v1.mp4' : `etsy-video-v1-${LANG}-silent.mp4`);
 
