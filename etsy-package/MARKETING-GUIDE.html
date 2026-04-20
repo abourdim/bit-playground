@@ -365,30 +365,34 @@ you</h3>
 <h2 id="etsy-listing-video">Etsy listing video</h2>
 <p>Etsy allows <strong>one</strong> video per listing, muted autoplay in
 the thumbnail grid, 60-second max, 1080×1920 9:16.</p>
-<h3 id="use-outputetsy-video-v1mp4">Use:
-<code>output/etsy-video-v1.mp4</code></h3>
+<h3 id="use-outputetsy-video-v1mp4-en-or-etsy-video-v1-frmp4-fr">Use:
+<code>output/etsy-video-v1.mp4</code> (EN) or
+<code>etsy-video-v1-fr.mp4</code> (FR)</h3>
 <ul>
 <li>60s exactly</li>
-<li>EN captions burned in (large enough to read on phone)</li>
-<li>Silent audio (expected — Etsy plays muted)</li>
-<li>3.1 MB (well under Etsy's 100 MB cap)</li>
+<li>Burned-in captions (EN or FR) — readable on phone</li>
+<li><strong>Audio track included</strong> — Zira (EN) or Hortense (FR)
+narrates the captions</li>
+<li>5.6 MB (well under Etsy's 100 MB cap)</li>
 </ul>
 <p><strong>Where:</strong> Etsy listing "Video" slot.
 <strong>When:</strong> At listing creation. Re-render with
-<code>node tools/generate-video.mjs</code> whenever the screenshots
-change.</p>
+<code>node tools/generate-video.mjs</code> then
+<code>node tools/narrate-video.mjs &lt;lang&gt;</code> whenever the
+screenshots change.</p>
 <blockquote>
-<p><strong>Don't</strong> upload the narrated versions here — Etsy's
-muted playback makes the voice-over invisible, and the larger file slows
-thumbnail loads.</p>
+<p>Etsy autoplays muted in the grid — buyers who tap to unmute hear the
+narration. Both use cases covered.</p>
 </blockquote>
 <hr />
 <h2 id="narrated-videos-youtube--pinterest--reels">Narrated videos
 (YouTube / Pinterest / Reels)</h2>
 <p>Same 60-second visual, but with voice-over (the captions read aloud
 by an OS TTS engine).</p>
-<h3 id="use-outputnarratedetsy-video-v1-langmp4">Use:
-<code>output/narrated/etsy-video-v1-&lt;lang&gt;.mp4</code></h3>
+<p>The root videos (<code>etsy-video-v1.mp4</code>,
+<code>etsy-video-v1-fr.mp4</code>) already have narration.
+<code>output/narrated/</code> holds the same files as backup /
+source-of-truth for the narration pipeline.</p>
 <table>
 <thead>
 <tr class="header">
@@ -400,17 +404,22 @@ by an OS TTS engine).</p>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>etsy-video-v1-en.mp4</code></td>
+<td><code>etsy-video-v1.mp4</code> (root, EN)</td>
 <td>Zira (en-US female)</td>
 <td>EN burned</td>
-<td>YouTube main channel · Instagram Reels · Etsy product-update
-post</td>
+<td>Etsy listing video · YouTube · Instagram Reels</td>
 </tr>
 <tr class="even">
-<td><code>etsy-video-v1-fr.mp4</code></td>
+<td><code>etsy-video-v1-fr.mp4</code> (root, FR)</td>
 <td>Hortense (fr-FR female)</td>
 <td>FR burned</td>
-<td>French YouTube variant · French Pinterest board</td>
+<td>FR Etsy listing · FR YouTube · FR Pinterest</td>
+</tr>
+<tr class="odd">
+<td><code>output/narrated/etsy-video-v1-&lt;lang&gt;.mp4</code></td>
+<td>same as above</td>
+<td>same</td>
+<td>backup copy of the narrated output</td>
 </tr>
 </tbody>
 </table>
@@ -425,8 +434,10 @@ description for SEO</li>
 </ul>
 <p><strong>When:</strong> Cross-post at launch, then one refresh every 2
 months if click-through dropped.</p>
-<p><strong>Not for:</strong> Etsy listing video slot (use the silent
-version there).</p>
+<p><strong>Note:</strong> the root versions
+(<code>etsy-video-v1.mp4</code>, <code>etsy-video-v1-fr.mp4</code>)
+already have audio — use them for the Etsy listing slot directly. The
+<code>output/narrated/</code> copies are identical; pick either.</p>
 <hr />
 <h2 id="animated-gifs-mobile-feed-magnets">Animated GIFs (mobile feed
 magnets)</h2>
@@ -741,8 +752,12 @@ run at least once.</p>
 <pre class="bash"><code>node tools/capture-screenshots.mjs            # 49+ PNGs, ~1 min
 node tools/hero-compose.mjs                   # 6 hero variants
 node tools/theme-morph.mjs                    # 1080×1080 theme loop
-node tools/generate-video.mjs                 # silent EN 60s
-node tools/narrate-video.mjs en               # narrated EN
+node tools/generate-video.mjs                 # silent EN 60s base
+node tools/narrate-video.mjs en               # adds EN voice-over
+node tools/generate-video.mjs --lang fr       # silent FR 60s base
+node tools/narrate-video.mjs fr               # adds FR voice-over
+cp output/narrated/etsy-video-v1-en.mp4 output/etsy-video-v1.mp4
+cp output/narrated/etsy-video-v1-fr.mp4 output/etsy-video-v1-fr.mp4
 node tools/generate-gifs.mjs                  # 4 demo GIFs
 node tools/speed-test-clip.mjs                # 3.2s proof clip
 node tools/fake-ble-dialog.mjs                # synth Chrome dialog
