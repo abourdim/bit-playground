@@ -48,7 +48,7 @@
       "footerRight": "bit-playground"
     },
     {
-      "name": "hero-fr",
+      "name": "hero-fr-teacher",
       "theme": "arctic",
       "accentColor": "#e63946",
       "lang": "fr",
@@ -58,6 +58,30 @@
       "badge": "Chrome / Edge",
       "footerLeft": "Mises à jour à vie · Licence école disponible",
       "footerRight": "micro:bit V2"
+    },
+    {
+      "name": "hero-fr-kid",
+      "theme": "neon",
+      "accentColor": "#00ff88",
+      "lang": "fr",
+      "screenshots": ["screenshot-audience-kid-controls.png", "screenshot-audience-kid-3d.png"],
+      "title": "Ton micro:bit\ndevient un terrain de jeu",
+      "subtitle": "Capteurs. Servos. Modèles 3D. Rien à installer, aucun compte.",
+      "badge": "Fonctionne hors ligne",
+      "footerLeft": "Sûr pour les enfants · Pas de cloud",
+      "footerRight": "60 sec · c'est prêt"
+    },
+    {
+      "name": "hero-fr-maker",
+      "theme": "blaze",
+      "accentColor": "#ff6b35",
+      "lang": "fr",
+      "screenshots": ["screenshot-audience-maker-motors.png", "screenshot-audience-maker-3d.png"],
+      "title": "Panneau BLE\npour makers",
+      "subtitle": "Moteurs en direct · miroir 3D · export CSV · firmware libre",
+      "badge": "Web Bluetooth",
+      "footerLeft": "Firmware MakeCode · compatible open source",
+      "footerRight": "À hacker"
     },
     {
       "name": "hero-ar",

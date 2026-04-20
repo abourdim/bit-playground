@@ -31,9 +31,12 @@ import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'fs';
 import { resolve, join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
+const argLangIdx = process.argv.indexOf('--lang');
+const LANG = argLangIdx > 0 ? process.argv[argLangIdx + 1] : 'en';
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG = resolve(__dirname, '..');
-const OUT = resolve(PKG, 'output', 'accessibility');
+const OUT = LANG === 'en' ? resolve(PKG, 'output', 'accessibility') : resolve(PKG, 'output', LANG, 'accessibility');
 const AUDIO = join(OUT, 'audio-descriptions');
 const BRAILLE = join(OUT, 'braille');
 mkdirSync(AUDIO, { recursive: true });
@@ -46,32 +49,25 @@ const PRODUCT = CFG.productName || 'Product';
 // Each printable gets a 30-second narration describing the visual layout
 // for blind/low-vision users.
 
-const NARRATIONS = [
-  {
-    name: 'classroom-poster',
-    text: `Classroom poster for ${PRODUCT}. The poster is designed for A3 portrait print, with a dark navy background and neon green accents. At the top, the title reads "We Control Robots With Code." Below that, a row of five colored icons represents the five main steps: Power On, Connect, Code, Test, and Play. Each step has a short description. The bottom third of the poster shows the class motto in large friendly text.`
-  },
-  {
-    name: 'quickstart-card',
-    text: `Quickstart card for ${PRODUCT}. An A4 portrait card intended for each student's desk. The card has five numbered panels arranged vertically. Panel one: Turn on your micro:bit. Panel two: Click Connect. Panel three: Pick your board from the list. Panel four: The status dot turns green. Panel five: You're ready to play. Each panel includes a small icon and a short instruction.`
-  },
-  {
-    name: 'shortcuts-cheatsheet',
-    text: `Keyboard shortcut cheatsheet for ${PRODUCT}. An A4 landscape card with three columns listing all the keyboard shortcuts. Left column covers navigation: number keys 1 through 7 switch tabs. Middle column covers actions: space bar to connect or disconnect, P to pause the graph, F for fullscreen. Right column covers BLE state indicators: green dot means connected, amber means connecting, red means disconnected.`
-  },
-  {
-    name: 'lesson-plan-template',
-    text: `Lesson plan template for ${PRODUCT}. A3 portrait, intended for teachers. The top half is an editable form with fields for lesson title, grade level, duration, materials, and learning objectives. The bottom half is a worked example: a 45-minute lesson called "Hot or Not, The Sensor Detective," with student activities, teacher prompts, and a rubric for assessment.`
-  },
-  {
-    name: 'sticker-sheet',
-    text: `Reward sticker sheet for ${PRODUCT}. An A4 sheet with thirty circular badge designs arranged in a six-by-five grid. Each badge represents an achievement: I Connected BLE, Firmware Flasher, Ten Commands Sent, Sensor Reader, and so on. Intended to be printed on Avery 22807 round sticker paper.`
-  },
-  {
-    name: 'readme-quickstart',
-    text: `Welcome page for ${PRODUCT} buyers. Single A4 page that greets new buyers and walks them through the first three things to do: flash the firmware, open the app in Chrome or Edge, and play. Includes a live animated preview at the top showing the app cycling through four themes.`
-  },
-];
+const NARRATIONS_BY_LANG = {
+  en: [
+    { name: 'classroom-poster',     text: `Classroom poster for ${PRODUCT}. The poster is designed for A3 portrait print, with a dark navy background and neon green accents. At the top, the title reads "We Control Robots With Code." Below that, a row of five colored icons represents the five main steps: Power On, Connect, Code, Test, and Play. Each step has a short description. The bottom third of the poster shows the class motto in large friendly text.` },
+    { name: 'quickstart-card',      text: `Quickstart card for ${PRODUCT}. An A4 portrait card intended for each student's desk. The card has five numbered panels arranged vertically. Panel one: Turn on your micro:bit. Panel two: Click Connect. Panel three: Pick your board from the list. Panel four: The status dot turns green. Panel five: You're ready to play. Each panel includes a small icon and a short instruction.` },
+    { name: 'shortcuts-cheatsheet', text: `Keyboard shortcut cheatsheet for ${PRODUCT}. An A4 landscape card with three columns listing all the keyboard shortcuts. Left column covers navigation: number keys 1 through 7 switch tabs. Middle column covers actions: space bar to connect or disconnect, P to pause the graph, F for fullscreen. Right column covers BLE state indicators: green dot means connected, amber means connecting, red means disconnected.` },
+    { name: 'lesson-plan-template', text: `Lesson plan template for ${PRODUCT}. A3 portrait, intended for teachers. The top half is an editable form with fields for lesson title, grade level, duration, materials, and learning objectives. The bottom half is a worked example: a 45-minute lesson called "Hot or Not, The Sensor Detective," with student activities, teacher prompts, and a rubric for assessment.` },
+    { name: 'sticker-sheet',        text: `Reward sticker sheet for ${PRODUCT}. An A4 sheet with thirty circular badge designs arranged in a six-by-five grid. Each badge represents an achievement: I Connected BLE, Firmware Flasher, Ten Commands Sent, Sensor Reader, and so on. Intended to be printed on Avery 22807 round sticker paper.` },
+    { name: 'readme-quickstart',    text: `Welcome page for ${PRODUCT} buyers. Single A4 page that greets new buyers and walks them through the first three things to do: flash the firmware, open the app in Chrome or Edge, and play. Includes a live animated preview at the top showing the app cycling through four themes.` },
+  ],
+  fr: [
+    { name: 'classroom-poster',     text: `Affiche de classe pour ${PRODUCT}. L'affiche est conçue pour impression A3 portrait, avec un fond bleu marine et des accents vert néon. En haut, le titre indique : "On contrôle des robots avec du code." En dessous, cinq icônes colorées représentent les cinq étapes principales : Allumer, Connecter, Coder, Tester, Jouer. Chaque étape a une courte description. Le tiers inférieur affiche la devise de la classe en grandes lettres amicales.` },
+    { name: 'quickstart-card',      text: `Fiche de démarrage rapide pour ${PRODUCT}. Carte A4 portrait pour chaque pupitre d'élève. La fiche comporte cinq panneaux numérotés. Panneau un : allumez votre micro:bit. Panneau deux : cliquez sur Connecter. Panneau trois : choisissez votre carte dans la liste. Panneau quatre : la pastille de statut devient verte. Panneau cinq : vous êtes prêt à jouer. Chaque panneau inclut une petite icône et une instruction courte.` },
+    { name: 'shortcuts-cheatsheet', text: `Fiche des raccourcis clavier pour ${PRODUCT}. Carte A4 paysage avec trois colonnes listant tous les raccourcis clavier. Colonne de gauche, navigation : les chiffres de 1 à 7 changent d'onglet. Colonne du milieu, actions : barre d'espace pour connecter ou déconnecter, P pour mettre le graphique en pause, F pour le plein écran. Colonne de droite, indicateurs de statut BLE : vert connecté, jaune en cours, rouge déconnecté.` },
+    { name: 'lesson-plan-template', text: `Modèle de plan de leçon pour ${PRODUCT}. Format A3 portrait pour les enseignants. La moitié supérieure est un formulaire modifiable avec les champs titre de leçon, niveau, durée, matériel et objectifs. La moitié inférieure est un exemple complet : une leçon de quarante-cinq minutes intitulée "Chaud ou Pas, Le Détective des Capteurs", avec activités, questions enseignant, et grille d'évaluation.` },
+    { name: 'sticker-sheet',        text: `Feuille d'autocollants de récompense pour ${PRODUCT}. Feuille A4 avec trente badges ronds disposés en grille six par cinq. Chaque badge représente une réussite : J'ai connecté le BLE, Flasheur de firmware, Dix commandes envoyées, Lecteur de capteurs, et ainsi de suite. À imprimer sur papier autocollant rond Avery 22807.` },
+    { name: 'readme-quickstart',    text: `Page d'accueil pour les acheteurs de ${PRODUCT}. Une page A4 qui accueille les nouveaux acheteurs et les guide à travers les trois premières choses à faire : flasher le firmware, ouvrir l'application dans Chrome ou Edge, et jouer. Inclut un aperçu animé en direct en haut, montrant l'application qui passe par les quatre thèmes.` },
+  ],
+};
+const NARRATIONS = NARRATIONS_BY_LANG[LANG] || NARRATIONS_BY_LANG.en;
 
 // ---------- audio via OS TTS ----------
 
@@ -87,10 +83,9 @@ function detectTts() {
 
 function ttsToFile(text, outPath, engine) {
   if (engine === 'powershell') {
-    // Windows SAPI — writes a .wav. Forces an English voice via culture
-    // hint so French-locale Windows machines don't produce accented-English
-    // narration of English text. Falls back cleanly if no en-* voice is
-    // installed (warns once via stderr from PowerShell).
+    // Windows SAPI — forces an {LANG}-* voice so transcripts are narrated
+    // in the right language regardless of OS locale.
+    const ttsLang = LANG === 'fr' ? 'fr' : 'en';
     const wavPath = outPath.replace(/\.mp3$/, '.wav');
     const textPath = outPath.replace(/\.mp3$/, '.txt');
     writeFileSync(textPath, text);
@@ -99,9 +94,9 @@ function ttsToFile(text, outPath, engine) {
       $s = New-Object System.Speech.Synthesis.SpeechSynthesizer;
       $s.Rate = 0;
       try {
-        $en = $s.GetInstalledVoices() | Where-Object { $_.VoiceInfo.Culture.Name -like 'en-*' } | Select-Object -First 1;
-        if ($en) { $s.SelectVoice($en.VoiceInfo.Name); }
-        else { [Console]::Error.WriteLine('⚠️  no en-* voice installed; using default'); }
+        $v = $s.GetInstalledVoices() | Where-Object { $_.VoiceInfo.Culture.Name -like '${ttsLang}-*' } | Select-Object -First 1;
+        if ($v) { $s.SelectVoice($v.VoiceInfo.Name); }
+        else { [Console]::Error.WriteLine('⚠️  no ${ttsLang}-* voice installed; using default'); }
       } catch {}
       $s.SetOutputToWaveFile('${wavPath.replace(/\\/g, '\\\\').replace(/'/g, "''")}');
       $s.Speak([IO.File]::ReadAllText('${textPath.replace(/\\/g, '\\\\').replace(/'/g, "''")}'));
@@ -174,17 +169,31 @@ function toGrade1Braille(text) {
 
 console.log(`\n⠃⠗⠇  Braille translations (Grade 1)\n`);
 
-const BRAILLE_ITEMS = [
-  { name: 'poster-title',   text: 'We control robots with code' },
-  { name: 'poster-motto',   text: 'Every kid can code, every brain can invent' },
-  { name: 'quickstart-1',   text: '1. Turn on your micro:bit' },
-  { name: 'quickstart-2',   text: '2. Click Connect' },
-  { name: 'quickstart-3',   text: '3. Pick your board' },
-  { name: 'quickstart-4',   text: '4. Status turns green' },
-  { name: 'quickstart-5',   text: '5. Play and learn' },
-  { name: 'welcome',        text: `Welcome to ${PRODUCT}` },
-  { name: 'connect-status', text: 'Connected. Sensor stream active. Ready to play.' },
-];
+const BRAILLE_BY_LANG = {
+  en: [
+    { name: 'poster-title',   text: 'We control robots with code' },
+    { name: 'poster-motto',   text: 'Every kid can code, every brain can invent' },
+    { name: 'quickstart-1',   text: '1. Turn on your micro:bit' },
+    { name: 'quickstart-2',   text: '2. Click Connect' },
+    { name: 'quickstart-3',   text: '3. Pick your board' },
+    { name: 'quickstart-4',   text: '4. Status turns green' },
+    { name: 'quickstart-5',   text: '5. Play and learn' },
+    { name: 'welcome',        text: `Welcome to ${PRODUCT}` },
+    { name: 'connect-status', text: 'Connected. Sensor stream active. Ready to play.' },
+  ],
+  fr: [
+    { name: 'poster-title',   text: 'On controle des robots avec du code' },
+    { name: 'poster-motto',   text: 'Chaque enfant peut coder chaque cerveau peut inventer' },
+    { name: 'quickstart-1',   text: '1. Allumez votre micro bit' },
+    { name: 'quickstart-2',   text: '2. Cliquez sur Connecter' },
+    { name: 'quickstart-3',   text: '3. Choisissez votre carte' },
+    { name: 'quickstart-4',   text: '4. Le statut passe au vert' },
+    { name: 'quickstart-5',   text: '5. Jouez et apprenez' },
+    { name: 'welcome',        text: `Bienvenue dans ${PRODUCT}` },
+    { name: 'connect-status', text: 'Connecte. Flux de capteurs actif. Pret a jouer.' },
+  ],
+};
+const BRAILLE_ITEMS = BRAILLE_BY_LANG[LANG] || BRAILLE_BY_LANG.en;
 
 const sections = BRAILLE_ITEMS.map(item => {
   const brl = toGrade1Braille(item.text);

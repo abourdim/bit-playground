@@ -29,9 +29,12 @@ import { writeFileSync, mkdirSync, readFileSync } from 'fs';
 import { resolve, join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
+const argLangIdx = process.argv.indexOf('--lang');
+const LANG = argLangIdx > 0 ? process.argv[argLangIdx + 1] : 'en';
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG = resolve(__dirname, '..');
-const OUT = resolve(PKG, 'output', 'chatbot');
+const OUT = LANG === 'en' ? resolve(PKG, 'output', 'chatbot') : resolve(PKG, 'output', LANG, 'chatbot');
 mkdirSync(OUT, { recursive: true });
 
 const CFG = JSON.parse(readFileSync(resolve(__dirname, 'capture-config.json'), 'utf8'));
@@ -39,7 +42,35 @@ const PRODUCT = CFG.productName || 'Product';
 
 // ---------- FAQ rules (keyword → answer) ----------
 
-const RULES = [
+const RULES_BY_LANG = { en: null, fr: null };
+RULES_BY_LANG.fr = [
+  { id: 'ipad-safari', keywords: ['ipad', 'iphone', 'ios', 'safari'],
+    answer: `Malheureusement Safari iOS ne supporte pas le Web Bluetooth, donc ${PRODUCT} ne pourra pas se connecter à un micro:bit sur iPad ou iPhone. Utilisez Chrome ou Edge sur un ordinateur ou un appareil Android.` },
+  { id: 'chrome-edge', keywords: ['navigateur', 'chrome', 'edge', 'firefox', 'compatibilité'],
+    answer: `${PRODUCT} fonctionne dans **Chrome 89+** et **Edge 89+** sur Windows, macOS, Linux, Chromebook et Android. Firefox et Safari ne sont pas supportés (pas de Web Bluetooth).` },
+  { id: 'installation', keywords: ['installer', 'télécharger', 'install', 'démarrer'],
+    answer: `Pas d'installation — ${PRODUCT} est un fichier HTML que vous ouvrez dans Chrome ou Edge. Téléchargez le ZIP depuis Etsy, dézippez, double-cliquez \`index.html\`, cliquez **Connecter**, choisissez votre carte.` },
+  { id: 'microbit-version', keywords: ['micro:bit v1', 'microbit v1', 'v1.5', 'ancien'],
+    answer: `${PRODUCT} est conçu pour le **BBC micro:bit V2**. Le V1.5 fonctionne pour les capteurs BLE mais n'a pas de micro ni haut-parleur. Le V1.0 n'a pas de Bluetooth LE et ne peut pas se connecter.` },
+  { id: 'offline', keywords: ['hors ligne', 'offline', 'sans internet', 'wifi'],
+    answer: `Après le premier chargement, ${PRODUCT} fonctionne entièrement hors ligne (c'est une PWA). Parfait pour les pare-feu d'école.` },
+  { id: 'multiple-students', keywords: ['30 élèves', 'classe', 'école', 'licence'],
+    answer: `Chaque élève ouvre le même fichier HTML localement. Un achat Etsy = un enseignant. Pour toute une école, voir la licence site (jusqu'à 30 enseignants par site).` },
+  { id: 'firmware', keywords: ['firmware', 'hex', 'makecode', 'flasher'],
+    answer: `Le firmware est un court programme MakeCode inclus (\`makecode.ts\`). Copiez-collez dans [makecode.microbit.org](https://makecode.microbit.org), téléchargez le .hex, glissez sur votre micro:bit. Fonctionne ensuite à vie.` },
+  { id: 'languages', keywords: ['français', 'arabe', 'langue', 'traduction'],
+    answer: `${PRODUCT} est disponible en anglais, français et arabe (avec mise en page RTL complète). Changer de langue depuis le sélecteur de drapeau en haut à droite.` },
+  { id: 'updates', keywords: ['mise à jour', 'nouvelle version', 'lifetime'],
+    answer: `Toutes les futures versions sont gratuites à vie depuis votre historique d'achat Etsy. Pas de mise à jour cloud automatique — vous choisissez quand récupérer une nouvelle version.` },
+  { id: 'data-privacy', keywords: ['confidentialité', 'privacy', 'données', 'cloud'],
+    answer: `Zéro télémétrie. ${PRODUCT} n'a ni serveur, ni compte, ni cloud. Toutes les données des capteurs restent sur votre appareil.` },
+  { id: 'csv-export', keywords: ['csv', 'export', 'données', 'tableur'],
+    answer: `L'onglet Graphique enregistre les données des capteurs en direct et exporte en CSV — une ligne par échantillon, prêt pour Excel / Sheets / Python.` },
+  { id: 'servos-motors', keywords: ['servo', 'moteur', 'bouger'],
+    answer: `${PRODUCT} pilote deux servos connectés aux broches P1 et P2. L'onglet Moteurs a des curseurs, l'onglet Manette envoie des commandes directionnelles.` },
+];
+
+RULES_BY_LANG.en = [
   {
     id: 'ipad-safari',
     keywords: ['ipad', 'iphone', 'ios', 'safari'],
@@ -101,6 +132,8 @@ const RULES = [
     answer: `${PRODUCT} drives two servos connected to pins P1 and P2. The Motors tab has sliders for angle control, the GamePad tab sends directional commands, and the 3D tab mirrors the board's orientation in real time.`,
   },
 ];
+
+const RULES = RULES_BY_LANG[LANG] || RULES_BY_LANG.en;
 
 writeFileSync(join(OUT, 'faq-rules.json'), JSON.stringify(RULES, null, 2));
 

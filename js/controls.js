@@ -390,8 +390,11 @@ window.addEventListener('DOMContentLoaded', () => {
     const hp = parseHash();
     if (hp.tab) initialTab = hp.tab;
     if (hp.theme) setTheme(hp.theme);
-    if (hp.lang && typeof setLanguage === 'function') {
-        try { setLanguage(hp.lang); } catch {}
+    if (hp.lang) {
+        try {
+            if (typeof setAppLang === 'function') setAppLang(hp.lang);
+            else if (typeof setLanguage === 'function') setLanguage(hp.lang);
+        } catch {}
     }
     // Reflect user actions back into the hash.
     tabButtons.forEach(btn => btn.addEventListener('click', () => writeHash({ tab: btn.dataset.page })));

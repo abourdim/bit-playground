@@ -27,12 +27,32 @@ import { readFileSync, mkdirSync, existsSync, readdirSync, rmSync } from 'fs';
 import { resolve, join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
+const argLangIdx = process.argv.indexOf('--lang');
+const LANG = argLangIdx > 0 ? process.argv[argLangIdx + 1] : '';
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG  = resolve(__dirname, '..');
 const ROOT = resolve(PKG, '..');
 const INDEX = resolve(ROOT, 'index.html');
-const OUT = resolve(PKG, 'output', 'speed-test');
+const OUT = LANG ? resolve(PKG, 'output', LANG, 'speed-test') : resolve(PKG, 'output', 'speed-test');
 const TMP = resolve(OUT, '_tmp');
+
+// Overlay text per language (English default, French translation)
+const L = LANG === 'fr' ? {
+  started: '▶ DÉMARRAGE',
+  connecting: '🔗 CONNEXION...',
+  live: '✓ DONNÉES EN DIRECT',
+  toLiveData: 'vers données en direct',
+  headline: 'Navigateur → micro\\:bit V2 → données',
+  tagline: 'Sans installation · 60 sec pour toute une classe',
+} : {
+  started: '▶ STARTED',
+  connecting: '🔗 CONNECTING...',
+  live: '✓ LIVE DATA',
+  toLiveData: 'to live data',
+  headline: 'Browser → micro\\:bit V2 → live data',
+  tagline: 'No install · 60-sec setup for a whole classroom',
+};
 const CFG = JSON.parse(readFileSync(resolve(__dirname, 'capture-config.json'), 'utf8'));
 
 mkdirSync(OUT, { recursive: true });
@@ -67,7 +87,8 @@ try {
     recordVideo: { dir: TMP, size: { width: W, height: H } },
   });
   const page = await ctx.newPage();
-  await page.goto(`file://${INDEX.replace(/\\/g, '/')}`, { waitUntil: 'domcontentloaded' });
+  const langHash = LANG ? `#lang=${LANG}` : '';
+  await page.goto(`file://${INDEX.replace(/\\/g, '/')}${langHash}`, { waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(400);
   if (CFG.onboarding?.localStorageKey) {
     await page.evaluate(k => { try { localStorage.setItem(k, '1'); } catch {} }, CFG.onboarding.localStorageKey);
@@ -177,27 +198,27 @@ const overlay = [
   `drawbox=x=120:y=60:w=840:h=120:color=black@0.85:t=fill`,
 
   // Status text: STARTED (0–0.7s)
-  `drawtext=enable='between(t,0,0.7)':text='▶ STARTED':` +
+  `drawtext=enable='between(t,0,0.7)':text='${L.started}':` +
     `fontcolor=white:fontsize=54:fontfile='${FONT}':x=180:y=90`,
   // Status text: CONNECTING (0.7–3.2s)
-  `drawtext=enable='between(t,0.7,${CHECKPOINT})':text='🔗 CONNECTING...':` +
+  `drawtext=enable='between(t,0.7,${CHECKPOINT})':text='${L.connecting}':` +
     `fontcolor=#ffcc33:fontsize=54:fontfile='${FONT}':x=180:y=90`,
   // Status text: LIVE (3.2s+)
-  `drawtext=enable='gte(t,${CHECKPOINT})':text='✓ LIVE DATA':` +
+  `drawtext=enable='gte(t,${CHECKPOINT})':text='${L.live}':` +
     `fontcolor=#00ff88:fontsize=54:fontfile='${FONT}':x=180:y=90`,
 
   // Giant checkpoint flash at t=3.2s (fade-in over 0.3s)
   `drawbox=enable='gte(t,${CHECKPOINT})':x=120:y=${H - 500}:w=840:h=180:color=#00ff88:t=fill`,
   `drawtext=enable='gte(t,${CHECKPOINT})':text='${CHECKPOINT}s':` +
     `fontcolor=black:fontsize=130:fontfile='${FONT}':x=190:y=${H - 485}`,
-  `drawtext=enable='gte(t,${CHECKPOINT})':text='to live data':` +
+  `drawtext=enable='gte(t,${CHECKPOINT})':text='${L.toLiveData}':` +
     `fontcolor=black:fontsize=48:fontfile='${FONT}':x=420:y=${H - 400}`,
 
   // Bottom headline (always on)
-  `drawtext=text='Browser → micro\\:bit V2 → live data':` +
+  `drawtext=text='${L.headline}':` +
     `fontcolor=white:fontsize=48:fontfile='${FONT}':x=(w-text_w)/2:y=${H - 180}`,
   // Bottom tagline (always on)
-  `drawtext=text='No install · 60-sec setup for a whole classroom':` +
+  `drawtext=text='${L.tagline}':` +
     `fontcolor=#88aaff:fontsize=30:fontfile='${FONT}':x=(w-text_w)/2:y=${H - 110}`,
 ].join(',');
 

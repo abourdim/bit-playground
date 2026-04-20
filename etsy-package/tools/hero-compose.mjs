@@ -25,10 +25,13 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync, rmSync } from 'fs';
 import { resolve, join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
+const argLangIdx = process.argv.indexOf('--lang');
+const LANG = argLangIdx > 0 ? process.argv[argLangIdx + 1] : '';
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG = resolve(__dirname, '..');
-const SHOTS = resolve(PKG, 'output', 'screenshots');
-const OUT = resolve(PKG, 'output', 'heroes');
+const SHOTS = LANG ? resolve(PKG, 'output', LANG, 'screenshots') : resolve(PKG, 'output', 'screenshots');
+const OUT = LANG ? resolve(PKG, 'output', LANG, 'heroes') : resolve(PKG, 'output', 'heroes');
 const TMP = resolve(OUT, '_tmp');
 const SPECS_PATH = resolve(__dirname, 'hero-specs.json');
 mkdirSync(OUT, { recursive: true });
@@ -40,7 +43,7 @@ if (!existsSync(SPECS_PATH)) {
 }
 
 const { heroes } = JSON.parse(readFileSync(SPECS_PATH, 'utf8'));
-const ONLY = process.argv[2];
+const ONLY = process.argv.find((a, i) => i >= 2 && !a.startsWith('--') && process.argv[i - 1] !== '--lang');
 
 const THEMES = {
   stealth: { bg: '#0a0e12', accent: '#00ff88',  text: '#e8ffe8', subtext: '#6b7a85' },
@@ -208,6 +211,10 @@ try {
   console.log(`\n🎨 Composing ${heroes.length} hero(es) @ 1500×1500\n`);
   for (const h of heroes) {
     if (ONLY && ONLY !== h.name) continue;
+    // When --lang is set, only render specs matching that lang.
+    if (LANG && (h.lang || 'en') !== LANG) continue;
+    // When --lang is NOT set, skip localized specs (they're for the locale run).
+    if (!LANG && h.lang && h.lang !== 'en') continue;
     const html = compositeHtml(h);
     const htmlPath = join(TMP, `${h.name}.html`);
     writeFileSync(htmlPath, html);
