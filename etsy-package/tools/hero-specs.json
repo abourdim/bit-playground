@@ -1,0 +1,39 @@
+{
+  "_comment": "A/B hero image specs. Each produces a 1500x1500 Etsy thumbnail. Ship 2-5 variants — Etsy's own image-order experiment picks the winner. Screenshots reference output/screenshots/<file>.",
+
+  "heroes": [
+    {
+      "name": "hero-teacher",
+      "theme": "arctic",
+      "accentColor": "#0077cc",
+      "screenshots": ["screenshot-audience-teacher-sensors.png", "screenshot-audience-teacher-graph.png"],
+      "title": "Every Sensor,\nLive in Every Browser",
+      "subtitle": "Built for STEM classrooms · 30 laptops, zero install",
+      "badge": "Chrome / Edge",
+      "footerLeft": "Lifetime updates · Site license available",
+      "footerRight": "micro:bit V2"
+    },
+    {
+      "name": "hero-kid",
+      "theme": "neon",
+      "accentColor": "#00ff88",
+      "screenshots": ["screenshot-audience-kid-controls.png", "screenshot-audience-kid-3d.png"],
+      "title": "Your micro:bit\nbecomes a playground",
+      "subtitle": "Sensors. Servos. 3D models. No install, no account.",
+      "badge": "Works offline",
+      "footerLeft": "Kid-safe · No cloud",
+      "footerRight": "60-sec setup"
+    },
+    {
+      "name": "hero-maker",
+      "theme": "blaze",
+      "accentColor": "#ff6b35",
+      "screenshots": ["screenshot-audience-maker-motors.png", "screenshot-audience-maker-3d.png"],
+      "title": "BLE Control Panel\nfor Makers",
+      "subtitle": "Live motors · 3D mirrors · CSV export · open firmware",
+      "badge": "Web Bluetooth",
+      "footerLeft": "MakeCode firmware · Open source friendly",
+      "footerRight": "Hack it"
+    }
+  ]
+}

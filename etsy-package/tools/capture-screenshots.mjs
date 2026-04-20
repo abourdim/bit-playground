@@ -14,6 +14,7 @@
  *   offline     — app with "OFFLINE MODE" proof overlay
  *   annotated   — SVG callouts drawn on configured scenes
  *   aspects     — each hero tab rendered at 4 viewport aspect ratios
+ *   audiences   — per-persona composite shots (theme + tab + state)
  *   alt         — regenerate .alt.txt next to each PNG (read-only)
  *   all         — everything (long run, ~1 min)
  *
@@ -419,6 +420,26 @@ async function modeAnnotated(browser) {
   await ctx.close();
 }
 
+async function modeAudiences(browser) {
+  const audiences = CFG.audiences || [];
+  if (!audiences.length) { console.log('  ⚠️  no audiences configured'); return; }
+  const leds = CFG.pairs?.leds;
+  const { ctx, page } = await newPage(browser);
+  for (const a of audiences) {
+    if (a.theme) await setTheme(page, a.theme);
+    const ok = await switchTab(page, a.tabSlug);
+    if (!ok) { console.log(`  ⚠️  audience tab missing: ${a.tabSlug}`); continue; }
+    if (a.synthetic) await injectSyntheticState(page);
+    if (a.drawHeart && leds) await drawLedPattern(page, leds);
+    await page.waitForTimeout(300);
+    const out = join(OUT, `screenshot-audience-${a.name}.png`);
+    await shot(page, out);
+    await writeAltText(page, out, `${a.name} persona`);
+    console.log(`  ✓ screenshot-audience-${a.name}.png`);
+  }
+  await ctx.close();
+}
+
 async function modeAspects(browser) {
   const aspects = [
     { name: '9x16', viewport: { width: 1080, height: 1920 } },
@@ -467,6 +488,7 @@ try {
   if (MODE === 'offline' || MODE === 'all')    { console.log('\n▸ Offline proof');         await modeOffline(browser); }
   if (MODE === 'annotated' || MODE === 'all')  { console.log('\n▸ Annotated callouts');    await modeAnnotated(browser); }
   if (MODE === 'aspects' || MODE === 'all')    { console.log('\n▸ Multi-aspect');          await modeAspects(browser); }
+  if (MODE === 'audiences' || MODE === 'all')  { console.log('\n▸ Audience packs');        await modeAudiences(browser); }
   if (MODE === 'alt')                          { console.log('▸ Alt-text only');           modeAltOnly(); }
 } finally {
   await browser.close();

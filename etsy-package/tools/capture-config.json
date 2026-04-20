@@ -109,6 +109,18 @@
 
   "heroTabs": ["controls", "3d", "graph"],
 
+  "audiences": [
+    { "name": "teacher-sensors", "theme": "arctic", "tabSlug": "sensors",  "synthetic": true },
+    { "name": "teacher-graph",   "theme": "arctic", "tabSlug": "graph",    "synthetic": true },
+    { "name": "teacher-more",    "theme": "arctic", "tabSlug": "more",     "synthetic": true },
+    { "name": "kid-controls",    "theme": "neon",   "tabSlug": "controls", "drawHeart": true, "synthetic": true },
+    { "name": "kid-gamepad",     "theme": "neon",   "tabSlug": "gamepad",  "synthetic": true },
+    { "name": "kid-3d",          "theme": "neon",   "tabSlug": "3d",       "synthetic": true },
+    { "name": "maker-motors",    "theme": "blaze",  "tabSlug": "motors",   "synthetic": true },
+    { "name": "maker-bench",     "theme": "blaze",  "tabSlug": "bench",    "synthetic": true },
+    { "name": "maker-3d",        "theme": "blaze",  "tabSlug": "3d",       "synthetic": true }
+  ],
+
   "offlineScene": {
     "tabSlug": "sensors",
     "overlayTitle": "✈️ OFFLINE MODE",

@@ -194,6 +194,17 @@ async function main() {
   }
   console.log(`  ✓ printables/ HTML sources (${htmlSourceCount}/${htmlSources.length})`);
 
+  // Copy theme-morph.gif alongside printables so README-quickstart.html's
+  // <img src="theme-morph.gif"> loops the live-preview animation when buyers
+  // open the HTML in a browser. Skipped silently if not yet generated.
+  const themeGif = join(OUT, 'theme-morph.gif');
+  if (existsSync(themeGif)) {
+    copyFileSync(themeGif, join(ZIP_DIR, 'printables', 'theme-morph.gif'));
+    console.log('  ✓ printables/theme-morph.gif (auto-play demo)');
+  } else {
+    warn('printables/theme-morph.gif missing — run tools/theme-morph.mjs first');
+  }
+
   let mockupCount = 0;
   for (let i = 1; i <= 7; i++) {
     const f = `etsy-mockup-${i}.png`;
