@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>micro:bit Playground Quick-Start Card</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Righteous&family=Orbitron:wght@500&family=Tajawal:wght@400;500;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  @page { size: A4 portrait; margin: 0; }
+  body { width: 210mm; height: 297mm; font-family: 'Tajawal', sans-serif; background: #020617; color: #cbd5e1; overflow: hidden; }
+
+  .page { width: 210mm; height: 297mm; padding: 14mm 16mm; position: relative; overflow: hidden; }
+  .page::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(34,197,94,.015) 3px, rgba(34,197,94,.015) 6px);
+    pointer-events: none;
+  }
+
+  .header { text-align: center; margin-bottom: 10mm; position: relative; }
+  .header h1 { font-family: 'Righteous', sans-serif; font-size: 42px; color: #22c55e; letter-spacing: 2px; }
+  .header .sub { font-size: 16px; color: #94a3b8; margin-top: 2px; }
+  .header .tagline { font-size: 13px; color: #64748b; margin-top: 4px; }
+  .header .line { width: 80%; height: 2px; background: linear-gradient(90deg, transparent, rgba(34,197,94,.35), transparent); margin: 8px auto 0; }
+
+  .steps { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8mm; }
+  .step {
+    background: rgba(15,23,42,.6); border: 1px solid rgba(34,197,94,.14);
+    border-radius: 14px; padding: 16px 18px; position: relative;
+  }
+  .step-num {
+    position: absolute; top: -10px; left: 14px;
+    width: 28px; height: 28px; background: #22c55e; color: #020617;
+    border-radius: 50%; font-family: 'Orbitron', monospace; font-size: 13px;
+    display: flex; align-items: center; justify-content: center; font-weight: 700;
+  }
+  .step h3 { font-size: 16px; color: #22c55e; margin-top: 8px; margin-bottom: 4px; font-family: 'Righteous', sans-serif; }
+  .step p { font-size: 13px; color: #94a3b8; line-height: 1.5; }
+  .step .icon { font-size: 28px; text-align: center; margin-bottom: 2px; }
+  .step-full { grid-column: 1 / -1; }
+
+  .section-title { font-family: 'Righteous', sans-serif; font-size: 20px; color: #22d3ee; margin: 6mm 0 4mm; display: flex; align-items: center; gap: 8px; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: rgba(34,211,238,.18); }
+
+  .shortcuts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 6mm; }
+  .shortcut {
+    background: rgba(15,23,42,.5); border: 1px solid rgba(34,197,94,.08);
+    border-radius: 10px; padding: 8px 10px; text-align: center;
+  }
+  .shortcut kbd {
+    display: inline-block; background: rgba(0,0,0,.5); border: 1px solid rgba(34,197,94,.3);
+    border-radius: 6px; padding: 3px 10px; font-family: 'Orbitron', monospace; font-size: 14px;
+    color: #22c55e; box-shadow: 0 2px 4px rgba(0,0,0,.4); margin-bottom: 3px;
+  }
+  .shortcut span { display: block; font-size: 10px; color: #64748b; }
+
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 6mm; }
+  .feat {
+    background: rgba(15,23,42,.4); border: 1px solid rgba(34,197,94,.06);
+    border-radius: 8px; padding: 8px 10px; font-size: 12px; color: #94a3b8;
+  }
+  .feat strong { color: #22d3ee; display: block; font-size: 13px; margin-bottom: 2px; }
+
+  .footer {
+    position: absolute; bottom: 12mm; left: 16mm; right: 16mm;
+    text-align: center; border-top: 1px solid rgba(34,197,94,.1);
+    padding-top: 8px;
+  }
+  .footer .url { font-family: 'Orbitron', monospace; font-size: 12px; color: #22c55e; }
+  .footer .copy { font-size: 10px; color: #64748b; margin-top: 2px; }
+
+  .pill { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; }
+  .pg { background: rgba(34,197,94,.1); color: #22c55e; border: 1px solid rgba(34,197,94,.25); }
+  .pb { background: rgba(34,211,238,.1); color: #22d3ee; border: 1px solid rgba(34,211,238,.25); }
+  code.code { background: rgba(34,197,94,.1); padding: 1px 6px; border-radius: 4px; color: #22c55e; font-size: 12px; font-family: 'Orbitron', monospace; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <h1>micro:bit Playground</h1>
+    <div class="sub">Browser BLE Control Panel for the BBC micro:bit V2</div>
+    <div class="tagline">No install &bull; No account &bull; 100% local &bull; EN / FR / AR</div>
+    <div class="line"></div>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="icon">🤖</div>
+      <h3>Flash the Firmware</h3>
+      <p>Open <a style="color:#22d3ee;">makecode.microbit.org</a>, switch to JavaScript, paste <code class="code">makecode.ts</code>, hit <strong style="color:#22c55e;">Download</strong> and drag to your micro:bit V2.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="icon">🌐</div>
+      <h3>Open the App</h3>
+      <p>Double-click <code class="code">index.html</code> in <strong style="color:#fff;">Chrome</strong> or <strong style="color:#fff;">Edge</strong>. No server, no install. Works offline as a PWA.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="icon">📡</div>
+      <h3>Pair over BLE</h3>
+      <p>Click <span class="pill pg">Connect</span>, pick <strong style="color:#fff;">BBC micro:bit [xxxxx]</strong> in the browser prompt. The board LEDs flash a tick.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="icon">🎛️</div>
+      <h3>Play with the Tabs</h3>
+      <p>LEDs, Sensors, Servos, GamePad, Graph, 3D board, Bench, About. Press <kbd style="background:rgba(0,0,0,.5);border:1px solid rgba(34,197,94,.25);border-radius:5px;padding:1px 6px;font-size:11px;font-family:'Orbitron',monospace;color:#22c55e;">1</kbd>–<kbd style="background:rgba(0,0,0,.5);border:1px solid rgba(34,197,94,.25);border-radius:5px;padding:1px 6px;font-size:11px;font-family:'Orbitron',monospace;color:#22c55e;">8</kbd> to jump.</p>
+    </div>
+    <div class="step step-full">
+      <div class="step-num">5</div>
+      <div class="icon">📈</div>
+      <h3>Graph It &amp; Save</h3>
+      <p>Open the <strong style="color:#22c55e;">Graph</strong> tab to see live temperature, light, sound and motion rolling across Chart.js. Press <kbd style="background:rgba(0,0,0,.5);border:1px solid rgba(34,197,94,.2);border-radius:4px;padding:0 6px;font-family:'Orbitron',monospace;font-size:11px;color:#22c55e;">F</kbd> for fullscreen, tap <span class="pill pb">Record</span> to capture a session and export it as JSON. No micro:bit? Try <strong style="color:#22d3ee;">Simulate Mode</strong>.</p>
+    </div>
+  </div>
+
+  <div class="section-title">Essential Shortcuts</div>
+  <div class="shortcuts">
+    <div class="shortcut"><kbd>Space</kbd><span>Pause stream</span></div>
+    <div class="shortcut"><kbd>1-8</kbd><span>Switch tab</span></div>
+    <div class="shortcut"><kbd>P</kbd><span>LED presets</span></div>
+    <div class="shortcut"><kbd>F</kbd><span>Fullscreen graph</span></div>
+    <div class="shortcut"><kbd>K</kbd><span>Clear graph</span></div>
+    <div class="shortcut"><kbd>Esc</kbd><span>Close overlay</span></div>
+    <div class="shortcut"><kbd>?</kbd><span>Shortcuts help</span></div>
+    <div class="shortcut"><kbd>T</kbd><span>Cycle themes</span></div>
+  </div>
+
+  <div class="section-title">Highlights</div>
+  <div class="features">
+    <div class="feat"><strong>5&times;5 LED Matrix</strong>Draw, presets, hex patterns</div>
+    <div class="feat"><strong>Live Sensors</strong>Temp, light, sound, accel, compass</div>
+    <div class="feat"><strong>Dual Servos P1/P2</strong>Sliders, gauges, OFF buttons</div>
+    <div class="feat"><strong>3D Board View</strong>micro:bit, Buggy, Arm, Balance, Weather</div>
+    <div class="feat"><strong>4 Themes</strong>Stealth, Neon, Arctic, Blaze</div>
+    <div class="feat"><strong>Trilingual</strong>English, Français, العربية</div>
+  </div>
+
+  <div class="footer">
+    <div class="url">micro:bit Playground v1.2.0</div>
+    <div class="copy">For BBC micro:bit V2 &bull; Web Bluetooth required &bull; Chrome / Edge</div>
+  </div>
+
+</div>
+<!-- QR-BLOCK-START -->
+<div style="position:fixed;right:12mm;bottom:12mm;display:flex;gap:8mm;align-items:center;
+  background:rgba(10,14,18,0.92);color:#e8ffe8;padding:4mm 5mm;border-radius:3mm;
+  box-shadow:0 2mm 6mm rgba(0,0,0,0.35);font-family:-apple-system,Segoe UI,sans-serif;
+  max-width:80mm;z-index:9999;">
+  <img src="data:image/png;base64,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tvkV2/JL2ubGtnypbb60LX/rBAB4zgkA8JwTAOA5JwDAc04AgOecAADPOQEAnnMCADznBAB4zgkA8JwTAOA5f3Kpbfjv2ZYb28L/rG1ubMsvaZsb23Kjbb7SNje25V/WNr9kW260za9omxvb8kva5kvb8pUTAOA5JwDAc04AgOecAADPOQEAnnMCADznBAB4zgkA8JwTAOA5JwDAc04AgOf8yce25SVt86W2+cq23GibX7It/7JtudE2N7blb7XNS9rml2zLK7bll7TNjW35Utvc2Ja/dQIAPOcEAHjOCQDwnBMA4DknAMBzTgCA55wAAM85AQCecwIAPOcEAHjOCQDwnD/5MW3zS7blX7Ytf6ttbmzLjba50TY3tuVG23xpW260zY1t+cq23GibG21zY1tutM2XtuVG29xomxvbcmNb/lbb3Gibf9m23GibG9vyK04AgOecAADPOQEAnnMCADznBAB4zgkA8JwTAOA5JwDAc04AgOecAADPOQEAnvMn/J/WNn9rW260zUu25Ubb3NiWG23zlW15ybb8y9rmxrb8im250TY3tuVL23KjbX7FCQDwnBMA4DknAMBzTgCA55wAAM85AQCecwIAPOcEAHjOCQDwnBMA4DknAMBz/oT/07blK9tyo21ubMuNtrmxLTfa5sa23GibG9tyo23+Vtvc2JZfsi032uZfti032uZvbcuNtrnRNl9qm1+yLb/iBAB4zgkA8JwTAOA5JwDAc04AgOecAADPOQEAnnMCADznBAB4zgkA8JwTAOA5f/JjtoX/3bbcaJu/tS032uZLbXNjW260zY1tudE2N7blRtvc2Ja/1TZfapsb2/JLtuVG29zYli9ty99qmxvbcqNtbmzLjbb50rbcaJsb2/KVEwDgOScAwHNOAIDnnAAAzzkBAJ5zAgA85wQAeM4JAPCcEwDgOScAwHNOAIDn/MnH2ob/nra5sS1/q22+tC1fapsb23KjbW5sy5e25Ubb/K1tudE2X2qbL23LL2mbG9tyo23+1rbcaJsb23Kjbb60LTfa5sa2/IoTAOA5JwDAc04AgOecAADPOQEAnnMCADznBAB4zgkA8JwTAOA5JwDAc04AgOd0/xEA4CknAMBzTgCA55wAAM85AQCecwIAPOcEAHjOCQDwnBMA4DknAMBzTgCA5/x/bLMCM3EDBNUAAAAASUVORK5CYII=" alt="QR code — scan to open live demo" style="width:24mm;height:24mm;background:#fff;padding:1mm;border-radius:1.5mm;display:block;"/>
+  <div style="display:flex;flex-direction:column;gap:1mm;min-width:0;">
+    <div style="font-weight:700;font-size:9pt;color:#00ff88;line-height:1.2;">Live demo · Chrome / Edge</div>
+    <div style="font-size:7pt;opacity:0.75;line-height:1.3;word-break:break-all;">abourdim.github.io/bit-playground/</div>
+  </div>
+</div>
+<!-- QR-BLOCK-END -->
+</body>
+</html>

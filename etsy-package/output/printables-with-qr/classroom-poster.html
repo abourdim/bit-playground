@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>micro:bit Playground — We Control Robots with Code!</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Righteous&family=Orbitron:wght@500&family=Tajawal:wght@400;500;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  @page { size: A3 portrait; margin: 0; }
+  body { width: 297mm; height: 420mm; font-family: 'Tajawal', sans-serif; background: #020617; color: #cbd5e1; overflow: hidden; }
+
+  .page { width: 297mm; height: 420mm; padding: 18mm 22mm; position: relative; overflow: hidden; }
+  .page::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(34,197,94,.014) 4px, rgba(34,197,94,.014) 8px);
+    pointer-events: none;
+  }
+  .page::after {
+    content: ''; position: absolute; inset: 10mm;
+    border: 2px solid rgba(34,197,94,.15); border-radius: 20px;
+    pointer-events: none;
+  }
+
+  .header { text-align: center; margin-bottom: 12mm; position: relative; }
+  .header .icon { font-size: 56px; margin-bottom: 4px; }
+  .header h1 { font-family: 'Righteous', sans-serif; font-size: 58px; color: #22c55e; letter-spacing: 2px; text-shadow: 0 0 40px rgba(34,197,94,.2); line-height: 1.05; }
+  .header h2 { font-family: 'Righteous', sans-serif; font-size: 28px; color: #22d3ee; margin-top: 6px; }
+  .header .line { width: 60%; height: 3px; background: linear-gradient(90deg, transparent, rgba(34,197,94,.5), transparent); margin: 10px auto 0; }
+
+  .rules { display: flex; flex-direction: column; gap: 11px; margin-bottom: 10mm; }
+  .rule {
+    display: flex; align-items: center; gap: 18px;
+    background: rgba(15,23,42,.55); border: 1px solid rgba(34,197,94,.12);
+    border-radius: 18px; padding: 16px 22px;
+  }
+  .rule-num {
+    width: 54px; height: 54px; flex-shrink: 0;
+    background: linear-gradient(135deg, #22c55e, #15803d); color: #020617;
+    border-radius: 50%; font-family: 'Orbitron', monospace; font-size: 22px;
+    display: flex; align-items: center; justify-content: center; font-weight: 700;
+    box-shadow: 0 4px 16px rgba(34,197,94,.25);
+  }
+  .rule-icon { font-size: 40px; flex-shrink: 0; width: 52px; text-align: center; }
+  .rule-text { flex: 1; }
+  .rule-text h3 { font-family: 'Righteous', sans-serif; font-size: 22px; color: #22c55e; }
+  .rule-text p { font-size: 15px; color: #94a3b8; margin-top: 2px; }
+
+  .motto-wrap { text-align: center; margin-top: 4mm; }
+  .motto {
+    display: inline-block; padding: 14px 30px;
+    background: rgba(34,211,238,.05); border: 1px solid rgba(34,211,238,.18);
+    border-radius: 16px;
+  }
+  .motto h3 { font-family: 'Righteous', sans-serif; font-size: 24px; color: #22d3ee; }
+  .motto p { font-size: 14px; color: #64748b; margin-top: 4px; }
+
+  .corner-tl, .corner-br { position: absolute; font-size: 60px; opacity: .15; }
+  .corner-tl { top: 16mm; left: 20mm; transform: rotate(-15deg); }
+  .corner-br { bottom: 16mm; right: 20mm; transform: rotate(15deg); }
+
+  .footer {
+    position: absolute; bottom: 14mm; left: 22mm; right: 22mm;
+    text-align: center;
+  }
+  .footer span { font-size: 11px; color: #64748b; }
+  .footer .brand { font-family: 'Orbitron', monospace; font-size: 12px; color: #22c55e; }
+
+  .led-row { display: flex; gap: 4px; justify-content: center; margin-top: 4px; }
+  .led { width: 10px; height: 10px; border-radius: 2px; background: #22c55e; box-shadow: 0 0 6px rgba(34,197,94,.7); }
+  .led.off { background: #1e293b; box-shadow: none; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="corner-tl">🤖</div>
+  <div class="corner-br">🚀</div>
+
+  <div class="header">
+    <div class="icon">🎮</div>
+    <h1>We Control Robots<br>with Code!</h1>
+    <h2>micro:bit Playground &bull; Classroom Guide</h2>
+    <div class="led-row">
+      <div class="led off"></div><div class="led"></div><div class="led"></div><div class="led"></div><div class="led off"></div>
+    </div>
+    <div class="line"></div>
+  </div>
+
+  <div class="rules">
+    <div class="rule">
+      <div class="rule-num">1</div>
+      <div class="rule-icon">🔌</div>
+      <div class="rule-text">
+        <h3>Power Up Your micro:bit</h3>
+        <p>Plug in the USB cable or snap in fresh batteries. You should see a friendly <strong style="color:#22c55e;">X</strong> on the LED grid &mdash; that means "ready to pair!"</p>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-num">2</div>
+      <div class="rule-icon">🌐</div>
+      <div class="rule-text">
+        <h3>Open Playground in Chrome</h3>
+        <p>Double-click <strong style="color:#22d3ee;">index.html</strong>. Our control panel loads. No internet, no login, no waiting.</p>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-num">3</div>
+      <div class="rule-icon">📡</div>
+      <div class="rule-text">
+        <h3>Click Connect, Choose Your Board</h3>
+        <p>A window pops up with a list. Pick <strong style="color:#22c55e;">BBC micro:bit [xxxxx]</strong>. The dot turns green &mdash; you are live over Bluetooth!</p>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-num">4</div>
+      <div class="rule-icon">🎛️</div>
+      <div class="rule-text">
+        <h3>Explore Every Tab</h3>
+        <p>Paint the LEDs. Watch live temperature and sound. Spin servos. Drive the 3D buggy. Press keys <strong style="color:#22c55e;">1</strong> through <strong style="color:#22c55e;">8</strong> to jump between tools.</p>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-num">5</div>
+      <div class="rule-icon">📈</div>
+      <div class="rule-text">
+        <h3>Graph It, Record It, Share It</h3>
+        <p>Open the <strong style="color:#22c55e;">Graph</strong> tab. Watch sensor lines dance. Hit <strong style="color:#22d3ee;">Record</strong> to save a session as JSON &mdash; then show a friend what you discovered!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="motto-wrap">
+    <div class="motto">
+      <h3>Every scientist started by asking "what happens if I press this?"</h3>
+      <p>Your micro:bit is a tiny computer. Today, you are its boss.</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span class="brand">micro:bit Playground v1.2.0</span>
+    <span> &bull; Print on A3, hang it proud in the lab!</span>
+  </div>
+
+</div>
+<!-- QR-BLOCK-START -->
+<div style="position:fixed;right:12mm;bottom:12mm;display:flex;gap:8mm;align-items:center;
+  background:rgba(10,14,18,0.92);color:#e8ffe8;padding:4mm 5mm;border-radius:3mm;
+  box-shadow:0 2mm 6mm rgba(0,0,0,0.35);font-family:-apple-system,Segoe UI,sans-serif;
+  max-width:80mm;z-index:9999;">
+  <img src="data:image/png;base64,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" alt="QR code — scan to open live demo" style="width:24mm;height:24mm;background:#fff;padding:1mm;border-radius:1.5mm;display:block;"/>
+  <div style="display:flex;flex-direction:column;gap:1mm;min-width:0;">
+    <div style="font-weight:700;font-size:9pt;color:#00ff88;line-height:1.2;">Scan to try the live demo</div>
+    <div style="font-size:7pt;opacity:0.75;line-height:1.3;word-break:break-all;">abourdim.github.io/bit-playground/</div>
+  </div>
+</div>
+<!-- QR-BLOCK-END -->
+</body>
+</html>
