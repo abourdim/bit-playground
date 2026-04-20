@@ -30,7 +30,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG = resolve(__dirname, '..');
 const ROOT = resolve(PKG, '..');
 const INDEX = resolve(ROOT, 'index.html');
-const OUT = resolve(PKG, 'output', 'ble-dialog');
+const OUT = resolve(PKG, 'output', 'shared', 'ble-dialog');
 mkdirSync(OUT, { recursive: true });
 const CFG = JSON.parse(readFileSync(resolve(__dirname, 'capture-config.json'), 'utf8'));
 

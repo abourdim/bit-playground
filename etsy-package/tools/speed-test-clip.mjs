@@ -28,14 +28,14 @@ import { resolve, join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const argLangIdx = process.argv.indexOf('--lang');
-const LANG = argLangIdx > 0 ? process.argv[argLangIdx + 1] : '';
+const LANG = argLangIdx > 0 ? process.argv[argLangIdx + 1] : 'en';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG  = resolve(__dirname, '..');
 const ROOT = resolve(PKG, '..');
 const INDEX = resolve(ROOT, 'index.html');
-const OUT = LANG ? resolve(PKG, 'output', LANG, 'speed-test') : resolve(PKG, 'output', 'speed-test');
-const TMP = resolve(OUT, '_tmp');
+const OUT = resolve(PKG, 'output', LANG, 'speed-test');
+const TMP = resolve(PKG, 'output', '_tmp', `speed-test-${LANG}`);
 
 // Overlay text per language (English default, French translation)
 const L = LANG === 'fr' ? {
@@ -87,7 +87,7 @@ try {
     recordVideo: { dir: TMP, size: { width: W, height: H } },
   });
   const page = await ctx.newPage();
-  const langHash = LANG ? `#lang=${LANG}` : '';
+  const langHash = LANG !== 'en' ? `#lang=${LANG}` : '';
   await page.goto(`file://${INDEX.replace(/\\/g, '/')}${langHash}`, { waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(400);
   if (CFG.onboarding?.localStorageKey) {

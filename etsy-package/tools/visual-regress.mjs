@@ -29,9 +29,11 @@ const md5 = (p) => createHash('md5').update(readFileSync(p)).digest('hex');
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG = resolve(__dirname, '..');
-const SHOTS    = resolve(PKG, 'output', 'screenshots');
-const BASELINE = resolve(PKG, 'output', 'screenshots-baseline');
-const DIFF     = resolve(PKG, 'output', 'visual-diffs');
+const argLangIdx = process.argv.indexOf('--lang');
+const LANG = argLangIdx > 0 ? process.argv[argLangIdx + 1] : 'en';
+const SHOTS    = resolve(PKG, 'output', LANG, 'screenshots');
+const BASELINE = resolve(PKG, 'output', LANG, 'screenshots-baseline');
+const DIFF     = resolve(PKG, 'output', '_tmp', `visual-diffs-${LANG}`);
 
 const ARG = process.argv[2] || '';
 const THRESHOLD_RATIO = 0.005;   // 0.5 % of pixels allowed to differ

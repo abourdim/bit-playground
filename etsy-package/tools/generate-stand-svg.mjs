@@ -33,7 +33,7 @@ import { resolve, join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const OUT = resolve(__dirname, '..', 'output', 'stand');
+const OUT = resolve(__dirname, '..', 'output', 'shared', 'stand');
 mkdirSync(OUT, { recursive: true });
 
 const T = parseFloat(process.argv[2]) || 3;       // material thickness mm

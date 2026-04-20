@@ -36,7 +36,7 @@ const LANG = argLangIdx > 0 ? process.argv[argLangIdx + 1] : 'en';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG = resolve(__dirname, '..');
-const OUT = LANG === 'en' ? resolve(PKG, 'output', 'accessibility') : resolve(PKG, 'output', LANG, 'accessibility');
+const OUT = resolve(PKG, 'output', LANG, 'accessibility');
 const AUDIO = join(OUT, 'audio-descriptions');
 const BRAILLE = join(OUT, 'braille');
 mkdirSync(AUDIO, { recursive: true });

@@ -23,7 +23,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG  = resolve(__dirname, '..');
-const OUT  = resolve(PKG, 'output', 'printables-with-qr');
+const OUT  = resolve(PKG, 'output', 'shared', 'printables-with-qr');
 const INPLACE = process.argv.includes('--inplace');
 if (!INPLACE) mkdirSync(OUT, { recursive: true });
 

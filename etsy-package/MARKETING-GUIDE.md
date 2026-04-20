@@ -42,12 +42,12 @@ experiment pick the winner, or rotate manually weekly.
 
 | File | When to use |
 |---|---|
-| `output/heroes/hero-teacher.png` | Default for launch — widest audience. Arctic palette, classroom pitch. |
-| `output/heroes/hero-kid.png` | A/B candidate. Neon palette, playground pitch. |
-| `output/heroes/hero-maker.png` | A/B candidate. Blaze palette, MakerFaire / hacker crowd. |
-| `output/heroes/hero-laptop.png` | For listings embedded on a blog — the CSS laptop frame signals "runs on real hardware." |
-| `output/heroes/hero-fr.png` | Only for the FR-localized duplicate listing. |
-| `output/heroes/hero-ar.png` | Only for the AR-localized duplicate listing. |
+| `output/en/heroes/hero-teacher.png` | Default for launch — widest audience. Arctic palette, classroom pitch. |
+| `output/en/heroes/hero-kid.png` | A/B candidate. Neon palette, playground pitch. |
+| `output/en/heroes/hero-maker.png` | A/B candidate. Blaze palette, MakerFaire / hacker crowd. |
+| `output/en/heroes/hero-laptop.png` | For listings embedded on a blog — the CSS laptop frame signals "runs on real hardware." |
+| `output/en/heroes/hero-fr.png` | Only for the FR-localized duplicate listing. |
+| `output/en/heroes/hero-ar.png` | Only for the AR-localized duplicate listing. |
 
 **Where:** Etsy listing image 1 · Pinterest board cover · email-header banner.
 **When:** Set at listing creation. Rotate 2 weeks in if CTR < 1.2 % in Etsy Stats.
@@ -56,9 +56,9 @@ experiment pick the winner, or rotate manually weekly.
 
 | File | Purpose |
 |---|---|
-| `output/photoreal/microbit-hero.png` | Photoreal 3D render of the micro:bit V2. Reads as "we have a real device" without needing a physical photo. |
-| `output/ble-dialog/ble-pairing.png` | Synthesized Chrome Bluetooth picker. Answers the #1 pre-purchase fear: "will my browser actually pair with this thing?" |
-| `output/ble-dialog/ble-pairing-lifted.png` | Alternative with lifted backdrop for print/mockup compositing. |
+| `output/shared/photoreal/microbit-hero.png` | Photoreal 3D render of the micro:bit V2. Reads as "we have a real device" without needing a physical photo. |
+| `output/shared/ble-dialog/ble-pairing.png` | Synthesized Chrome Bluetooth picker. Answers the #1 pre-purchase fear: "will my browser actually pair with this thing?" |
+| `output/shared/ble-dialog/ble-pairing-lifted.png` | Alternative with lifted backdrop for print/mockup compositing. |
 
 **Where:** Etsy image 2 (photoreal) and image 3 (BLE dialog).
 **When:** Permanent slots. These don't age out; they're evergreen trust signals.
@@ -67,12 +67,12 @@ experiment pick the winner, or rotate manually weekly.
 
 | File | Use |
 |---|---|
-| `output/screenshots/screenshot-<tab>-live.png` | Synthetic-state captures of each tab (controls / sensors / motors / gamepad / graph / 3d / bench / more). UI looks *alive* — connected pill, populated sensors, activity feed. |
-| `output/screenshots/pair-graph-active.png` | Graph with live waveform. |
-| `output/screenshots/pair-3d-tilted.png` | 3D model at 30° tilt. |
-| `output/screenshots/screenshot-graph-annotated.png` | Graph with a "One click to save data" call-out arrow. |
-| `output/screenshots/screenshot-3d-annotated.png` | 3D tab with "Tilt yours — this follows" call-out. |
-| `output/screenshots/screenshot-sensors-annotated.png` | Sensors tab with "Live from micro:bit" call-out. |
+| `output/en/screenshots/screenshot-<tab>-live.png` | Synthetic-state captures of each tab (controls / sensors / motors / gamepad / graph / 3d / bench / more). UI looks *alive* — connected pill, populated sensors, activity feed. |
+| `output/en/screenshots/pair-graph-active.png` | Graph with live waveform. |
+| `output/en/screenshots/pair-3d-tilted.png` | 3D model at 30° tilt. |
+| `output/en/screenshots/screenshot-graph-annotated.png` | Graph with a "One click to save data" call-out arrow. |
+| `output/en/screenshots/screenshot-3d-annotated.png` | 3D tab with "Tilt yours — this follows" call-out. |
+| `output/en/screenshots/screenshot-sensors-annotated.png` | Sensors tab with "Live from micro:bit" call-out. |
 
 **Where:** Etsy images 4–6 · Pinterest secondary pins.
 **When:** Permanent slots. Replace a screenshot only after you've shipped a major UI change.
@@ -81,8 +81,8 @@ experiment pick the winner, or rotate manually weekly.
 
 | File | Use |
 |---|---|
-| `output/screenshots/screenshot-theme-<stealth/neon/arctic/blaze>.png` | 2×2 grid collage showing the 4 themes. Good for "personalize it" angle. |
-| `output/theme-morph.gif` | 6-second animated GIF cycling through all 4 themes. Etsy autoplays GIFs in the image grid on mobile. |
+| `output/en/screenshots/screenshot-theme-<stealth/neon/arctic/blaze>.png` | 2×2 grid collage showing the 4 themes. Good for "personalize it" angle. |
+| `output/en/theme-morph.gif` | 6-second animated GIF cycling through all 4 themes. Etsy autoplays GIFs in the image grid on mobile. |
 
 **Where:** Etsy image 7 (theme grid) · image 8 (GIF).
 **When:** Permanent. The GIF in particular is a measurable CTR lift on mobile.
@@ -93,16 +93,16 @@ One of these depending on which audience you want to push:
 
 | File | For |
 |---|---|
-| `output/screenshots/screenshot-audience-teacher-*.png` | Teacher-focused listing angle |
-| `output/screenshots/screenshot-audience-kid-*.png` | Parent-of-kid angle |
-| `output/screenshots/screenshot-audience-maker-*.png` | Maker / hobbyist angle |
+| `output/en/screenshots/screenshot-audience-teacher-*.png` | Teacher-focused listing angle |
+| `output/en/screenshots/screenshot-audience-kid-*.png` | Parent-of-kid angle |
+| `output/en/screenshots/screenshot-audience-maker-*.png` | Maker / hobbyist angle |
 
 **Where:** Etsy image 9 · Pinterest "pitch" pins.
 **When:** Rotate based on seasonal campaigns (back-to-school → teacher, holidays → kid, MakerFaire week → maker).
 
 ### Slot 10 — What's in the ZIP
 
-`etsy-package/output/etsy-mockup-5.png` — pre-composed "what's inside" mockup
+`etsy-package/output/shared/mockups/etsy-mockup-5.png` — pre-composed "what's inside" mockup
 listing all deliverables.
 
 ---
@@ -112,7 +112,7 @@ listing all deliverables.
 Etsy allows **one** video per listing, muted autoplay in the thumbnail
 grid, 60-second max, 1080×1920 9:16.
 
-### Use: `output/etsy-video-v1.mp4` (EN) or `etsy-video-v1-fr.mp4` (FR)
+### Use: `output/en/etsy-video-v1.mp4` (EN) or `output/fr/etsy-video-v1.mp4` (FR)
 
 - 60s exactly
 - Burned-in captions (EN or FR) — readable on phone
@@ -130,15 +130,15 @@ grid, 60-second max, 1080×1920 9:16.
 
 Same 60-second visual, but with voice-over (the captions read aloud by an OS TTS engine).
 
-The root videos (`etsy-video-v1.mp4`, `etsy-video-v1-fr.mp4`) already
-have narration. `output/narrated/` holds the same files as backup /
-source-of-truth for the narration pipeline.
+The main per-language videos (`output/en/etsy-video-v1.mp4`,
+`output/fr/etsy-video-v1.mp4`) already have narration. A backup copy
+lives at `output/<lang>/narrated/etsy-video-v1.mp4` — byte-identical.
 
 | File | Audio voice | Captions | Channel |
 |---|---|---|---|
-| `etsy-video-v1.mp4` (root, EN) | Zira (en-US female) | EN burned | Etsy listing video · YouTube · Instagram Reels |
-| `etsy-video-v1-fr.mp4` (root, FR) | Hortense (fr-FR female) | FR burned | FR Etsy listing · FR YouTube · FR Pinterest |
-| `output/narrated/etsy-video-v1-<lang>.mp4` | same as above | same | backup copy of the narrated output |
+| `output/en/etsy-video-v1.mp4` | Zira (en-US female) | EN burned | Etsy listing video · YouTube · Instagram Reels |
+| `output/fr/etsy-video-v1.mp4` | Hortense (fr-FR female) | FR burned | FR Etsy listing · FR YouTube · FR Pinterest |
+| `output/<lang>/narrated/etsy-video-v1.mp4` | same as above | same | backup copy of the narrated output |
 
 **Where:**
 - YouTube — upload as a product demo with the caption script in the description for SEO
@@ -148,7 +148,7 @@ source-of-truth for the narration pipeline.
 
 **When:** Cross-post at launch, then one refresh every 2 months if click-through dropped.
 
-**Note:** the root versions (`etsy-video-v1.mp4`, `etsy-video-v1-fr.mp4`) already have audio — use them for the Etsy listing slot directly. The `output/narrated/` copies are identical; pick either.
+**Note:** the main per-language versions (`output/en/etsy-video-v1.mp4`, `output/fr/etsy-video-v1.mp4`) already have audio — use them for the Etsy listing slot directly. The `output/<lang>/narrated/` copies are identical backups; pick either.
 
 ---
 
@@ -156,7 +156,7 @@ source-of-truth for the narration pipeline.
 
 Short, loopable, autoplay-everywhere demonstrations of one specific feature.
 
-### Use: `output/gifs/<name>.gif` (and matching `.mp4`)
+### Use: `output/en/gifs/<name>.gif` (and matching `.mp4`)
 
 | File | Shows | Best channel |
 |---|---|---|
@@ -197,10 +197,10 @@ Single-purpose images that answer a specific objection.
 
 | File | Answers the objection |
 |---|---|
-| `output/ble-dialog/ble-pairing.png` | "Will Chrome actually pair with a micro:bit?" (Shows the native dialog.) |
-| `output/speed-test/speed-test.mp4` / `.gif` | "Will this work in a 4-minute class period?" (3.2s to live data.) |
-| `output/screenshots/screenshot-offline.png` | "Works offline?" (Big OFFLINE MODE overlay, sensors still populated.) |
-| `output/photoreal/microbit-hero.png` | "Do you have a real product?" (Photoreal 3D render.) |
+| `output/shared/ble-dialog/ble-pairing.png` | "Will Chrome actually pair with a micro:bit?" (Shows the native dialog.) |
+| `output/en/speed-test/speed-test.mp4` / `.gif` | "Will this work in a 4-minute class period?" (3.2s to live data.) |
+| `output/en/screenshots/screenshot-offline.png` | "Works offline?" (Big OFFLINE MODE overlay, sensors still populated.) |
+| `output/shared/photoreal/microbit-hero.png` | "Do you have a real product?" (Photoreal 3D render.) |
 
 **Where:** FAQ section of the listing · link in DM reply templates · cited in blog posts.
 **When:** Paste a link to the relevant one when a buyer pre-purchase message asks that specific question.
@@ -211,7 +211,7 @@ Single-purpose images that answer a specific objection.
 
 Not images — tools that power your workflow.
 
-### `output/captions/captions.md`
+### `output/en/captions/captions.md`
 A/B-ready caption bank. 5 hero titles, 5 subtitles, 5 social captions, 5
 Pinterest captions, 5 email subjects — per audience (teacher / kid / maker).
 
@@ -220,7 +220,7 @@ Pinterest captions, 5 email subjects — per audience (teacher / kid / maker).
 - Email subject lines for launch-week mailings.
 - Social copy rotation for the first 30 days.
 
-### `output/chatbot/embed.{js,html}`
+### `output/en/chatbot/embed.{js,html}`
 Client-side chatbot for the live-demo page. 12 canned FAQs covering the
 90 % of pre-purchase questions.
 
@@ -241,11 +241,11 @@ Meets U.S. IDEA / UK SEND school-procurement accessibility requirements
 
 | File | Use |
 |---|---|
-| `output/accessibility/audio-descriptions/*.wav` | 30-second spoken descriptions of each printable. Zira (en-US) voice. |
-| `output/accessibility/audio-descriptions/*.txt` | Same as text transcript — for Braille display users or DAISY readers. |
-| `output/accessibility/braille/*.brl` | Unicode Grade-1 Braille of key phrases. Print on heavy paper + emboss. |
-| `output/accessibility/braille/printable.html` | Combined embosser-friendly sheet. |
-| `output/accessibility/README.md` | Accessibility statement — paste into the Etsy listing description. |
+| `output/en/accessibility/audio-descriptions/*.wav` | 30-second spoken descriptions of each printable. Zira (en-US) voice. |
+| `output/en/accessibility/audio-descriptions/*.txt` | Same as text transcript — for Braille display users or DAISY readers. |
+| `output/en/accessibility/braille/*.brl` | Unicode Grade-1 Braille of key phrases. Print on heavy paper + emboss. |
+| `output/en/accessibility/braille/printable.html` | Combined embosser-friendly sheet. |
+| `output/en/accessibility/README.md` | Accessibility statement — paste into the Etsy listing description. |
 
 **Where:**
 - Link the accessibility statement in the Etsy FAQ.
@@ -258,7 +258,7 @@ Meets U.S. IDEA / UK SEND school-procurement accessibility requirements
 
 ## Physical artifact
 
-### `output/stand/stand-3mm.{svg,dxf}` + `README.md`
+### `output/shared/stand/stand-3mm.{svg,dxf}` + `README.md`
 
 Lasercut acrylic desk stand for the micro:bit V2. 2-piece flat-pack,
 friction-fit joint, no glue. Teacher-facing README includes laser
@@ -284,7 +284,7 @@ README-quickstart.html and LICENSE. Filename includes buyer initials.
 node tools/watermark-zip.mjs --buyer "Alice Smith" --order "12345"
 ```
 
-Output: `output/buyers/BitPlayground-AS-12345-v1.2.0.zip`
+Output: `output/shared/buyers/BitPlayground-AS-12345-v1.2.0.zip`
 
 **When:**
 - Manually for each Etsy order during low-volume weeks.
@@ -292,7 +292,7 @@ Output: `output/buyers/BitPlayground-AS-12345-v1.2.0.zip`
 
 **Effect:** Buyer thinks "personalized." Pirate thinks "traceable." Both are what you want.
 
-### `output/datasets/` (100 CSVs)
+### `output/shared/datasets/` (100 CSVs)
 
 Synthetic but realistic micro:bit sensor sessions across 9 scenarios.
 Makes the product hardware-OPTIONAL — teachers can teach data analysis
@@ -360,8 +360,8 @@ node tools/generate-video.mjs                 # silent EN 60s base
 node tools/narrate-video.mjs en               # adds EN voice-over
 node tools/generate-video.mjs --lang fr       # silent FR 60s base
 node tools/narrate-video.mjs fr               # adds FR voice-over
-cp output/narrated/etsy-video-v1-en.mp4 output/etsy-video-v1.mp4
-cp output/narrated/etsy-video-v1-fr.mp4 output/etsy-video-v1-fr.mp4
+cp output/en/narrated/etsy-video-v1.mp4 output/en/etsy-video-v1.mp4
+cp output/fr/narrated/etsy-video-v1.mp4 output/output/fr/etsy-video-v1.mp4
 node tools/generate-gifs.mjs                  # 4 demo GIFs
 node tools/speed-test-clip.mjs                # 3.2s proof clip
 node tools/fake-ble-dialog.mjs                # synth Chrome dialog
@@ -380,23 +380,23 @@ node etsy-package/build-package.js
 1. Create the listing (copy title + description from
    `seller-only/ETSY_LISTING.md`)
 2. Upload images in order:
-   - Slot 1 — `output/heroes/hero-teacher.png`
-   - Slot 2 — `output/photoreal/microbit-hero.png`
-   - Slot 3 — `output/ble-dialog/ble-pairing.png`
+   - Slot 1 — `output/en/heroes/hero-teacher.png`
+   - Slot 2 — `output/shared/photoreal/microbit-hero.png`
+   - Slot 3 — `output/shared/ble-dialog/ble-pairing.png`
    - Slot 4–6 — Three synthetic-live screenshots of your choice
-   - Slot 7 — `output/screenshots/screenshot-theme-*.png` (pick best)
-   - Slot 8 — `output/theme-morph.gif`
+   - Slot 7 — `output/en/screenshots/screenshot-theme-*.png` (pick best)
+   - Slot 8 — `output/en/theme-morph.gif`
    - Slot 9 — An audience-pack shot matching your launch focus
-   - Slot 10 — `output/etsy-mockup-5.png` (what's in the ZIP)
-3. Upload `output/etsy-video-v1.mp4` as the listing video
+   - Slot 10 — `output/shared/mockups/etsy-mockup-5.png` (what's in the ZIP)
+3. Upload `output/en/etsy-video-v1.mp4` as the listing video
 4. Paste 13 tags from the `ETSY_LISTING.md` tags list
 5. Attach the generated ZIP
 
 ### T–30m — Distribution channels
 
-1. Publish the YouTube demo (`output/narrated/etsy-video-v1-en.mp4`)
+1. Publish the YouTube demo (`output/en/narrated/etsy-video-v1.mp4`)
 2. Pin 4 Pinterest pins (`seller-only/pinterest-pins.html` output)
-3. Tweet the GIF + Etsy link (`output/gifs/graph-record.gif`)
+3. Tweet the GIF + Etsy link (`output/en/gifs/graph-record.gif`)
 4. Email your list with the EN narrated video embedded
 5. Push the MakeCode extension repo public on GitHub
 

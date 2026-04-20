@@ -26,7 +26,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG = resolve(__dirname, '..');
-const OUT = resolve(PKG, 'output', 'buyers');
+const OUT = resolve(PKG, 'output', 'shared', 'buyers');
 mkdirSync(OUT, { recursive: true });
 
 // ---------- CLI ----------

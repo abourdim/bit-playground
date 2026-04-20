@@ -34,18 +34,13 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG  = resolve(__dirname, '..');
-const OUT  = resolve(PKG, 'output', 'narrated');
-const TMP  = resolve(OUT, '_tmp');
 const CAPTIONS_DIR = resolve(__dirname, 'captions');
-// Per-language silent video lookup: prefer output/etsy-video-v1-<lang>-silent.mp4
-// (produced by `generate-video.mjs --lang <code>`). Falls back to the EN
-// silent base if a language-specific one isn't on disk.
-function silentVideoFor(lang) {
-  const specific = resolve(PKG, 'output', `etsy-video-v1-${lang}-silent.mp4`);
-  if (existsSync(specific)) return specific;
-  return resolve(PKG, 'output', 'etsy-video-v1.mp4');
-}
-mkdirSync(OUT, { recursive: true });
+// Silent base video lives at output/<lang>/etsy-video-v1.mp4 (produced by
+// generate-video.mjs --lang <code>). Narrated output goes to
+// output/<lang>/narrated/etsy-video-v1.mp4.
+const silentVideoFor = (lang) => resolve(PKG, 'output', lang, 'etsy-video-v1.mp4');
+const narratedOutFor = (lang) => resolve(PKG, 'output', lang, 'narrated', 'etsy-video-v1.mp4');
+const tmpFor = (lang) => resolve(PKG, 'output', '_tmp', `narrate-${lang}`);
 
 const ONLY_LANG = process.argv[2];
 
@@ -58,8 +53,8 @@ function checkFfmpeg() {
   if (r.status !== 0) { console.error('❌ ffmpeg not on PATH.'); process.exit(1); }
 }
 checkFfmpeg();
-if (!existsSync(resolve(PKG, 'output', 'etsy-video-v1.mp4'))) {
-  console.error(`❌ base video missing. Run tools/generate-video.mjs first.`);
+if (!existsSync(resolve(PKG, 'output', 'en', 'etsy-video-v1.mp4'))) {
+  console.error(`❌ base video missing at output/en/etsy-video-v1.mp4.\n   Run: node tools/generate-video.mjs`);
   process.exit(1);
 }
 
@@ -139,7 +134,7 @@ async function buildTrack(lang, langPrefix) {
   const srtPath = join(CAPTIONS_DIR, `video-captions-${lang}.srt`);
   const cues = parseSrt(srtPath);
   if (!cues) { console.log(`  ⚠️  no SRT for ${lang}`); return null; }
-
+  const TMP = tmpFor(lang);
   if (existsSync(TMP)) rmSync(TMP, { recursive: true, force: true });
   mkdirSync(TMP, { recursive: true });
 
@@ -211,7 +206,8 @@ async function buildTrack(lang, langPrefix) {
   ff(['-y', '-f', 'concat', '-safe', '0', '-i', concatTxt, '-ar', '44100', '-ac', '2', trackWav], 'concat narration');
 
   // ---------- mux into the silent video ----------
-  const outMp4 = join(OUT, `etsy-video-v1-${lang}.mp4`);
+  const outMp4 = narratedOutFor(lang);
+  mkdirSync(dirname(outMp4), { recursive: true });
   ff([
     '-y', '-i', silentVideoFor(lang), '-i', trackWav,
     '-c:v', 'copy',

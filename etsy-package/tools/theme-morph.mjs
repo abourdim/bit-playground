@@ -21,13 +21,13 @@ import { resolve, join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const argLangIdx = process.argv.indexOf('--lang');
-const LANG = argLangIdx > 0 ? process.argv[argLangIdx + 1] : '';
+const LANG = argLangIdx > 0 ? process.argv[argLangIdx + 1] : 'en';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG = resolve(__dirname, '..');
-const SHOTS = LANG ? resolve(PKG, 'output', LANG, 'screenshots') : resolve(PKG, 'output', 'screenshots');
-const OUT = LANG ? resolve(PKG, 'output', LANG) : resolve(PKG, 'output');
-const TMP = resolve(OUT, 'theme-morph-tmp');
+const SHOTS = resolve(PKG, 'output', LANG, 'screenshots');
+const OUT = resolve(PKG, 'output', LANG);
+const TMP = resolve(PKG, 'output', '_tmp', `theme-morph-${LANG}`);
 
 const THEMES = ['stealth', 'neon', 'arctic', 'blaze'];
 // 1:1 square — Pinterest + Instagram + Etsy thumbnail all prefer square.

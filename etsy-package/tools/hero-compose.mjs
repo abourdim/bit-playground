@@ -26,13 +26,13 @@ import { resolve, join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const argLangIdx = process.argv.indexOf('--lang');
-const LANG = argLangIdx > 0 ? process.argv[argLangIdx + 1] : '';
+const LANG = argLangIdx > 0 ? process.argv[argLangIdx + 1] : 'en';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG = resolve(__dirname, '..');
-const SHOTS = LANG ? resolve(PKG, 'output', LANG, 'screenshots') : resolve(PKG, 'output', 'screenshots');
-const OUT = LANG ? resolve(PKG, 'output', LANG, 'heroes') : resolve(PKG, 'output', 'heroes');
-const TMP = resolve(OUT, '_tmp');
+const SHOTS = resolve(PKG, 'output', LANG, 'screenshots');
+const OUT = resolve(PKG, 'output', LANG, 'heroes');
+const TMP = resolve(PKG, 'output', '_tmp', `heroes-${LANG}`);
 const SPECS_PATH = resolve(__dirname, 'hero-specs.json');
 mkdirSync(OUT, { recursive: true });
 mkdirSync(TMP, { recursive: true });
@@ -211,10 +211,8 @@ try {
   console.log(`\n🎨 Composing ${heroes.length} hero(es) @ 1500×1500\n`);
   for (const h of heroes) {
     if (ONLY && ONLY !== h.name) continue;
-    // When --lang is set, only render specs matching that lang.
-    if (LANG && (h.lang || 'en') !== LANG) continue;
-    // When --lang is NOT set, skip localized specs (they're for the locale run).
-    if (!LANG && h.lang && h.lang !== 'en') continue;
+    // Only render specs matching the current lang (default 'en').
+    if ((h.lang || 'en') !== LANG) continue;
     const html = compositeHtml(h);
     const htmlPath = join(TMP, `${h.name}.html`);
     writeFileSync(htmlPath, html);

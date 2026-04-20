@@ -37,19 +37,11 @@ const LANG = argLangIdx > 0 ? process.argv[argLangIdx + 1] : 'en';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG  = resolve(__dirname, '..');
 const ROOT = resolve(PKG, '..');
-const OUT  = resolve(PKG, 'output');
-const SCENES_DIR = resolve(OUT, 'video-scenes');
-// Prefer lang-specific screenshots when available (e.g. output/fr/screenshots
-// holds screenshots of the app rendered in French). Falls back to the default
-// EN set if the lang-specific folder doesn't exist.
-const SHOTS = (() => {
-  const langShots = resolve(PKG, 'output', LANG, 'screenshots');
-  return LANG !== 'en' && existsSync(langShots)
-    ? langShots
-    : resolve(PKG, 'output', 'screenshots');
-})();
+const OUT  = resolve(PKG, 'output', LANG);
+const SCENES_DIR = resolve(PKG, 'output', '_tmp', `video-scenes-${LANG}`);
+const SHOTS = resolve(PKG, 'output', LANG, 'screenshots');
 const CAPTIONS = resolve(__dirname, 'captions', `video-captions-${LANG}.srt`);
-const FINAL = resolve(OUT, LANG === 'en' ? 'etsy-video-v1.mp4' : `etsy-video-v1-${LANG}-silent.mp4`);
+const FINAL = resolve(OUT, 'etsy-video-v1.mp4');
 
 const W = 1080, H = 1920, FPS = 30;
 const BG = '#0a0e12';      // matches teleprompter/shoot-card

@@ -28,7 +28,7 @@ const LANG = argLangIdx > 0 ? process.argv[argLangIdx + 1] : 'en';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG = resolve(__dirname, '..');
-const OUT = LANG === 'en' ? resolve(PKG, 'output', 'captions') : resolve(PKG, 'output', LANG, 'captions');
+const OUT = resolve(PKG, 'output', LANG, 'captions');
 mkdirSync(OUT, { recursive: true });
 
 const CFG = JSON.parse(readFileSync(resolve(__dirname, 'capture-config.json'), 'utf8'));

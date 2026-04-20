@@ -30,13 +30,13 @@ import { fileURLToPath } from 'url';
 // (#lang=fr) and writes outputs under output/<lang>/screenshots/ so
 // localized assets never clobber the default (EN) set.
 const argLangIdx = process.argv.indexOf('--lang');
-const LANG = argLangIdx > 0 ? process.argv[argLangIdx + 1] : '';
+const LANG = argLangIdx > 0 ? process.argv[argLangIdx + 1] : 'en';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG  = resolve(__dirname, '..');
 const ROOT = resolve(PKG, '..');
 const INDEX = resolve(ROOT, 'index.html');
-const OUT = LANG ? resolve(PKG, 'output', LANG, 'screenshots') : resolve(PKG, 'output', 'screenshots');
+const OUT = resolve(PKG, 'output', LANG, 'screenshots');
 const CONFIG_PATH = resolve(__dirname, 'capture-config.json');
 mkdirSync(OUT, { recursive: true });
 
@@ -55,7 +55,7 @@ const CFG = JSON.parse(readFileSync(CONFIG_PATH, 'utf8'));
 async function newPage(browser, viewport = LANDSCAPE) {
   const ctx = await browser.newContext({ viewport, deviceScaleFactor: 1 });
   const page = await ctx.newPage();
-  const langHash = LANG ? `#lang=${LANG}` : '';
+  const langHash = LANG !== 'en' ? `#lang=${LANG}` : '';
   await page.goto(`file://${INDEX.replace(/\\/g, '/')}${langHash}`, { waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(600);
   if (CFG.onboarding) {

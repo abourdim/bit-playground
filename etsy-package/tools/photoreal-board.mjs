@@ -27,8 +27,8 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG = resolve(__dirname, '..');
-const OUT = resolve(PKG, 'output', 'photoreal');
-const TMP = resolve(OUT, '_tmp');
+const OUT = resolve(PKG, 'output', 'shared', 'photoreal');
+const TMP = resolve(PKG, 'output', '_tmp', 'photoreal');
 mkdirSync(OUT, { recursive: true });
 if (existsSync(TMP)) rmSync(TMP, { recursive: true, force: true });
 mkdirSync(TMP, { recursive: true });

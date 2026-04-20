@@ -28,13 +28,13 @@ import { resolve, join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const argLangIdx = process.argv.indexOf('--lang');
-const LANG = argLangIdx > 0 ? process.argv[argLangIdx + 1] : '';
+const LANG = argLangIdx > 0 ? process.argv[argLangIdx + 1] : 'en';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG  = resolve(__dirname, '..');
 const ROOT = resolve(PKG, '..');
 const INDEX = resolve(ROOT, 'index.html');
-const OUT = LANG ? resolve(PKG, 'output', LANG, 'gifs') : resolve(PKG, 'output', 'gifs');
+const OUT = resolve(PKG, 'output', LANG, 'gifs');
 const CFG = JSON.parse(readFileSync(resolve(__dirname, 'capture-config.json'), 'utf8'));
 
 const ONLY = process.argv.find((a, i) => i >= 2 && !a.startsWith('--') && process.argv[i - 1] !== '--lang');
@@ -138,7 +138,7 @@ async function newPageRec(browser, videosDir) {
     recordVideo: { dir: videosDir, size: { width: W, height: H } },
   });
   const page = await ctx.newPage();
-  const langHash = LANG ? `#lang=${LANG}` : '';
+  const langHash = LANG !== 'en' ? `#lang=${LANG}` : '';
   await page.goto(`file://${INDEX.replace(/\\/g, '/')}${langHash}`, { waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(600);
   if (CFG.onboarding?.localStorageKey) {
