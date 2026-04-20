@@ -126,6 +126,38 @@ function compositeHtml(spec) {
   }
   .shot:nth-child(2) { transform: perspective(1800px) rotateY(8deg) translateY(40px); }
   .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* Laptop-frame variant: wraps a single screenshot in a CSS-drawn MacBook-
+     style bezel with a hinge + base. Triggered by spec.frame === 'laptop'. */
+  .laptop {
+    position: relative; width: 920px; max-width: 92%;
+    margin: 0 auto;
+  }
+  .laptop-screen {
+    background: #000; border-radius: 14px 14px 3px 3px;
+    padding: 24px 24px 16px;
+    box-shadow: 0 28px 80px rgba(0,0,0,0.55), 0 0 0 2px #2a2a2f;
+    position: relative;
+  }
+  .laptop-notch {
+    position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+    width: 120px; height: 12px; background: #1a1a1e;
+    border-radius: 0 0 10px 10px;
+  }
+  .laptop-screen img { width: 100%; border-radius: 3px; display: block; }
+  .laptop-hinge {
+    width: 100%; height: 18px;
+    background: linear-gradient(180deg, #3a3a3f, #1a1a1e);
+    border-radius: 0 0 6px 6px;
+    box-shadow: inset 0 -1px 0 #000;
+  }
+  .laptop-base {
+    width: 118%; height: 22px;
+    margin: 0 -9%;
+    background: linear-gradient(180deg, #d0d2d6 0%, #8a8e95 100%);
+    border-radius: 0 0 40px 40px / 0 0 18px 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+  }
   .badge {
     position: absolute; top: 60px; right: 80px;
     background: ${accent}; color: #000;
@@ -149,7 +181,16 @@ function compositeHtml(spec) {
     <div class="title">${spec.title || 'Product'}</div>
     <div class="subtitle">${spec.subtitle || ''}</div>
     <div class="shots">
-      ${shots.map(s => `<div class="shot"><img src="file://${s}"></div>`).join('\n      ')}
+      ${spec.frame === 'laptop' && shots[0] ? `
+        <div class="laptop">
+          <div class="laptop-screen">
+            <div class="laptop-notch"></div>
+            <img src="file://${shots[0]}">
+          </div>
+          <div class="laptop-hinge"></div>
+          <div class="laptop-base"></div>
+        </div>
+      ` : shots.map(s => `<div class="shot"><img src="file://${s}"></div>`).join('\n      ')}
     </div>
     <div class="footer">
       <div>${spec.footerLeft || 'Lifetime updates'}</div>

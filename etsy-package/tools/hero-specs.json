@@ -36,6 +36,18 @@
       "footerRight": "Hack it"
     },
     {
+      "name": "hero-laptop",
+      "theme": "stealth",
+      "accentColor": "#00ff88",
+      "frame": "laptop",
+      "screenshots": ["screenshot-audience-kid-3d.png"],
+      "title": "Your micro:bit,\non your laptop.",
+      "subtitle": "One browser tab. Live 3D. Zero install.",
+      "badge": "Chrome / Edge",
+      "footerLeft": "No cloud · No account",
+      "footerRight": "bit-playground"
+    },
+    {
       "name": "hero-fr",
       "theme": "arctic",
       "accentColor": "#e63946",

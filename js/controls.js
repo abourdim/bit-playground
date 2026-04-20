@@ -366,6 +366,43 @@ window.addEventListener('DOMContentLoaded', () => {
         const stored = localStorage.getItem('mb_active_tab');
         if (stored) initialTab = stored;
     } catch {}
+
+    // ------------ URL hash router (#tab=X&theme=Y&lang=Z) ------------
+    // Lets marketing / docs deep-link to a specific app state. Also writes
+    // the active state back into the hash so users can share the URL.
+    function parseHash() {
+        const h = window.location.hash.replace(/^#/, '');
+        if (!h) return {};
+        return Object.fromEntries(h.split('&').filter(Boolean).map(p => {
+            const [k, v] = p.split('='); return [decodeURIComponent(k), decodeURIComponent(v || '')];
+        }));
+    }
+    function writeHash(updates) {
+        const cur = parseHash();
+        const next = { ...cur, ...updates };
+        Object.keys(next).forEach(k => { if (!next[k]) delete next[k]; });
+        const str = Object.entries(next).map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`).join('&');
+        const newHash = str ? '#' + str : '';
+        if (window.location.hash !== newHash) {
+            history.replaceState(null, '', window.location.pathname + window.location.search + newHash);
+        }
+    }
+    const hp = parseHash();
+    if (hp.tab) initialTab = hp.tab;
+    if (hp.theme) setTheme(hp.theme);
+    if (hp.lang && typeof setLanguage === 'function') {
+        try { setLanguage(hp.lang); } catch {}
+    }
+    // Reflect user actions back into the hash.
+    tabButtons.forEach(btn => btn.addEventListener('click', () => writeHash({ tab: btn.dataset.page })));
+    themeBtns.forEach(btn => btn.addEventListener('click', () => writeHash({ theme: btn.dataset.theme })));
+    // React to external hash changes (back/forward, edits by user).
+    window.addEventListener('hashchange', () => {
+        const p = parseHash();
+        if (p.tab) setActiveTab(p.tab);
+        if (p.theme) setTheme(p.theme);
+    });
+
     setActiveTab(initialTab);
 
     addLogLine(t('log_ui_ready'), 'info');
