@@ -132,9 +132,14 @@
     border-radius: 10px;
     font-family: 'SF Mono', Menlo, Consolas, monospace;
     font-size: 13px;
-    line-height: 1.7;
+    line-height: 1.6;
     overflow-x: auto;
     margin: 16px 0;
+    white-space: pre;
+    border: 1px solid #e1e4e8;
+  }
+  @media (prefers-color-scheme: dark) {
+    .tree { border-color: #2a3038; }
   }
   .tree .comment { color: #6b7280; font-family: inherit; }
   .tree .folder { color: #00884a; font-weight: 600; }
