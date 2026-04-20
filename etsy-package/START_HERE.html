@@ -491,17 +491,19 @@ node build-package.js</code></pre>
 <p>The full tree was in §2. The short rules:</p>
 
 <ul style="margin-left: 20px; margin-bottom: 16px;">
-  <li><strong><code>output/en/</code></strong> — English-language deliverables. Use these for your main Etsy listing.</li>
-  <li><strong><code>output/fr/</code></strong> — French-language deliverables. Use these for a French-audience listing / Pinterest / YouTube.</li>
+  <li><strong><code>output/en/</code></strong> — English-language deliverables. Use these for your main Etsy listing. Zira narration.</li>
+  <li><strong><code>output/fr/</code></strong> — French-language deliverables. Use these for a French-audience listing / Pinterest / YouTube. Hortense narration.</li>
+  <li><strong><code>output/ar/</code></strong> — Arabic-language deliverables with RTL layout. Naayf narration. Full parity with EN + FR.</li>
   <li><strong><code>output/shared/</code></strong> — language-agnostic (mockups, photoreal board, BLE dialog, datasets, lasercut stand, printable renders). One copy for all locales.</li>
   <li><strong><code>output/_tmp/</code></strong> — ffmpeg / Playwright intermediates. Safe to delete. Gitignored.</li>
 </ul>
 
 <div class="callout">
   <strong>Which video do I upload to Etsy?</strong>
-  For the EN listing: <code>output/en/etsy-video-v1.mp4</code>.
-  For the FR listing: <code>output/fr/etsy-video-v1.mp4</code>.
-  Both already have narration (Zira for EN, Hortense for FR). Etsy plays muted in the grid, users can unmute to hear voice-over.
+  EN listing: <code>output/en/etsy-video-v1.mp4</code> (Zira narration).
+  FR listing: <code>output/fr/etsy-video-v1.mp4</code> (Hortense narration).
+  AR listing: <code>output/ar/etsy-video-v1.mp4</code> (Naayf narration, RTL layout).
+  All three already have audio tracks. Etsy plays muted in the grid, users can unmute to hear voice-over.
 </div>
 
 <h2 id="zip">7. The shipped ZIP (buyer's copy)</h2>

@@ -84,9 +84,9 @@
       "footerRight": "À hacker"
     },
     {
-      "name": "hero-ar",
-      "theme": "stealth",
-      "accentColor": "#00ff88",
+      "name": "hero-ar-teacher",
+      "theme": "arctic",
+      "accentColor": "#0077cc",
       "lang": "ar",
       "dir": "rtl",
       "screenshots": ["screenshot-audience-teacher-sensors.png", "screenshot-audience-teacher-graph.png"],
@@ -95,6 +95,32 @@
       "badge": "Chrome / Edge",
       "footerLeft": "تحديثات مدى الحياة · ترخيص مدرسي متاح",
       "footerRight": "micro:bit V2"
+    },
+    {
+      "name": "hero-ar-kid",
+      "theme": "neon",
+      "accentColor": "#00ff88",
+      "lang": "ar",
+      "dir": "rtl",
+      "screenshots": ["screenshot-audience-kid-controls.png", "screenshot-audience-kid-3d.png"],
+      "title": "micro:bit الخاص بك\nيصبح ساحة لعب",
+      "subtitle": "مستشعرات، محركات، نماذج ثلاثية الأبعاد. بدون تثبيت، بدون حساب.",
+      "badge": "يعمل دون اتصال",
+      "footerLeft": "آمن للأطفال · بدون سحاب",
+      "footerRight": "60 ثانية للبدء"
+    },
+    {
+      "name": "hero-ar-maker",
+      "theme": "blaze",
+      "accentColor": "#ff6b35",
+      "lang": "ar",
+      "dir": "rtl",
+      "screenshots": ["screenshot-audience-maker-motors.png", "screenshot-audience-maker-3d.png"],
+      "title": "لوحة تحكم BLE\nللمبدعين",
+      "subtitle": "محركات حية · انعكاس ثلاثي الأبعاد · تصدير CSV · فيرموير مفتوح",
+      "badge": "Web Bluetooth",
+      "footerLeft": "فيرموير MakeCode · متوافق مع المصدر المفتوح",
+      "footerRight": "للاختراق"
     }
   ]
 }

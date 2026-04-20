@@ -58,4 +58,4 @@ for (const s of steps) {
 console.log(failures.length
   ? `\n⚠️  Finished with ${failures.length} failure(s): ${failures.join(', ')}`
   : `\n✅ All steps complete.`);
-console.log(`\nOutputs: etsy-package/output/${LANG}/ + etsy-package/output/narrated/etsy-video-v1-${LANG}.mp4\n`);
+console.log(`\nOutputs: etsy-package/output/${LANG}/ (video, screenshots, heroes, gifs, speed-test,\n         captions, accessibility, chatbot, narrated/)\n`);
