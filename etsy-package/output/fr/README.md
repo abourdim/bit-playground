@@ -63,6 +63,16 @@ selon les tests Etsy hebdomadaires.
 Conforme aux exigences procurement des académies françaises
 (RGAA 4, référentiel général d'amélioration de l'accessibilité).
 
+### 🖨️ Affiche + flyer — `print/`
+
+- `poster-a3.pdf` / `.png` — affiche A3 portrait (297×420mm) prête à
+  l'impression. À afficher dans les salles STEM et fablabs.
+- `flyer-a4.pdf` / `.png` — flyer A4 portrait (210×297mm) à distribuer
+  aux enseignants. Pitch + démarrage 60 secondes + QR code.
+
+QR code étiqueté `utm_medium=print` pour attribuer le trafic via Etsy
+Stats.
+
 ### 💬 Chatbot d'avant-vente — `chatbot/`
 
 - `embed.js` (~6 Ko) — widget à intégrer dans la page de démo live
