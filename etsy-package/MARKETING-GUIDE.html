@@ -365,16 +365,16 @@ pre-composed "what's inside" mockup listing all deliverables.</p>
 <h2 id="etsy-listing-video">Etsy listing video</h2>
 <p>Etsy allows <strong>one</strong> video per listing, muted autoplay in
 the thumbnail grid, 60-second max, 1080×1920 9:16.</p>
-<h3
-id="use-outputenetsy-video-v1mp4-en-or-outputfretsy-video-v1mp4-fr">Use:
-<code>output/en/etsy-video-v1.mp4</code> (EN) or
-<code>output/fr/etsy-video-v1.mp4</code> (FR)</h3>
+<h3 id="use-outputlangetsy-video-v1mp4">Use:
+<code>output/&lt;lang&gt;/etsy-video-v1.mp4</code></h3>
+<p>Three ready variants: <code>output/en/</code>,
+<code>output/fr/</code>, <code>output/ar/</code>.</p>
 <ul>
 <li>60s exactly</li>
-<li>Burned-in captions (EN or FR) — readable on phone</li>
-<li><strong>Audio track included</strong> — Zira (EN) or Hortense (FR)
-narrates the captions</li>
-<li>5.6 MB (well under Etsy's 100 MB cap)</li>
+<li>Burned-in captions in the matching language</li>
+<li><strong>Audio track included</strong> — Zira (EN), Hortense (FR), or
+Naayf (AR) narrates</li>
+<li>~5.5 MB (well under Etsy's 100 MB cap)</li>
 </ul>
 <p><strong>Where:</strong> Etsy listing "Video" slot.
 <strong>When:</strong> At listing creation. Re-render with
@@ -419,6 +419,12 @@ byte-identical.</p>
 <td>FR Etsy listing · FR YouTube · FR Pinterest</td>
 </tr>
 <tr class="odd">
+<td><code>output/ar/etsy-video-v1.mp4</code></td>
+<td>Naayf (ar-SA male)</td>
+<td>AR burned · RTL</td>
+<td>AR Etsy listing · AR YouTube · AR Pinterest</td>
+</tr>
+<tr class="even">
 <td><code>output/&lt;lang&gt;/narrated/etsy-video-v1.mp4</code></td>
 <td>same as above</td>
 <td>same</td>
@@ -437,10 +443,9 @@ description for SEO</li>
 </ul>
 <p><strong>When:</strong> Cross-post at launch, then one refresh every 2
 months if click-through dropped.</p>
-<p><strong>Note:</strong> the main per-language versions
-(<code>output/en/etsy-video-v1.mp4</code>,
-<code>output/fr/etsy-video-v1.mp4</code>) already have audio — use them
-for the Etsy listing slot directly. The
+<p><strong>Note:</strong> the main per-language videos
+(<code>output/{en,fr,ar}/etsy-video-v1.mp4</code>) already have audio —
+use them for the Etsy listing slot directly. The
 <code>output/&lt;lang&gt;/narrated/</code> copies are identical backups;
 pick either.</p>
 <hr />

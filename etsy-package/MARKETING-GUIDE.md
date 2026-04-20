@@ -112,12 +112,14 @@ listing all deliverables.
 Etsy allows **one** video per listing, muted autoplay in the thumbnail
 grid, 60-second max, 1080×1920 9:16.
 
-### Use: `output/en/etsy-video-v1.mp4` (EN) or `output/fr/etsy-video-v1.mp4` (FR)
+### Use: `output/<lang>/etsy-video-v1.mp4`
+
+Three ready variants: `output/en/`, `output/fr/`, `output/ar/`.
 
 - 60s exactly
-- Burned-in captions (EN or FR) — readable on phone
-- **Audio track included** — Zira (EN) or Hortense (FR) narrates the captions
-- 5.6 MB (well under Etsy's 100 MB cap)
+- Burned-in captions in the matching language
+- **Audio track included** — Zira (EN), Hortense (FR), or Naayf (AR) narrates
+- ~5.5 MB (well under Etsy's 100 MB cap)
 
 **Where:** Etsy listing "Video" slot.
 **When:** At listing creation. Re-render with `node tools/generate-video.mjs` then `node tools/narrate-video.mjs <lang>` whenever the screenshots change.
@@ -138,6 +140,7 @@ lives at `output/<lang>/narrated/etsy-video-v1.mp4` — byte-identical.
 |---|---|---|---|
 | `output/en/etsy-video-v1.mp4` | Zira (en-US female) | EN burned | Etsy listing video · YouTube · Instagram Reels |
 | `output/fr/etsy-video-v1.mp4` | Hortense (fr-FR female) | FR burned | FR Etsy listing · FR YouTube · FR Pinterest |
+| `output/ar/etsy-video-v1.mp4` | Naayf (ar-SA male) | AR burned · RTL | AR Etsy listing · AR YouTube · AR Pinterest |
 | `output/<lang>/narrated/etsy-video-v1.mp4` | same as above | same | backup copy of the narrated output |
 
 **Where:**
@@ -148,7 +151,7 @@ lives at `output/<lang>/narrated/etsy-video-v1.mp4` — byte-identical.
 
 **When:** Cross-post at launch, then one refresh every 2 months if click-through dropped.
 
-**Note:** the main per-language versions (`output/en/etsy-video-v1.mp4`, `output/fr/etsy-video-v1.mp4`) already have audio — use them for the Etsy listing slot directly. The `output/<lang>/narrated/` copies are identical backups; pick either.
+**Note:** the main per-language videos (`output/{en,fr,ar}/etsy-video-v1.mp4`) already have audio — use them for the Etsy listing slot directly. The `output/<lang>/narrated/` copies are identical backups; pick either.
 
 ---
 
