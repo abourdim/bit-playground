@@ -16,8 +16,9 @@
  *   6. generate-captions.mjs    --lang <code>
  *   7. generate-accessibility.mjs --lang <code>
  *   8. chatbot-embed.mjs        --lang <code>
- *   9. generate-video.mjs       --lang <code>    (silent + captions)
- *  10. narrate-video.mjs        <code>           (TTS narration layer)
+ *   9. generate-print.mjs       --lang <code>    (poster A3 + flyer A4)
+ *  10. generate-video.mjs       --lang <code>    (silent + captions)
+ *  11. narrate-video.mjs        <code>           (TTS narration layer)
  *
  * Each step inherits ffmpeg from PATH and reuses the shared
  * capture-config.json for DOM selectors.
@@ -40,6 +41,7 @@ const steps = [
   { script: 'generate-captions.mjs',   args: ['--lang', LANG] },
   { script: 'generate-accessibility.mjs', args: ['--lang', LANG] },
   { script: 'chatbot-embed.mjs',       args: ['--lang', LANG] },
+  { script: 'generate-print.mjs',      args: ['--lang', LANG] },
   { script: 'generate-video.mjs',      args: ['--lang', LANG] },
   { script: 'narrate-video.mjs',       args: [LANG] },
 ];
@@ -58,4 +60,4 @@ for (const s of steps) {
 console.log(failures.length
   ? `\n⚠️  Finished with ${failures.length} failure(s): ${failures.join(', ')}`
   : `\n✅ All steps complete.`);
-console.log(`\nOutputs: etsy-package/output/${LANG}/ (video, screenshots, heroes, gifs, speed-test,\n         captions, accessibility, chatbot, narrated/)\n`);
+console.log(`\nOutputs: etsy-package/output/${LANG}/ (video, screenshots, heroes, gifs, speed-test,\n         captions, accessibility, chatbot, print, narrated/)\n`);
