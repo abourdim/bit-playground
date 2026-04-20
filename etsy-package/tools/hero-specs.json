@@ -34,6 +34,31 @@
       "badge": "Web Bluetooth",
       "footerLeft": "MakeCode firmware · Open source friendly",
       "footerRight": "Hack it"
+    },
+    {
+      "name": "hero-fr",
+      "theme": "arctic",
+      "accentColor": "#e63946",
+      "lang": "fr",
+      "screenshots": ["screenshot-audience-teacher-sensors.png", "screenshot-audience-teacher-graph.png"],
+      "title": "Chaque capteur,\nen direct, dans le navigateur",
+      "subtitle": "Conçu pour les salles de STEM · 30 ordinateurs, zéro installation",
+      "badge": "Chrome / Edge",
+      "footerLeft": "Mises à jour à vie · Licence école disponible",
+      "footerRight": "micro:bit V2"
+    },
+    {
+      "name": "hero-ar",
+      "theme": "stealth",
+      "accentColor": "#00ff88",
+      "lang": "ar",
+      "dir": "rtl",
+      "screenshots": ["screenshot-audience-teacher-sensors.png", "screenshot-audience-teacher-graph.png"],
+      "title": "كل حساس،\nمباشرةً في المتصفح",
+      "subtitle": "مصمم لقاعات STEM · 30 جهازاً، بدون تثبيت",
+      "badge": "Chrome / Edge",
+      "footerLeft": "تحديثات مدى الحياة · ترخيص مدرسي متاح",
+      "footerRight": "micro:bit V2"
     }
   ]
 }

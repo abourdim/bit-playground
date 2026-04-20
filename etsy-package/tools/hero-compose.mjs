@@ -55,9 +55,11 @@ function compositeHtml(spec) {
   const shots = (spec.screenshots || []).map(f => join(SHOTS, f).replace(/\\/g, '/'));
   const badge = spec.badge || 'Chrome / Edge · No install';
 
+  const lang = spec.lang || 'en';
+  const dir = spec.dir || (lang === 'ar' ? 'rtl' : 'ltr');
   return `<!DOCTYPE html>
-<html><head><meta charset="UTF-8"><style>
-  @import url('https://fonts.googleapis.com/css2?family=Righteous&family=Orbitron:wght@500;700&family=Inter:wght@400;600;800&display=swap');
+<html lang="${lang}" dir="${dir}"><head><meta charset="UTF-8"><style>
+  @import url('https://fonts.googleapis.com/css2?family=Righteous&family=Orbitron:wght@500;700&family=Inter:wght@400;600;800&family=Tajawal:wght@400;700;900&display=swap');
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 1500px; height: 1500px; overflow: hidden; }
   body {
@@ -87,20 +89,22 @@ function compositeHtml(spec) {
     z-index: 2;
   }
   .title {
-    font-family: Orbitron, Inter, sans-serif;
-    font-size: 100px;
-    font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
+    font-family: ${lang === 'ar' ? 'Tajawal, Orbitron, Inter, sans-serif' : 'Orbitron, Inter, sans-serif'};
+    font-size: ${lang === 'ar' ? '110px' : '100px'};
+    font-weight: ${lang === 'ar' ? '900' : '700'};
+    line-height: ${lang === 'ar' ? '1.2' : '1.05'};
+    letter-spacing: ${lang === 'ar' ? 'normal' : '-0.02em'};
     margin-top: 20px;
     max-width: 1100px;
     color: ${accent};
     text-shadow: 0 4px 24px ${accent}55;
+    white-space: pre-line;
   }
   .subtitle {
-    font-size: 38px;
-    font-weight: 600;
-    line-height: 1.25;
+    font-family: ${lang === 'ar' ? 'Tajawal, Inter, sans-serif' : 'Inter, sans-serif'};
+    font-size: ${lang === 'ar' ? '42px' : '38px'};
+    font-weight: ${lang === 'ar' ? '700' : '600'};
+    line-height: 1.35;
     color: ${t.text};
     margin-top: 24px;
     max-width: 1200px;

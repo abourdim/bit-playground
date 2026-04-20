@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  micro:bit Playground — Acrylic Desk Stand (3 mm)
+  Cut all visible lines in 3 mm acrylic. Assemble by sliding the
+  upright's tab into the base's slot. Friction fit — no glue needed.
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="190mm" height="83mm"
+     viewBox="0 0 190 83">
+  <polygon fill="none" stroke="black" stroke-width="0.1" points="5,5 105,5 105,75 62.5,75 62.5,67 47.5,67 47.5,75 5,75
+  "/>
+  <rect x="29" y="38.5" width="52" height="3" fill="none" stroke="black" stroke-width="0.1"/>
+  <polygon fill="none" stroke="black" stroke-width="0.1" points="115,5 185,5 185,75 176,75 176,78 124,78 124,75 115,75
+  "/>
+  <rect x="127" y="19" width="46" height="37" fill="none" stroke="black" stroke-width="0.1"/>
+  <circle cx="123" cy="15" r="1.8" fill="none" stroke="black" stroke-width="0.1"/>
+  <circle cx="177" cy="15" r="1.8" fill="none" stroke="black" stroke-width="0.1"/>
+  <circle cx="123" cy="60" r="1.8" fill="none" stroke="black" stroke-width="0.1"/>
+  <circle cx="177" cy="60" r="1.8" fill="none" stroke="black" stroke-width="0.1"/>
+</svg>
