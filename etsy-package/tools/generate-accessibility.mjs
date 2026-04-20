@@ -66,6 +66,14 @@ const NARRATIONS_BY_LANG = {
     { name: 'sticker-sheet',        text: `Feuille d'autocollants de récompense pour ${PRODUCT}. Feuille A4 avec trente badges ronds disposés en grille six par cinq. Chaque badge représente une réussite : J'ai connecté le BLE, Flasheur de firmware, Dix commandes envoyées, Lecteur de capteurs, et ainsi de suite. À imprimer sur papier autocollant rond Avery 22807.` },
     { name: 'readme-quickstart',    text: `Page d'accueil pour les acheteurs de ${PRODUCT}. Une page A4 qui accueille les nouveaux acheteurs et les guide à travers les trois premières choses à faire : flasher le firmware, ouvrir l'application dans Chrome ou Edge, et jouer. Inclut un aperçu animé en direct en haut, montrant l'application qui passe par les quatre thèmes.` },
   ],
+  ar: [
+    { name: 'classroom-poster',     text: `ملصق الفصل الدراسي لـ ${PRODUCT}. الملصق مصمم للطباعة A3 عمودي، بخلفية زرقاء داكنة ولمسات خضراء نيون. في الأعلى، العنوان "نتحكم بالروبوتات عبر الكود". تحته، خمسة أيقونات ملونة تمثل الخطوات الرئيسية الخمس: التشغيل، الاتصال، البرمجة، الاختبار، اللعب. كل خطوة لها وصف قصير. الثلث السفلي يعرض شعار الفصل بأحرف كبيرة ودية.` },
+    { name: 'quickstart-card',      text: `بطاقة البدء السريع لـ ${PRODUCT}. بطاقة A4 عمودية لكل مكتب طالب. البطاقة تحتوي على خمس لوحات مرقمة. اللوحة الأولى: شغّل جهاز micro:bit الخاص بك. اللوحة الثانية: انقر على اتصال. اللوحة الثالثة: اختر لوحتك من القائمة. اللوحة الرابعة: نقطة الحالة تتحول إلى اللون الأخضر. اللوحة الخامسة: أنت جاهز للعب.` },
+    { name: 'shortcuts-cheatsheet', text: `ورقة اختصارات لوحة المفاتيح لـ ${PRODUCT}. بطاقة A4 أفقية بثلاثة أعمدة تسرد جميع اختصارات لوحة المفاتيح. العمود الأيمن، التنقل: الأرقام من 1 إلى 7 لتبديل علامات التبويب. العمود الأوسط، الإجراءات: مسطرة المسافة للاتصال أو قطع الاتصال، حرف P لإيقاف الرسم البياني، حرف F لوضع ملء الشاشة. العمود الأيسر، مؤشرات حالة BLE: أخضر متصل، أصفر قيد الاتصال، أحمر منفصل.` },
+    { name: 'lesson-plan-template', text: `قالب خطة الدرس لـ ${PRODUCT}. تنسيق A3 عمودي للمعلمين. النصف العلوي نموذج قابل للتعديل يحتوي على حقول عنوان الدرس والمستوى والمدة والمواد والأهداف. النصف السفلي مثال كامل: درس مدته خمس وأربعون دقيقة بعنوان "ساخن أم لا، محقق المستشعرات"، مع الأنشطة وأسئلة المعلم ومعايير التقييم.` },
+    { name: 'sticker-sheet',        text: `ورقة ملصقات المكافآت لـ ${PRODUCT}. ورقة A4 تحتوي على ثلاثين شارة دائرية مرتبة في شبكة ستة في خمسة. كل شارة تمثل إنجازاً: وصّلت BLE، مُبرمج الفيرموير، عشرة أوامر مُرسلة، قارئ المستشعرات، وهكذا. تُطبع على ورق ملصقات مستدير Avery 22807.` },
+    { name: 'readme-quickstart',    text: `صفحة الترحيب لمشتري ${PRODUCT}. صفحة A4 واحدة ترحب بالمشترين الجدد وترشدهم خلال الأشياء الثلاثة الأولى التي يجب القيام بها: تحميل الفيرموير، فتح التطبيق في Chrome أو Edge، واللعب. تشمل معاينة متحركة مباشرة في الأعلى تعرض التطبيق وهو يتنقل عبر السمات الأربع.` },
+  ],
 };
 const NARRATIONS = NARRATIONS_BY_LANG[LANG] || NARRATIONS_BY_LANG.en;
 
@@ -192,6 +200,13 @@ const BRAILLE_BY_LANG = {
     { name: 'welcome',        text: `Bienvenue dans ${PRODUCT}` },
     { name: 'connect-status', text: 'Connecte. Flux de capteurs actif. Pret a jouer.' },
   ],
+  // Arabic Grade 1 Braille uses a different letter-to-cell mapping than
+  // the BRL_MAP above (which is English). Shipping an empty list skips
+  // Braille output for AR — procurement requesting Arabic Braille should
+  // go through a certified transcriber (BANA equivalents in the Arab
+  // world: the Saudi Blind Association, etc.). Audio descriptions still
+  // generate below.
+  ar: [],
 };
 const BRAILLE_ITEMS = BRAILLE_BY_LANG[LANG] || BRAILLE_BY_LANG.en;
 

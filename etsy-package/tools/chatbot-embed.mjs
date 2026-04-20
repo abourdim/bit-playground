@@ -42,7 +42,34 @@ const PRODUCT = CFG.productName || 'Product';
 
 // ---------- FAQ rules (keyword → answer) ----------
 
-const RULES_BY_LANG = { en: null, fr: null };
+const RULES_BY_LANG = { en: null, fr: null, ar: null };
+RULES_BY_LANG.ar = [
+  { id: 'ipad-safari', keywords: ['ipad', 'iphone', 'ios', 'safari', 'آيباد', 'آيفون'],
+    answer: `للأسف متصفح Safari على iOS لا يدعم Web Bluetooth، لذا لن يتمكن ${PRODUCT} من الاتصال بجهاز micro:bit على iPad أو iPhone. استخدم Chrome أو Edge على حاسوب محمول أو جهاز Android.` },
+  { id: 'chrome-edge', keywords: ['متصفح', 'chrome', 'edge', 'firefox', 'توافق'],
+    answer: `${PRODUCT} يعمل في **Chrome 89+** و **Edge 89+** على Windows وmacOS وLinux وChromebook وAndroid. Firefox وSafari غير مدعومَين (لا يوجد Web Bluetooth).` },
+  { id: 'installation', keywords: ['تثبيت', 'تحميل', 'install', 'بدء'],
+    answer: `بدون تثبيت — ${PRODUCT} ملف HTML تفتحه في Chrome أو Edge. حمّل ZIP من Etsy، فك الضغط، انقر مزدوجاً على \`index.html\`، اضغط **اتصال**، اختر لوحتك.` },
+  { id: 'microbit-version', keywords: ['micro:bit v1', 'microbit v1', 'v1.5', 'قديم'],
+    answer: `${PRODUCT} مُصمَّم لـ **BBC micro:bit V2**. V1.5 يعمل لمستشعرات BLE لكنه بدون ميكروفون أو مكبر صوت. V1.0 لا يدعم Bluetooth LE ولا يمكنه الاتصال.` },
+  { id: 'offline', keywords: ['دون اتصال', 'offline', 'بدون إنترنت', 'wifi'],
+    answer: `بعد التحميل الأول، يعمل ${PRODUCT} دون اتصال بالكامل (PWA). مثالي لجدران الحماية المدرسية.` },
+  { id: 'multiple-students', keywords: ['30 طالب', 'فصل', 'مدرسة', 'ترخيص'],
+    answer: `كل طالب يفتح نفس ملف HTML محلياً. شراء Etsy واحد = معلم واحد. للمدرسة بأكملها، راجع ترخيص الموقع (حتى 30 معلم لكل موقع).` },
+  { id: 'firmware', keywords: ['فيرموير', 'firmware', 'hex', 'makecode', 'flash'],
+    answer: `الفيرموير برنامج MakeCode قصير مُرفق (\`makecode.ts\`). انسخ والصق في [makecode.microbit.org](https://makecode.microbit.org)، حمّل ملف .hex، اسحبه إلى micro:bit. يعمل بعدها مدى الحياة.` },
+  { id: 'languages', keywords: ['فرنسي', 'عربي', 'إنجليزي', 'لغة', 'ترجمة'],
+    answer: `${PRODUCT} متوفر بالإنجليزية والفرنسية والعربية (مع تخطيط RTL كامل). غيّر اللغة من منتقي العلم في أعلى اليمين.` },
+  { id: 'updates', keywords: ['تحديث', 'نسخة جديدة', 'lifetime'],
+    answer: `كل الإصدارات المستقبلية مجانية مدى الحياة من تاريخ مشترياتك في Etsy. لا تحديثات سحابية تلقائية — أنت تختار متى تحصل على نسخة جديدة.` },
+  { id: 'data-privacy', keywords: ['خصوصية', 'بيانات', 'سحاب'],
+    answer: `صفر قياسات عن بُعد. ${PRODUCT} ليس له خادم ولا حساب ولا سحاب. كل بيانات المستشعرات تبقى على جهازك.` },
+  { id: 'csv-export', keywords: ['csv', 'تصدير', 'جدول بيانات'],
+    answer: `علامة تبويب الرسم البياني تسجل بيانات المستشعرات حية وتصدرها بصيغة CSV — صف لكل عينة، جاهز لـ Excel / Sheets / Python.` },
+  { id: 'servos-motors', keywords: ['servo', 'محرك', 'تحريك'],
+    answer: `${PRODUCT} يقود محركَي servo متصلَين بالمنفذَين P1 وP2. علامة تبويب المحركات بها منزلقات، علامة تبويب لوحة اللعب ترسل أوامر اتجاهية.` },
+];
+
 RULES_BY_LANG.fr = [
   { id: 'ipad-safari', keywords: ['ipad', 'iphone', 'ios', 'safari'],
     answer: `Malheureusement Safari iOS ne supporte pas le Web Bluetooth, donc ${PRODUCT} ne pourra pas se connecter à un micro:bit sur iPad ou iPhone. Utilisez Chrome ou Edge sur un ordinateur ou un appareil Android.` },

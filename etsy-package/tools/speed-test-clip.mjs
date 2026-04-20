@@ -37,7 +37,7 @@ const INDEX = resolve(ROOT, 'index.html');
 const OUT = resolve(PKG, 'output', LANG, 'speed-test');
 const TMP = resolve(PKG, 'output', '_tmp', `speed-test-${LANG}`);
 
-// Overlay text per language (English default, French translation)
+// Overlay text per language
 const L = LANG === 'fr' ? {
   started: '▶ DÉMARRAGE',
   connecting: '🔗 CONNEXION...',
@@ -45,6 +45,13 @@ const L = LANG === 'fr' ? {
   toLiveData: 'vers données en direct',
   headline: 'Navigateur → micro\\:bit V2 → données',
   tagline: 'Sans installation · 60 sec pour toute une classe',
+} : LANG === 'ar' ? {
+  started: '▶ بدء',
+  connecting: '🔗 جارٍ الاتصال...',
+  live: '✓ بيانات حية',
+  toLiveData: 'إلى بيانات حية',
+  headline: 'متصفح → micro\\:bit V2 → بيانات',
+  tagline: 'بدون تثبيت · 60 ثانية لفصل كامل',
 } : {
   started: '▶ STARTED',
   connecting: '🔗 CONNECTING...',

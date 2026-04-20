@@ -39,7 +39,7 @@
       "pillAddClass": "connected",
       "pillRemoveClass": "disconnected",
       "pillTextSelector": "span:last-child",
-      "pillText": { "en": "Connected", "fr": "Connecté" },
+      "pillText": { "en": "Connected", "fr": "Connecté", "ar": "متصل" },
       "disableConnectSelector": "#connectBtn",
       "enableDisconnectSelector": "#disconnectBtn"
     },
@@ -53,9 +53,9 @@
       { "selector": "#compassValue","value": "174"  }
     ],
     "pills": [
-      { "selector": "#btnAState",    "textSelector": ".pill-text", "text": { "en": "Pressed",     "fr": "Appuyé" },      "active": true  },
-      { "selector": "#btnBState",    "textSelector": ".pill-text", "text": { "en": "Released",    "fr": "Relâché" },     "active": false },
-      { "selector": "#touchP0State", "textSelector": ".pill-text", "text": { "en": "Not touched", "fr": "Non touché" },  "active": false }
+      { "selector": "#btnAState",    "textSelector": ".pill-text", "text": { "en": "Pressed",     "fr": "Appuyé",     "ar": "مضغوط" },    "active": true  },
+      { "selector": "#btnBState",    "textSelector": ".pill-text", "text": { "en": "Released",    "fr": "Relâché",    "ar": "محرر" },     "active": false },
+      { "selector": "#touchP0State", "textSelector": ".pill-text", "text": { "en": "Not touched", "fr": "Non touché", "ar": "لم يُلمس" }, "active": false }
     ],
     "activityFeed": {
       "selector": "#activity",
@@ -72,6 +72,12 @@
           "[10:42:04] 📡 Flux de capteurs actif (10 Hz)",
           "[10:42:09] 🌡️ Température : 22°C",
           "[10:42:14] 🔘 Bouton A appuyé"
+        ],
+        "ar": [
+          "[10:42:03] 🔗 متصل بـ BBC micro:bit [JqXtP]",
+          "[10:42:04] 📡 بث المستشعرات نشط (10 هرتز)",
+          "[10:42:09] 🌡️ درجة الحرارة: 22°م",
+          "[10:42:14] 🔘 الزر A مضغوط"
         ]
       }
     }
