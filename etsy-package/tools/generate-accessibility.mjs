@@ -87,18 +87,28 @@ function detectTts() {
 
 function ttsToFile(text, outPath, engine) {
   if (engine === 'powershell') {
-    // Windows SAPI — writes a .wav, then (optionally) ffmpeg-convert to mp4.
+    // Windows SAPI — writes a .wav. Forces an English voice via culture
+    // hint so French-locale Windows machines don't produce accented-English
+    // narration of English text. Falls back cleanly if no en-* voice is
+    // installed (warns once via stderr from PowerShell).
     const wavPath = outPath.replace(/\.mp3$/, '.wav');
+    const textPath = outPath.replace(/\.mp3$/, '.txt');
+    writeFileSync(textPath, text);
     const ps = `
       Add-Type -AssemblyName System.Speech;
       $s = New-Object System.Speech.Synthesis.SpeechSynthesizer;
       $s.Rate = 0;
+      try {
+        $en = $s.GetInstalledVoices() | Where-Object { $_.VoiceInfo.Culture.Name -like 'en-*' } | Select-Object -First 1;
+        if ($en) { $s.SelectVoice($en.VoiceInfo.Name); }
+        else { [Console]::Error.WriteLine('⚠️  no en-* voice installed; using default'); }
+      } catch {}
       $s.SetOutputToWaveFile('${wavPath.replace(/\\/g, '\\\\').replace(/'/g, "''")}');
-      $s.Speak([IO.File]::ReadAllText('${outPath.replace(/\.mp3$/, '.txt').replace(/\\/g, '\\\\').replace(/'/g, "''")}'));
+      $s.Speak([IO.File]::ReadAllText('${textPath.replace(/\\/g, '\\\\').replace(/'/g, "''")}'));
       $s.Dispose();
     `;
-    writeFileSync(outPath.replace(/\.mp3$/, '.txt'), text);
-    const r = spawnSync('powershell.exe', ['-Command', ps], { stdio: 'pipe' });
+    const r = spawnSync('powershell.exe', ['-Command', ps], { stdio: ['ignore', 'pipe', 'pipe'] });
+    if (r.stderr?.length) process.stderr.write(r.stderr);
     return r.status === 0;
   }
   if (engine === 'say') {
