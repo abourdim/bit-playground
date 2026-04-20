@@ -17,3 +17,4 @@ etsy-package/output/shared/buyers/
 
 # Track the shipped Etsy ZIP for reference
 !etsy-package/BitPlayground-v*.zip
+etsy-package/output/*/gifs/_rec-*/

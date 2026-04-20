@@ -346,7 +346,7 @@ etsy-package/
 │   ├─ watermark-zip.mjs         <span class="comment">per-buyer watermarked ZIP</span>
 │   ├─ visual-regress.mjs        <span class="comment">md5 + ffmpeg diff harness</span>
 │   ├─ build-localized.mjs       <span class="comment">one-shot full-pipeline runner (--lang fr)</span>
-│   ├─ build-marketing-guide-html.mjs <span class="comment">MARKETING-GUIDE.md → .html</span>
+│   ├─ build-docs-html.mjs      <span class="comment">all *.md → *.html (RTL-aware, sibling-lang bar)</span>
 │   └─ captions/                 <span class="comment">video-captions-{en,fr,ar}.srt</span>
 │
 └─ <span class="folder">output/</span>                      <span class="comment">EVERYTHING that the pipeline generates</span>
@@ -497,7 +497,7 @@ node build-package.js</code></pre>
   <tbody>
     <tr><td><code>watermark-zip.mjs</code></td><td>Per-order watermarked ZIP. Run at Etsy fulfilment: <code>--buyer "Name" --order "12345"</code>.</td></tr>
     <tr><td><code>visual-regress.mjs</code></td><td>Catches unintended screenshot changes. <code>--baseline</code> to snapshot, default to diff.</td></tr>
-    <tr><td><code>build-marketing-guide-html.mjs</code></td><td>Regenerates <code>MARKETING-GUIDE.html</code> from the <code>.md</code>.</td></tr>
+    <tr><td><code>build-docs-html.mjs</code></td><td>Builds <strong>HTML twins of every <code>.md</code></strong> in <code>etsy-package/</code>, <code>seller-only/</code>, and <code>output/&lt;lang&gt;/</code>. RTL-aware for AR files. Inserts an EN/FR/AR sibling bar on triplet files. Run after editing any markdown.</td></tr>
     <tr><td><code>capture-config.json</code></td><td>Per-product config: app container, tab selectors, sensor IDs, themes, synthetic state (including per-language strings). <strong>Edit this, not the scripts.</strong></td></tr>
     <tr><td><code>hero-specs.json</code></td><td>A/B hero variants declaration. Add/edit entries here, rerun <code>hero-compose.mjs</code>.</td></tr>
     <tr><td><code>print-specs.json</code></td><td>Per-language strings for <code>generate-print.mjs</code> (poster + flyer copy).</td></tr>

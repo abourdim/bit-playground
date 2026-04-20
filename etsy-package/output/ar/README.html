@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>README — bit-playground</title>
+
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    line-height: 1.55;
+    color: #1a1d24;
+    background: #fafbfc;
+  }
+  body[dir="rtl"] {
+    font-family: 'Tajawal', -apple-system, Segoe UI, sans-serif;
+    direction: rtl;
+    text-align: right;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { background: #0a0e12; color: #e8ecef; }
+    a { color: #00ff88; }
+    code { background: #161b22; }
+    pre { background: #161b22; border-color: #30363d; }
+    table th { background: #161b22; }
+    blockquote { border-color: #30363d; color: #9ca3af; }
+    hr { border-color: #30363d; }
+  }
+  h1 {
+    font-size: 2.2em;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin: 0 0 8px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid #00ff88;
+  }
+  h2 {
+    font-size: 1.5em;
+    margin-top: 2.2em;
+    padding-top: 0.8em;
+    border-top: 1px solid #e1e4e8;
+    letter-spacing: -0.01em;
+  }
+  h3 {
+    font-size: 1.15em;
+    margin-top: 1.5em;
+    color: #008855;
+  }
+  @media (prefers-color-scheme: dark) {
+    h2 { border-color: #30363d; }
+    h3 { color: #00ff88; }
+  }
+  p, li { font-size: 15px; }
+  code {
+    background: #f2f4f7;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 13px;
+  }
+  pre {
+    background: #f6f8fa;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 12px 16px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  pre code { background: none; padding: 0; font-size: inherit; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid #e1e4e8;
+    vertical-align: top;
+  }
+  body[dir="rtl"] th, body[dir="rtl"] td { text-align: right; }
+  th {
+    background: #f2f4f7;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #576574;
+  }
+  @media (prefers-color-scheme: dark) {
+    td, th { border-color: #30363d; }
+    th { color: #9ca3af; }
+    code { color: #e8ecef; }
+  }
+  blockquote {
+    margin: 16px 0;
+    padding: 12px 18px;
+    border-left: 4px solid #00884a;
+    background: rgba(0, 255, 136, 0.06);
+    color: #4a5258;
+    border-radius: 0 6px 6px 0;
+  }
+  body[dir="rtl"] blockquote {
+    border-left: 0; border-right: 4px solid #00884a;
+    border-radius: 6px 0 0 6px;
+  }
+  hr { border: 0; border-top: 2px dashed #d1d5db; margin: 3em 0; }
+  a { color: #006644; text-decoration: none; border-bottom: 1px solid transparent; }
+  a:hover { border-bottom-color: currentColor; }
+
+  .toc-float {
+    position: fixed; top: 20px; right: 20px;
+    width: 260px; max-height: 80vh; overflow-y: auto;
+    background: rgba(255,255,255,0.96); border: 1px solid #d1d5db;
+    border-radius: 8px; padding: 16px 18px;
+    font-size: 12px; line-height: 1.6;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    display: none;
+  }
+  body[dir="rtl"] .toc-float { right: auto; left: 20px; font-family: Tajawal, sans-serif; }
+  @media (min-width: 1280px) { .toc-float { display: block; } }
+  @media (prefers-color-scheme: dark) {
+    .toc-float { background: rgba(22,27,34,0.96); border-color: #30363d; }
+  }
+  .toc-float h4 { margin: 0 0 8px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #888; }
+  .toc-float ol { margin: 0; padding-left: 20px; }
+  body[dir="rtl"] .toc-float ol { padding-left: 0; padding-right: 20px; }
+
+  .sibling-bar {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin-bottom: 20px;
+    font-size: 11px;
+  }
+  .sibling-bar a {
+    background: rgba(0,136,85,0.08); border: 1px solid rgba(0,136,85,0.25);
+    padding: 4px 10px; border-radius: 999px;
+    font-weight: 600; letter-spacing: 0.04em;
+  }
+  @media (prefers-color-scheme: dark) {
+    .sibling-bar a { background: rgba(0,255,136,0.08); border-color: rgba(0,255,136,0.25); }
+  }
+
+  @media print {
+    body { background: #fff; color: #000; max-width: none; padding: 10mm; font-size: 11pt; }
+    h1, h2, h3 { page-break-after: avoid; break-after: avoid; }
+    tr, pre, blockquote { page-break-inside: avoid; break-inside: avoid; }
+    .toc-float, .sibling-bar { display: none; }
+    a { color: #000; border-bottom: none; }
+  }
+</style>
+</head>
+<body dir="ltr">
+
+
+<nav class="toc-float" aria-label="Quick contents">
+  <h4>Contents</h4>
+  <ol>
+    <li><a href="#المحتويات">المحتويات</a></li>
+    <li><a href="#الأصول-المشتركة">الأصول المشتركة</a></li>
+    <li><a href="#إعادة-التوليد">إعادة التوليد</a></li>
+    <li><a href="#أين-تستخدم">أين تستخدم</a></li>
+  </ol>
+</nav>
+<main>
+<h1 id="أصول-التسويق--النسخة-العربية">أصول التسويق — النسخة العربية</h1>
+<p>مجموعة كاملة من المرئيات والنصوص التسويقية لعميل أو إدراج Etsy ناطق
+بالعربية. تم توليد كل شيء من التطبيق أثناء تشغيله بالعربية (عبر
+<code>#lang=ar</code>)، مع تعليق صوتي TTS عربي (صوت Naayf)، ونصوص مكتوبة
+بالعربية الأصلية مع تخطيط RTL كامل.</p>
+<h2 id="المحتويات">المحتويات</h2>
+<h3 id="-لقطات-الشاشة--screenshots-58-ملف">📸 لقطات الشاشة —
+<code>screenshots/</code> (58 ملف)</h3>
+<p>التطبيق بالعربية بالكامل، في جميع أوضاع الملتقط: علامات التبويب
+القياسية + الاصطناعية، أزواج قبل/بعد، السمات (الأربع)، النماذج ثلاثية
+الأبعاد، الشخصيات (المعلم arctic / الطفل neon / المبدع blaze)، إثبات
+العمل دون اتصال، تعليقات SVG، وأربع نسب أبعاد (9:16 / 1:1 / 2:3 / 16:9)
+لكل علامة تبويب رئيسية.</p>
+<p>لكل PNG ملف <code>.alt.txt</code> مرافق يحتوي على نص بديل Etsy مُحسَّن
+لـ SEO باللغة العربية.</p>
+<h3 id="-صور-hero-لـ-etsy--heroes-3-ملفات-15001500">🎯 صور hero لـ Etsy
+— <code>heroes/</code> (3 ملفات، 1500×1500)</h3>
+<ul>
+<li><code>hero-ar-teacher.png</code> — زاوية المعلم، سمة arctic، لكنة
+زرقاء</li>
+<li><code>hero-ar-kid.png</code> — زاوية الطفل، سمة neon، لكنة
+خضراء</li>
+<li><code>hero-ar-maker.png</code> — زاوية المبدع، سمة blaze، لكنة
+برتقالية</li>
+</ul>
+<p>للرفع في الفتحات 1 و9 وشعار Etsy الدوار.</p>
+<h3 id="-فيديو-قصير--theme-morphmp4--gif">🎬 فيديو قصير —
+<code>theme-morph.mp4</code> + <code>.gif</code></h3>
+<p>6 ثوانٍ بنسبة 1:1 مربعة، تلاشٍ متقاطع بين السمات الأربع بواجهة عربية.
+لدبابيس Pinterest ولفائف Instagram.</p>
+<h3 id="-gifs-عرض--gifs">📱 GIFs عرض — <code>gifs/</code></h3>
+<ul>
+<li><code>ledmatrix-heart.gif</code> — رسم تدريجي لقلب على مصفوفة
+المصابيح</li>
+<li><code>graph-record.gif</code> — رسم بياني للمستشعرات في وضع
+المحاكاة</li>
+<li><code>3d-tilt-sweep.gif</code> — مسح ميل ثلاثي الأبعاد</li>
+<li><code>theme-swap.gif</code> — دوران السمات الأربع</li>
+</ul>
+<p>كل ملف بصيغة MP4 + GIF.</p>
+<h3 id="-إثبات-السرعة--speed-test">⚡ إثبات السرعة —
+<code>speed-test/</code></h3>
+<ul>
+<li><code>speed-test.mp4</code> + <code>.gif</code> — عرض "3.2 ثانية إلى
+بيانات حية" مع تراكبات عربية (بدء ← جارٍ الاتصال ← ✓ بيانات حية). الحجة
+التي تزيل شك المعلمين.</li>
+</ul>
+<h3 id="️-بنك-التسميات-ab--captionscaptionsmd">✍️ بنك التسميات A/B —
+<code>captions/captions.md</code></h3>
+<p>5 عناوين hero × 5 عناوين فرعية × 5 تسميات اجتماعية × 5 تسميات
+Pinterest × 5 عناوين بريد إلكتروني، لكل من الشخصيات الثلاث. للاختيار
+منها حسب اختبارات Etsy الأسبوعية.</p>
+<h3 id="-حزمة-إمكانية-الوصول--accessibility">♿ حزمة إمكانية الوصول —
+<code>accessibility/</code></h3>
+<ul>
+<li><code>audio-descriptions/*.wav</code> — 6 أوصاف صوتية مدتها 30 ثانية
+(صوت Naayf ar-SA) للطلاب ضعاف البصر</li>
+<li><code>audio-descriptions/*.txt</code> — نصوص مكتوبة لقراء DAISY</li>
+<li><code>braille/</code> — ملف <code>printable.html</code> فقط</li>
+</ul>
+<blockquote>
+<p><strong>ملاحظة حول Braille:</strong> الطباعة البارزة العربية تستخدم
+نظام تعيين أحرف مختلف تماماً عن الإنجليزية. لا يتم توليدها تلقائياً من هذا
+النصّ لأنها تتطلب ناسخاً معتمداً (مثلاً: جمعية المكفوفين السعودية). الأوصاف
+الصوتية أعلاه تغطي حالة الاستخدام الأساسية.</p>
+</blockquote>
+<h3 id="️-ملصق-وبروشور--print">🖨️ ملصق وبروشور — <code>print/</code></h3>
+<ul>
+<li><code>poster-a3.pdf</code> / <code>.png</code> — ملصق A3 عمودي
+(297×420 مم) جاهز للطباعة، بتخطيط RTL كامل. علّقه في قاعات STEM والفاب
+لاب.</li>
+<li><code>flyer-a4.pdf</code> / <code>.png</code> — بروشور A4 عمودي
+(210×297 مم) للمعلمين. العرض + خطوات البدء في 60 ثانية + رمز QR.</li>
+</ul>
+<p>رمز QR موسوم بـ <code>utm_medium=print</code> لتتبع حركة الزيارات من
+خلال إحصائيات Etsy.</p>
+<h3 id="-طقم-وسائل-التواصل-الاجتماعي--social">📱 طقم وسائل التواصل
+الاجتماعي — <code>social/</code></h3>
+<ul>
+<li><code>ig-post.png</code> (1080×1080) — منشور Instagram / فيسبوك
+المربّع</li>
+<li><code>ig-story.png</code> (1080×1920) — قصة Instagram / WhatsApp /
+Reels</li>
+<li><code>twitter.png</code> (1200×675) — Twitter / X</li>
+<li><code>linkedin.png</code> (1200×627) — LinkedIn</li>
+</ul>
+<p>نفس العرض، أربعة مقاسات. كلها بتخطيط RTL. جاهزة للجدولة.</p>
+<h3 id="-الهوية--identity">🪪 الهوية — <code>identity/</code></h3>
+<ul>
+<li><code>business-card.pdf</code> / <code>.png</code> — بطاقة عمل 85×55
+مم جاهزة للطباعة</li>
+<li><code>email-signature.png</code> (600×160) — توقيع بريد إلكتروني لـ
+Gmail / Outlook</li>
+</ul>
+<h3 id="-روبوت-الدردشة-قبل-البيع--chatbot">💬 روبوت الدردشة قبل البيع —
+<code>chatbot/</code></h3>
+<ul>
+<li><code>embed.js</code> (~6 كيلوبايت) — أداة لدمجها في صفحة العرض
+التوضيحي</li>
+<li><code>faq-rules.json</code> — 12 قاعدة بالعربية (iPad/Safari،
+Chrome/Edge، التثبيت، micro:bit V2، العمل دون اتصال، ترخيص المدرسة،
+إلخ.)</li>
+<li><code>embed.html</code> — مقتطف الكود للدمج</li>
+<li><code>api-stub-worker.js</code> — خلفية Cloudflare Worker لوضع
+LLM</li>
+</ul>
+<h2 id="الأصول-المشتركة">الأصول المشتركة</h2>
+<p>هذه الملفات في <code>output/shared/</code> (بدون لغة) وتنطبق أيضاً على
+الإدراج العربي:</p>
+<ul>
+<li><code>ble-dialog/</code> — مربع حوار Chrome BLE المركّب</li>
+<li><code>photoreal/</code> — عرض ثلاثي الأبعاد واقعي للوحة
+micro:bit</li>
+<li><code>datasets/</code> — 100 ملف CSV جلسات مستشعرات + README
+للمعلم</li>
+<li><code>stand/</code> — ملفات SVG + DXF لحامل اكريليك</li>
+</ul>
+<h2 id="إعادة-التوليد">إعادة التوليد</h2>
+<p>إعادة تشغيل سلسلة العربية بالكامل بأمر واحد:</p>
+<pre class="bash"><code>node etsy-package/tools/build-localized.mjs ar</code></pre>
+<p>أو أداة فردية:</p>
+<pre class="bash"><code>node etsy-package/tools/capture-screenshots.mjs --lang ar
+node etsy-package/tools/theme-morph.mjs --lang ar
+# إلخ.</code></pre>
+<h2 id="أين-تستخدم">أين تستخدم</h2>
+<p>راجع <code>etsy-package/MARKETING-GUIDE.md</code> (بالإنجليزية)
+للتطابق الكامل بين الفتحات Etsy/Pinterest/YouTube/Instagram. التوصيات
+تنطبق مباشرة: استبدل فقط <code>output/&lt;ملف&gt;</code> بـ
+<code>output/ar/&lt;ملف&gt;</code> للإدراج الناطق بالعربية.</p>
+<hr />
+<p><em>تم الإنشاء في 2026-04-20. كل السلسلة متكررة المفعول — أعد تشغيل
+<code>build-localized.mjs ar</code> عند تغيير التطبيق أو
+الإعدادات.</em></p>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>README — bit-playground</title>
+
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    line-height: 1.55;
+    color: #1a1d24;
+    background: #fafbfc;
+  }
+  body[dir="rtl"] {
+    font-family: 'Tajawal', -apple-system, Segoe UI, sans-serif;
+    direction: rtl;
+    text-align: right;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { background: #0a0e12; color: #e8ecef; }
+    a { color: #00ff88; }
+    code { background: #161b22; }
+    pre { background: #161b22; border-color: #30363d; }
+    table th { background: #161b22; }
+    blockquote { border-color: #30363d; color: #9ca3af; }
+    hr { border-color: #30363d; }
+  }
+  h1 {
+    font-size: 2.2em;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin: 0 0 8px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid #00ff88;
+  }
+  h2 {
+    font-size: 1.5em;
+    margin-top: 2.2em;
+    padding-top: 0.8em;
+    border-top: 1px solid #e1e4e8;
+    letter-spacing: -0.01em;
+  }
+  h3 {
+    font-size: 1.15em;
+    margin-top: 1.5em;
+    color: #008855;
+  }
+  @media (prefers-color-scheme: dark) {
+    h2 { border-color: #30363d; }
+    h3 { color: #00ff88; }
+  }
+  p, li { font-size: 15px; }
+  code {
+    background: #f2f4f7;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 13px;
+  }
+  pre {
+    background: #f6f8fa;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 12px 16px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  pre code { background: none; padding: 0; font-size: inherit; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid #e1e4e8;
+    vertical-align: top;
+  }
+  body[dir="rtl"] th, body[dir="rtl"] td { text-align: right; }
+  th {
+    background: #f2f4f7;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #576574;
+  }
+  @media (prefers-color-scheme: dark) {
+    td, th { border-color: #30363d; }
+    th { color: #9ca3af; }
+    code { color: #e8ecef; }
+  }
+  blockquote {
+    margin: 16px 0;
+    padding: 12px 18px;
+    border-left: 4px solid #00884a;
+    background: rgba(0, 255, 136, 0.06);
+    color: #4a5258;
+    border-radius: 0 6px 6px 0;
+  }
+  body[dir="rtl"] blockquote {
+    border-left: 0; border-right: 4px solid #00884a;
+    border-radius: 6px 0 0 6px;
+  }
+  hr { border: 0; border-top: 2px dashed #d1d5db; margin: 3em 0; }
+  a { color: #006644; text-decoration: none; border-bottom: 1px solid transparent; }
+  a:hover { border-bottom-color: currentColor; }
+
+  .toc-float {
+    position: fixed; top: 20px; right: 20px;
+    width: 260px; max-height: 80vh; overflow-y: auto;
+    background: rgba(255,255,255,0.96); border: 1px solid #d1d5db;
+    border-radius: 8px; padding: 16px 18px;
+    font-size: 12px; line-height: 1.6;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    display: none;
+  }
+  body[dir="rtl"] .toc-float { right: auto; left: 20px; font-family: Tajawal, sans-serif; }
+  @media (min-width: 1280px) { .toc-float { display: block; } }
+  @media (prefers-color-scheme: dark) {
+    .toc-float { background: rgba(22,27,34,0.96); border-color: #30363d; }
+  }
+  .toc-float h4 { margin: 0 0 8px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #888; }
+  .toc-float ol { margin: 0; padding-left: 20px; }
+  body[dir="rtl"] .toc-float ol { padding-left: 0; padding-right: 20px; }
+
+  .sibling-bar {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin-bottom: 20px;
+    font-size: 11px;
+  }
+  .sibling-bar a {
+    background: rgba(0,136,85,0.08); border: 1px solid rgba(0,136,85,0.25);
+    padding: 4px 10px; border-radius: 999px;
+    font-weight: 600; letter-spacing: 0.04em;
+  }
+  @media (prefers-color-scheme: dark) {
+    .sibling-bar a { background: rgba(0,255,136,0.08); border-color: rgba(0,255,136,0.25); }
+  }
+
+  @media print {
+    body { background: #fff; color: #000; max-width: none; padding: 10mm; font-size: 11pt; }
+    h1, h2, h3 { page-break-after: avoid; break-after: avoid; }
+    tr, pre, blockquote { page-break-inside: avoid; break-inside: avoid; }
+    .toc-float, .sibling-bar { display: none; }
+    a { color: #000; border-bottom: none; }
+  }
+</style>
+</head>
+<body dir="ltr">
+
+
+<nav class="toc-float" aria-label="Quick contents">
+  <h4>Contents</h4>
+  <ol>
+    <li><a href="#contenu">Contenu</a></li>
+    <li><a href="#assets-partagés">Assets partagés</a></li>
+    <li><a href="#régénération">Régénération</a></li>
+    <li><a href="#où-utiliser">Où utiliser</a></li>
+  </ol>
+</nav>
+<main>
+<h1 id="assets-marketing--version-française">Assets marketing — version
+française</h1>
+<p>Ensemble complet des visuels et textes marketing pour un client ou
+une inscription Etsy en français. Tout a été généré à partir de l'app
+exécutée en français (via <code>#lang=fr</code>), avec narration TTS
+française (voix Hortense), et textes rédigés en français natif.</p>
+<h2 id="contenu">Contenu</h2>
+<h3 id="-captures-décran--screenshots-58-fichiers">📸 Captures d'écran —
+<code>screenshots/</code> (58 fichiers)</h3>
+<p>L'application entièrement en français, dans toutes les modes du
+capturer : onglets standards + synthétiques, paires avant/après, thèmes
+(stealth/neon/arctic/blaze), modèles 3D, personas (enseignant arctic /
+enfant neon / maker blaze), preuve hors ligne, callouts SVG, et 4 ratios
+d'aspect (9:16 / 1:1 / 2:3 / 16:9) pour chaque onglet hero.</p>
+<p>Chaque PNG a son fichier <code>.alt.txt</code> d'accompagnement avec
+le texte alt Etsy optimisé pour le SEO français.</p>
+<h3 id="-images-héros-etsy--heroes-3-fichiers-15001500">🎯 Images héros
+Etsy — <code>heroes/</code> (3 fichiers, 1500×1500)</h3>
+<ul>
+<li><code>hero-fr-teacher.png</code> — angle enseignant, thème arctic,
+accent rouge</li>
+<li><code>hero-fr-kid.png</code> — angle enfant, thème neon, accent
+vert</li>
+<li><code>hero-fr-maker.png</code> — angle maker, thème blaze, accent
+orange</li>
+</ul>
+<p>À uploader dans les slots 1, 9 et l'image rotative bannière Etsy.</p>
+<h3 id="-vidéo-courte--theme-morphmp4--gif">🎬 Vidéo courte —
+<code>theme-morph.mp4</code> + <code>.gif</code></h3>
+<p>6 secondes en 1:1 carré, fondu croisé entre les 4 thèmes en UI
+française. Pour les épingles Pinterest et les carrousels Instagram.</p>
+<h3 id="-gifs-de-démo--gifs">📱 GIFs de démo — <code>gifs/</code></h3>
+<ul>
+<li><code>ledmatrix-heart.gif</code> — dessin progressif d'un cœur sur
+la matrice</li>
+<li><code>graph-record.gif</code> — graphique de capteurs en
+simulation</li>
+<li><code>3d-tilt-sweep.gif</code> — balayage d'inclinaison 3D</li>
+<li><code>theme-swap.gif</code> — rotation des 4 thèmes</li>
+</ul>
+<p>Chaque fichier est fourni en MP4 + GIF.</p>
+<h3 id="-preuve-de-rapidité--speed-test">⚡ Preuve de rapidité —
+<code>speed-test/</code></h3>
+<ul>
+<li><code>speed-test.mp4</code> (608 Ko) + <code>.gif</code> — démo "3,2
+secondes jusqu'aux données" avec incrustations françaises (DÉMARRAGE →
+CONNEXION → ✓ DONNÉES EN DIRECT). L'argument qui lève le doute des
+enseignants.</li>
+</ul>
+<h3 id="️-banque-de-légendes-ab--captionscaptionsmd">✍️ Banque de
+légendes A/B — <code>captions/captions.md</code></h3>
+<p>5 titres hero × 5 sous-titres × 5 légendes sociales × 5 légendes
+Pinterest × 5 objets de mail, pour chacun des 3 personas. À piocher
+selon les tests Etsy hebdomadaires.</p>
+<h3 id="-pack-accessibilité--accessibility">♿ Pack accessibilité —
+<code>accessibility/</code></h3>
+<ul>
+<li><code>audio-descriptions/*.wav</code> — 6 descriptions audio de 30
+secondes (voix Hortense fr-FR) pour les élèves malvoyants</li>
+<li><code>audio-descriptions/*.txt</code> — transcriptions pour lecteurs
+DAISY</li>
+<li><code>braille/*.brl</code> — 9 fichiers Braille Unicode Grade 1
+français</li>
+<li><code>braille/printable.html</code> — feuille combinée prête pour
+embosseur</li>
+</ul>
+<p>Conforme aux exigences procurement des académies françaises (RGAA 4,
+référentiel général d'amélioration de l'accessibilité).</p>
+<h3 id="️-affiche--flyer--print">🖨️ Affiche + flyer —
+<code>print/</code></h3>
+<ul>
+<li><code>poster-a3.pdf</code> / <code>.png</code> — affiche A3 portrait
+(297×420mm) prête à l'impression. À afficher dans les salles STEM et
+fablabs.</li>
+<li><code>flyer-a4.pdf</code> / <code>.png</code> — flyer A4 portrait
+(210×297mm) à distribuer aux enseignants. Pitch + démarrage 60 secondes
++ QR code.</li>
+</ul>
+<p>QR code étiqueté <code>utm_medium=print</code> pour attribuer le
+trafic via Etsy Stats.</p>
+<h3 id="-kit-réseaux-sociaux--social">📱 Kit réseaux sociaux —
+<code>social/</code></h3>
+<ul>
+<li><code>ig-post.png</code> (1080×1080) — Instagram feed / Facebook
+carré</li>
+<li><code>ig-story.png</code> (1080×1920) — Instagram story / WhatsApp /
+Reels</li>
+<li><code>twitter.png</code> (1200×675) — Twitter / X</li>
+<li><code>linkedin.png</code> (1200×627) — LinkedIn</li>
+</ul>
+<p>Même pitch, quatre formats. À glisser directement dans un
+planificateur.</p>
+<h3 id="-identité--identity">🪪 Identité — <code>identity/</code></h3>
+<ul>
+<li><code>business-card.pdf</code> / <code>.png</code> — carte de visite
+85×55mm prête à l'impression</li>
+<li><code>email-signature.png</code> (600×160) — signature email pour
+Gmail / Outlook</li>
+</ul>
+<h3 id="-chatbot-davant-vente--chatbot">💬 Chatbot d'avant-vente —
+<code>chatbot/</code></h3>
+<ul>
+<li><code>embed.js</code> (~6 Ko) — widget à intégrer dans la page de
+démo live</li>
+<li><code>faq-rules.json</code> — 12 règles en français (iPad/Safari,
+Chrome/Edge, installation, micro:bit V2, hors ligne, licence école,
+firmware, langues, mises à jour, confidentialité, CSV, servos)</li>
+<li><code>embed.html</code> — extrait de code d'intégration</li>
+<li><code>api-stub-worker.js</code> — backend Cloudflare Worker pour le
+mode LLM</li>
+</ul>
+<h2 id="assets-partagés">Assets partagés</h2>
+<p>Ces fichiers sont dans <code>output/</code> (racine) mais
+s'appliquent aussi au listing français :</p>
+<ul>
+<li><code>narrated/etsy-video-v1-fr.mp4</code> — vidéo narrée de 60
+secondes avec voix Hortense + sous-titres français incrustés (5,6
+Mo)</li>
+<li><code>../etsy-video-v1-fr-silent.mp4</code> — version silencieuse à
+uploader dans le slot vidéo Etsy (muet par défaut, avec
+sous-titres)</li>
+</ul>
+<h2 id="régénération">Régénération</h2>
+<p>Relancer toute la chaîne française en une commande :</p>
+<pre class="bash"><code>node etsy-package/tools/build-localized.mjs fr</code></pre>
+<p>Ou un outil individuel :</p>
+<pre class="bash"><code>node etsy-package/tools/capture-screenshots.mjs --lang fr
+node etsy-package/tools/theme-morph.mjs --lang fr
+# etc.</code></pre>
+<h2 id="où-utiliser">Où utiliser</h2>
+<p>Voir <code>etsy-package/MARKETING-GUIDE.md</code> (en) pour la
+correspondance slot-par-slot Etsy/Pinterest/YouTube/Instagram. Les
+recommandations s'appliquent directement : échangez simplement
+<code>output/&lt;fichier&gt;</code> par
+<code>output/fr/&lt;fichier&gt;</code> pour le listing francophone.</p>
+<hr />
+<p><em>Généré le 2026-04-20. Toute la chaîne est idempotente — relancez
+<code>build-localized.mjs fr</code> quand vous changez l'app ou la
+config.</em></p>
+
+</main>
+</body>
+</html>
