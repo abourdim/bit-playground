@@ -1,0 +1,30 @@
+{
+  "PRODUCT_NAME": "micro:bit Playground",
+  "PRODUCT_SLUG": "BitPlayground",
+  "GITHUB_REPO": "bit-playground",
+  "GITHUB_USER": "abourdim",
+  "LIVE_DEMO_URL": "https://abourdim.github.io/bit-playground/",
+  "VERSION": "v1.2.0",
+  "VERSION_UPPER": "V1.2.0",
+  "VERSION_PLAIN": "1.2.0",
+  "TAGLINE": "Every sensor, live in every browser",
+  "HARDWARE": "BBC micro:bit V2",
+  "PRICE_LAUNCH": "12.99",
+  "PRICE_STANDARD": "17.99",
+  "PRICE_BUNDLE": "29.99",
+  "PRICE_TRIPWIRE": "5",
+  "PRICE_SITE": "199",
+  "PRICE_DISTRICT": "499",
+  "PROMO_CODE": "LAUNCH10",
+  "PROMO_PRICE": "7",
+  "_note_ALLOWED_TERMS": "bit-playground IS the canonical source — these terms are legitimate features, not template residue.",
+  "ALLOWED_TERMS": [
+    "servo", "servos", "Chart.js", "3D Board", "3D Buggy", "GamePad",
+    "8 tabs", "eight tabs", "Sensors tab", "5 robots",
+    "micro:bit Playground", "bit-playground", "BitPlayground",
+    "Bras Robot", "Buggy", "Onglet", "modèles 3D",
+    "graphique en direct", "capteurs", "accéléromètre", "boussole",
+    "ملعب", "ثماني علامات", "محركات السيرفو", "لوحة ثلاثية الأبعاد", "ذراع الروبوت",
+    "Stealth", "Neon", "Arctic", "Blaze"
+  ]
+}
