@@ -117,7 +117,6 @@ html[dir="rtl"] .hint ol { padding-left: 0; padding-right: 20px; }
     <div style="width:1px; height:24px; background:var(--card-border, rgba(148,163,184,0.3)); margin:0 4px;"></div>
     <div style="display:flex; gap:2px; align-items:center;">
         <button id="helpBtn" title="Help" style="border:none; background:none; cursor:pointer; font-size:1rem; opacity:0.5; padding:2px 4px;">❓</button>
-        <a href="docs/guide.html" title="Guide" style="text-decoration:none; font-size:1rem; opacity:0.5; padding:2px 4px;">📖</a>
         <button id="clearCacheBtn" title="Reset" style="border:none; background:none; cursor:pointer; font-size:1rem; opacity:0.5; padding:2px 4px;">🗑️</button>
     </div>
     <div style="width:1px; height:24px; background:var(--card-border, rgba(148,163,184,0.3)); margin:0 4px;"></div>
@@ -1809,7 +1808,12 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
             </div>
             <div>
                 <strong data-i18n="help_more_t">More help</strong>
-                <div style="font-size:0.85rem; opacity:0.8; margin:2px 0 10px;" data-i18n="help_more_b">Press K for keyboard shortcuts, or open the full 📖 Guide and FAQ from the header.</div>
+                <div style="font-size:0.85rem; opacity:0.8; margin:2px 0 10px;" data-i18n="help_more_b">Press K for keyboard shortcuts.</div>
+                <div style="display:flex; gap:14px; flex-wrap:wrap; margin-bottom:6px;">
+                    <a href="docs/guide.html" style="font-size:0.85rem; text-decoration:none; opacity:0.85;">📖 <span data-i18n="help_link_guide">Guide</span></a>
+                    <a href="docs/faq.html" style="font-size:0.85rem; text-decoration:none; opacity:0.85;">❓ <span data-i18n="help_link_faq">FAQ</span></a>
+                    <a href="docs/cheatsheet.html" style="font-size:0.85rem; text-decoration:none; opacity:0.85;">⌨️ <span data-i18n="help_link_cheatsheet">Cheatsheet</span></a>
+                </div>
             </div>
         </div>
         <button class="secondary" onclick="this.closest('.overlay').classList.remove('visible')" data-i18n="close">Close</button>

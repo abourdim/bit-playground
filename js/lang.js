@@ -294,7 +294,10 @@
       help_firmware_t:    "Get the firmware",
       help_firmware_b:    "Click the Firmware button in the Connection card to copy the code for MakeCode.",
       help_more_t:        "More help",
-      help_more_b:        "Press K for keyboard shortcuts, or open the full 📖 Guide and FAQ from the header.",
+      help_more_b:        "Press K for keyboard shortcuts.",
+      help_link_guide:    "Guide",
+      help_link_faq:      "FAQ",
+      help_link_cheatsheet: "Cheatsheet",
 
       // Toast / Log Messages (JS)
       toast_connected:      "Connected to micro:bit!",
@@ -723,7 +726,10 @@
       help_firmware_t:    "Obtenir le micrologiciel",
       help_firmware_b:    "Clique sur le bouton Micrologiciel dans la carte Connexion pour copier le code pour MakeCode.",
       help_more_t:        "Plus d'aide",
-      help_more_b:        "Appuie sur K pour les raccourcis clavier, ou ouvre le Guide complet et la FAQ depuis l'en-t\u00eate.",
+      help_more_b:        "Appuie sur K pour les raccourcis clavier.",
+      help_link_guide:    "Guide",
+      help_link_faq:      "FAQ",
+      help_link_cheatsheet: "Aide-m\u00e9moire",
 
       // Toast / Log Messages (JS)
       toast_connected:      "Connect\u00e9 au micro:bit !",
@@ -1152,7 +1158,10 @@
       help_firmware_t:    "\u0627\u062d\u0635\u0644 \u0639\u0644\u0649 \u0627\u0644\u0628\u0631\u0646\u0627\u0645\u062c \u0627\u0644\u062b\u0627\u0628\u062a",
       help_firmware_b:    "\u0627\u0636\u063a\u0637 \u0632\u0631 \u0627\u0644\u0628\u0631\u0646\u0627\u0645\u062c \u0627\u0644\u062b\u0627\u0628\u062a \u0641\u064a \u0628\u0637\u0627\u0642\u0629 \u0627\u0644\u0627\u062a\u0635\u0627\u0644 \u0644\u0646\u0633\u062e \u0627\u0644\u0643\u0648\u062f \u0644\u0640 MakeCode.",
       help_more_t:        "\u0645\u0632\u064a\u062f \u0645\u0646 \u0627\u0644\u0645\u0633\u0627\u0639\u062f\u0629",
-      help_more_b:        "\u0627\u0636\u063a\u0637 K \u0644\u0627\u062e\u062a\u0635\u0627\u0631\u0627\u062a \u0644\u0648\u062d\u0629 \u0627\u0644\u0645\u0641\u0627\u062a\u064a\u062d\u060c \u0623\u0648 \u0627\u0641\u062a\u062d \u0627\u0644\u062f\u0644\u064a\u0644 \u0627\u0644\u0643\u0627\u0645\u0644 \u0648\u0627\u0644\u0623\u0633\u0626\u0644\u0629 \u0627\u0644\u0634\u0627\u0626\u0639\u0629 \u0645\u0646 \u0627\u0644\u0623\u0639\u0644\u0649.",
+      help_more_b:        "\u0627\u0636\u063a\u0637 K \u0644\u0627\u062e\u062a\u0635\u0627\u0631\u0627\u062a \u0644\u0648\u062d\u0629 \u0627\u0644\u0645\u0641\u0627\u062a\u064a\u062d.",
+      help_link_guide:    "\u0627\u0644\u062f\u0644\u064a\u0644",
+      help_link_faq:      "\u0627\u0644\u0623\u0633\u0626\u0644\u0629 \u0627\u0644\u0634\u0627\u0626\u0639\u0629",
+      help_link_cheatsheet: "\u0645\u0644\u062e\u0635 \u0627\u0644\u0627\u062e\u062a\u0635\u0627\u0631\u0627\u062a",
 
       // Toast / Log Messages (JS)
       toast_connected:      "\u062a\u0645 \u0627\u0644\u0627\u062a\u0635\u0627\u0644 \u0628\u0640 micro:bit!",
