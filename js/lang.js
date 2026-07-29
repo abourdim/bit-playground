@@ -283,6 +283,19 @@
       copied:             "Copied!",
       open_makecode:      "Open MakeCode",
 
+      // Help Overlay
+      help_title:         "❓ Quick Help",
+      help_connect_t:     "Connect",
+      help_connect_b:     "Click Connect (or press Space) and pick your micro:bit from the Bluetooth list.",
+      help_try_t:         "Try something",
+      help_try_b:         "Draw on the LED matrix on the Controls tab, or click 🎲 Simulate on the Graph tab to see live data with no sensor needed.",
+      help_3d_t:          "3D Board",
+      help_3d_b:          "Pick a model on the 3D Board tab and tilt your micro:bit to see it move.",
+      help_firmware_t:    "Get the firmware",
+      help_firmware_b:    "Click the Firmware button in the Connection card to copy the code for MakeCode.",
+      help_more_t:        "More help",
+      help_more_b:        "Press K for keyboard shortcuts, or open the full 📖 Guide and FAQ from the header.",
+
       // Toast / Log Messages (JS)
       toast_connected:      "Connected to micro:bit!",
       toast_disconnected:   "Disconnected from micro:bit",
@@ -699,6 +712,19 @@
       copied:             "Copi\u00e9 !",
       open_makecode:      "Ouvrir MakeCode",
 
+      // Help Overlay
+      help_title:         "\u2753 Aide rapide",
+      help_connect_t:     "Se connecter",
+      help_connect_b:     "Clique sur Connecter (ou appuie sur Espace) et choisis ton micro:bit dans la liste Bluetooth.",
+      help_try_t:         "Essaie quelque chose",
+      help_try_b:         "Dessine sur la matrice LED dans l'onglet Contr\u00f4les, ou clique sur \ud83c\udfb2 Simuler dans l'onglet Graphique pour voir des donn\u00e9es en direct sans capteur.",
+      help_3d_t:          "Vue 3D",
+      help_3d_b:          "Choisis un mod\u00e8le dans l'onglet Vue 3D et incline ton micro:bit pour le voir bouger.",
+      help_firmware_t:    "Obtenir le micrologiciel",
+      help_firmware_b:    "Clique sur le bouton Micrologiciel dans la carte Connexion pour copier le code pour MakeCode.",
+      help_more_t:        "Plus d'aide",
+      help_more_b:        "Appuie sur K pour les raccourcis clavier, ou ouvre le Guide complet et la FAQ depuis l'en-t\u00eate.",
+
       // Toast / Log Messages (JS)
       toast_connected:      "Connect\u00e9 au micro:bit !",
       toast_disconnected:   "D\u00e9connect\u00e9 du micro:bit",
@@ -1114,6 +1140,19 @@
       copy_code:          "\u0646\u0633\u062e \u0627\u0644\u0643\u0648\u062f",
       copied:             "\u062a\u0645 \u0627\u0644\u0646\u0633\u062e!",
       open_makecode:      "\u0641\u062a\u062d MakeCode",
+
+      // Help Overlay
+      help_title:         "\u2753 \u0645\u0633\u0627\u0639\u062f\u0629 \u0633\u0631\u064a\u0639\u0629",
+      help_connect_t:     "\u0627\u0644\u0627\u062a\u0635\u0627\u0644",
+      help_connect_b:     "\u0627\u0636\u063a\u0637 \u0627\u062a\u0635\u0627\u0644 (\u0623\u0648 Space) \u0648\u0627\u062e\u062a\u0631 \u062c\u0647\u0627\u0632 \u0627\u0644\u0645\u0627\u064a\u0643\u0631\u0648\u0628\u0650\u062a \u0645\u0646 \u0642\u0627\u0626\u0645\u0629 \u0627\u0644\u0628\u0644\u0648\u062a\u0648\u062b.",
+      help_try_t:         "\u062c\u0631\u0651\u0628 \u0634\u064a\u0626\u0627\u064b",
+      help_try_b:         "\u0627\u0631\u0633\u0645 \u0639\u0644\u0649 \u0645\u0635\u0641\u0648\u0641\u0629 LED \u0641\u064a \u062a\u0628\u0648\u064a\u0628 \u0627\u0644\u062a\u062d\u0643\u0645\u060c \u0623\u0648 \u0627\u0636\u063a\u0637 \ud83c\udfb2 \u0645\u062d\u0627\u0643\u0627\u0629 \u0641\u064a \u062a\u0628\u0648\u064a\u0628 \u0627\u0644\u0631\u0633\u0645 \u0627\u0644\u0628\u064a\u0627\u0646\u064a \u0644\u0631\u0624\u064a\u0629 \u0628\u064a\u0627\u0646\u0627\u062a \u062d\u064a\u0629 \u0628\u062f\u0648\u0646 \u062d\u0633\u0627\u0633.",
+      help_3d_t:          "\u0627\u0644\u0639\u0631\u0636 \u062b\u0644\u0627\u062b\u064a \u0627\u0644\u0623\u0628\u0639\u0627\u062f",
+      help_3d_b:          "\u0627\u062e\u062a\u0631 \u0646\u0645\u0648\u0630\u062c\u0627\u064b \u0641\u064a \u062a\u0628\u0648\u064a\u0628 \u0627\u0644\u0639\u0631\u0636 \u062b\u0644\u0627\u062b\u064a \u0627\u0644\u0623\u0628\u0639\u0627\u062f \u0648\u0623\u0645\u0650\u0644 \u0627\u0644\u0645\u0627\u064a\u0643\u0631\u0648\u0628\u0650\u062a \u0644\u0631\u0624\u064a\u062a\u0647 \u064a\u062a\u062d\u0631\u0643.",
+      help_firmware_t:    "\u0627\u062d\u0635\u0644 \u0639\u0644\u0649 \u0627\u0644\u0628\u0631\u0646\u0627\u0645\u062c \u0627\u0644\u062b\u0627\u0628\u062a",
+      help_firmware_b:    "\u0627\u0636\u063a\u0637 \u0632\u0631 \u0627\u0644\u0628\u0631\u0646\u0627\u0645\u062c \u0627\u0644\u062b\u0627\u0628\u062a \u0641\u064a \u0628\u0637\u0627\u0642\u0629 \u0627\u0644\u0627\u062a\u0635\u0627\u0644 \u0644\u0646\u0633\u062e \u0627\u0644\u0643\u0648\u062f \u0644\u0640 MakeCode.",
+      help_more_t:        "\u0645\u0632\u064a\u062f \u0645\u0646 \u0627\u0644\u0645\u0633\u0627\u0639\u062f\u0629",
+      help_more_b:        "\u0627\u0636\u063a\u0637 K \u0644\u0627\u062e\u062a\u0635\u0627\u0631\u0627\u062a \u0644\u0648\u062d\u0629 \u0627\u0644\u0645\u0641\u0627\u062a\u064a\u062d\u060c \u0623\u0648 \u0627\u0641\u062a\u062d \u0627\u0644\u062f\u0644\u064a\u0644 \u0627\u0644\u0643\u0627\u0645\u0644 \u0648\u0627\u0644\u0623\u0633\u0626\u0644\u0629 \u0627\u0644\u0634\u0627\u0626\u0639\u0629 \u0645\u0646 \u0627\u0644\u0623\u0639\u0644\u0649.",
 
       // Toast / Log Messages (JS)
       toast_connected:      "\u062a\u0645 \u0627\u0644\u0627\u062a\u0635\u0627\u0644 \u0628\u0640 micro:bit!",

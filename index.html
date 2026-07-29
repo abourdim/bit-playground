@@ -116,6 +116,7 @@ html[dir="rtl"] .hint ol { padding-left: 0; padding-right: 20px; }
     </div>
     <div style="width:1px; height:24px; background:var(--card-border, rgba(148,163,184,0.3)); margin:0 4px;"></div>
     <div style="display:flex; gap:2px; align-items:center;">
+        <button id="helpBtn" title="Help" style="border:none; background:none; cursor:pointer; font-size:1rem; opacity:0.5; padding:2px 4px;">❓</button>
         <a href="docs/guide.html" title="Guide" style="text-decoration:none; font-size:1rem; opacity:0.5; padding:2px 4px;">📖</a>
         <button id="clearCacheBtn" title="Reset" style="border:none; background:none; cursor:pointer; font-size:1rem; opacity:0.5; padding:2px 4px;">🗑️</button>
     </div>
@@ -1786,6 +1787,35 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
 </div>
 
 <!-- Keyboard Shortcuts Overlay (press K to toggle) -->
+<div id="helpOverlay" class="overlay">
+    <div class="overlay-card">
+        <div class="overlay-title" data-i18n="help_title">❓ Quick Help</div>
+        <div class="shortcut-grid" style="grid-template-columns:1fr; text-align:left;">
+            <div>
+                <strong data-i18n="help_connect_t">Connect</strong>
+                <div style="font-size:0.85rem; opacity:0.8; margin:2px 0 10px;" data-i18n="help_connect_b">Click Connect (or press Space) and pick your micro:bit from the Bluetooth list.</div>
+            </div>
+            <div>
+                <strong data-i18n="help_try_t">Try something</strong>
+                <div style="font-size:0.85rem; opacity:0.8; margin:2px 0 10px;" data-i18n="help_try_b">Draw on the LED matrix on the Controls tab, or click 🎲 Simulate on the Graph tab to see live data with no sensor needed.</div>
+            </div>
+            <div>
+                <strong data-i18n="help_3d_t">3D Board</strong>
+                <div style="font-size:0.85rem; opacity:0.8; margin:2px 0 10px;" data-i18n="help_3d_b">Pick a model on the 3D Board tab and tilt your micro:bit to see it move.</div>
+            </div>
+            <div>
+                <strong data-i18n="help_firmware_t">Get the firmware</strong>
+                <div style="font-size:0.85rem; opacity:0.8; margin:2px 0 10px;" data-i18n="help_firmware_b">Click the Firmware button in the Connection card to copy the code for MakeCode.</div>
+            </div>
+            <div>
+                <strong data-i18n="help_more_t">More help</strong>
+                <div style="font-size:0.85rem; opacity:0.8; margin:2px 0 10px;" data-i18n="help_more_b">Press K for keyboard shortcuts, or open the full 📖 Guide and FAQ from the header.</div>
+            </div>
+        </div>
+        <button class="secondary" onclick="this.closest('.overlay').classList.remove('visible')" data-i18n="close">Close</button>
+    </div>
+</div>
+
 <div id="shortcutsOverlay" class="overlay">
     <div class="overlay-card">
         <div class="overlay-title" data-i18n="shortcuts_title">⌨️ Keyboard Shortcuts</div>
@@ -1816,6 +1846,11 @@ serial.writeLine("GRAPH:Force:" + force)</code></pre>
 </div>
 
 <script>
+// Help button
+document.getElementById('helpBtn')?.addEventListener('click', () => {
+    document.getElementById('helpOverlay')?.classList.toggle('visible');
+});
+
 // Clear cache / reset button
 document.getElementById('clearCacheBtn')?.addEventListener('click', () => {
     if (!confirm('Clear all saved settings and reload?')) return;
